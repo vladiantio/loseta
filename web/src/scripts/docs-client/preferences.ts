@@ -82,12 +82,8 @@ export function applyPreferences(
   root: HTMLElement,
   preferences: Preferences = readPreferences()
 ): void {
-  const dark =
-    preferences.scheme === "dark" ||
-    (preferences.scheme === "system" &&
-      window.matchMedia("(prefers-color-scheme: dark)").matches);
-
-  root.classList.toggle("dark", dark);
+  root.classList.toggle("dark", preferences.scheme === "dark");
+  root.classList.toggle("light", preferences.scheme === "light");
   root.dataset.js = "true";
   root.dataset.scheme = preferences.scheme;
   root.dataset.style = preferences.style;

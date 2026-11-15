@@ -6,7 +6,10 @@
     border-style: solid;
     border-width: 1px;
     border-color: var(--input);
-    background-color: transparent;
+    background-color: light-dark(
+      transparent,
+      color-mix(in oklab, var(--input) 30%, transparent)
+    );
     padding-block: 0.25rem;
     padding-inline-start: 0.625rem;
     padding-inline-end: 2rem;
@@ -22,24 +25,21 @@
     }
 
     &:disabled {
-      background-color: color-mix(in oklab, var(--input) 50%, transparent);
+      background-color: light-dark(
+        color-mix(in oklab, var(--input) 50%, transparent),
+        color-mix(in oklab, var(--input) 80%, transparent)
+      );
     }
 
     &[aria-invalid='true'] {
-      border-color: var(--destructive);
-      box-shadow: 0 0 0 3px color-mix(in oklab, var(--destructive) 20%, transparent);
-    }
-
-    &:is(html.dark *) {
-      background-color: color-mix(in oklab, var(--input) 30%, transparent);
-
-      &:disabled {
-        background-color: color-mix(in oklab, var(--input) 80%, transparent);
-      }
-
-      &[aria-invalid='true'] {
-        border-color: color-mix(in oklab, var(--destructive) 50%, transparent);
-      }
+      border-color: light-dark(
+        var(--destructive),
+        color-mix(in oklab, var(--destructive) 50%, transparent)
+      );
+      box-shadow: 0 0 0 3px light-dark(
+        color-mix(in oklab, var(--destructive) 20%, transparent),
+        color-mix(in oklab, var(--destructive) 40%, transparent)
+      );
     }
   }
 
@@ -136,7 +136,10 @@
     border-style: solid;
     border-width: 1px;
     border-color: var(--input);
-    background-color: transparent;
+    background-color: light-dark(
+      transparent,
+      color-mix(in oklab, var(--input) 30%, transparent)
+    );
     background-clip: padding-box;
     padding-inline: 0.25rem;
     padding-block: 0.25rem;
@@ -152,16 +155,14 @@
     }
 
     &:has(*:is([aria-invalid=true])) {
-      border-color: var(--destructive);
-      box-shadow: 0 0 0 3px color-mix(in oklab, var(--destructive) 20%, transparent);
-    }
-
-    &:is(html.dark *) {
-      background-color: color-mix(in oklab, var(--input) 30%, transparent);
-
-      &:has(*:is([aria-invalid=true])) {
-        border-color: color-mix(in oklab, var(--destructive) 50%, transparent);
-      }
+      border-color: light-dark(
+        var(--destructive),
+        color-mix(in oklab, var(--destructive) 50%, transparent)
+      );
+      box-shadow: 0 0 0 3px light-dark(
+        color-mix(in oklab, var(--destructive) 20%, transparent),
+        color-mix(in oklab, var(--destructive) 40%, transparent)
+      );
     }
   }
 

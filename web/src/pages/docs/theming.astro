@@ -71,7 +71,7 @@ import CodeBlock from "@/components/CodeBlock.astro";
       </li>
       <li><code>--destructive</code> — destructive actions, invalid borders and invalid text.</li>
       <li><code>--border</code> — separators, outlines and outline-variant borders.</li>
-      <li><code>--input</code> — form-control borders and subtle control fills in dark mode.</li>
+      <li><code>--input</code> — form-control borders and subtle control fills in the dark scheme.</li>
       <li><code>--ring</code> — focus border and focus shadow.</li>
     </ul>
     <p>
@@ -98,28 +98,46 @@ import CodeBlock from "@/components/CodeBlock.astro";
 
     <h2>Adding tokens</h2>
     <p>
-      Define a new token under <code>:root</code> and <code>.dark</code>, then use it from the
-      files you own.
+      Define a new color as a <code>light-dark()</code> pair under <code>:root</code>, then use
+      it from the files you own.
     </p>
     <CodeBlock
       lang="css"
       code={`:root {
-  --warning: oklch(0.84 0.16 84);
-  --warning-foreground: oklch(0.28 0.07 46);
-}
-
-.dark {
-  --warning: oklch(0.41 0.11 46);
-  --warning-foreground: oklch(0.99 0.02 95);
+  --warning: light-dark(oklch(0.84 0.16 84), oklch(0.41 0.11 46));
+  --warning-foreground: light-dark(oklch(0.28 0.07 46), oklch(0.99 0.02 95));
 }`}
     />
 
-    <h2>Dark mode</h2>
+    <h2>Color scheme</h2>
     <p>
-      Add <code>.dark</code> to the <code>&lt;html&gt;</code> element. The token file also sets
-      <code>color-scheme</code> so native controls follow the color scheme.
+      Without a forced scheme, components follow <code>prefers-color-scheme</code>. The token
+      file sets <code>color-scheme: light dark</code>, so native controls follow the OS too.
+      No JavaScript is required.
     </p>
-    <CodeBlock lang="js" code={`document.documentElement.classList.toggle("dark", isDark);`} />
+    <p>
+      Add <code>.dark</code> or <code>.light</code> to force a scheme. The classes work on
+      <code>&lt;html&gt;</code> or on any container, so a section can use a different scheme
+      from the page.
+    </p>
+    <CodeBlock
+      lang="html"
+      code={`<html class="dark">...</html>
+
+<section class="light">
+  <p>This section stays light when the page is dark.</p>
+</section>`}
+    />
+    <p>
+      A forced scheme is still a color-scheme change, not a separate palette: custom tokens
+      should be defined with <code>light-dark()</code> so they respond to both the OS and the
+      override classes.
+    </p>
+    <p>
+      Data-URI tokens are the one exception: <code>light-dark()</code> only accepts colors, so
+      icon URLs switch through <code>.dark</code> / <code>.light</code> and a
+      <code>prefers-color-scheme</code> query instead.
+    </p>
 
     <h2>Styles</h2>
     <p>

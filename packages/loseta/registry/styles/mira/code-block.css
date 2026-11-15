@@ -6,11 +6,10 @@
     color: var(--foreground);
     font-size: var(--text-sm);
     line-height: var(--text-sm--line-height);
-    box-shadow: 0 0 0 1px color-mix(in oklab, var(--foreground) 5%, transparent);
-
-    &:is(html.dark *) {
-      box-shadow: 0 0 0 1px color-mix(in oklab, var(--foreground) 10%, transparent);
-    }
+    box-shadow: 0 0 0 1px light-dark(
+      color-mix(in oklab, var(--foreground) 5%, transparent),
+      color-mix(in oklab, var(--foreground) 10%, transparent)
+    );
 
     &[data-size='sm'] {
       border-radius: var(--radius-md);
@@ -19,18 +18,18 @@
     }
 
     &[data-variant='destructive'] {
-      background-color: color-mix(in oklab, var(--destructive) 5%, transparent);
+      background-color: light-dark(
+        color-mix(in oklab, var(--destructive) 5%, transparent),
+        color-mix(in oklab, var(--destructive) 10%, transparent)
+      );
       color: var(--destructive);
-      box-shadow: 0 0 0 1px color-mix(in oklab, var(--destructive) 15%, transparent);
-
-      &:is(html.dark *) {
-        background-color: color-mix(in oklab, var(--destructive) 10%, transparent);
-        box-shadow: 0 0 0 1px color-mix(in oklab, var(--destructive) 20%, transparent);
-      }
+      box-shadow: 0 0 0 1px light-dark(
+        color-mix(in oklab, var(--destructive) 15%, transparent),
+        color-mix(in oklab, var(--destructive) 20%, transparent)
+      );
     }
 
-    &:has(> pre:focus-visible),
-    &:is(html.dark *):has(> pre:focus-visible) {
+    &:has(> pre:focus-visible) {
       outline-style: solid;
       outline-width: 1px;
       outline-color: var(--ring);
@@ -76,11 +75,10 @@
     }
 
     > header > [data-slot='actions'] > .btn:hover {
-      background-color: color-mix(in oklab, var(--foreground) 5%, transparent);
-    }
-
-    &:is(html.dark *) > header > [data-slot='actions'] > .btn:hover {
-      background-color: color-mix(in oklab, var(--foreground) 10%, transparent);
+      background-color: light-dark(
+        color-mix(in oklab, var(--foreground) 5%, transparent),
+        color-mix(in oklab, var(--foreground) 10%, transparent)
+      );
     }
 
     > [data-slot='actions'] {
@@ -155,20 +153,17 @@
 
     > pre > code > [data-slot='line'][data-variant='added'],
     > pre > code > [data-slot='line'][data-variant='highlighted'] {
-      background-color: color-mix(in oklab, var(--foreground) 5%, transparent);
+      background-color: light-dark(
+        color-mix(in oklab, var(--foreground) 5%, transparent),
+        color-mix(in oklab, var(--foreground) 10%, transparent)
+      );
     }
 
     > pre > code > [data-slot='line'][data-variant='removed'] {
-      background-color: color-mix(in oklab, var(--destructive) 10%, transparent);
-    }
-
-    &:is(html.dark *) > pre > code > [data-slot='line'][data-variant='added'],
-    &:is(html.dark *) > pre > code > [data-slot='line'][data-variant='highlighted'] {
-      background-color: color-mix(in oklab, var(--foreground) 10%, transparent);
-    }
-
-    &:is(html.dark *) > pre > code > [data-slot='line'][data-variant='removed'] {
-      background-color: color-mix(in oklab, var(--destructive) 15%, transparent);
+      background-color: light-dark(
+        color-mix(in oklab, var(--destructive) 10%, transparent),
+        color-mix(in oklab, var(--destructive) 15%, transparent)
+      );
     }
 
     > pre > code > [data-slot='line'][data-variant='added'] > [data-slot='line-content']::before {

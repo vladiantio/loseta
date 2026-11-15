@@ -43,12 +43,11 @@
     }
 
     :is([role='menuitem'], [role='menuitemcheckbox'], [role='menuitemradio'])[data-variant='destructive']:is(:focus-visible, [data-highlighted]) {
-      background-color: color-mix(in oklab, var(--destructive) 10%, transparent);
+      background-color: light-dark(
+        color-mix(in oklab, var(--destructive) 10%, transparent),
+        color-mix(in oklab, var(--destructive) 20%, transparent)
+      );
       color: var(--destructive);
-
-      &:is(html.dark *) {
-        background-color: color-mix(in oklab, var(--destructive) 20%, transparent);
-      }
     }
 
     :is([role='menuitem'], [role='menuitemcheckbox'], [role='menuitemradio'])[data-variant='destructive'] svg {

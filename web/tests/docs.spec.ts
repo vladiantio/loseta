@@ -48,22 +48,92 @@ test("color scheme switch supports system, light and dark", async ({ page }) => 
 
   await light.click();
   await expect(light).toHaveAttribute("aria-pressed", "true");
+  await expect(html).toHaveClass(/\blight\b/);
   await expect(html).not.toHaveClass(/\bdark\b/);
   expect(await page.evaluate(() => localStorage.getItem("scheme"))).toBe("light");
 
   await dark.click();
   await expect(dark).toHaveAttribute("aria-pressed", "true");
   await expect(html).toHaveClass(/\bdark\b/);
+  await expect(html).not.toHaveClass(/\blight\b/);
 
   await page.reload();
   await expect(dark).toHaveAttribute("aria-pressed", "true");
   await expect(html).toHaveClass(/\bdark\b/);
 
   await system.click();
+  await expect(system).toHaveAttribute("aria-pressed", "true");
+  await expect(html).not.toHaveClass(/\bdark\b/);
+  await expect(html).not.toHaveClass(/\blight\b/);
+
   await page.emulateMedia({ colorScheme: "dark" });
-  await expect(html).toHaveClass(/\bdark\b/);
+  await expect(html).not.toHaveClass(/\bdark\b/);
+  const darkBackground = await page.evaluate(
+    () => getComputedStyle(document.body).backgroundColor
+  );
+
   await page.emulateMedia({ colorScheme: "light" });
   await expect(html).not.toHaveClass(/\bdark\b/);
+  const lightBackground = await page.evaluate(
+    () => getComputedStyle(document.body).backgroundColor
+  );
+
+  expect(darkBackground).not.toBe(lightBackground);
+});
+
+test("color scheme overrides work on nested containers", async ({ page }) => {
+  await page.goto("/");
+  await page.emulateMedia({ colorScheme: "light" });
+
+  await page.evaluate(() => {
+    const host = document.createElement("div");
+    host.id = "scheme-probes";
+    host.innerHTML = `
+      <div id="scoped-dark" class="dark" style="background-color: var(--background)">
+        <div id="scoped-light" class="light" style="background-color: var(--background)"></div>
+      </div>
+    `;
+    document.body.append(host);
+  });
+
+  const backgrounds = await page.evaluate(() => {
+    const read = (id: string) => {
+      const element = document.getElementById(id);
+      return element ? getComputedStyle(element).backgroundColor : null;
+    };
+    return {
+      page: getComputedStyle(document.body).backgroundColor,
+      dark: read("scoped-dark"),
+      light: read("scoped-light"),
+      schemeDark: getComputedStyle(document.getElementById("scoped-dark")!).colorScheme,
+      schemeLight: getComputedStyle(document.getElementById("scoped-light")!).colorScheme
+    };
+  });
+
+  expect(backgrounds.dark).not.toBe(backgrounds.page);
+  expect(backgrounds.light).toBe(backgrounds.page);
+  expect(backgrounds.schemeDark).toContain("dark");
+  expect(backgrounds.schemeLight).toContain("light");
+});
+
+test("native select chevron follows the color scheme", async ({ page }) => {
+  await page.goto("/docs/components/native-select");
+  const chevron = page.locator(".native-select").first();
+
+  await page.emulateMedia({ colorScheme: "light" });
+  const lightIcon = await chevron.evaluate((element) => getComputedStyle(element).backgroundImage);
+
+  await page.emulateMedia({ colorScheme: "dark" });
+  const darkIcon = await chevron.evaluate((element) => getComputedStyle(element).backgroundImage);
+
+  expect(lightIcon).not.toBe(darkIcon);
+
+  await page.evaluate(() => document.documentElement.classList.add("light"));
+  const forcedLightIcon = await chevron.evaluate(
+    (element) => getComputedStyle(element).backgroundImage
+  );
+
+  expect(forcedLightIcon).toBe(lightIcon);
 });
 
 test("style switch loads the selected stylesheet", async ({ page }) => {
@@ -111,7 +181,7 @@ test("styles change control geometry", async ({ page }) => {
   await expect(button).toHaveCSS("border-top-left-radius", "8px");
 });
 
-test("every style loads and passes axe in light and dark", async ({ page }) => {
+test("every style loads and passes axe in every color scheme", async ({ page }) => {
   expect(styleNames.length).toBeGreaterThan(0);
   await page.goto("/docs/styles");
   await page.addStyleTag({
@@ -129,16 +199,24 @@ test("every style loads and passes axe in light and dark", async ({ page }) => {
       );
     }, style);
 
-    for (const scheme of ["light", "dark"]) {
-      await page.evaluate(
-        (dark) => document.documentElement.classList.toggle("dark", dark),
-        scheme === "dark"
-      );
+    const modes: Array<{ name: string; media: "light" | "dark"; classes: string[] }> = [
+      { name: "system light", media: "light", classes: [] },
+      { name: "system dark", media: "dark", classes: [] },
+      { name: "forced light", media: "dark", classes: ["light"] },
+      { name: "forced dark", media: "light", classes: ["dark"] }
+    ];
+
+    for (const mode of modes) {
+      await page.emulateMedia({ colorScheme: mode.media });
+      await page.evaluate((classes) => {
+        document.documentElement.classList.toggle("dark", classes.includes("dark"));
+        document.documentElement.classList.toggle("light", classes.includes("light"));
+      }, mode.classes);
       const results = await new AxeBuilder({ page }).withTags(tags).analyze();
       const violations = blocking(results.violations);
       expect(
         violations,
-        `${style} ${scheme}: ${JSON.stringify(violations, null, 2)}`
+        `${style} ${mode.name}: ${JSON.stringify(violations, null, 2)}`
       ).toEqual([]);
     }
   }
@@ -369,14 +447,14 @@ test("table of contents tracks the active heading", async ({ page }) => {
   await page.goto("/docs/theming");
   const toc = page.getByRole("navigation", { name: "Table of contents" });
   const layers = toc.getByRole("link", { name: "Layers" });
-  const darkMode = toc.getByRole("link", { name: "Dark mode" });
+  const colorScheme = toc.getByRole("link", { name: "Color scheme" });
 
   await expect(layers).toHaveAttribute("aria-current", "location");
   await expect(page.locator("#layers")).toHaveText("Layers");
 
-  await darkMode.click();
-  await expect(darkMode).toHaveAttribute("aria-current", "location");
-  await expect(page).toHaveURL(/#dark-mode$/);
+  await colorScheme.click();
+  await expect(colorScheme).toHaveAttribute("aria-current", "location");
+  await expect(page).toHaveURL(/#color-scheme$/);
 });
 
 test("table of contents skips demo preview headings", async ({ page }) => {
@@ -396,11 +474,12 @@ for (const path of pages) {
       content: "*, *::before, *::after { transition: none !important; animation: none !important; }"
     });
 
+    await page.emulateMedia({ colorScheme: "light" });
     const light = await new AxeBuilder({ page }).withTags(tags).analyze();
     const lightBlocking = blocking(light.violations);
     expect(lightBlocking, JSON.stringify(lightBlocking, null, 2)).toEqual([]);
 
-    await page.evaluate(() => document.documentElement.classList.add("dark"));
+    await page.emulateMedia({ colorScheme: "dark" });
     const dark = await new AxeBuilder({ page }).withTags(tags).analyze();
     const darkBlocking = blocking(dark.violations);
     expect(darkBlocking, JSON.stringify(darkBlocking, null, 2)).toEqual([]);

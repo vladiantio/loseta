@@ -6,6 +6,10 @@
     height: 1rem;
     border-radius: var(--radius-full);
     border-color: var(--input);
+    background-color: light-dark(
+      transparent,
+      color-mix(in oklab, var(--input) 30%, transparent)
+    );
 
     &:checked {
       border-color: var(--primary);
@@ -19,28 +23,17 @@
     }
 
     &[aria-invalid='true'] {
-      border-color: var(--destructive);
-      box-shadow: 0 0 0 3px color-mix(in oklab, var(--destructive) 20%, transparent);
+      border-color: light-dark(
+        var(--destructive),
+        color-mix(in oklab, var(--destructive) 50%, transparent)
+      );
+      box-shadow: 0 0 0 3px light-dark(
+        color-mix(in oklab, var(--destructive) 20%, transparent),
+        color-mix(in oklab, var(--destructive) 40%, transparent)
+      );
 
       &:checked {
         border-color: var(--primary);
-      }
-    }
-
-    &:is(html.dark *) {
-      background-color: color-mix(in oklab, var(--input) 30%, transparent);
-
-      &:checked {
-        background-color: var(--primary);
-      }
-
-      &[aria-invalid='true'] {
-        border-color: color-mix(in oklab, var(--destructive) 50%, transparent);
-        box-shadow: 0 0 0 3px color-mix(in oklab, var(--destructive) 40%, transparent);
-
-        &:checked {
-          border-color: var(--primary);
-        }
       }
     }
   }

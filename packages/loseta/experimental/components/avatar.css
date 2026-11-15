@@ -29,9 +29,16 @@
       box-shadow: 0 0 0 3px color-mix(in oklab, var(--ring) 50%, transparent);
     }
 
-    &:is(html.dark *) {
-      &::after {
-        content: '';
+    &:is(.dark, .dark *)::after {
+      mix-blend-mode: lighten;
+    }
+
+    &:is(.light, .light *)::after {
+      mix-blend-mode: darken;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      &:not(:is(.light, .light *))::after {
         mix-blend-mode: lighten;
       }
     }

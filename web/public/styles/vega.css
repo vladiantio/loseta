@@ -278,12 +278,11 @@
     }
 
     &[data-variant='destructive'] {
-      background-color: color-mix(in oklab, var(--destructive) 10%, transparent);
+      background-color: light-dark(
+        color-mix(in oklab, var(--destructive) 10%, transparent),
+        color-mix(in oklab, var(--destructive) 20%, transparent)
+      );
       color: var(--destructive);
-
-      &:is(html.dark *) {
-        background-color: color-mix(in oklab, var(--destructive) 20%, transparent);
-      }
 
       &:is(a):hover {
         background-color: color-mix(in oklab, var(--destructive) 20%, transparent);
@@ -292,12 +291,11 @@
 
     &[data-variant='ghost'] {
       &:hover {
-        background-color: var(--muted);
+        background-color: light-dark(
+          var(--muted),
+          color-mix(in oklab, var(--muted) 50%, transparent)
+        );
         color: var(--muted-foreground);
-
-        &:is(html.dark *) {
-          background-color: color-mix(in oklab, var(--muted) 50%, transparent);
-        }
       }
     }
 
@@ -333,15 +331,14 @@
     }
 
     &[aria-invalid='true'] {
-      border-color: var(--destructive);
-      box-shadow: 0 0 0 3px color-mix(in oklab, var(--destructive) 20%, transparent);
-    }
-
-    &:is(html.dark *) {
-      &[aria-invalid='true'] {
-        border-color: color-mix(in oklab, var(--destructive) 50%, transparent);
-        box-shadow: 0 0 0 3px color-mix(in oklab, var(--destructive) 40%, transparent);
-      }
+      border-color: light-dark(
+        var(--destructive),
+        color-mix(in oklab, var(--destructive) 50%, transparent)
+      );
+      box-shadow: 0 0 0 3px light-dark(
+        color-mix(in oklab, var(--destructive) 20%, transparent),
+        color-mix(in oklab, var(--destructive) 40%, transparent)
+      );
     }
 
     & svg {
@@ -466,45 +463,42 @@
     }
 
     &[data-variant='outline'] {
-      border-color: var(--border);
-      background-color: var(--background);
+      border-color: light-dark(var(--border), var(--input));
+      background-color: light-dark(
+        var(--background),
+        color-mix(in oklab, var(--input) 30%, transparent)
+      );
       box-shadow: var(--shadow-xs);
 
-      &:hover {
-        background-color: var(--muted);
-        color: var(--foreground);
-      }
-
       &[aria-expanded='true'] {
-        background-color: var(--muted);
+        background-color: light-dark(
+          var(--muted),
+          color-mix(in oklab, var(--input) 30%, transparent)
+        );
         color: var(--foreground);
       }
 
-      &:is(html.dark *) {
-        border-color: var(--input);
-        background-color: color-mix(in oklab, var(--input) 30%, transparent);
-
-        &:hover {
-          background-color: color-mix(in oklab, var(--input) 50%, transparent);
-        }
+      &:hover {
+        background-color: light-dark(
+          var(--muted),
+          color-mix(in oklab, var(--input) 50%, transparent)
+        );
+        color: var(--foreground);
       }
     }
 
     &[data-variant='ghost'] {
-      &:hover {
-        background-color: var(--muted);
-        color: var(--foreground);
-      }
-
       &[aria-expanded='true'] {
         background-color: var(--muted);
         color: var(--foreground);
       }
 
-      &:is(html.dark *) {
-        &:hover {
-          background-color: color-mix(in oklab, var(--muted) 50%, transparent);
-        }
+      &:hover {
+        background-color: light-dark(
+          var(--muted),
+          color-mix(in oklab, var(--muted) 50%, transparent)
+        );
+        color: var(--foreground);
       }
     }
 
@@ -518,23 +512,21 @@
     }
 
     &[data-variant='destructive'] {
-      background-color: color-mix(in oklab, var(--destructive) 10%, transparent);
+      background-color: light-dark(
+        color-mix(in oklab, var(--destructive) 10%, transparent),
+        color-mix(in oklab, var(--destructive) 20%, transparent)
+      );
       color: var(--destructive);
 
       &:hover {
-        background-color: color-mix(in oklab, var(--destructive) 20%, transparent);
+        background-color: light-dark(
+          color-mix(in oklab, var(--destructive) 20%, transparent),
+          color-mix(in oklab, var(--destructive) 30%, transparent)
+        );
       }
 
       &:focus-visible {
         border-color: color-mix(in oklab, var(--destructive) 40%, transparent);
-      }
-
-      &:is(html.dark *) {
-        background-color: color-mix(in oklab, var(--destructive) 20%, transparent);
-
-        &:hover {
-          background-color: color-mix(in oklab, var(--destructive) 30%, transparent);
-        }
       }
     }
   }
@@ -726,6 +718,10 @@
     border-style: solid;
     border-width: 1px;
     border-color: var(--input);
+    background-color: light-dark(
+      transparent,
+      color-mix(in oklab, var(--input) 30%, transparent)
+    );
     box-shadow: var(--shadow-xs);
     transition-property: color, background-color, border-color, outline-color, text-decoration-color, fill, stroke;
     transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
@@ -743,28 +739,17 @@
     }
 
     &[aria-invalid='true'] {
-      border-color: var(--destructive);
-      box-shadow: 0 0 0 3px color-mix(in oklab, var(--destructive) 20%, transparent);
+      border-color: light-dark(
+        var(--destructive),
+        color-mix(in oklab, var(--destructive) 50%, transparent)
+      );
+      box-shadow: 0 0 0 3px light-dark(
+        color-mix(in oklab, var(--destructive) 20%, transparent),
+        color-mix(in oklab, var(--destructive) 40%, transparent)
+      );
 
       &:checked {
         border-color: var(--primary);
-      }
-    }
-
-    &:is(html.dark *) {
-      background-color: color-mix(in oklab, var(--input) 30%, transparent);
-
-      &:checked {
-        background-color: var(--primary);
-      }
-
-      &[aria-invalid='true'] {
-        border-color: color-mix(in oklab, var(--destructive) 50%, transparent);
-        box-shadow: 0 0 0 3px color-mix(in oklab, var(--destructive) 40%, transparent);
-
-        &:checked {
-          border-color: var(--primary);
-        }
       }
     }
   }
@@ -782,11 +767,10 @@
     color: var(--foreground);
     font-size: var(--text-sm);
     line-height: var(--text-sm--line-height);
-    box-shadow: 0 0 0 1px color-mix(in oklab, var(--foreground) 5%, transparent);
-
-    &:is(html.dark *) {
-      box-shadow: 0 0 0 1px color-mix(in oklab, var(--foreground) 10%, transparent);
-    }
+    box-shadow: 0 0 0 1px light-dark(
+      color-mix(in oklab, var(--foreground) 5%, transparent),
+      color-mix(in oklab, var(--foreground) 10%, transparent)
+    );
 
     &[data-size='sm'] {
       border-radius: var(--radius-lg);
@@ -795,18 +779,18 @@
     }
 
     &[data-variant='destructive'] {
-      background-color: color-mix(in oklab, var(--destructive) 5%, transparent);
+      background-color: light-dark(
+        color-mix(in oklab, var(--destructive) 5%, transparent),
+        color-mix(in oklab, var(--destructive) 10%, transparent)
+      );
       color: var(--destructive);
-      box-shadow: 0 0 0 1px color-mix(in oklab, var(--destructive) 15%, transparent);
-
-      &:is(html.dark *) {
-        background-color: color-mix(in oklab, var(--destructive) 10%, transparent);
-        box-shadow: 0 0 0 1px color-mix(in oklab, var(--destructive) 20%, transparent);
-      }
+      box-shadow: 0 0 0 1px light-dark(
+        color-mix(in oklab, var(--destructive) 15%, transparent),
+        color-mix(in oklab, var(--destructive) 20%, transparent)
+      );
     }
 
-    &:has(> pre:focus-visible),
-    &:is(html.dark *):has(> pre:focus-visible) {
+    &:has(> pre:focus-visible) {
       outline-style: solid;
       outline-width: 1px;
       outline-color: var(--ring);
@@ -852,11 +836,10 @@
     }
 
     > header > [data-slot='actions'] > .btn:hover {
-      background-color: color-mix(in oklab, var(--foreground) 5%, transparent);
-    }
-
-    &:is(html.dark *) > header > [data-slot='actions'] > .btn:hover {
-      background-color: color-mix(in oklab, var(--foreground) 10%, transparent);
+      background-color: light-dark(
+        color-mix(in oklab, var(--foreground) 5%, transparent),
+        color-mix(in oklab, var(--foreground) 10%, transparent)
+      );
     }
 
     > [data-slot='actions'] {
@@ -931,20 +914,17 @@
 
     > pre > code > [data-slot='line'][data-variant='added'],
     > pre > code > [data-slot='line'][data-variant='highlighted'] {
-      background-color: color-mix(in oklab, var(--foreground) 5%, transparent);
+      background-color: light-dark(
+        color-mix(in oklab, var(--foreground) 5%, transparent),
+        color-mix(in oklab, var(--foreground) 10%, transparent)
+      );
     }
 
     > pre > code > [data-slot='line'][data-variant='removed'] {
-      background-color: color-mix(in oklab, var(--destructive) 10%, transparent);
-    }
-
-    &:is(html.dark *) > pre > code > [data-slot='line'][data-variant='added'],
-    &:is(html.dark *) > pre > code > [data-slot='line'][data-variant='highlighted'] {
-      background-color: color-mix(in oklab, var(--foreground) 10%, transparent);
-    }
-
-    &:is(html.dark *) > pre > code > [data-slot='line'][data-variant='removed'] {
-      background-color: color-mix(in oklab, var(--destructive) 15%, transparent);
+      background-color: light-dark(
+        color-mix(in oklab, var(--destructive) 10%, transparent),
+        color-mix(in oklab, var(--destructive) 15%, transparent)
+      );
     }
 
     > pre > code > [data-slot='line'][data-variant='added'] > [data-slot='line-content']::before {
@@ -1074,12 +1054,11 @@
     }
 
     :is([role='menuitem'], [role='menuitemcheckbox'], [role='menuitemradio'])[data-variant='destructive']:is(:focus-visible, [data-highlighted]) {
-      background-color: color-mix(in oklab, var(--destructive) 10%, transparent);
+      background-color: light-dark(
+        color-mix(in oklab, var(--destructive) 10%, transparent),
+        color-mix(in oklab, var(--destructive) 20%, transparent)
+      );
       color: var(--destructive);
-
-      &:is(html.dark *) {
-        background-color: color-mix(in oklab, var(--destructive) 20%, transparent);
-      }
     }
 
     :is([role='menuitem'], [role='menuitemcheckbox'], [role='menuitemradio'])[data-variant='destructive'] svg {
@@ -1316,7 +1295,10 @@
     border-style: solid;
     border-width: 1px;
     border-color: var(--input);
-    background-color: transparent;
+    background-color: light-dark(
+      transparent,
+      color-mix(in oklab, var(--input) 30%, transparent)
+    );
     padding-inline: 0.625rem;
     padding-block: 0.25rem;
     font-size: var(--text-base);
@@ -1339,30 +1321,26 @@
     }
 
     &:disabled {
-      background-color: color-mix(in oklab, var(--input) 50%, transparent);
+      background-color: light-dark(
+        color-mix(in oklab, var(--input) 50%, transparent),
+        color-mix(in oklab, var(--input) 80%, transparent)
+      );
     }
 
     &[aria-invalid='true'] {
-      border-color: var(--destructive);
-      box-shadow: 0 0 0 3px color-mix(in oklab, var(--destructive) 20%, transparent);
+      border-color: light-dark(
+        var(--destructive),
+        color-mix(in oklab, var(--destructive) 50%, transparent)
+      );
+      box-shadow: 0 0 0 3px light-dark(
+        color-mix(in oklab, var(--destructive) 20%, transparent),
+        color-mix(in oklab, var(--destructive) 40%, transparent)
+      );
     }
 
     @media (width >= 48rem) {
       font-size: var(--text-sm);
       line-height: var(--text-sm--line-height);
-    }
-
-    &:is(html.dark *) {
-      background-color: color-mix(in oklab, var(--input) 30%, transparent);
-
-      &:disabled {
-        background-color: color-mix(in oklab, var(--input) 80%, transparent);
-      }
-
-      &[aria-invalid='true'] {
-        border-color: color-mix(in oklab, var(--destructive) 50%, transparent);
-        box-shadow: 0 0 0 3px color-mix(in oklab, var(--destructive) 40%, transparent);
-      }
     }
   }
 }
@@ -1551,15 +1529,14 @@
     border-color: var(--border);
 
     &:has(*:is(:checked)) {
-      border-color: color-mix(in oklab, var(--primary) 30%, transparent);
-      background-color: color-mix(in oklab, var(--primary) 5%, transparent);
-    }
-
-    &:is(html.dark *) {
-      &:has(*:is(:checked)) {
-        border-color: color-mix(in oklab, var(--primary) 20%, transparent);
-        background-color: color-mix(in oklab, var(--primary) 10%, transparent);
-      }
+      border-color: light-dark(
+        color-mix(in oklab, var(--primary) 30%, transparent),
+        color-mix(in oklab, var(--primary) 20%, transparent)
+      );
+      background-color: light-dark(
+        color-mix(in oklab, var(--primary) 5%, transparent),
+        color-mix(in oklab, var(--primary) 10%, transparent)
+      );
     }
 
     &:has(:focus-visible) {
@@ -1601,7 +1578,10 @@
     border-style: solid;
     border-width: 1px;
     border-color: var(--input);
-    background-color: transparent;
+    background-color: light-dark(
+      transparent,
+      color-mix(in oklab, var(--input) 30%, transparent)
+    );
     padding-block: 0.25rem;
     padding-inline-start: 0.625rem;
     padding-inline-end: 2rem;
@@ -1632,26 +1612,27 @@
     }
 
     &[aria-invalid='true'] {
-      border-color: var(--destructive);
-      box-shadow: 0 0 0 3px color-mix(in oklab, var(--destructive) 20%, transparent);
+      border-color: light-dark(
+        var(--destructive),
+        color-mix(in oklab, var(--destructive) 50%, transparent)
+      );
+      box-shadow: 0 0 0 3px light-dark(
+        color-mix(in oklab, var(--destructive) 20%, transparent),
+        color-mix(in oklab, var(--destructive) 40%, transparent)
+      );
+    }
+
+    &:hover {
+      background-color: light-dark(
+        transparent,
+        color-mix(in oklab, var(--input) 50%, transparent)
+      );
     }
 
     &[data-size='sm'] {
       height: 2rem;
     }
 
-    &:is(html.dark *) {
-      background-color: color-mix(in oklab, var(--input) 30%, transparent);
-
-      &:hover {
-        background-color: color-mix(in oklab, var(--input) 50%, transparent);
-      }
-
-      &[aria-invalid='true'] {
-        border-color: color-mix(in oklab, var(--destructive) 50%, transparent);
-        box-shadow: 0 0 0 3px color-mix(in oklab, var(--destructive) 40%, transparent);
-      }
-    }
     background-image: var(--chevron-down-icon);
     background-size: 1rem;
     background-position: center right 0.625rem;
@@ -1695,6 +1676,10 @@
     height: 1rem;
     border-radius: var(--radius-full);
     border-color: var(--input);
+    background-color: light-dark(
+      transparent,
+      color-mix(in oklab, var(--input) 30%, transparent)
+    );
 
     &:checked {
       border-color: var(--primary);
@@ -1708,28 +1693,17 @@
     }
 
     &[aria-invalid='true'] {
-      border-color: var(--destructive);
-      box-shadow: 0 0 0 3px color-mix(in oklab, var(--destructive) 20%, transparent);
+      border-color: light-dark(
+        var(--destructive),
+        color-mix(in oklab, var(--destructive) 50%, transparent)
+      );
+      box-shadow: 0 0 0 3px light-dark(
+        color-mix(in oklab, var(--destructive) 20%, transparent),
+        color-mix(in oklab, var(--destructive) 40%, transparent)
+      );
 
       &:checked {
         border-color: var(--primary);
-      }
-    }
-
-    &:is(html.dark *) {
-      background-color: color-mix(in oklab, var(--input) 30%, transparent);
-
-      &:checked {
-        background-color: var(--primary);
-      }
-
-      &[aria-invalid='true'] {
-        border-color: color-mix(in oklab, var(--destructive) 50%, transparent);
-        box-shadow: 0 0 0 3px color-mix(in oklab, var(--destructive) 40%, transparent);
-
-        &:checked {
-          border-color: var(--primary);
-        }
       }
     }
   }
@@ -1757,7 +1731,10 @@
     box-shadow: var(--shadow-xs);
 
     &:not(:checked) {
-      background-color: var(--input);
+      background-color: light-dark(
+        var(--input),
+        color-mix(in oklab, var(--input) 80%, transparent)
+      );
     }
 
     &:checked {
@@ -1770,19 +1747,14 @@
     }
 
     &[aria-invalid='true'] {
-      border-color: var(--destructive);
-      box-shadow: 0 0 0 3px color-mix(in oklab, var(--destructive) 20%, transparent);
-    }
-
-    &:is(html.dark *) {
-      &:not(:checked) {
-        background-color: color-mix(in oklab, var(--input) 80%, transparent);
-      }
-
-      &[aria-invalid='true'] {
-        border-color: color-mix(in oklab, var(--destructive) 50%, transparent);
-        box-shadow: 0 0 0 3px color-mix(in oklab, var(--destructive) 40%, transparent);
-      }
+      border-color: light-dark(
+        var(--destructive),
+        color-mix(in oklab, var(--destructive) 50%, transparent)
+      );
+      box-shadow: 0 0 0 3px light-dark(
+        color-mix(in oklab, var(--destructive) 20%, transparent),
+        color-mix(in oklab, var(--destructive) 40%, transparent)
+      );
     }
 
     &:not([data-size='sm']) {
@@ -1797,15 +1769,11 @@
 
     &:before {
       border-radius: var(--radius-full);
-      background-color: var(--background);
+      background-color: light-dark(var(--background), var(--foreground));
     }
 
-    html.dark &:not(:checked):before {
-      background-color: var(--foreground);
-    }
-
-    html.dark &:checked:before {
-      background-color: var(--primary-foreground);
+    &:checked:before {
+      background-color: light-dark(var(--background), var(--primary-foreground));
     }
 
     &:not([data-size='sm']):before {
@@ -1958,7 +1926,10 @@
         font-size: var(--text-sm);
         line-height: var(--text-sm--line-height);
         font-weight: 500;
-        color: color-mix(in oklab, var(--foreground) 60%, transparent);
+        color: light-dark(
+          color-mix(in oklab, var(--foreground) 60%, transparent),
+          var(--muted-foreground)
+        );
 
         &:hover {
           color: var(--foreground);
@@ -1970,14 +1941,6 @@
           outline-style: solid;
           outline-width: 1px;
           outline-color: var(--ring);
-        }
-
-        &:is(html.dark *) {
-          color: var(--muted-foreground);
-
-          &:hover {
-            color: var(--foreground);
-          }
         }
 
         & svg {
@@ -2025,15 +1988,13 @@
       }
 
       &:not([data-variant='line']) > [role='tab'][aria-selected='true'] {
-        background-color: var(--background);
+        border-color: light-dark(transparent, var(--input));
+        background-color: light-dark(
+          var(--background),
+          color-mix(in oklab, var(--input) 30%, transparent)
+        );
         color: var(--foreground);
         box-shadow: var(--shadow-sm);
-
-        &:is(html.dark *) {
-          border-color: var(--input);
-          background-color: color-mix(in oklab, var(--input) 30%, transparent);
-          color: var(--foreground);
-        }
       }
 
       &[data-variant='line'] > [role='tab'][aria-selected='true'] {
@@ -2044,12 +2005,6 @@
         &::after {
           content: '';
           opacity: 100%;
-        }
-
-        &:is(html.dark *) {
-          border-color: transparent;
-          background-color: transparent;
-          color: var(--foreground);
         }
       }
 
@@ -2075,7 +2030,10 @@
     border-style: solid;
     border-width: 1px;
     border-color: var(--input);
-    background-color: transparent;
+    background-color: light-dark(
+      transparent,
+      color-mix(in oklab, var(--input) 30%, transparent)
+    );
     padding-inline: 0.625rem;
     padding-block: 0.5rem;
     font-size: var(--text-base);
@@ -2091,30 +2049,26 @@
     }
 
     &:disabled {
-      background-color: color-mix(in oklab, var(--input) 50%, transparent);
+      background-color: light-dark(
+        color-mix(in oklab, var(--input) 50%, transparent),
+        color-mix(in oklab, var(--input) 80%, transparent)
+      );
     }
 
     &[aria-invalid='true'] {
-      border-color: var(--destructive);
-      box-shadow: 0 0 0 3px color-mix(in oklab, var(--destructive) 20%, transparent);
+      border-color: light-dark(
+        var(--destructive),
+        color-mix(in oklab, var(--destructive) 50%, transparent)
+      );
+      box-shadow: 0 0 0 3px light-dark(
+        color-mix(in oklab, var(--destructive) 20%, transparent),
+        color-mix(in oklab, var(--destructive) 40%, transparent)
+      );
     }
 
     @media (width >= 48rem) {
       font-size: var(--text-sm);
       line-height: var(--text-sm--line-height);
-    }
-
-    &:is(html.dark *) {
-      background-color: color-mix(in oklab, var(--input) 30%, transparent);
-
-      &:disabled {
-        background-color: color-mix(in oklab, var(--input) 80%, transparent);
-      }
-
-      &[aria-invalid='true'] {
-        border-color: color-mix(in oklab, var(--destructive) 50%, transparent);
-        box-shadow: 0 0 0 3px color-mix(in oklab, var(--destructive) 40%, transparent);
-      }
     }
   }
 }

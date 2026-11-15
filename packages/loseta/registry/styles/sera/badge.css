@@ -53,12 +53,11 @@
     }
 
     &[data-variant='destructive'] {
-      background-color: color-mix(in oklab, var(--destructive) 10%, transparent);
+      background-color: light-dark(
+        color-mix(in oklab, var(--destructive) 10%, transparent),
+        color-mix(in oklab, var(--destructive) 20%, transparent)
+      );
       color: var(--destructive);
-
-      &:is(html.dark *) {
-        background-color: color-mix(in oklab, var(--destructive) 20%, transparent);
-      }
 
       &:is(a):hover {
         background-color: color-mix(in oklab, var(--destructive) 20%, transparent);
@@ -67,12 +66,11 @@
 
     &[data-variant='ghost'] {
       &:hover {
-        background-color: var(--muted);
+        background-color: light-dark(
+          var(--muted),
+          color-mix(in oklab, var(--muted) 50%, transparent)
+        );
         color: var(--muted-foreground);
-
-        &:is(html.dark *) {
-          background-color: color-mix(in oklab, var(--muted) 50%, transparent);
-        }
       }
     }
 

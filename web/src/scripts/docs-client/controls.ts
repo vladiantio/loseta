@@ -83,12 +83,6 @@ document.addEventListener("change", (event) => {
   }
 });
 
-window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", () => {
-  if (readPreferences().scheme === "system") {
-    applyPreferences(document.documentElement);
-  }
-});
-
 export const controls: PageBehavior = {
   mount: syncButtons
 };

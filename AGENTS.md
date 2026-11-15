@@ -54,7 +54,9 @@ Every component and primitive ships two files:
 
 Base files may use tokens for structural state semantics (for example invalid
 text or a selected row), but prefer the style file for visual treatment.
-Dark-mode adjustments (`html.dark`) belong in style files. Nova is the default
+Dark color values use `light-dark()` in style files; data-URI icon tokens are
+the exception and swap URLs in the token layer. `.dark` and `.light` force a
+color scheme and are defined in the token layer. Nova is the default
 style; Vega, Maia, Lyra, Mira, Luma, Sera and Rhea ship alongside it.
 
 ## Registry workflow

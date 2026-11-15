@@ -10,6 +10,13 @@
   cross-browser input and focus fixes. Consumers that relied on the host
   document's typography should set those custom properties or ship their own
   font rules.
+- **Breaking:** Dark mode now follows `prefers-color-scheme` by default. Color
+  tokens use `light-dark()` pairs where the light and dark values differ; `.dark`
+  still forces dark, new `.light` forces light, and either class works on any
+  container. Custom dark tokens must use `light-dark()`; a
+  `.dark { --token: ... }` block no longer applies to system dark mode. Data-URI
+  icon tokens keep a small media/class override because `light-dark()` only
+  accepts colors.
 
 ## 0.3.0 - 2026-11-14
 

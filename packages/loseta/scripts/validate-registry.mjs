@@ -17,7 +17,7 @@ const forbiddenInBase = [
   { pattern: /\.active\b/g, message: ".active is replaced by data-highlighted / ARIA state" },
   { pattern: /!important/g, message: "!important is not allowed" },
   { pattern: /@layer components/g, message: "use loseta.* layers" },
-  { pattern: /html\.dark/g, message: "dark rules belong in the style layer" },
+  { pattern: /html\.dark/g, message: "use light-dark() in the style layer" },
   { pattern: /\[data-state=['"]selected['"]\]/g, message: "use aria-selected" },
   { pattern: /\[data-invalid\]/g, message: "use aria-invalid" },
   { pattern: /\[data-disabled/g, message: "use :disabled or aria-disabled" },
@@ -26,6 +26,13 @@ const forbiddenInBase = [
   { pattern: /\[data-description\]/g, message: "use data-slot=\"description\"" },
   { pattern: /\[data-shortcut\]/g, message: "use data-slot=\"shortcut\"" },
   { pattern: /\[data-indicator\]/g, message: "use data-slot=\"indicator\"" }
+];
+
+// Dark values live in the token and style layers. Keep them out of every other
+// base file so the token file remains the single source of light/dark pairs.
+const forbiddenInBaseColor = [
+  { pattern: /light-dark\(/g, message: "dark values belong in the style layer" },
+  { pattern: /@media \(prefers-color-scheme/g, message: "the OS color scheme belongs in the tokens layer" }
 ];
 
 const errors = [];
@@ -154,6 +161,15 @@ for (const item of registry.items ?? []) {
         fail(`${item.name}: ${file.path}: ${rule.message}`);
       }
       rule.pattern.lastIndex = 0;
+    }
+
+    if (file.layer !== "loseta.tokens") {
+      for (const rule of forbiddenInBaseColor) {
+        if (file.role === "base" && rule.pattern.test(css)) {
+          fail(`${item.name}: ${file.path}: ${rule.message}`);
+        }
+        rule.pattern.lastIndex = 0;
+      }
     }
 
     try {

@@ -81,7 +81,7 @@ A semantic token that describes intent rather than a literal color, such as back
 _Avoid_: palette entry, color name
 
 **Color scheme**:
-The light or dark rendering of the same tokens, selected through `.dark` on the root element.
+The light or dark rendering of the same tokens. It follows the OS preference by default; `.dark` or `.light` on any element forces it.
 _Avoid_: theme, mode, appearance
 
 **Registry dependency**:

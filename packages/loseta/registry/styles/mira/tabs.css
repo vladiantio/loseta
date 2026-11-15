@@ -34,7 +34,10 @@
         font-size: var(--text-xs);
         line-height: var(--text-sm--line-height);
         font-weight: 500;
-        color: color-mix(in oklab, var(--foreground) 60%, transparent);
+        color: light-dark(
+          color-mix(in oklab, var(--foreground) 60%, transparent),
+          var(--muted-foreground)
+        );
 
         &:hover {
           color: var(--foreground);
@@ -46,14 +49,6 @@
           outline-style: solid;
           outline-width: 1px;
           outline-color: var(--ring);
-        }
-
-        &:is(html.dark *) {
-          color: var(--muted-foreground);
-
-          &:hover {
-            color: var(--foreground);
-          }
         }
 
         & svg {
@@ -101,15 +96,13 @@
       }
 
       &:not([data-variant='line']) > [role='tab'][aria-selected='true'] {
-        background-color: var(--background);
+        border-color: light-dark(transparent, var(--input));
+        background-color: light-dark(
+          var(--background),
+          color-mix(in oklab, var(--input) 30%, transparent)
+        );
         color: var(--foreground);
         box-shadow: var(--shadow-sm);
-
-        &:is(html.dark *) {
-          border-color: var(--input);
-          background-color: color-mix(in oklab, var(--input) 30%, transparent);
-          color: var(--foreground);
-        }
       }
 
       &[data-variant='line'] > [role='tab'][aria-selected='true'] {
@@ -120,12 +113,6 @@
         &::after {
           content: '';
           opacity: 100%;
-        }
-
-        &:is(html.dark *) {
-          border-color: transparent;
-          background-color: transparent;
-          color: var(--foreground);
         }
       }
 

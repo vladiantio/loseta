@@ -69,7 +69,7 @@ the selected style. A style-only change does not rewrite base files.
 
 The browser fidelity target is Chrome/Edge 125+, Safari 26+ and Firefox 147+.
 Older engines may render a reduced experience where they lack `:has()`,
-`@starting-style` or `field-sizing`.
+`@starting-style`, `field-sizing` or `light-dark()`.
 
 ## Layer contract
 
@@ -119,7 +119,7 @@ for values; this table defines intent.
 | `--accent`, `--accent-foreground` | Highlighted and focused menu items. |
 | `--destructive` | Destructive actions, invalid borders and invalid text. |
 | `--border` | Separators, card outlines and outline-variant borders. |
-| `--input` | Form-control borders and subtle control fills in dark mode. |
+| `--input` | Form-control borders and subtle control fills in the dark scheme. |
 | `--ring` | Focus border and focus shadow. |
 | `--chart-*`, `--sidebar-*`, `--scrollbar-*` | Reserved token families shipped with the style; v1 components do not consume them. |
 
@@ -129,12 +129,23 @@ for embedded SVG data URIs and the dialog backdrop.
 
 ### Light and dark
 
-- Light is the default in `:root`. Dark values are applied by `.dark` on the
-  `<html>` element; the token file also sets `color-scheme` so native controls
-  follow the color scheme.
-- Components reference role tokens. A style may add `html.dark` adjustments for
-  contrast, but a component must not invent a separate dark palette.
-- Every documented page is exercised in light and dark mode in CI.
+- `:root` sets `color-scheme: light dark`, so the OS preference drives the
+  default. Color tokens use `light-dark(light, dark)` pairs where the values
+  differ; the token file also sets `color-scheme` so native controls follow the
+  active scheme.
+- `.dark` and `.light` force a scheme by setting `color-scheme: only dark` or
+  `only light`. They work on `<html>` or any container, so a section can use a
+  different scheme from the page.
+- Components reference role tokens. A style uses `light-dark()` for contrast
+  adjustments, but a component must not invent a separate dark palette.
+- Custom tokens use `light-dark()`. A `.dark { --token: ... }` block only
+  applies when `.dark` is present and does not respond to the OS default.
+- Data-URI icon tokens cannot use `light-dark()` because it only accepts
+  colors. They are the only token-level exception: the light URL is the
+  default, and `.dark` / `.light` plus a root `prefers-color-scheme` query swap
+  the URL.
+- Every documented page is exercised in system light/dark in CI; the styles page
+  also runs forced light/dark.
 
 ### Radius
 
@@ -450,9 +461,9 @@ intentional exclusion.
   3px 50% ring shadow; forced-colors mode restores a transparent 2px outline
   for system focus rendering.
 - CI runs axe with `wcag2a`, `wcag2aa`, `wcag21a` and `wcag21aa` on every docs
-  page in light and dark mode, in Chromium and WebKit, and fails on `serious`
-  or `critical` violations. This is a floor, not a substitute for manual
-  testing.
+  page in system light/dark, and on the styles page in forced light/dark, in
+  Chromium and WebKit, and fails on `serious` or `critical` violations. This is
+  a floor, not a substitute for manual testing.
 
 ## Distribution and change policy
 
@@ -485,6 +496,8 @@ The following are public API and require a breaking-change note when changed:
 - public slots and documented semantic parts;
 - variant, size, orientation and placement attribute names and values;
 - the state contract;
+- the color-scheme hooks (`color-scheme`, `.dark`, `.light`) and the
+  `light-dark()` token authoring contract;
 - token names and their semantic roles;
 - the declared style names and their install targets;
 - the fixed layer order and the meaning of each layer;

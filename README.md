@@ -33,8 +33,9 @@ npx loseta add button --html  # print the example markup
 - **Native CSS**: nesting, `@layer`, `:has()`, `color-mix()`, logical
   properties, `@starting-style` and `field-sizing`.
 - **Copy-paste ownership**: the CLI writes plain CSS files into your project.
-- **Tokens and styles**: shadcn-compatible CSS variables, light/dark mode and
-  eight visual styles: Vega, Nova, Maia, Lyra, Mira, Luma, Sera and Rhea.
+- **Tokens and styles**: shadcn-compatible CSS variables, system-driven
+  light/dark with `.dark` / `.light` overrides, and eight visual styles: Vega,
+  Nova, Maia, Lyra, Mira, Luma, Sera and Rhea.
 - **CSS-only**: behavior stays yours. Components document the required ARIA and
   data-attribute contract; the docs use a small demo-only script to keep the
   examples interactive.

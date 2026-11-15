@@ -662,11 +662,10 @@
     border-radius: var(--radius-xl);
     background-color: var(--muted);
     font-size: var(--text-sm);
-    box-shadow: 0 0 0 1px color-mix(in oklab, var(--foreground) 5%, transparent);
-  }
-
-  html.dark .install-command {
-    box-shadow: 0 0 0 1px color-mix(in oklab, var(--foreground) 10%, transparent);
+    box-shadow: 0 0 0 1px light-dark(
+      color-mix(in oklab, var(--foreground) 5%, transparent),
+      color-mix(in oklab, var(--foreground) 10%, transparent)
+    );
   }
 
   .install-command-header {
@@ -713,7 +712,10 @@
   }
 
   .install-command-tab:hover {
-    background-color: color-mix(in oklab, var(--foreground) 5%, transparent);
+    background-color: light-dark(
+      color-mix(in oklab, var(--foreground) 5%, transparent),
+      color-mix(in oklab, var(--foreground) 10%, transparent)
+    );
     color: var(--foreground);
   }
 
@@ -741,7 +743,10 @@
   }
 
   .install-command-copy:hover {
-    background-color: color-mix(in oklab, var(--foreground) 5%, transparent);
+    background-color: light-dark(
+      color-mix(in oklab, var(--foreground) 5%, transparent),
+      color-mix(in oklab, var(--foreground) 10%, transparent)
+    );
     color: var(--foreground);
   }
 
@@ -776,14 +781,6 @@
     display: block;
     overflow-wrap: anywhere;
     white-space: pre-wrap;
-  }
-
-  html.dark .install-command-tab:not([aria-pressed="true"]):hover {
-    background-color: color-mix(in oklab, var(--foreground) 10%, transparent);
-  }
-
-  html.dark .install-command-copy:hover {
-    background-color: color-mix(in oklab, var(--foreground) 10%, transparent);
   }
 
   .example {
@@ -922,22 +919,18 @@
 
   .code-block > pre,
   .install-command code {
-    color: var(--shiki-light, inherit);
+    color: light-dark(
+      var(--shiki-light, var(--foreground)),
+      var(--shiki-dark, var(--foreground))
+    );
   }
 
   .code-block > pre span,
   .install-command code span {
-    color: var(--shiki-light, inherit);
-  }
-
-  .dark .code-block > pre,
-  .dark .install-command code {
-    color: var(--shiki-dark, inherit);
-  }
-
-  .dark .code-block > pre span,
-  .dark .install-command code span {
-    color: var(--shiki-dark, inherit);
+    color: light-dark(
+      var(--shiki-light, var(--foreground)),
+      var(--shiki-dark, var(--foreground))
+    );
   }
 
   .docs-prose {

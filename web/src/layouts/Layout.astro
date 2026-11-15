@@ -1,6 +1,7 @@
 ---
 import "@/styles/loseta.css";
 import "@/styles/docs.css";
+import { Font } from "astro:assets";
 import { ClientRouter } from "astro:transitions";
 import { MonitorIcon, MoonIcon, SunIcon } from "@lucide/astro";
 import TableOfContents from "@/components/TableOfContents.astro";
@@ -39,6 +40,7 @@ const defaultStyle = registry.styles[0]?.name ?? "nova";
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="description" content={description} />
     <title>{pageTitle}</title>
+    <Font cssVariable="--font-inter" preload />
     <ClientRouter fallback="swap" />
     <link rel="stylesheet" href={`/styles/${defaultStyle}.css`} data-style-link />
     <script is:inline>

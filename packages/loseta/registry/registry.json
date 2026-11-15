@@ -1,7 +1,7 @@
 {
   "$schema": "./schema.json",
   "name": "loseta",
-  "version": "0.8.0",
+  "version": "0.9.0",
   "styles": [
     {
       "name": "nova",
@@ -2940,6 +2940,197 @@
       ],
       "examples": [
         "examples/command.html"
+      ]
+    },
+    {
+      "name": "calendar",
+      "type": "component",
+      "status": "experimental",
+      "title": "Calendar",
+      "description": "A native month grid for date selection.",
+      "docs": "/docs/components/calendar",
+      "root": [
+        ".calendar"
+      ],
+      "registryDependencies": [],
+      "optionalDependencies": [],
+      "files": [
+        {
+          "path": "components/calendar.css",
+          "target": "components/calendar.css",
+          "role": "base",
+          "layer": "loseta.components"
+        },
+        {
+          "path": "styles/nova/calendar.css",
+          "target": "styles/nova/calendar.css",
+          "role": "style",
+          "layer": "loseta.style"
+        }
+      ],
+      "examples": [
+        "examples/calendar.html"
+      ]
+    },
+    {
+      "name": "carousel",
+      "type": "component",
+      "status": "experimental",
+      "title": "Carousel",
+      "description": "A scroll-snap carousel with controls and indicators.",
+      "docs": "/docs/components/carousel",
+      "root": [
+        ".carousel"
+      ],
+      "registryDependencies": [],
+      "optionalDependencies": [
+        "card"
+      ],
+      "files": [
+        {
+          "path": "components/carousel.css",
+          "target": "components/carousel.css",
+          "role": "base",
+          "layer": "loseta.components"
+        },
+        {
+          "path": "styles/nova/carousel.css",
+          "target": "styles/nova/carousel.css",
+          "role": "style",
+          "layer": "loseta.style"
+        }
+      ],
+      "examples": [
+        "examples/carousel.html"
+      ]
+    },
+    {
+      "name": "chart",
+      "type": "component",
+      "status": "experimental",
+      "title": "Chart",
+      "description": "Chart chrome for legends and tooltips with series color tokens.",
+      "docs": "/docs/components/chart",
+      "root": [
+        ".chart"
+      ],
+      "registryDependencies": [],
+      "optionalDependencies": [
+        "card"
+      ],
+      "files": [
+        {
+          "path": "components/chart.css",
+          "target": "components/chart.css",
+          "role": "base",
+          "layer": "loseta.components"
+        },
+        {
+          "path": "styles/nova/chart.css",
+          "target": "styles/nova/chart.css",
+          "role": "style",
+          "layer": "loseta.style"
+        }
+      ],
+      "examples": [
+        "examples/chart.html"
+      ]
+    },
+    {
+      "name": "resizable",
+      "type": "component",
+      "status": "experimental",
+      "title": "Resizable",
+      "description": "A flex layout with draggable separator handles.",
+      "docs": "/docs/components/resizable",
+      "root": [
+        ".resizable"
+      ],
+      "registryDependencies": [],
+      "optionalDependencies": [],
+      "files": [
+        {
+          "path": "components/resizable.css",
+          "target": "components/resizable.css",
+          "role": "base",
+          "layer": "loseta.components"
+        },
+        {
+          "path": "styles/nova/resizable.css",
+          "target": "styles/nova/resizable.css",
+          "role": "style",
+          "layer": "loseta.style"
+        }
+      ],
+      "examples": [
+        "examples/resizable.html"
+      ]
+    },
+    {
+      "name": "sidebar",
+      "type": "component",
+      "status": "experimental",
+      "title": "Sidebar",
+      "description": "A composed sidebar shell for navigation and footer content.",
+      "docs": "/docs/components/sidebar",
+      "root": [
+        ".sidebar"
+      ],
+      "registryDependencies": [
+        "collapsible"
+      ],
+      "optionalDependencies": [
+        "sheet"
+      ],
+      "files": [
+        {
+          "path": "components/sidebar.css",
+          "target": "components/sidebar.css",
+          "role": "base",
+          "layer": "loseta.components"
+        },
+        {
+          "path": "styles/nova/sidebar.css",
+          "target": "styles/nova/sidebar.css",
+          "role": "style",
+          "layer": "loseta.style"
+        }
+      ],
+      "examples": [
+        "examples/sidebar.html"
+      ]
+    },
+    {
+      "name": "toast",
+      "type": "component",
+      "status": "experimental",
+      "title": "Toast",
+      "description": "A fixed stack of transient notifications.",
+      "docs": "/docs/components/toast",
+      "root": [
+        ".toaster",
+        ".toast"
+      ],
+      "registryDependencies": [],
+      "optionalDependencies": [
+        "button"
+      ],
+      "files": [
+        {
+          "path": "components/toast.css",
+          "target": "components/toast.css",
+          "role": "base",
+          "layer": "loseta.components"
+        },
+        {
+          "path": "styles/nova/toast.css",
+          "target": "styles/nova/toast.css",
+          "role": "style",
+          "layer": "loseta.style"
+        }
+      ],
+      "examples": [
+        "examples/toast.html"
       ]
     }
   ]

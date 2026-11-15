@@ -2124,3 +2124,725 @@
     }
   }
 }
+/* Calendar */
+@layer loseta.components {
+  .calendar {
+    display: flex;
+    flex-direction: column;
+
+    > header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    > header > button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      outline-style: none;
+
+      @media (forced-colors: active) {
+        outline: 2px solid transparent;
+        outline-offset: 2px;
+      }
+    }
+
+    table {
+      width: 100%;
+      table-layout: fixed;
+      border-collapse: collapse;
+    }
+
+    th {
+      font-weight: 400;
+      text-align: center;
+    }
+
+    td {
+      padding: 0;
+      text-align: center;
+    }
+
+    td > button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      outline-style: none;
+
+      @media (forced-colors: active) {
+        outline: 2px solid transparent;
+        outline-offset: 2px;
+      }
+
+      &[aria-disabled='true'] {
+        pointer-events: none;
+      }
+    }
+  }
+}
+/* Calendar */
+@layer loseta.style {
+  .calendar {
+    width: 18rem;
+    gap: 0.5rem;
+
+    > header {
+      gap: 0.5rem;
+    }
+
+    > header > button {
+      width: 1.75rem;
+      height: 1.75rem;
+      border-radius: var(--radius-md);
+      color: var(--muted-foreground);
+
+      &:hover {
+        background-color: var(--muted);
+        color: var(--foreground);
+      }
+
+      &:focus-visible {
+        box-shadow: 0 0 0 3px color-mix(in oklab, var(--ring) 50%, transparent);
+      }
+
+      > svg {
+        width: 1rem;
+        height: 1rem;
+      }
+    }
+
+    [data-slot='title'] {
+      font-size: var(--text-sm);
+      line-height: var(--text-sm--line-height);
+      font-weight: 500;
+    }
+
+    th {
+      padding-block: 0.25rem;
+      font-size: var(--text-xs);
+      line-height: var(--text-xs--line-height);
+      color: var(--muted-foreground);
+    }
+
+    td > button {
+      width: 2rem;
+      height: 2rem;
+      border-radius: var(--radius-md);
+      font-size: var(--text-sm);
+      line-height: var(--text-sm--line-height);
+      transition-property: color, background-color, box-shadow;
+      transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+      transition-duration: 150ms;
+
+      &:hover {
+        background-color: var(--muted);
+      }
+
+      &:focus-visible {
+        box-shadow: 0 0 0 3px color-mix(in oklab, var(--ring) 50%, transparent);
+      }
+
+      &[aria-disabled='true'] {
+        opacity: 50%;
+        color: var(--muted-foreground);
+      }
+    }
+
+    td[aria-selected='true'] > button {
+      background-color: var(--primary);
+      color: var(--primary-foreground);
+    }
+
+    td > button[aria-current='date'] {
+      box-shadow: inset 0 0 0 1px var(--ring);
+    }
+  }
+}
+/* Carousel */
+@layer loseta.components {
+  .carousel {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+
+    > .carousel-viewport {
+      overflow-x: auto;
+      overflow-y: hidden;
+      scroll-snap-type: x mandatory;
+      scrollbar-width: none;
+
+      &::-webkit-scrollbar {
+        display: none;
+      }
+    }
+
+    > .carousel-viewport > .carousel-track {
+      display: flex;
+    }
+
+    .carousel-item {
+      flex: 0 0 100%;
+      min-width: 0;
+      scroll-snap-align: start;
+      scroll-snap-stop: always;
+    }
+
+    &[data-orientation='vertical'] {
+      > .carousel-viewport {
+        overflow-x: hidden;
+        overflow-y: auto;
+        scroll-snap-type: y mandatory;
+      }
+
+      .carousel-track {
+        flex-direction: column;
+      }
+
+      .carousel-item {
+        flex-basis: 100%;
+      }
+    }
+
+    .carousel-controls {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+    }
+
+    .carousel-button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      outline-style: none;
+
+      @media (forced-colors: active) {
+        outline: 2px solid transparent;
+        outline-offset: 2px;
+      }
+    }
+
+    .carousel-indicators {
+      display: flex;
+      align-items: center;
+      gap: 0.25rem;
+    }
+
+    .carousel-indicator {
+      position: relative;
+      display: inline-flex;
+      width: 1.5rem;
+      height: 1.5rem;
+      align-items: center;
+      justify-content: center;
+      outline-style: none;
+
+      @media (forced-colors: active) {
+        outline: 2px solid transparent;
+        outline-offset: 2px;
+      }
+
+      &::before {
+        width: 0.5rem;
+        height: 0.5rem;
+        border-radius: var(--radius-full);
+        background-color: currentColor;
+        content: '';
+      }
+    }
+  }
+}
+/* Carousel */
+@layer loseta.style {
+  .carousel {
+    .carousel-viewport {
+      border-radius: var(--radius-lg);
+    }
+
+    .carousel-button {
+      width: 2rem;
+      height: 2rem;
+      border-style: solid;
+      border-width: 1px;
+      border-color: var(--border);
+      border-radius: var(--radius-md);
+      color: var(--muted-foreground);
+      transition-property: color, background-color, border-color, box-shadow;
+      transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+      transition-duration: 150ms;
+
+      &:hover {
+        background-color: var(--muted);
+        color: var(--foreground);
+      }
+
+      &:focus-visible {
+        border-color: var(--ring);
+        box-shadow: 0 0 0 3px color-mix(in oklab, var(--ring) 50%, transparent);
+      }
+
+      > svg {
+        width: 1rem;
+        height: 1rem;
+      }
+    }
+
+    .carousel-indicator {
+      color: var(--muted-foreground);
+      transition-property: color;
+      transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+      transition-duration: 150ms;
+
+      &:hover {
+        color: var(--foreground);
+      }
+
+      &:focus-visible {
+        box-shadow: 0 0 0 3px color-mix(in oklab, var(--ring) 50%, transparent);
+      }
+
+      &[aria-current='true'] {
+        color: var(--primary);
+      }
+    }
+  }
+}
+/* Chart */
+@layer loseta.components {
+  .chart {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+
+    > [data-slot='plot'] {
+      position: relative;
+      width: 100%;
+
+      > :is(svg, canvas) {
+        display: block;
+        width: 100%;
+        height: 100%;
+      }
+    }
+
+    > [data-slot='legend'] {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    [data-slot='legend-item'] {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.375rem;
+    }
+
+    [data-slot='swatch'] {
+      width: 0.5rem;
+      height: 0.5rem;
+      border-radius: var(--radius-full);
+      background-color: var(--chart-color, var(--primary));
+    }
+
+    [data-slot='tooltip'] {
+      position: absolute;
+      z-index: 1;
+    }
+
+    [data-series='1'] {
+      --chart-color: var(--chart-1);
+    }
+
+    [data-series='2'] {
+      --chart-color: var(--chart-2);
+    }
+
+    [data-series='3'] {
+      --chart-color: var(--chart-3);
+    }
+
+    [data-series='4'] {
+      --chart-color: var(--chart-4);
+    }
+
+    [data-series='5'] {
+      --chart-color: var(--chart-5);
+    }
+  }
+}
+/* Chart */
+@layer loseta.style {
+  .chart {
+    > [data-slot='plot'] {
+      aspect-ratio: 16 / 9;
+    }
+
+    > [data-slot='legend'] {
+      font-size: var(--text-xs);
+      line-height: var(--text-xs--line-height);
+      color: var(--muted-foreground);
+    }
+
+    [data-slot='legend-item'] {
+      color: var(--muted-foreground);
+    }
+
+    [data-slot='tooltip'] {
+      display: flex;
+      flex-direction: column;
+      gap: 0.125rem;
+      border-style: solid;
+      border-width: 1px;
+      border-color: var(--border);
+      border-radius: var(--radius-md);
+      background-color: var(--popover);
+      padding: 0.375rem 0.5rem;
+      color: var(--popover-foreground);
+      box-shadow: var(--shadow-md);
+      font-size: var(--text-xs);
+      line-height: var(--text-xs--line-height);
+
+      [data-slot='title'] {
+        font-weight: 500;
+      }
+
+      [data-slot='description'] {
+        color: var(--muted-foreground);
+      }
+    }
+  }
+}
+/* Resizable */
+@layer loseta.components {
+  .resizable {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+
+    &[data-orientation='vertical'] {
+      flex-direction: column;
+    }
+
+    > .resizable-panel {
+      flex: var(--panel-size, 1) 1 0;
+      min-width: 0;
+      min-height: 0;
+      overflow: auto;
+    }
+
+    > [data-slot='handle'] {
+      position: relative;
+      display: flex;
+      flex: 0 0 0.5rem;
+      align-items: center;
+      justify-content: center;
+      touch-action: none;
+      cursor: col-resize;
+      outline-style: none;
+
+      @media (forced-colors: active) {
+        outline: 2px solid transparent;
+        outline-offset: 2px;
+      }
+
+      &::before {
+        width: 1px;
+        height: 100%;
+        content: '';
+      }
+    }
+
+    &[data-orientation='vertical'] > [data-slot='handle'] {
+      cursor: row-resize;
+
+      &::before {
+        width: 100%;
+        height: 1px;
+      }
+    }
+  }
+}
+/* Resizable */
+@layer loseta.style {
+  .resizable {
+    border-style: solid;
+    border-width: 1px;
+    border-color: var(--border);
+    border-radius: var(--radius-lg);
+    background-color: var(--background);
+
+    > .resizable-panel {
+      padding: 1rem;
+      font-size: var(--text-sm);
+      line-height: var(--text-sm--line-height);
+    }
+
+    > [data-slot='handle'] {
+      background-color: var(--background);
+
+      &::before {
+        background-color: var(--border);
+      }
+
+      &:hover::before,
+      &:focus-visible::before {
+        background-color: var(--ring);
+      }
+
+      &:focus-visible {
+        box-shadow: inset 0 0 0 1px var(--ring);
+      }
+    }
+  }
+}
+/* Sidebar */
+@layer loseta.components {
+  .sidebar {
+    display: flex;
+    flex-direction: column;
+    width: var(--sidebar-width, 16rem);
+    height: 100%;
+
+    > header,
+    > footer {
+      display: flex;
+      align-items: center;
+    }
+
+    > section {
+      flex: 1 1 auto;
+      overflow-y: auto;
+    }
+
+    nav ul {
+      margin: 0;
+      list-style-type: none;
+      padding: 0;
+    }
+
+    nav a {
+      display: flex;
+      width: 100%;
+      align-items: center;
+      gap: 0.5rem;
+      outline-style: none;
+
+      @media (forced-colors: active) {
+        outline: 2px solid transparent;
+        outline-offset: 2px;
+      }
+    }
+  }
+}
+/* Sidebar */
+@layer loseta.style {
+  .sidebar {
+    border-inline-end-style: solid;
+    border-inline-end-width: 1px;
+    border-inline-end-color: var(--sidebar-border);
+    background-color: var(--sidebar);
+    color: var(--sidebar-foreground);
+
+    > header,
+    > footer {
+      min-height: 3rem;
+      padding-inline: 0.75rem;
+    }
+
+    > header {
+      border-block-end-style: solid;
+      border-block-end-width: 1px;
+      border-block-end-color: var(--sidebar-border);
+    }
+
+    > footer {
+      border-block-start-style: solid;
+      border-block-start-width: 1px;
+      border-block-start-color: var(--sidebar-border);
+      font-size: var(--text-xs);
+      line-height: var(--text-xs--line-height);
+      color: var(--muted-foreground);
+    }
+
+    > section {
+      padding: 0.5rem;
+    }
+
+    [data-slot='brand'] {
+      font-size: var(--text-sm);
+      line-height: var(--text-sm--line-height);
+      font-weight: 600;
+    }
+
+    nav a {
+      height: 2rem;
+      border-radius: var(--radius-md);
+      padding-inline: 0.5rem;
+      font-size: var(--text-sm);
+      line-height: var(--text-sm--line-height);
+      transition-property: color, background-color, box-shadow;
+      transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+      transition-duration: 150ms;
+
+      &:hover {
+        background-color: var(--sidebar-accent);
+        color: var(--sidebar-accent-foreground);
+      }
+
+      &[aria-current='page'] {
+        background-color: var(--sidebar-accent);
+        color: var(--sidebar-accent-foreground);
+        font-weight: 500;
+      }
+
+      &:focus-visible {
+        box-shadow: 0 0 0 3px color-mix(in oklab, var(--sidebar-ring) 50%, transparent);
+      }
+    }
+
+    .collapsible > summary {
+      height: 2rem;
+      border-width: 0;
+      border-radius: var(--radius-md);
+      padding-inline: 0.5rem;
+      padding-block: 0;
+      font-size: var(--text-sm);
+      line-height: var(--text-sm--line-height);
+
+      &:hover {
+        background-color: var(--sidebar-accent);
+        color: var(--sidebar-accent-foreground);
+        text-decoration-line: none;
+      }
+
+      &:focus-visible {
+        border-color: transparent;
+        box-shadow: 0 0 0 3px color-mix(in oklab, var(--sidebar-ring) 50%, transparent);
+      }
+    }
+
+    .collapsible > :not(summary) {
+      padding-block-start: 0.25rem;
+      font-size: var(--text-sm);
+      line-height: var(--text-sm--line-height);
+    }
+
+    nav ul ul {
+      padding-inline-start: 0.75rem;
+    }
+  }
+}
+/* Toast */
+@layer loseta.components {
+  .toaster {
+    position: fixed;
+    inset-block-end: 0;
+    inset-inline-end: 0;
+    z-index: 50;
+    display: flex;
+    max-width: 100%;
+    flex-direction: column-reverse;
+    gap: 0.5rem;
+    padding: 1rem;
+    pointer-events: none;
+  }
+
+  .toast {
+    display: flex;
+    width: 22rem;
+    max-width: calc(100vw - 2rem);
+    align-items: flex-start;
+    gap: 0.75rem;
+    pointer-events: auto;
+
+    > section {
+      flex: 1 1 auto;
+      min-width: 0;
+    }
+
+    [data-slot='title'],
+    [data-slot='description'] {
+      display: block;
+    }
+
+    [data-slot='close'] {
+      display: inline-flex;
+      flex-shrink: 0;
+      align-items: center;
+      justify-content: center;
+      outline-style: none;
+
+      @media (forced-colors: active) {
+        outline: 2px solid transparent;
+        outline-offset: 2px;
+      }
+    }
+  }
+}
+/* Toast */
+@layer loseta.style {
+  .toast {
+    border-style: solid;
+    border-width: 1px;
+    border-color: var(--border);
+    border-radius: var(--radius-lg);
+    background-color: var(--popover);
+    padding: 0.75rem 1rem;
+    color: var(--popover-foreground);
+    box-shadow: var(--shadow-md);
+    font-size: var(--text-sm);
+    line-height: var(--text-sm--line-height);
+
+    [data-slot='title'] {
+      font-weight: 500;
+    }
+
+    [data-slot='description'] {
+      color: var(--muted-foreground);
+    }
+
+    [data-slot='close'] {
+      width: 1.5rem;
+      height: 1.5rem;
+      border-radius: min(var(--radius-md), 10px);
+      color: var(--muted-foreground);
+
+      &:hover {
+        background-color: var(--muted);
+        color: var(--foreground);
+      }
+
+      &:focus-visible {
+        box-shadow: 0 0 0 3px color-mix(in oklab, var(--ring) 50%, transparent);
+      }
+    }
+
+    &[data-variant='destructive'] {
+      border-color: light-dark(
+        color-mix(in oklab, var(--destructive) 40%, transparent),
+        color-mix(in oklab, var(--destructive) 50%, transparent)
+      );
+      background-color: light-dark(
+        color-mix(in oklab, var(--destructive) 10%, transparent),
+        color-mix(in oklab, var(--destructive) 20%, transparent)
+      );
+      color: var(--destructive);
+
+      [data-slot='description'] {
+        color: light-dark(
+          color-mix(in oklab, var(--destructive) 80%, var(--foreground)),
+          var(--destructive)
+        );
+      }
+
+      [data-slot='close'] {
+        color: var(--destructive);
+      }
+    }
+  }
+}

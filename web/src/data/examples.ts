@@ -1267,5 +1267,249 @@ Done in 2.8s using pnpm v10.18.0</code></pre>
   </div>
 </dialog>`
     }
+  ],
+  calendar: [
+    {
+      title: "Default",
+      html: `<div class="calendar">
+  <header>
+    <button type="button" aria-label="Previous month">${chevronLeft}</button>
+    <span data-slot="title" aria-live="polite">February 2026</span>
+    <button type="button" aria-label="Next month">${chevronRight}</button>
+  </header>
+  <table role="grid">
+    <caption class="sr-only">February 2026</caption>
+    <thead>
+      <tr>
+        <th scope="col"><abbr title="Sunday">Su</abbr></th>
+        <th scope="col"><abbr title="Monday">Mo</abbr></th>
+        <th scope="col"><abbr title="Tuesday">Tu</abbr></th>
+        <th scope="col"><abbr title="Wednesday">We</abbr></th>
+        <th scope="col"><abbr title="Thursday">Th</abbr></th>
+        <th scope="col"><abbr title="Friday">Fr</abbr></th>
+        <th scope="col"><abbr title="Saturday">Sa</abbr></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td role="gridcell" aria-selected="false"><button type="button" aria-label="February 1, 2026">1</button></td>
+        <td role="gridcell" aria-selected="false"><button type="button" aria-label="February 2, 2026">2</button></td>
+        <td role="gridcell" aria-selected="false"><button type="button" aria-label="February 3, 2026">3</button></td>
+        <td role="gridcell" aria-selected="false"><button type="button" aria-label="February 4, 2026">4</button></td>
+        <td role="gridcell" aria-selected="false"><button type="button" aria-label="February 5, 2026">5</button></td>
+        <td role="gridcell" aria-selected="false"><button type="button" aria-label="February 6, 2026">6</button></td>
+        <td role="gridcell" aria-selected="false"><button type="button" aria-label="February 7, 2026">7</button></td>
+      </tr>
+      <tr>
+        <td role="gridcell" aria-selected="false"><button type="button" aria-label="February 8, 2026">8</button></td>
+        <td role="gridcell" aria-selected="false"><button type="button" aria-label="February 9, 2026">9</button></td>
+        <td role="gridcell" aria-selected="false"><button type="button" aria-label="February 10, 2026">10</button></td>
+        <td role="gridcell" aria-selected="false"><button type="button" aria-label="February 11, 2026">11</button></td>
+        <td role="gridcell" aria-selected="false"><button type="button" aria-label="February 12, 2026">12</button></td>
+        <td role="gridcell" aria-selected="false"><button type="button" aria-label="February 13, 2026">13</button></td>
+        <td role="gridcell" aria-selected="true"><button type="button" aria-label="February 14, 2026">14</button></td>
+      </tr>
+      <tr>
+        <td role="gridcell" aria-selected="false"><button type="button" aria-label="February 15, 2026">15</button></td>
+        <td role="gridcell" aria-selected="false"><button type="button" aria-label="February 16, 2026">16</button></td>
+        <td role="gridcell" aria-selected="false"><button type="button" aria-label="February 17, 2026">17</button></td>
+        <td role="gridcell" aria-selected="false"><button type="button" aria-label="February 18, 2026">18</button></td>
+        <td role="gridcell" aria-selected="false"><button type="button" aria-label="February 19, 2026">19</button></td>
+        <td role="gridcell" aria-selected="false"><button type="button" aria-label="February 20, 2026">20</button></td>
+        <td role="gridcell" aria-selected="false"><button type="button" aria-label="February 21, 2026">21</button></td>
+      </tr>
+      <tr>
+        <td role="gridcell" aria-selected="false"><button type="button" aria-label="February 22, 2026">22</button></td>
+        <td role="gridcell" aria-selected="false"><button type="button" aria-label="February 23, 2026">23</button></td>
+        <td role="gridcell" aria-selected="false"><button type="button" aria-label="February 24, 2026">24</button></td>
+        <td role="gridcell" aria-selected="false"><button type="button" aria-label="February 25, 2026">25</button></td>
+        <td role="gridcell" aria-selected="false"><button type="button" aria-label="February 26, 2026">26</button></td>
+        <td role="gridcell" aria-selected="false"><button type="button" aria-label="February 27, 2026">27</button></td>
+        <td role="gridcell" aria-selected="false"><button type="button" aria-label="February 28, 2026">28</button></td>
+      </tr>
+    </tbody>
+  </table>
+</div>`
+    }
+  ],
+  carousel: [
+    {
+      title: "Default",
+      html: `<section class="carousel" data-orientation="horizontal" aria-roledescription="carousel" aria-label="Featured components" data-demo="carousel">
+  <div class="carousel-viewport" tabindex="0">
+    <div class="carousel-track">
+      <div class="carousel-item" role="group" aria-roledescription="slide" aria-label="1 of 3">
+        <div class="card">
+          <header>
+            <h3 data-slot="title">Accordion</h3>
+            <p data-slot="description">Disclosure patterns</p>
+          </header>
+          <section>
+            <p>Native details and summary with exclusive groups.</p>
+          </section>
+        </div>
+      </div>
+      <div class="carousel-item" role="group" aria-roledescription="slide" aria-label="2 of 3">
+        <div class="card">
+          <header>
+            <h3 data-slot="title">Avatar</h3>
+            <p data-slot="description">Identity at a glance</p>
+          </header>
+          <section>
+            <p>Images, fallback initials, badges and overlapping groups.</p>
+          </section>
+        </div>
+      </div>
+      <div class="carousel-item" role="group" aria-roledescription="slide" aria-label="3 of 3">
+        <div class="card">
+          <header>
+            <h3 data-slot="title">Breadcrumb</h3>
+            <p data-slot="description">Navigation context</p>
+          </header>
+          <section>
+            <p>Ordered links with a current page and collapsed paths.</p>
+          </section>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="carousel-controls">
+    <button type="button" class="carousel-button" data-demo-carousel-prev aria-label="Previous slide">${chevronLeft}</button>
+    <div class="carousel-indicators" role="group" aria-label="Slides">
+      <button type="button" class="carousel-indicator" aria-label="Go to slide 1" aria-current="true" data-demo-carousel-go="0"></button>
+      <button type="button" class="carousel-indicator" aria-label="Go to slide 2" data-demo-carousel-go="1"></button>
+      <button type="button" class="carousel-indicator" aria-label="Go to slide 3" data-demo-carousel-go="2"></button>
+    </div>
+    <button type="button" class="carousel-button" data-demo-carousel-next aria-label="Next slide">${chevronRight}</button>
+  </div>
+</section>`
+    }
+  ],
+  chart: [
+    {
+      title: "Default",
+      html: `<div class="card">
+  <header>
+    <h3 data-slot="title">Monthly revenue</h3>
+    <p data-slot="description">January to June 2026</p>
+  </header>
+  <section>
+    <div class="chart">
+      <div data-slot="plot">
+        <svg viewBox="0 0 320 160" role="img" aria-label="Revenue and costs by month">
+          <g style="fill: var(--chart-1)">
+            <rect x="20" y="80" width="16" height="60" rx="4" />
+            <rect x="68" y="50" width="16" height="90" rx="4" />
+            <rect x="116" y="70" width="16" height="70" rx="4" />
+            <rect x="164" y="30" width="16" height="110" rx="4" />
+            <rect x="212" y="60" width="16" height="80" rx="4" />
+            <rect x="260" y="40" width="16" height="100" rx="4" />
+          </g>
+          <g style="fill: var(--chart-2)">
+            <rect x="40" y="110" width="16" height="30" rx="4" />
+            <rect x="88" y="100" width="16" height="40" rx="4" />
+            <rect x="136" y="105" width="16" height="35" rx="4" />
+            <rect x="184" y="90" width="16" height="50" rx="4" />
+            <rect x="232" y="95" width="16" height="45" rx="4" />
+            <rect x="280" y="85" width="16" height="55" rx="4" />
+          </g>
+        </svg>
+        <div data-slot="tooltip" style="inset-block-start: 2.5rem; inset-inline-start: 38%">
+          <span data-slot="title">March</span>
+          <span data-slot="description">$12,400 revenue</span>
+        </div>
+      </div>
+      <div data-slot="legend">
+        <span data-slot="legend-item" data-series="1"><span data-slot="swatch"></span>Revenue</span>
+        <span data-slot="legend-item" data-series="2"><span data-slot="swatch"></span>Costs</span>
+      </div>
+    </div>
+  </section>
+</div>`
+    }
+  ],
+  resizable: [
+    {
+      title: "Horizontal",
+      html: `<div class="resizable" data-orientation="horizontal" style="height: 12rem">
+  <div class="resizable-panel">
+    <p><strong>Panel one</strong></p>
+    <p>Drag the handle or use the arrow keys in your application.</p>
+  </div>
+  <div data-slot="handle" role="separator" aria-orientation="vertical" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" tabindex="0"></div>
+  <div class="resizable-panel" style="--panel-size: 2">
+    <p><strong>Panel two</strong></p>
+    <p>Set --panel-size to change the initial flex ratio.</p>
+  </div>
+</div>`
+    },
+    {
+      title: "Vertical",
+      html: `<div class="resizable" data-orientation="vertical" style="height: 14rem">
+  <div class="resizable-panel">
+    <p><strong>Top panel</strong></p>
+  </div>
+  <div data-slot="handle" role="separator" aria-orientation="horizontal" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" tabindex="0"></div>
+  <div class="resizable-panel">
+    <p><strong>Bottom panel</strong></p>
+  </div>
+</div>`
+    }
+  ],
+  sidebar: [
+    {
+      title: "Default",
+      html: `<aside class="sidebar" aria-label="Sidebar" style="height: 22rem">
+  <header>
+    <span data-slot="brand">loseta</span>
+  </header>
+  <section>
+    <nav aria-label="Documentation">
+      <ul>
+        <li><a href="#" aria-current="page">Overview</a></li>
+        <li><a href="#">Installation</a></li>
+        <li>
+          <details class="collapsible" open>
+            <summary>
+              Components
+              ${chevronDown}
+            </summary>
+            <ul>
+              <li><a href="#">Button</a></li>
+              <li><a href="#">Card</a></li>
+              <li><a href="#">Field</a></li>
+            </ul>
+          </details>
+        </li>
+        <li><a href="#">Styles</a></li>
+      </ul>
+    </nav>
+  </section>
+  <footer>
+    <span>v0.9.0</span>
+  </footer>
+</aside>`
+    }
+  ],
+  toast: [
+    {
+      title: "Default",
+      html: `<div style="display: flex; flex-direction: column; gap: 0.5rem; max-width: 22rem">
+  <div class="toast" role="status">
+    <section>
+      <p data-slot="title">Saved</p>
+      <p data-slot="description">Your changes have been saved.</p>
+    </section>
+    <button type="button" class="btn" data-variant="ghost" data-size="icon-xs" data-slot="close" data-demo-toast-close aria-label="Dismiss">×</button>
+  </div>
+  <div class="toast" data-variant="destructive" role="alert">
+    <section>
+      <p data-slot="title">Upload failed</p>
+      <p data-slot="description">The file is larger than 10 MB.</p>
+    </section>
+    <button type="button" class="btn" data-variant="ghost" data-size="icon-xs" data-slot="close" data-demo-toast-close aria-label="Dismiss">×</button>
+  </div>
+</div>`
+    }
   ]
 };

@@ -123,6 +123,11 @@ _Avoid_: dropdown, picker, menu
 A selectable choice inside a listbox or menu.
 _Avoid_: item, entry
 
+**Series**:
+A data series in a chart, identified by `data-series` and colored with a
+`--chart-*` token.
+_Avoid_: line, dataset, metric
+
 **Variant**:
 A named visual alternative of a component.
 _Avoid_: type, kind, style, modifier

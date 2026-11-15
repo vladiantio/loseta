@@ -16,6 +16,7 @@ const groupBy: Record<string, ComponentGroup> = {
   breadcrumb: "Navigation",
   button: "Forms",
   "button-group": "Forms",
+  calendar: "Forms",
   checkbox: "Forms",
   collapsible: "Disclosure",
   combobox: "Forms",
@@ -34,18 +35,23 @@ const groupBy: Record<string, ComponentGroup> = {
   pagination: "Navigation",
   progress: "Feedback",
   radio: "Forms",
+  resizable: "Surfaces",
   "scroll-area": "Surfaces",
   select: "Forms",
   separator: "Surfaces",
+  sidebar: "Navigation",
   slider: "Forms",
   spinner: "Feedback",
   switch: "Forms",
   textarea: "Forms",
+  toast: "Feedback",
   toggle: "Forms",
   "toggle-group": "Forms",
   alert: "Surfaces",
   badge: "Surfaces",
   card: "Surfaces",
+  carousel: "Surfaces",
+  chart: "Surfaces",
   "code-block": "Surfaces",
   empty: "Surfaces",
   item: "Surfaces",
@@ -93,6 +99,12 @@ const notesBy: Record<string, string> = {
     "Use <hr class=\"separator\"> for a semantic horizontal separator. For vertical use <div role=\"separator\" data-orientation=\"vertical\">; decorative separators use role=\"presentation\" or aria-hidden.",
   "context-menu":
     "CSS cannot follow the pointer. The consumer sets --context-x and --context-y on the panel (physical left/top, even in RTL), toggles aria-hidden and manages roving focus. Items use role=\"menu\" and role=\"menuitem\".",
+  calendar:
+    "A native table month grid. Day cells use aria-selected; day buttons use aria-current=\"date\" and aria-disabled. Month navigation, selection and keyboard grid movement are consumer JavaScript.",
+  carousel:
+    "A scroll-snap viewport and track. Items use scroll-snap-align. Consumers own scrolling, aria-current on indicators, aria-hidden/inert on offscreen slides and any autoplay.",
+  chart:
+    "CSS chrome only: container, plot, legend and tooltip. data-series=\"1\" through \"5\" map to --chart-1 through --chart-5; consumers render the SVG or canvas and position the tooltip.",
   collapsible:
     "Native <details> with <summary> as the trigger and content directly after it. Use [open] and inert; no JavaScript is required. For exclusive groups, use several details with the same name.",
   combobox:
@@ -109,6 +121,10 @@ const notesBy: Record<string, string> = {
     "Put .scroll-area on the scroll container and size it with your own layout or inline styles. Native scrollbars follow the --scrollbar-* tokens; data-orientation limits the axis and data-size=\"sm\" narrows the scrollbar. A scrollable region needs tabindex=\"0\" and an accessible name.",
   select:
     "A button with role=\"combobox\", aria-expanded and aria-controls. The panel is a [data-popover] containing a [role=\"listbox\"]. Single-select only. Open/close, selection and keyboard navigation are consumer JavaScript; update [data-slot=\"value\"] and remove data-placeholder when a value is selected.",
+  resizable:
+    "Flex layout with panels sized by --panel-size flex-grow. Handles use role=\"separator\" with aria-orientation and aria-valuenow/min/max; drag and keyboard resizing are consumer JavaScript.",
+  sidebar:
+    "Composition, not a stateful widget. Use an aside with header/section/footer; active links use aria-current=\"page\"; groups use collapsible; the mobile composition uses sheet.",
   slider:
     "Native input[type=\"range\"]. accent-color draws the filled track and thumb; a custom thumb needs appearance:none and consumer-managed fill. data-size sm/default/lg changes the hit area.",
   "hover-card":
@@ -133,6 +149,8 @@ const notesBy: Record<string, string> = {
   table: "Use aria-selected=\"true\" on selectable rows.",
   input: "Use aria-invalid=\"true\" for the invalid state.",
   textarea: "Use aria-invalid=\"true\" for the invalid state.",
+  toast:
+    "Wrap toasts in .toaster for fixed positioning. Items use role=\"status\" or role=\"alert\"; timing, dismissal and Sonner integration are consumer JavaScript.",
   "native-select":
     ".native-select is the native select root. The custom Select is experimental and is not part of v1.",
   switch: "Use input type=\"checkbox\" role=\"switch\" together with the .switch class.",

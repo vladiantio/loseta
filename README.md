@@ -47,12 +47,13 @@ button, button-group, card, checkbox, code-block, dialog, dropdown-menu, empty,
 field, input, item, kbd, label, native-select, popover, radio, skeleton,
 switch, table, tabs, textarea and tooltip.
 
-Twenty-four experimental components ship alongside them: accordion,
-aspect-ratio, avatar, breadcrumb, collapsible, combobox, command, context-menu,
-drawer, hover-card, input-group, input-otp, menubar, navigation-menu,
-pagination, progress, scroll-area, select, separator, sheet, slider, spinner,
-toggle and toggle-group. They are Nova-only, install with `--experimental` and
-stay outside the v1 compatibility contract until they are promoted.
+Thirty experimental components ship alongside them: accordion, aspect-ratio,
+avatar, breadcrumb, calendar, carousel, chart, collapsible, combobox, command,
+context-menu, drawer, hover-card, input-group, input-otp, menubar,
+navigation-menu, pagination, progress, resizable, scroll-area, select,
+separator, sheet, sidebar, slider, spinner, toast, toggle and toggle-group.
+They are Nova-only, install with `--experimental` and stay outside the v1
+compatibility contract until they are promoted.
 
 ## Repository
 

@@ -1,5 +1,25 @@
 # Changelog
 
+## 0.9.0 - 2026-11-15
+
+### Added
+
+- Six experimental components: calendar, carousel, chart, resizable, sidebar
+  and toast. They replace the chart, sidebar and toast drafts.
+- Chart consumes `--chart-1` through `--chart-5` through `data-series`.
+- Sidebar consumes `--sidebar-*`; toast and the remaining overlays use the
+  existing popover, border and status tokens.
+- Docs-only carousel scrolling and toast dismissal. The registry remains
+  CSS-only.
+
+### Notes
+
+- Experimental components remain outside the v1 compatibility contract and
+  ship only the Nova style.
+- Calendar navigation, carousel scrolling/autoplay, chart rendering, resizable
+  dragging and toast timing are consumer JavaScript concerns.
+- `sonner` remains a documentation compatibility note, not a registry item.
+
 ## 0.8.0 - 2026-11-15
 
 ### Added

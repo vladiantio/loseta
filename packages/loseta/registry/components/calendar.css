@@ -1,0 +1,57 @@
+/* Calendar */
+@layer loseta.components {
+  .calendar {
+    display: flex;
+    flex-direction: column;
+
+    > header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    > header > button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      outline-style: none;
+
+      @media (forced-colors: active) {
+        outline: 2px solid transparent;
+        outline-offset: 2px;
+      }
+    }
+
+    table {
+      width: 100%;
+      table-layout: fixed;
+      border-collapse: collapse;
+    }
+
+    th {
+      font-weight: 400;
+      text-align: center;
+    }
+
+    td {
+      padding: 0;
+      text-align: center;
+    }
+
+    td > button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      outline-style: none;
+
+      @media (forced-colors: active) {
+        outline: 2px solid transparent;
+        outline-offset: 2px;
+      }
+
+      &[aria-disabled='true'] {
+        pointer-events: none;
+      }
+    }
+  }
+}

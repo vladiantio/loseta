@@ -139,6 +139,55 @@ const onClick = async (event: MouseEvent): Promise<void> => {
     return;
   }
 
+  const carouselButton = target.closest(
+    "[data-demo-carousel-prev], [data-demo-carousel-next]"
+  );
+  if (carouselButton) {
+    const carousel = carouselButton.closest(".carousel");
+    const viewport = carousel?.querySelector<HTMLElement>(".carousel-viewport");
+    if (viewport) {
+      const vertical = carousel?.getAttribute("data-orientation") === "vertical";
+      const direction = carouselButton.hasAttribute("data-demo-carousel-next") ? 1 : -1;
+      viewport.scrollBy({
+        left: vertical ? 0 : direction * viewport.clientWidth,
+        top: vertical ? direction * viewport.clientHeight : 0,
+        behavior: "smooth"
+      });
+    }
+    return;
+  }
+
+  const carouselGo = target.closest("[data-demo-carousel-go]");
+  if (carouselGo) {
+    const carousel = carouselGo.closest(".carousel");
+    const viewport = carousel?.querySelector<HTMLElement>(".carousel-viewport");
+    const items = viewport?.querySelectorAll<HTMLElement>(".carousel-item");
+    const index = Number(carouselGo.getAttribute("data-demo-carousel-go"));
+    const item = items?.[index];
+    if (viewport && item) {
+      viewport.scrollTo({
+        left: item.offsetLeft,
+        top: item.offsetTop,
+        behavior: "smooth"
+      });
+      carousel
+        ?.querySelectorAll("[data-demo-carousel-go]")
+        .forEach((dot) =>
+          dot.setAttribute(
+            "aria-current",
+            dot === carouselGo ? "true" : "false"
+          )
+        );
+    }
+    return;
+  }
+
+  const toastClose = target.closest("[data-demo-toast-close]");
+  if (toastClose) {
+    toastClose.closest(".toast")?.remove();
+    return;
+  }
+
   const clear = target.closest("[data-demo-clear]");
   if (clear) {
     const root = clear.closest(".combobox");

@@ -601,6 +601,41 @@ test("command filters, shows an empty state and closes on selection", async ({ p
   await expect(dialog).not.toHaveAttribute("open", "");
 });
 
+test("calendar exposes a grid with a selected day", async ({ page }) => {
+  await page.goto("/docs/components/calendar");
+
+  const grid = page.getByRole("grid");
+  await expect(grid).toBeVisible();
+  await expect(grid.locator('td[aria-selected="true"]')).toHaveCount(1);
+  await expect(page.getByRole("button", { name: "February 14, 2026" })).toBeVisible();
+});
+
+test("carousel controls scroll the viewport and update indicators", async ({ page }) => {
+  await page.goto("/docs/components/carousel");
+  const viewport = page.locator(".carousel-viewport");
+  const scrollLeft = () =>
+    viewport.evaluate((element) => element.scrollLeft);
+
+  expect(await scrollLeft()).toBe(0);
+
+  await page.getByRole("button", { name: "Next slide" }).click();
+  await expect.poll(scrollLeft).toBeGreaterThan(0);
+
+  await page.getByRole("button", { name: "Go to slide 3" }).click();
+  await expect(
+    page.getByRole("button", { name: "Go to slide 3" })
+  ).toHaveAttribute("aria-current", "true");
+});
+
+test("toast dismissal removes the item", async ({ page }) => {
+  await page.goto("/docs/components/toast");
+  const toasts = page.locator(".toast");
+
+  await expect(toasts).toHaveCount(2);
+  await toasts.first().getByRole("button", { name: "Dismiss" }).click();
+  await expect(toasts).toHaveCount(1);
+});
+
 test("component preview reveals cleaned example code", async ({ page }) => {
   await page.goto("/docs/components/dialog");
   const preview = page.locator("[data-component-preview]").first();

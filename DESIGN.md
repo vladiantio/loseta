@@ -8,7 +8,7 @@ It is not an implementation guide. The installed CSS is the reference
 implementation: if this document and the registry disagree,
 [`packages/loseta/registry/tokens.css`](packages/loseta/registry/tokens.css)
 and [`registry.json`](packages/loseta/registry/registry.json) win, and this
-document must be corrected. The baseline covers registry version `0.8.0`.
+document must be corrected. The baseline covers registry version `0.9.0`.
 
 Vocabulary is defined in [`GLOSSARY.md`](GLOSSARY.md).
 
@@ -41,7 +41,7 @@ Vocabulary is defined in [`GLOSSARY.md`](GLOSSARY.md).
 
 ## Scope
 
-The registry contains 25 stable components, 24 experimental components, four
+The registry contains 25 stable components, 30 experimental components, four
 primitives and four foundations:
 
 - **Stable components**: alert, alert-dialog, badge, button, button-group,
@@ -49,11 +49,12 @@ primitives and four foundations:
   kbd, label, native-select, popover, radio, skeleton, switch, table, tabs,
   textarea and tooltip.
 - **Experimental components**: accordion, aspect-ratio, avatar, breadcrumb,
-  collapsible, combobox, command, context-menu, drawer, hover-card, input-group,
-  input-otp, menubar, navigation-menu, pagination, progress, scroll-area,
-  select, separator, sheet, slider, spinner, toggle and toggle-group. They are
-  installable by name with `loseta add <name> --experimental`, ship exactly one
-  Nova style file and are explicitly outside the v1 compatibility contract.
+  calendar, carousel, chart, collapsible, combobox, command, context-menu,
+  drawer, hover-card, input-group, input-otp, menubar, navigation-menu,
+  pagination, progress, resizable, scroll-area, select, separator, sheet,
+  sidebar, slider, spinner, toast, toggle and toggle-group. They are installable
+  by name with `loseta add <name> --experimental`, ship exactly one Nova style
+  file and are explicitly outside the v1 compatibility contract.
 - **4 primitives**: `dialog-shell`, `listbox`, `menu` and `popover-primitive`.
   `listbox` is experimental and Nova-only until `select`, `combobox` and
   `command` are promoted; the other primitives are stable. Primitives are
@@ -135,7 +136,8 @@ for values; this table defines intent.
 | `--border` | Separators, card outlines and outline-variant borders. |
 | `--input` | Form-control borders and subtle control fills in the dark scheme. |
 | `--ring` | Focus border and focus shadow. |
-| `--chart-*`, `--sidebar-*` | Reserved token families shipped with the style; v1 components do not consume them. |
+| `--chart-*` | Chart series colors, mapped by `data-series` on Chart. |
+| `--sidebar-*` | Sidebar surface, accent, border, width and focus ring. |
 | `--scrollbar-*` | Scroll Area track, thumb, width and radius. |
 
 Transparency is derived with `color-mix(in oklab, var(--token) N%, transparent)`
@@ -205,8 +207,8 @@ fixed 4px radius. Code Block uses `--radius-xl`; its `sm` size uses
 - UI text defaults to `--text-sm` (`0.875rem`), with its paired line height.
   Cards, alerts, items, tables, menus, listbox options, tabs, code blocks,
   accordion content, avatar fallbacks, breadcrumb, pagination, hover cards,
-  sheets, drawers, select triggers and command bodies follow it. Menubar and
-  navigation-menu triggers use it too.
+  sheets, drawers, select triggers, sidebar links, toast items and command
+  bodies follow it. Menubar and navigation-menu triggers use it too.
 - Inputs and textareas use `--text-base` (`1rem`) below `48rem` and `--text-sm`
   at and above it. Combobox inputs follow the input scale; `sm` select triggers
   use `--text-xs`.
@@ -215,8 +217,8 @@ fixed 4px radius. Code Block uses `--radius-xl`; its `sm` size uses
   `--text-sm`. `lg` avatar fallbacks and sheet/drawer titles use `--text-base`.
 - Badges, kbd, tooltips, `sm` toggles and `xs` buttons use `--text-xs`; the
   `sm` button is a deliberate `0.8rem` exception. Menu headings, listbox group
-  labels, command shortcuts and navigation-menu descriptions also use
-  `--text-xs`.
+  labels, command shortcuts, chart legends and tooltips, navigation-menu
+  descriptions and sidebar footers also use `--text-xs`.
 - Input group addons use `--text-sm`; the inner input and textarea controls
   keep the input type scale. OTP inputs use `--text-lg` by default,
   `--text-base` at `sm` and `--text-xl` at `lg`.
@@ -237,9 +239,10 @@ fixed 4px radius. Code Block uses `--radius-xl`; its `sm` size uses
   icon is `1.5rem`. Code Block title icons are `1rem`; its copy and wrap
   controls use the `icon-xs` button size (`0.75rem` icons). Accordion,
   collapsible and pagination icons are `1rem`; input-group addon icons are
-  `1rem`; select chevrons and listbox indicators are `1rem`; breadcrumb
-  separators are `0.875rem` and avatar badges use `0.5rem` (`sm` badges hide
-  the icon).
+  `1rem`; select chevrons, listbox indicators, calendar navigation and carousel
+  controls are `1rem`; breadcrumb separators are `0.875rem` and avatar badges
+  use `0.5rem` (`sm` badges hide the icon). Toast close buttons use the
+  `icon-xs` size.
 
 ### Spacing
 
@@ -263,6 +266,9 @@ file they own, not by expecting a spacing API.
 | Empty | Dashed `--border` outline, no fill. |
 | Accordion | Bottom `--border` divider between items; summary hover underline. |
 | Avatar | `--muted` fallback, `--primary` badge and a 1px `--border` ring. |
+| Calendar | Selected day uses `--primary` / `--primary-foreground`; today uses an inset `--ring`. |
+| Carousel | Controls use `--border`; active indicators use `--primary`. |
+| Chart | Legend swatches use `--chart-*`; tooltips use the popover surface. |
 | Context menu | `--popover` surface, foreground-at-10% ring and `--shadow-md`. |
 | Hover card | `--popover` surface through the popover primitive. |
 | Input group, OTP | `--input` border, `--ring` focus-within/focus and destructive invalid ring. |
@@ -271,10 +277,13 @@ file they own, not by expecting a spacing API.
 | Menubar | `--background` bar with a 1px `--border` outline and `--shadow-xs`. |
 | Navigation menu | `--popover` panels through the popover primitive. |
 | Progress | `--primary` at 20% for the track and full `--primary` for the indicator. |
+| Resizable | `--border` outline and handle line; `--ring` on handle focus. |
 | Scroll area | Native scrollbars from `--scrollbar-thumb`, `--scrollbar-track` and `--scrollbar-width`. |
 | Select, combobox | `--input` border; `--ring` focus and destructive invalid ring. |
 | Sheet, drawer | `--background` panel, `--border` side edge on sheets and `--shadow-lg`. |
+| Sidebar | `--sidebar`, `--sidebar-foreground`, `--sidebar-accent`, `--sidebar-border` and `--sidebar-ring`. |
 | Slider | Native track and thumb colored by `accent-color: --primary`. |
+| Toast | Popover surface with `--border`; destructive uses a destructive tint. |
 | Toggle | Transparent or outline surface; pressed uses `--accent` / `--accent-foreground`. |
 | Pagination | Current page uses `--background` with a `--border` outline; links compose with button. |
 
@@ -327,10 +336,16 @@ visible.
 | Menubar trigger | `1.75rem` high | — |
 | Navigation trigger | `2rem` high | — |
 | Progress | `0.5rem` high | — |
+| Resizable | Consumer-sized | Panels use `--panel-size` |
 | Scroll area | Consumer-sized | `sm` narrower scrollbar |
 | Select trigger | `2rem` high | `sm` 1.75rem |
 | Sheet | `24rem` wide | `sm` 20rem, `lg` 28rem |
+| Sidebar | `16rem` wide | `--sidebar-width` |
 | Slider | `1.25rem` hit area | `sm` 1rem, `lg` 1.5rem |
+| Toast | `22rem` wide | `max-width: calc(100vw - 2rem)` |
+| Calendar | `18rem` wide | — |
+| Carousel | Consumer-sized | `data-orientation` sets the axis |
+| Chart plot | `16 / 9` aspect ratio | Consumer can override |
 | Separator | `1px` | Vertical: `1px` wide and stretches |
 | Spinner | `1rem` square | `sm` 0.75rem, `lg` 1.5rem |
 | Toggle | `2rem` high, `2rem` minimum width | `sm` 1.75rem, `lg` 2.25rem |
@@ -386,7 +401,10 @@ on an RTL page; its header follows the page direction.
 | Breadcrumb | `.breadcrumb` | `nav` with `ol`/`li`, links and a current `span`; separators are `li[aria-hidden="true"]`; `[data-slot="ellipsis"]` for collapsed paths. | `aria-current="page"` on the current item |
 | Button | `.btn` | Text and optional SVG; `data-icon="inline-start|inline-end"` marks inline icons for padding. | `data-variant="default|primary|secondary|outline|destructive|ghost|link"`; `data-size="default|xs|sm|lg|icon|icon-xs|icon-sm|icon-lg"` |
 | Button group | `.btn-group` | Buttons, inputs, dropdown/popover wrappers, `span`/`label`/`output` and `hr[role="separator"]`. | `data-orientation="horizontal|vertical"` |
+| Calendar | `.calendar` | Header with `[data-slot="title"]` and nav buttons; native `<table role="grid">` with column headers and `td[role="gridcell"]` day cells. | Cell `aria-selected`; day `aria-current="date"` and `aria-disabled` |
 | Card | `.card` | `header` with title/description/action, `section`, `footer`, optional leading/trailing image. | `data-size="default|sm"`; `data-separator="bottom"` on the header |
+| Carousel | `.carousel` | `.carousel-viewport`, `.carousel-track`, `.carousel-item` slides, `.carousel-controls`, `.carousel-button` and `.carousel-indicator`. | `data-orientation="horizontal|vertical"`; indicator `aria-current` |
+| Chart | `.chart` | `[data-slot="plot"]`, legend with `[data-slot="legend-item"]`/`[data-slot="swatch"]` and `[data-slot="tooltip"]`. | `data-series="1"`–`"5"` |
 | Checkbox | `.checkbox` | Native `input[type="checkbox"]`; must not carry `role="switch"`. | — |
 | Code Block | `.code-block` | Optional `header` with `[data-slot="title"]` and `[data-slot="actions"]`; required `pre` containing `code`; optional `footer`; line parts `[data-slot="line"]` wrapping `[data-slot="line-content"]`. | `data-size="default|sm"`; `data-variant="default|destructive"`; `pre` `data-line-numbers`, `data-wrap`, `--line-start`; line `data-variant="added|removed|highlighted"` |
 | Collapsible | `.collapsible` | Native `<details>` with a `<summary>` trigger and content directly after `summary`. | `[open]`; `inert` for disabled items |
@@ -412,10 +430,12 @@ on an RTL page; its header follows the page direction.
 | Popover | `.popover` | Trigger and `[data-popover]` panel with optional header, title and description. | Placement attributes |
 | Progress | `.progress` | Native `<progress>` with fallback text. | `value`/`max`; omit `value` for indeterminate |
 | Radio | `.radio` | Native `input[type="radio"]`, normally inside `role="radiogroup"`. | — |
+| Resizable | `.resizable` | `.resizable-panel` panes and `[data-slot="handle"]` separators. | `data-orientation="horizontal|vertical"`; panel `--panel-size`; handle `aria-valuenow/min/max` |
 | Scroll area | `.scroll-area` | Scroll container; the consumer sets dimensions and content. | `data-orientation="horizontal|vertical"`; `data-size="default|sm"` |
 | Select | `.select` | Trigger with `role="combobox"`, `[data-slot="value"]` and a `[data-popover] > [role="listbox"]` panel. | `data-size="default|sm"`; `data-placeholder` on the value |
 | Separator | `.separator` | `<hr>` or `[role="separator"]`. | `data-orientation="horizontal|vertical"`; `aria-orientation` is also recognized |
 | Sheet | `.sheet` | Native `<dialog>` with `data-side` and a panel containing `header`, `section` and `footer`. | `data-side="inline-start|inline-end"`; `data-size="default|sm|lg"` |
+| Sidebar | `.sidebar` | `<aside>` with `header`, `section` and `footer`; nav lists and collapsible groups. | `aria-current="page"` on links; `data-slot="brand"` |
 | Skeleton | `.skeleton` | No required children; the consumer sets dimensions. | — |
 | Slider | `.slider` | Native `<input type="range">`. | `data-size="default|sm|lg"` |
 | Spinner | `.spinner` | Empty span; the CSS draws the ring. | `data-size="default|sm|lg"`; `role="status"` plus a label in markup |
@@ -423,6 +443,7 @@ on an RTL page; its header follows the page direction.
 | Table | `.table-container`, `.table` | `caption`, `thead`, `tbody`, `tfoot`, `tr`, `th`, `td`; checkbox cells use `role="checkbox"`. | Row `aria-selected="true"` |
 | Tabs | `.tabs` | `[role="tablist"]`, `[role="tab"]`, `[role="tabpanel"]`. | Tablist `data-variant="default|line"`; `aria-orientation="horizontal|vertical"` |
 | Textarea | `.textarea` | Native `<textarea>`. | — |
+| Toast | `.toaster`, `.toast` | Fixed stack with `.toast` items; a `section` with title/description and a close button. | `data-variant="default|destructive"`; `role="status"` or `role="alert"`; `[data-slot="close"]` |
 | Toggle | `.toggle` | Native `<button type="button">`; text and optional SVG. | `aria-pressed="true|false"`; `data-variant="default|outline"`; `data-size="default|sm|lg"` |
 | Toggle group | `.toggle-group` | `role="group"` container of `.toggle` children. | `data-orientation="horizontal|vertical"`; `data-spacing="default|joined"`; group `data-variant`/`data-size` apply to children without their own |
 | Tooltip | `.tooltip[data-tooltip]` | Pseudo-element content from `data-tooltip`; optional arrow. | `data-side`, `data-align`, `data-arrow` |
@@ -439,8 +460,8 @@ and `.card-action`; prefer the `data-slot` names in new markup.
 
 The public slot vocabulary is shared across components:
 
-- `data-slot="title"` — alert, card, code block, dialog, alert-dialog, popover.
-- `data-slot="description"` — alert, card, dialog, alert-dialog, popover.
+- `data-slot="title"` — alert, calendar, card, chart tooltip, code block, dialog, alert-dialog, popover.
+- `data-slot="description"` — alert, card, chart tooltip, dialog, alert-dialog, popover.
 - `data-slot="action"` — card.
 - `data-slot="actions"` — code block.
 - `data-slot="line"`, `data-slot="line-content"` — code block.
@@ -451,12 +472,15 @@ The public slot vocabulary is shared across components:
 - `data-slot="fallback"`, `data-slot="badge"` — avatar.
 - `data-slot="ellipsis"` — breadcrumb and pagination.
 - `data-slot="label"` — pagination previous/next text and listbox group labels.
-- `data-slot="handle"` — drawer.
+- `data-slot="handle"` — drawer and resizable.
 - `data-slot="title"`, `data-slot="description"` — navigation menu panels.
 - `data-slot="addon"` — input group.
 - `data-slot="text"` — select, combobox and command option labels.
 - `data-slot="empty"` — listbox and command empty state.
 - `data-slot="clear"` — combobox clear button.
+- `data-slot="plot"`, `data-slot="legend"`, `data-slot="legend-item"`, `data-slot="swatch"`, `data-slot="tooltip"` — chart.
+- `data-slot="brand"` — sidebar.
+- `data-slot="close"` — toast.
 
 Semantic parts are equally public where documented: `header`, `section`,
 `footer`, `figure`, `aside`, `pre`, `code`, `details`, `summary`, `nav`, `ol`,
@@ -508,11 +532,11 @@ public state hooks:
 | Invalid | `aria-invalid="true"` | Inputs, textareas, native selects, checkbox, radio, switch, buttons, badges and `.field` (including descendants). |
 | Disabled | Native `:disabled` | Buttons, inputs, textareas, selects, menu items and native controls. |
 | Disabled, non-native | `aria-disabled="true"` | Tabs, menu items, listbox options and other elements that cannot use `:disabled`. |
-| Selected | `aria-selected="true"` | Tabs, selectable table rows and listbox options. |
+| Selected | `aria-selected="true"` | Tabs, selectable table rows, listbox options and calendar day cells. |
 | Checked, native | `:checked` | Checkbox, radio and switch. |
 | Checked, menu item | `aria-checked="true"` | `menuitemcheckbox` and `menuitemradio`. |
 | Highlighted | `data-highlighted` | Menu items and listbox-like composites. Presence only; no value required. |
-| Current | `aria-current="page"` | Breadcrumb and pagination. `aria-current="step"` is reserved for multi-step flows. |
+| Current | `aria-current="page"` | Breadcrumb and pagination. `aria-current="date"` marks today in a calendar. `aria-current="step"` is reserved for multi-step flows. |
 | Pressed | `aria-pressed="true"` | Toggle and toggle-group buttons. |
 | Expanded | `aria-expanded="true"` | Menu, navigation, select and combobox triggers; panels use `aria-hidden`. |
 | Open, details | Native `[open]` on `<details>` | Accordion items. |
@@ -569,6 +593,18 @@ Notes:
 - Select, combobox and command do not open, close, filter or select by
   themselves. The consumer owns those behaviors and the `aria-expanded` /
   `aria-hidden` transitions.
+- Calendar day cells use `aria-selected`; day buttons use `aria-current="date"`
+  and `aria-disabled`. Month navigation and keyboard grid movement are
+  consumer JavaScript.
+- Carousel indicators use `aria-current="true"`; consumers manage offscreen
+  slides with `aria-hidden` or `inert` and own scrolling and autoplay.
+- Resizable handles are `role="separator"` with `aria-orientation` and
+  `aria-valuenow`/`aria-valuemin`/`aria-valuemax`; consumers update the values
+  while dragging.
+- Chart `data-series` values map to `--chart-*` tokens and are presentation
+  modifiers, not states.
+- Toast items use `role="status"` or `role="alert"`; timing, dismissal and
+  Sonner integration are consumer JavaScript.
 
 ## Motion
 
@@ -631,6 +667,21 @@ progress sweep slow down instead of stopping. This remains a known gap.
 - Listbox options need an accessible name. Consumers manage roving focus or
   `aria-activedescendant`, set `aria-selected` and `data-highlighted`, and mark
   unavailable options with `aria-disabled="true"`.
+- Calendar uses a native `<table role="grid">` with column headers and
+  `gridcell` day cells. The grid needs an accessible name; day buttons need
+  full-date labels; focus moves inside the grid in consumer JavaScript.
+- Carousel slides need an accessible label and `aria-roledescription="slide"`;
+  the viewport is focusable so keyboard users can scroll. Controls and
+  indicators need labels; indicators use `aria-current`.
+- Charts need a text alternative on the SVG or canvas and a visible legend.
+  Tooltips are supplementary and must not be the only source of the values.
+- Resizable handles are focusable separators with live
+  `aria-valuenow`/`aria-valuemin`/`aria-valuemax`; keyboard resizing is consumer
+  JavaScript.
+- Sidebar navigation needs a `nav` label and `aria-current="page"` on the active
+  link. Mobile composition uses a labelled sheet or dialog.
+- Toasts use `role="status"` for polite updates and `role="alert"` for errors;
+  close buttons need labels. Timing and dismissal are consumer JavaScript.
 - OTP inputs need an accessible label, `inputmode="numeric"`,
   `autocomplete="one-time-code"`, `maxlength` and optionally `pattern`. CSS
   does not auto-advance or draw per-digit slots.
@@ -723,14 +774,15 @@ installs `menu`; installing `select` or `combobox` also installs `listbox` and
 `popover-primitive`; installing `command` also installs `listbox` and
 `input-group`; installing `popover`, `dropdown-menu`, `hover-card`, `menubar`
 or `navigation-menu` also installs `popover-primitive`; installing
-`toggle-group` also installs `toggle`. Optional dependencies are composition
-hints only and are never installed automatically. Notable optional pairs are
-field with its form controls, button group with
-button/input/popover/dropdown-menu, table with checkbox, dropdown-menu with
-kbd, breadcrumb with dropdown-menu, pagination with button, sheet and drawer
-with button, input group with input/textarea/button, combobox with button,
-command with dialog-shell/popover-primitive/card, and code block with button
-for copy and wrap controls.
+`toggle-group` also installs `toggle`; installing `sidebar` also installs
+`collapsible`. Optional dependencies are composition hints only and are never
+installed automatically. Notable optional pairs are field with its form
+controls, button group with button/input/popover/dropdown-menu, table with
+checkbox, dropdown-menu with kbd, breadcrumb with dropdown-menu, pagination
+with button, sheet and drawer with button, input group with
+input/textarea/button, combobox with button, command with
+dialog-shell/popover-primitive/card, carousel and chart with card, sidebar with
+sheet, toast with button, and code block with button for copy and wrap controls.
 
 The `menu` primitive styles every `[role="menu"]` in the project. It owns the
 shared item, heading, separator, shortcut and indicator rules; `dropdown-menu`,
@@ -814,6 +866,17 @@ semantic versioning.
 - Command has no surface of its own; place it inside a dialog, popover or card.
 - Multiple combobox selections are not rendered as chips; compose them with
   badges in consumer markup.
+- Calendar day navigation, selection and keyboard grid movement are consumer
+  JavaScript.
+- Carousel scrolling, offscreen slide state and autoplay are consumer
+  JavaScript.
+- Chart rendering, data and tooltip positioning are consumer responsibilities;
+  the registry provides chrome only.
+- Resizable drag and keyboard resizing are consumer JavaScript.
+- Sidebar mobile composition and active-navigation behavior are consumer
+  JavaScript.
+- Toast timing and dismissal are consumer JavaScript. `sonner` is documented as
+  a compatibility note, not a registry item.
 - Uncurated drafts remain in `packages/loseta/experimental/` and are not
   published.
 - There is no spacing or motion token scale; spacing and durations are

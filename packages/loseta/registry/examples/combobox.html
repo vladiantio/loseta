@@ -1,3 +1,16 @@
+<!-- Default -->
+<div class="combobox">
+  <input role="combobox" aria-expanded="false" aria-controls="combobox-default-panel" aria-autocomplete="list" placeholder="Select a framework..." aria-label="Select a framework">
+  <div data-popover data-side="bottom" aria-hidden="true" id="combobox-default-panel">
+    <div role="listbox" aria-label="Frameworks">
+      <div role="option" aria-selected="false"><span data-slot="text">React</span></div>
+      <div role="option" aria-selected="false"><span data-slot="text">Vue</span></div>
+      <div role="option" aria-selected="false"><span data-slot="text">Svelte</span></div>
+      <div data-slot="empty" hidden>No framework found.</div>
+    </div>
+  </div>
+</div>
+
 <!-- Single -->
 <div class="combobox">
   <input role="combobox" aria-expanded="false" aria-controls="combobox-fruit-panel" aria-autocomplete="list" placeholder="Search fruit..." aria-label="Search fruit">

@@ -1,3 +1,23 @@
+<!-- Default -->
+<button type="button" class="btn" data-variant="outline">
+  Open alert dialog
+</button>
+
+<dialog class="alert-dialog" id="demo-alert-dialog-default" aria-labelledby="alert-dialog-default-title" aria-describedby="alert-dialog-default-description">
+  <div>
+    <header>
+      <h2 data-slot="title" id="alert-dialog-default-title">Are you sure?</h2>
+      <p data-slot="description" id="alert-dialog-default-description">
+        This action cannot be undone.
+      </p>
+    </header>
+    <footer>
+      <button type="button" class="btn" data-variant="outline">Cancel</button>
+      <button type="button" class="btn">Continue</button>
+    </footer>
+  </div>
+</dialog>
+
 <!-- Delete account -->
 <button type="button" class="btn" data-variant="destructive">
   Delete account

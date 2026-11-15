@@ -474,7 +474,7 @@ test("experimental pages expose the banner, install flag and stylesheet", async 
 test("sheet and drawer dialogs open and close", async ({ page }) => {
   await page.goto("/docs/components/sheet");
   const sheet = page.locator("#demo-sheet");
-  await page.getByRole("button", { name: "Open sheet" }).click();
+  await page.locator('[data-open-dialog="demo-sheet"]').click();
   await expect(sheet).toHaveAttribute("open", "");
   await expect(sheet.locator("[data-slot='title']")).toBeVisible();
   await sheet.getByRole("button", { name: "Cancel" }).click();
@@ -583,7 +583,7 @@ test("select opens, selects an option and updates the trigger", async ({ page })
 
 test("combobox filters, selects, clears and shows an empty state", async ({ page }) => {
   await page.goto("/docs/components/combobox");
-  const combobox = page.locator(".combobox").first();
+  const combobox = page.locator(".combobox:has(#combobox-fruit-panel)");
   const input = combobox.locator("input");
   const panel = combobox.locator("[data-popover]");
 
@@ -605,7 +605,7 @@ test("combobox filters, selects, clears and shows an empty state", async ({ page
   await input.fill("zzz");
   await expect(combobox.locator("[data-slot='empty']")).toBeVisible();
 
-  const multiple = page.locator(".combobox").nth(1);
+  const multiple = page.locator(".combobox:has(#combobox-tag-panel)");
   const multipleInput = multiple.locator("input");
   await multipleInput.click();
   await multiple.getByRole("option", { name: "Engineering", exact: true }).click();
@@ -618,22 +618,22 @@ test("combobox filters, selects, clears and shows an empty state", async ({ page
 test("command filters, shows an empty state and closes on selection", async ({ page }) => {
   await page.goto("/docs/components/command");
   const dialog = page.locator("#demo-command");
-  const input = page.getByRole("textbox", { name: "Search commands" });
+  const input = dialog.getByRole("textbox", { name: "Search commands" });
 
   await page.getByRole("button", { name: "Open command" }).click();
   await expect(dialog).toHaveAttribute("open", "");
   await expect(input).toBeFocused();
 
   await input.fill("set");
-  await expect(page.getByRole("option", { name: "Open settings" })).toBeVisible();
-  await expect(page.getByRole("option", { name: "Go home" })).toBeHidden();
-  await expect(page.locator(".command [data-slot='empty']")).toBeHidden();
+  await expect(dialog.getByRole("option", { name: "Open settings" })).toBeVisible();
+  await expect(dialog.getByRole("option", { name: "Go home" })).toBeHidden();
+  await expect(dialog.locator(".command [data-slot='empty']")).toBeHidden();
 
   await input.fill("zzz");
-  await expect(page.locator(".command [data-slot='empty']")).toBeVisible();
+  await expect(dialog.locator(".command [data-slot='empty']")).toBeVisible();
 
   await input.fill("set");
-  await page.getByRole("option", { name: "Open settings" }).click();
+  await dialog.getByRole("option", { name: "Open settings" }).click();
   await expect(dialog).not.toHaveAttribute("open", "");
 });
 
@@ -674,7 +674,7 @@ test("toast dismissal removes the item", async ({ page }) => {
 
 test("questionnaire navigates between fieldset steps", async ({ page }) => {
   await page.goto("/docs/components/questionnaire");
-  const questionnaire = page.locator(".questionnaire");
+  const questionnaire = page.locator(".questionnaire[data-demo='questionnaire']");
   const label = questionnaire.locator("[data-slot='progress-label']");
   const steps = questionnaire.locator("[data-slot='item']");
 
@@ -764,7 +764,7 @@ test("component preview copies the cleaned example markup", async ({ page }) => 
 test("component preview remounts collapsed after client navigation", async ({
   page
 }) => {
-  await page.goto("/docs/components/button");
+  await page.goto("/docs/components/alert");
   const first = page.locator("[data-component-preview]").first();
   await first.getByRole("button", { name: "View code" }).click();
   await expect(first.locator("[data-preview-toggle]")).toBeHidden();
@@ -830,7 +830,7 @@ test.describe("without JavaScript", () => {
     await expect(preview.locator("[data-preview-toggle]")).toBeHidden();
     await expect(preview.locator("[data-preview-source] pre")).toBeVisible();
     await expect(preview.locator("[data-preview-source] code")).toContainText(
-      "Default"
+      "Button"
     );
   });
 });
@@ -869,9 +869,46 @@ test("table of contents skips demo preview headings", async ({ page }) => {
   await page.goto("/docs/components/alert");
   const toc = page.getByRole("navigation", { name: "Table of contents" });
 
-  await expect(toc.getByRole("link", { name: "Default" })).toBeVisible();
+  await expect(toc.getByRole("link", { name: "Examples" })).toBeVisible();
   await expect(toc.getByRole("link", { name: "Heads up!" })).toHaveCount(0);
   await expect(page.locator(".docs-preview h3").filter({ hasText: "Heads up!" })).toHaveCount(1);
+});
+
+test("default example leads the page without a heading", async ({ page }) => {
+  await page.goto("/docs/components/alert");
+  const content = page.locator(".docs-content");
+  const firstExample = content.locator("section.example").first();
+
+  await expect(firstExample.locator("h3.example-title")).toHaveCount(0);
+  await expect(
+    content.getByRole("heading", { name: "Installation", level: 2 })
+  ).toBeVisible();
+
+  const precedesInstallation = await content.evaluate((element) => {
+    const preview = element.querySelector("section.example [data-component-preview]");
+    const heading = (text: string) =>
+      [...element.querySelectorAll("h2")].find(
+        (node) => node.textContent?.trim() === text
+      );
+    const installation = heading("Installation");
+    const command = element.querySelector(".install-command");
+    const examples = heading("Examples");
+    const follows = (before: Element | null | undefined, after: Element | null | undefined) =>
+      Boolean(
+        before &&
+          after &&
+          (before.compareDocumentPosition(after) &
+            Node.DOCUMENT_POSITION_FOLLOWING)
+      );
+
+    return (
+      follows(preview, installation) &&
+      follows(installation, command) &&
+      follows(command, examples)
+    );
+  });
+
+  expect(precedesInstallation).toBe(true);
 });
 
 for (const path of pages) {

@@ -17,6 +17,12 @@ interface Props {
 
 const { component } = Astro.props;
 const isExperimental = component.status === "experimental";
+const defaultExample = component.examples.find(
+  (example) => example.title === "Default"
+);
+const examples = component.examples.filter(
+  (example) => example !== defaultExample
+);
 ---
 
 <Layout
@@ -55,15 +61,25 @@ const isExperimental = component.status === "experimental";
       )
     }
 
+    {
+      defaultExample && (
+        <ComponentPreview
+          id={`${component.id}-example-default`}
+          html={defaultExample.html}
+        />
+      )
+    }
+
+    <h2>Installation</h2>
     <InstallCommand
       command={`loseta add ${component.id}${isExperimental ? " --experimental" : ""}`}
     />
 
     {
-      component.examples.length > 0 && (
+      examples.length > 0 && (
         <>
           <h2>Examples</h2>
-          {component.examples.map((example, index) => (
+          {examples.map((example, index) => (
             <ComponentPreview
               id={`${component.id}-example-${index + 1}`}
               title={example.title}

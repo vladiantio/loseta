@@ -5,7 +5,7 @@ import { stripDemoHooks } from "@/lib/example-markup";
 
 interface Props {
   id: string;
-  title: string;
+  title?: string;
   html: string;
 }
 
@@ -17,7 +17,7 @@ const isShort = codeLines <= 5;
 ---
 
 <section class="example">
-  <h3 class="example-title">{title}</h3>
+  {title && <h3 class="example-title">{title}</h3>}
   <div
     class="component-preview"
     data-component-preview

@@ -1,3 +1,36 @@
+<!-- Default -->
+<div class="questionnaire">
+  <div data-slot="progress">
+    <span data-slot="progress-label" id="questionnaire-default-progress" aria-live="polite">Question 1 of 1</span>
+    <progress aria-labelledby="questionnaire-default-progress" value="1" max="1">1 of 1</progress>
+  </div>
+  <fieldset data-slot="item" aria-current="step">
+    <legend>What should the agent build next?</legend>
+    <p data-slot="description">Choose a direction or describe another task.</p>
+    <div data-slot="choices">
+      <label class="questionnaire-choice">
+        <input type="radio" name="questionnaire-default" value="timeline" checked>
+        <span data-slot="text">
+          <span data-slot="label">Tool call timeline</span>
+          <span data-slot="description">Show what the agent ran and what came back.</span>
+        </span>
+      </label>
+      <label class="questionnaire-choice">
+        <input type="radio" name="questionnaire-default" value="checkpoints">
+        <span data-slot="text">
+          <span data-slot="label">Approval checkpoints</span>
+          <span data-slot="description">Ask before sensitive or destructive actions.</span>
+        </span>
+      </label>
+      <input type="text" data-slot="input" name="questionnaire-default-other" aria-label="Another answer" placeholder="Type another answer…">
+    </div>
+  </fieldset>
+  <div data-slot="actions">
+    <button type="button" class="btn" data-variant="outline">Skip</button>
+    <button type="button" class="btn">Submit</button>
+  </div>
+</div>
+
 <!-- Steps -->
 <div class="questionnaire">
   <div data-slot="progress">

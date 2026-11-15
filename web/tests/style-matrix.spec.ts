@@ -90,7 +90,7 @@ const cases: StyleCase[] = [
   },
   {
     id: "avatar",
-    selector: ".docs-preview .avatar [data-slot='fallback']",
+    selector: ".docs-preview .avatar[data-size='sm'] [data-slot='fallback']",
     property: "font-size",
     values: {
       nova: "12px",

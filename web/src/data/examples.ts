@@ -47,6 +47,27 @@ export const examples: Record<string, Example[]> = {
   ],
   "alert-dialog": [
     {
+      title: "Default",
+      html: `<button type="button" class="btn" data-variant="outline" data-open-dialog="demo-alert-dialog-default">
+  Open alert dialog
+</button>
+
+<dialog class="alert-dialog" id="demo-alert-dialog-default" aria-labelledby="alert-dialog-default-title" aria-describedby="alert-dialog-default-description">
+  <div>
+    <header>
+      <h2 data-slot="title" id="alert-dialog-default-title">Are you sure?</h2>
+      <p data-slot="description" id="alert-dialog-default-description">
+        This action cannot be undone.
+      </p>
+    </header>
+    <footer>
+      <button type="button" class="btn" data-variant="outline" data-close-dialog>Cancel</button>
+      <button type="button" class="btn" data-close-dialog>Continue</button>
+    </footer>
+  </div>
+</dialog>`
+    },
+    {
       title: "Delete account",
       html: `<button type="button" class="btn" data-variant="destructive" data-open-dialog="demo-alert-dialog">
   Delete account
@@ -71,6 +92,10 @@ export const examples: Record<string, Example[]> = {
   ],
   badge: [
     {
+      title: "Default",
+      html: `<span class="badge">Badge</span>`
+    },
+    {
       title: "Variants",
       html: `<div style="display: flex; flex-wrap: wrap; gap: 0.5rem">
   <span class="badge">Default</span>
@@ -83,6 +108,10 @@ export const examples: Record<string, Example[]> = {
     }
   ],
   button: [
+    {
+      title: "Default",
+      html: `<button class="btn">Button</button>`
+    },
     {
       title: "Variants",
       html: `<div style="display: flex; flex-wrap: wrap; gap: 0.5rem">
@@ -109,6 +138,13 @@ export const examples: Record<string, Example[]> = {
     }
   ],
   "button-group": [
+    {
+      title: "Default",
+      html: `<div class="btn-group" role="group" aria-label="History">
+  <button class="btn" data-variant="outline">Undo</button>
+  <button class="btn" data-variant="outline">Redo</button>
+</div>`
+    },
     {
       title: "Horizontal",
       html: `<div class="btn-group" role="group" aria-label="Button group" data-orientation="horizontal">
@@ -161,6 +197,12 @@ export const examples: Record<string, Example[]> = {
     }
   ],
   "code-block": [
+    {
+      title: "Default",
+      html: `<div class="code-block" style="max-width: 32rem">
+  <pre dir="ltr" tabindex="0"><code>pnpm add loseta</code></pre>
+</div>`
+    },
     {
       title: "Header and actions",
       html: `<div class="code-block" data-demo="code-block">
@@ -243,6 +285,25 @@ Done in 2.8s using pnpm v10.18.0</code></pre>
   ],
   dialog: [
     {
+      title: "Default",
+      html: `<button type="button" class="btn" data-open-dialog="demo-dialog-default">Open dialog</button>
+
+<dialog class="dialog" id="demo-dialog-default" aria-labelledby="dialog-default-title" aria-describedby="dialog-default-description">
+  <div>
+    <header>
+      <h2 data-slot="title" id="dialog-default-title">Dialog title</h2>
+      <p data-slot="description" id="dialog-default-description">
+        This is the dialog content. Add actions or a form to finish the flow.
+      </p>
+    </header>
+    <footer>
+      <button type="button" class="btn" data-variant="outline" data-close-dialog>Cancel</button>
+      <button type="button" class="btn" data-close-dialog>Continue</button>
+    </footer>
+  </div>
+</dialog>`
+    },
+    {
       title: "Edit profile",
       html: `<button type="button" class="btn" data-open-dialog="demo-dialog">Open dialog</button>
 
@@ -307,6 +368,13 @@ Done in 2.8s using pnpm v10.18.0</code></pre>
   ],
   field: [
     {
+      title: "Default",
+      html: `<div class="field">
+  <label class="label" for="demo-field-default">Name</label>
+  <input class="input" id="demo-field-default" placeholder="Ada Lovelace">
+</div>`
+    },
+    {
       title: "Vertical",
       html: `<div class="field">
   <label class="label" for="demo-field-email">Email</label>
@@ -340,6 +408,19 @@ Done in 2.8s using pnpm v10.18.0</code></pre>
     }
   ],
   item: [
+    {
+      title: "Default",
+      html: `<div class="item" style="max-width: 24rem">
+  <figure>${shield}</figure>
+  <section>
+    <h3>Security</h3>
+    <p>Manage your account security settings.</p>
+  </section>
+  <aside>
+    <button class="btn" data-size="sm" data-variant="outline">Manage</button>
+  </aside>
+</div>`
+    },
     {
       title: "Item group",
       html: `<div class="item-group">
@@ -606,6 +687,12 @@ Done in 2.8s using pnpm v10.18.0</code></pre>
   ],
   "aspect-ratio": [
     {
+      title: "Default",
+      html: `<div class="aspect-ratio" style="max-width: 24rem">
+  <img src="${ratioImage}" alt="A 16 by 9 media placeholder" />
+</div>`
+    },
+    {
       title: "16 / 9",
       html: `<div class="aspect-ratio" style="--ratio: 16 / 9">
   <img src="${ratioImage}" alt="A 16 by 9 media placeholder" />
@@ -619,6 +706,10 @@ Done in 2.8s using pnpm v10.18.0</code></pre>
     }
   ],
   avatar: [
+    {
+      title: "Default",
+      html: `<span class="avatar"><span data-slot="fallback">CN</span></span>`
+    },
     {
       title: "Sizes",
       html: `<div style="display: flex; align-items: center; gap: 0.75rem">
@@ -719,6 +810,16 @@ Done in 2.8s using pnpm v10.18.0</code></pre>
   ],
   progress: [
     {
+      title: "Default",
+      html: `<div style="display: grid; gap: 0.5rem; width: 100%; max-width: 20rem">
+  <div style="display: flex; justify-content: space-between; font-size: 0.875rem">
+    <span>Uploading report.pdf</span>
+    <span>60%</span>
+  </div>
+  <progress class="progress" value="60" max="100" aria-label="Upload progress">60%</progress>
+</div>`
+    },
+    {
       title: "Determinate",
       html: `<progress class="progress" value="60" max="100" aria-label="Upload progress">60%</progress>`
     },
@@ -728,6 +829,10 @@ Done in 2.8s using pnpm v10.18.0</code></pre>
     }
   ],
   separator: [
+    {
+      title: "Default",
+      html: `<hr class="separator" />`
+    },
     {
       title: "Horizontal",
       html: `<div style="display: grid; gap: 0.75rem">
@@ -749,6 +854,10 @@ Done in 2.8s using pnpm v10.18.0</code></pre>
   ],
   spinner: [
     {
+      title: "Default",
+      html: `<span class="spinner" role="status"><span class="sr-only">Loading</span></span>`
+    },
+    {
       title: "Sizes",
       html: `<div style="display: flex; align-items: center; gap: 1rem">
   <span class="spinner" data-size="sm" role="status"><span class="sr-only">Loading</span></span>
@@ -765,6 +874,10 @@ Done in 2.8s using pnpm v10.18.0</code></pre>
     }
   ],
   toggle: [
+    {
+      title: "Default",
+      html: `<button type="button" class="toggle" aria-pressed="false" data-demo-toggle>Bold</button>`
+    },
     {
       title: "Variants",
       html: `<div style="display: flex; flex-wrap: wrap; gap: 0.5rem">
@@ -783,6 +896,14 @@ Done in 2.8s using pnpm v10.18.0</code></pre>
     }
   ],
   "toggle-group": [
+    {
+      title: "Default",
+      html: `<div class="toggle-group" role="group" aria-label="Text formatting">
+  <button type="button" class="toggle" aria-pressed="true" data-demo-toggle>Bold</button>
+  <button type="button" class="toggle" aria-pressed="false" data-demo-toggle>Italic</button>
+  <button type="button" class="toggle" aria-pressed="false" data-demo-toggle>Underline</button>
+</div>`
+    },
     {
       title: "Joined",
       html: `<div class="toggle-group" role="group" aria-label="Text alignment" data-spacing="joined">
@@ -993,6 +1114,29 @@ Done in 2.8s using pnpm v10.18.0</code></pre>
   ],
   sheet: [
     {
+      title: "Default",
+      html: `<button type="button" class="btn" data-variant="outline" data-open-dialog="demo-sheet-default">
+  Open sheet
+</button>
+
+<dialog class="sheet" id="demo-sheet-default" data-side="inline-end" aria-labelledby="sheet-default-title" aria-describedby="sheet-default-description">
+  <div>
+    <header>
+      <h2 data-slot="title" id="sheet-default-title">Sheet title</h2>
+      <p data-slot="description" id="sheet-default-description">
+        This sheet opens from the inline end edge.
+      </p>
+    </header>
+    <section>
+      <p>Use sheets for secondary content, filters or forms.</p>
+    </section>
+    <footer>
+      <button type="button" class="btn" data-variant="outline" data-close-dialog>Close</button>
+    </footer>
+  </div>
+</dialog>`
+    },
+    {
       title: "Right",
       html: `<button type="button" class="btn" data-variant="outline" data-open-dialog="demo-sheet">
   Open sheet
@@ -1067,6 +1211,13 @@ Done in 2.8s using pnpm v10.18.0</code></pre>
   ],
   "input-group": [
     {
+      title: "Default",
+      html: `<div class="input-group" role="group" aria-label="Search">
+  <span data-slot="addon" data-align="inline-start" aria-hidden="true">${search}</span>
+  <input class="input" type="search" placeholder="Search components..." aria-label="Search components">
+</div>`
+    },
+    {
       title: "Inline addons",
       html: `<div class="input-group" role="group" aria-label="Email">
   <span data-slot="addon" data-align="inline-start" aria-hidden="true">@</span>
@@ -1095,6 +1246,16 @@ Done in 2.8s using pnpm v10.18.0</code></pre>
     }
   ],
   "scroll-area": [
+    {
+      title: "Default",
+      html: `<div class="scroll-area" role="region" aria-label="Scrollable content" tabindex="0" style="max-height: 8rem; border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 0.75rem">
+  <p>loseta copies readable CSS files into your project.</p>
+  <p>The registry validates layers, dependencies and generated examples.</p>
+  <p>Eight styles share one markup contract.</p>
+  <p>The docs site renders the same files consumers install.</p>
+  <p>Scrollbars use the reserved scrollbar tokens.</p>
+</div>`
+    },
     {
       title: "Vertical",
       html: `<div class="scroll-area" role="region" aria-label="Scrollable content" tabindex="0" style="max-height: 10rem; border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 0.75rem">
@@ -1195,6 +1356,20 @@ Done in 2.8s using pnpm v10.18.0</code></pre>
   ],
   combobox: [
     {
+      title: "Default",
+      html: `<div class="combobox" data-demo="combobox">
+  <input role="combobox" aria-expanded="false" aria-controls="combobox-default-panel" aria-autocomplete="list" placeholder="Select a framework..." aria-label="Select a framework" data-demo-combobox-input>
+  <div data-popover data-side="bottom" aria-hidden="true" id="combobox-default-panel">
+    <div role="listbox" aria-label="Frameworks">
+      <div role="option" aria-selected="false" data-demo-option><span data-slot="text">React</span></div>
+      <div role="option" aria-selected="false" data-demo-option><span data-slot="text">Vue</span></div>
+      <div role="option" aria-selected="false" data-demo-option><span data-slot="text">Svelte</span></div>
+      <div data-slot="empty" hidden>No framework found.</div>
+    </div>
+  </div>
+</div>`
+    },
+    {
       title: "Single",
       html: `<div class="combobox" data-demo="combobox">
   <input role="combobox" aria-expanded="false" aria-controls="combobox-fruit-panel" aria-autocomplete="list" placeholder="Search fruit..." aria-label="Search fruit" data-demo-combobox-input>
@@ -1227,6 +1402,29 @@ Done in 2.8s using pnpm v10.18.0</code></pre>
     }
   ],
   command: [
+    {
+      title: "Default",
+      html: `<div class="command" data-demo="command">
+  <div class="input-group" role="group" aria-label="Search commands">
+    <span data-slot="addon" data-align="inline-start" aria-hidden="true">${search}</span>
+    <input class="input" type="text" placeholder="Type a command..." aria-label="Search commands" data-demo-command-input>
+  </div>
+  <div role="listbox" aria-label="Commands">
+    <div role="option" data-demo-option>
+      <span data-slot="text">Go home</span>
+      <span data-slot="shortcut">⌘H</span>
+    </div>
+    <div role="option" data-demo-option>
+      <span data-slot="text">Open settings</span>
+      <span data-slot="shortcut">⌘,</span>
+    </div>
+    <div role="option" data-demo-option>
+      <span data-slot="text">Copy link</span>
+    </div>
+    <div data-slot="empty" hidden>No commands found.</div>
+  </div>
+</div>`
+    },
     {
       title: "Dialog",
       html: `<button type="button" class="btn" data-variant="outline" data-open-dialog="demo-command">
@@ -1436,6 +1634,18 @@ Done in 2.8s using pnpm v10.18.0</code></pre>
   ],
   resizable: [
     {
+      title: "Default",
+      html: `<div class="resizable" style="height: 10rem">
+  <div class="resizable-panel">
+    <p><strong>Sidebar</strong></p>
+  </div>
+  <div data-slot="handle" role="separator" aria-orientation="vertical" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" tabindex="0"></div>
+  <div class="resizable-panel">
+    <p><strong>Content</strong></p>
+  </div>
+</div>`
+    },
+    {
       title: "Horizontal",
       html: `<div class="resizable" data-orientation="horizontal" style="height: 12rem">
   <div class="resizable-panel">
@@ -1520,6 +1730,23 @@ Done in 2.8s using pnpm v10.18.0</code></pre>
   ],
   message: [
     {
+      title: "Default",
+      html: `<article class="message" data-align="start">
+  <div data-slot="avatar">
+    <span class="avatar" data-size="sm">
+      <span data-slot="fallback">CN</span>
+    </span>
+  </div>
+  <div data-slot="content">
+    <div data-slot="header">shadcn</div>
+    <div class="bubble" data-variant="muted">
+      <div data-slot="content">How can I help you today?</div>
+    </div>
+    <div data-slot="footer">10:42 AM</div>
+  </div>
+</article>`
+    },
+    {
       title: "Conversation",
       html: `<div class="message-group" role="log" aria-label="Conversation">
   <article class="message" data-align="start">
@@ -1555,6 +1782,12 @@ Done in 2.8s using pnpm v10.18.0</code></pre>
   ],
   bubble: [
     {
+      title: "Default",
+      html: `<div class="bubble" data-align="start">
+  <div data-slot="content">Hello! How can I help you today?</div>
+</div>`
+    },
+    {
       title: "Variants",
       html: `<div style="display: flex; flex-wrap: wrap; gap: 0.5rem; align-items: flex-start">
   <div class="bubble"><div data-slot="content">Default</div></div>
@@ -1581,6 +1814,13 @@ Done in 2.8s using pnpm v10.18.0</code></pre>
   ],
   marker: [
     {
+      title: "Default",
+      html: `<div class="marker">
+  <span data-slot="icon">${info}</span>
+  <span data-slot="content">Assistant is thinking…</span>
+</div>`
+    },
+    {
       title: "Variants",
       html: `<div style="display: flex; flex-direction: column; gap: 1rem">
   <div class="marker">
@@ -1598,6 +1838,19 @@ Done in 2.8s using pnpm v10.18.0</code></pre>
     }
   ],
   attachment: [
+    {
+      title: "Default",
+      html: `<div class="attachment">
+  <div data-slot="media">${fileText}</div>
+  <div data-slot="content">
+    <span data-slot="title">report.pdf</span>
+    <span data-slot="description">PDF · 2.4 MB</span>
+  </div>
+  <div data-slot="actions">
+    <button type="button" class="btn" data-variant="ghost" data-size="icon-xs" aria-label="Remove report.pdf">×</button>
+  </div>
+</div>`
+    },
     {
       title: "States",
       html: `<div style="display: flex; flex-direction: column; gap: 0.75rem; max-width: 24rem">
@@ -1644,6 +1897,40 @@ Done in 2.8s using pnpm v10.18.0</code></pre>
     }
   ],
   questionnaire: [
+    {
+      title: "Default",
+      html: `<div class="questionnaire">
+  <div data-slot="progress">
+    <span data-slot="progress-label" id="questionnaire-default-progress" aria-live="polite">Question 1 of 1</span>
+    <progress aria-labelledby="questionnaire-default-progress" value="1" max="1">1 of 1</progress>
+  </div>
+  <fieldset data-slot="item" aria-current="step">
+    <legend>What should the agent build next?</legend>
+    <p data-slot="description">Choose a direction or describe another task.</p>
+    <div data-slot="choices">
+      <label class="questionnaire-choice">
+        <input type="radio" name="questionnaire-default" value="timeline" checked>
+        <span data-slot="text">
+          <span data-slot="label">Tool call timeline</span>
+          <span data-slot="description">Show what the agent ran and what came back.</span>
+        </span>
+      </label>
+      <label class="questionnaire-choice">
+        <input type="radio" name="questionnaire-default" value="checkpoints">
+        <span data-slot="text">
+          <span data-slot="label">Approval checkpoints</span>
+          <span data-slot="description">Ask before sensitive or destructive actions.</span>
+        </span>
+      </label>
+      <input type="text" data-slot="input" name="questionnaire-default-other" aria-label="Another answer" placeholder="Type another answer…">
+    </div>
+  </fieldset>
+  <div data-slot="actions">
+    <button type="button" class="btn" data-variant="outline">Skip</button>
+    <button type="button" class="btn">Submit</button>
+  </div>
+</div>`
+    },
     {
       title: "Steps",
       html: `<div class="questionnaire" data-demo="questionnaire">
@@ -1714,6 +2001,19 @@ Done in 2.8s using pnpm v10.18.0</code></pre>
     }
   ],
   trace: [
+    {
+      title: "Default",
+      html: `<details class="trace" open>
+  <summary>
+    <span data-slot="icon">${terminal}</span>
+    <span data-slot="title">Ran pnpm install</span>
+    <span data-slot="status" data-variant="success">Completed</span>
+  </summary>
+  <div data-slot="body">
+    <p>Dependencies installed in 2.8s.</p>
+  </div>
+</details>`
+    },
     {
       title: "Tool calls",
       html: `<div style="display: flex; flex-direction: column">

@@ -8,7 +8,7 @@ It is not an implementation guide. The installed CSS is the reference
 implementation: if this document and the registry disagree,
 [`packages/loseta/registry/tokens.css`](packages/loseta/registry/tokens.css)
 and [`registry.json`](packages/loseta/registry/registry.json) win, and this
-document must be corrected. The baseline covers registry version `0.13.0`.
+document must be corrected. The baseline covers registry version `0.14.0`.
 
 Vocabulary is defined in [`GLOSSARY.md`](GLOSSARY.md). Style implementation
 guidance lives in [`STYLE-GUIDE.md`](STYLE-GUIDE.md).
@@ -42,18 +42,16 @@ guidance lives in [`STYLE-GUIDE.md`](STYLE-GUIDE.md).
 
 ## Scope
 
-The registry contains 48 stable components, 14 experimental components, four
+The registry contains 55 stable components, 7 experimental components, four
 primitives and four foundations:
 
-- **Stable components**: accordion, alert, alert-dialog, aspect-ratio, avatar, badge, breadcrumb, button, button-group, card, checkbox, code-block, collapsible, context-menu, dialog, drawer, dropdown-menu, empty, field, hover-card, input, input-group, input-otp, item, kbd, label, menubar, native-select, navigation-menu, pagination, popover, progress, radio, scroll-area, separator, sheet, sidebar, skeleton, slider, spinner, switch, table, tabs, textarea, toast, toggle, toggle-group and tooltip.
-- **Experimental components**: attachment, bubble, calendar, carousel, chart, combobox, command, marker, message, message-scroller, questionnaire, resizable, select and trace. They are installable by name
+- **Stable components**: accordion, alert, alert-dialog, aspect-ratio, avatar, badge, breadcrumb, button, button-group, calendar, card, carousel, chart, checkbox, code-block, collapsible, combobox, command, context-menu, dialog, drawer, dropdown-menu, empty, field, hover-card, input, input-group, input-otp, item, kbd, label, menubar, native-select, navigation-menu, pagination, popover, progress, radio, resizable, scroll-area, select, separator, sheet, sidebar, skeleton, slider, spinner, switch, table, tabs, textarea, toast, toggle, toggle-group and tooltip.
+- **Experimental components**: attachment, bubble, marker, message, message-scroller, questionnaire and trace. They are installable by name
   with `loseta add <name> --experimental`, ship exactly one Nova style file and
   are explicitly outside the v1 compatibility contract.
 - **4 primitives**: `dialog-shell`, `listbox`, `menu` and `popover-primitive`.
-  `listbox` is experimental and Nova-only until `select`, `combobox` and
-  `command` are promoted; the other primitives are stable. Primitives are
-  installed automatically as dependencies and are not consumer-facing
-  components.
+  All four are stable. Primitives are installed automatically as dependencies
+  and are not consumer-facing components.
 - **4 foundations**: tokens, reset, base and utilities.
 
 Uncurated drafts live in `packages/loseta/experimental/`. They are neither
@@ -843,7 +841,7 @@ sheet, toast with button, and code block with button for copy and wrap controls.
 The `menu` primitive styles every `[role="menu"]` in the project. It owns the
 shared item, heading, separator, shortcut and indicator rules; `dropdown-menu`,
 `context-menu` and `menubar` add their own trigger, surface and positioning
-behavior. The experimental `listbox` primitive does the same for
+behavior. The `listbox` primitive does the same for
 `[role="listbox"]` options, groups and empty states.
 
 ### Compatibility contract
@@ -916,9 +914,8 @@ semantic versioning.
   JavaScript.
 - Scroll areas use native scrollbars; there are no custom overlay thumb
   elements.
-- The `listbox` primitive is experimental and ships Nova only. Select,
-  combobox and command do not open, filter, select or move focus; those are
-  consumer JavaScript concerns.
+- Select, combobox and command do not open, filter, select or move focus; those
+  are consumer JavaScript concerns.
 - Command has no surface of its own; place it inside a dialog, popover or card.
 - Multiple combobox selections are not rendered as chips; compose them with
   badges in consumer markup.
@@ -943,7 +940,5 @@ semantic versioning.
   published.
 - There is no spacing or motion token scale; spacing and durations are
   component-level values.
-- The button group retains composition hooks for an experimental `.select`;
-  that selector is not part of the stable v1 registry.
 - Browser support is limited to the modern fidelity target above; there is no
   legacy fallback layer.

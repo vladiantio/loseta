@@ -1,0 +1,51 @@
+/* Chart */
+@layer loseta.style {
+  .chart {
+    gap: 0.75rem;
+
+    > [data-slot='plot'] {
+      aspect-ratio: 16 / 9;
+    }
+
+    > [data-slot='legend'] {
+      gap: 0.75rem;
+      font-size: var(--text-xs);
+      line-height: var(--text-xs--line-height);
+      color: var(--muted-foreground);
+    }
+
+    [data-slot='legend-item'] {
+      color: var(--muted-foreground);
+    }
+
+    [data-slot='swatch'] {
+      width: 0.5rem;
+      height: 0.5rem;
+      border-radius: var(--radius-full);
+    }
+
+    [data-slot='tooltip'] {
+      display: flex;
+      flex-direction: column;
+      gap: 0.125rem;
+      border-style: solid;
+      border-width: 1px;
+      border-color: var(--border);
+      border-radius: var(--radius-md);
+      background-color: var(--popover);
+      padding: 0.5rem 0.625rem;
+      color: var(--popover-foreground);
+      box-shadow: var(--shadow-md);
+      font-size: var(--text-xs);
+      line-height: var(--text-xs--line-height);
+
+      [data-slot='title'] {
+        font-weight: 500;
+      }
+
+      [data-slot='description'] {
+        color: var(--muted-foreground);
+      }
+    }
+  }
+}

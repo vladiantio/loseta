@@ -1,7 +1,7 @@
 {
   "$schema": "./schema.json",
   "name": "loseta",
-  "version": "0.13.0",
+  "version": "0.14.0",
   "styles": [
     {
       "name": "nova",
@@ -247,7 +247,7 @@
     {
       "name": "listbox",
       "type": "primitive",
-      "status": "experimental",
+      "status": "stable",
       "title": "Listbox primitive",
       "description": "Shared listbox option, group, empty and indicator rules used by select, combobox and command.",
       "root": [
@@ -263,6 +263,48 @@
         {
           "path": "styles/nova/primitives/listbox.css",
           "target": "styles/nova/primitives/listbox.css",
+          "role": "style",
+          "layer": "loseta.style"
+        },
+        {
+          "path": "styles/vega/primitives/listbox.css",
+          "target": "styles/vega/primitives/listbox.css",
+          "role": "style",
+          "layer": "loseta.style"
+        },
+        {
+          "path": "styles/maia/primitives/listbox.css",
+          "target": "styles/maia/primitives/listbox.css",
+          "role": "style",
+          "layer": "loseta.style"
+        },
+        {
+          "path": "styles/lyra/primitives/listbox.css",
+          "target": "styles/lyra/primitives/listbox.css",
+          "role": "style",
+          "layer": "loseta.style"
+        },
+        {
+          "path": "styles/mira/primitives/listbox.css",
+          "target": "styles/mira/primitives/listbox.css",
+          "role": "style",
+          "layer": "loseta.style"
+        },
+        {
+          "path": "styles/luma/primitives/listbox.css",
+          "target": "styles/luma/primitives/listbox.css",
+          "role": "style",
+          "layer": "loseta.style"
+        },
+        {
+          "path": "styles/sera/primitives/listbox.css",
+          "target": "styles/sera/primitives/listbox.css",
+          "role": "style",
+          "layer": "loseta.style"
+        },
+        {
+          "path": "styles/rhea/primitives/listbox.css",
+          "target": "styles/rhea/primitives/listbox.css",
           "role": "style",
           "layer": "loseta.style"
         }
@@ -3722,7 +3764,7 @@
     {
       "name": "select",
       "type": "component",
-      "status": "experimental",
+      "status": "stable",
       "title": "Select",
       "description": "A custom single-select listbox with a button trigger.",
       "docs": "/docs/components/select",
@@ -3746,6 +3788,48 @@
           "target": "styles/nova/select.css",
           "role": "style",
           "layer": "loseta.style"
+        },
+        {
+          "path": "styles/vega/select.css",
+          "target": "styles/vega/select.css",
+          "role": "style",
+          "layer": "loseta.style"
+        },
+        {
+          "path": "styles/maia/select.css",
+          "target": "styles/maia/select.css",
+          "role": "style",
+          "layer": "loseta.style"
+        },
+        {
+          "path": "styles/lyra/select.css",
+          "target": "styles/lyra/select.css",
+          "role": "style",
+          "layer": "loseta.style"
+        },
+        {
+          "path": "styles/mira/select.css",
+          "target": "styles/mira/select.css",
+          "role": "style",
+          "layer": "loseta.style"
+        },
+        {
+          "path": "styles/luma/select.css",
+          "target": "styles/luma/select.css",
+          "role": "style",
+          "layer": "loseta.style"
+        },
+        {
+          "path": "styles/sera/select.css",
+          "target": "styles/sera/select.css",
+          "role": "style",
+          "layer": "loseta.style"
+        },
+        {
+          "path": "styles/rhea/select.css",
+          "target": "styles/rhea/select.css",
+          "role": "style",
+          "layer": "loseta.style"
         }
       ],
       "examples": [
@@ -3755,7 +3839,7 @@
     {
       "name": "combobox",
       "type": "component",
-      "status": "experimental",
+      "status": "stable",
       "title": "Combobox",
       "description": "A text input combined with a listbox of options.",
       "docs": "/docs/components/combobox",
@@ -3781,6 +3865,48 @@
           "target": "styles/nova/combobox.css",
           "role": "style",
           "layer": "loseta.style"
+        },
+        {
+          "path": "styles/vega/combobox.css",
+          "target": "styles/vega/combobox.css",
+          "role": "style",
+          "layer": "loseta.style"
+        },
+        {
+          "path": "styles/maia/combobox.css",
+          "target": "styles/maia/combobox.css",
+          "role": "style",
+          "layer": "loseta.style"
+        },
+        {
+          "path": "styles/lyra/combobox.css",
+          "target": "styles/lyra/combobox.css",
+          "role": "style",
+          "layer": "loseta.style"
+        },
+        {
+          "path": "styles/mira/combobox.css",
+          "target": "styles/mira/combobox.css",
+          "role": "style",
+          "layer": "loseta.style"
+        },
+        {
+          "path": "styles/luma/combobox.css",
+          "target": "styles/luma/combobox.css",
+          "role": "style",
+          "layer": "loseta.style"
+        },
+        {
+          "path": "styles/sera/combobox.css",
+          "target": "styles/sera/combobox.css",
+          "role": "style",
+          "layer": "loseta.style"
+        },
+        {
+          "path": "styles/rhea/combobox.css",
+          "target": "styles/rhea/combobox.css",
+          "role": "style",
+          "layer": "loseta.style"
         }
       ],
       "examples": [
@@ -3790,7 +3916,7 @@
     {
       "name": "command",
       "type": "component",
-      "status": "experimental",
+      "status": "stable",
       "title": "Command",
       "description": "A searchable command list for palettes and dialogs.",
       "docs": "/docs/components/command",
@@ -3818,6 +3944,48 @@
           "target": "styles/nova/command.css",
           "role": "style",
           "layer": "loseta.style"
+        },
+        {
+          "path": "styles/vega/command.css",
+          "target": "styles/vega/command.css",
+          "role": "style",
+          "layer": "loseta.style"
+        },
+        {
+          "path": "styles/maia/command.css",
+          "target": "styles/maia/command.css",
+          "role": "style",
+          "layer": "loseta.style"
+        },
+        {
+          "path": "styles/lyra/command.css",
+          "target": "styles/lyra/command.css",
+          "role": "style",
+          "layer": "loseta.style"
+        },
+        {
+          "path": "styles/mira/command.css",
+          "target": "styles/mira/command.css",
+          "role": "style",
+          "layer": "loseta.style"
+        },
+        {
+          "path": "styles/luma/command.css",
+          "target": "styles/luma/command.css",
+          "role": "style",
+          "layer": "loseta.style"
+        },
+        {
+          "path": "styles/sera/command.css",
+          "target": "styles/sera/command.css",
+          "role": "style",
+          "layer": "loseta.style"
+        },
+        {
+          "path": "styles/rhea/command.css",
+          "target": "styles/rhea/command.css",
+          "role": "style",
+          "layer": "loseta.style"
         }
       ],
       "examples": [
@@ -3827,7 +3995,7 @@
     {
       "name": "calendar",
       "type": "component",
-      "status": "experimental",
+      "status": "stable",
       "title": "Calendar",
       "description": "A native month grid for date selection.",
       "docs": "/docs/components/calendar",
@@ -3848,6 +4016,48 @@
           "target": "styles/nova/calendar.css",
           "role": "style",
           "layer": "loseta.style"
+        },
+        {
+          "path": "styles/vega/calendar.css",
+          "target": "styles/vega/calendar.css",
+          "role": "style",
+          "layer": "loseta.style"
+        },
+        {
+          "path": "styles/maia/calendar.css",
+          "target": "styles/maia/calendar.css",
+          "role": "style",
+          "layer": "loseta.style"
+        },
+        {
+          "path": "styles/lyra/calendar.css",
+          "target": "styles/lyra/calendar.css",
+          "role": "style",
+          "layer": "loseta.style"
+        },
+        {
+          "path": "styles/mira/calendar.css",
+          "target": "styles/mira/calendar.css",
+          "role": "style",
+          "layer": "loseta.style"
+        },
+        {
+          "path": "styles/luma/calendar.css",
+          "target": "styles/luma/calendar.css",
+          "role": "style",
+          "layer": "loseta.style"
+        },
+        {
+          "path": "styles/sera/calendar.css",
+          "target": "styles/sera/calendar.css",
+          "role": "style",
+          "layer": "loseta.style"
+        },
+        {
+          "path": "styles/rhea/calendar.css",
+          "target": "styles/rhea/calendar.css",
+          "role": "style",
+          "layer": "loseta.style"
         }
       ],
       "examples": [
@@ -3857,7 +4067,7 @@
     {
       "name": "carousel",
       "type": "component",
-      "status": "experimental",
+      "status": "stable",
       "title": "Carousel",
       "description": "A scroll-snap carousel with controls and indicators.",
       "docs": "/docs/components/carousel",
@@ -3880,6 +4090,48 @@
           "target": "styles/nova/carousel.css",
           "role": "style",
           "layer": "loseta.style"
+        },
+        {
+          "path": "styles/vega/carousel.css",
+          "target": "styles/vega/carousel.css",
+          "role": "style",
+          "layer": "loseta.style"
+        },
+        {
+          "path": "styles/maia/carousel.css",
+          "target": "styles/maia/carousel.css",
+          "role": "style",
+          "layer": "loseta.style"
+        },
+        {
+          "path": "styles/lyra/carousel.css",
+          "target": "styles/lyra/carousel.css",
+          "role": "style",
+          "layer": "loseta.style"
+        },
+        {
+          "path": "styles/mira/carousel.css",
+          "target": "styles/mira/carousel.css",
+          "role": "style",
+          "layer": "loseta.style"
+        },
+        {
+          "path": "styles/luma/carousel.css",
+          "target": "styles/luma/carousel.css",
+          "role": "style",
+          "layer": "loseta.style"
+        },
+        {
+          "path": "styles/sera/carousel.css",
+          "target": "styles/sera/carousel.css",
+          "role": "style",
+          "layer": "loseta.style"
+        },
+        {
+          "path": "styles/rhea/carousel.css",
+          "target": "styles/rhea/carousel.css",
+          "role": "style",
+          "layer": "loseta.style"
         }
       ],
       "examples": [
@@ -3889,7 +4141,7 @@
     {
       "name": "chart",
       "type": "component",
-      "status": "experimental",
+      "status": "stable",
       "title": "Chart",
       "description": "Chart chrome for legends and tooltips with series color tokens.",
       "docs": "/docs/components/chart",
@@ -3912,6 +4164,48 @@
           "target": "styles/nova/chart.css",
           "role": "style",
           "layer": "loseta.style"
+        },
+        {
+          "path": "styles/vega/chart.css",
+          "target": "styles/vega/chart.css",
+          "role": "style",
+          "layer": "loseta.style"
+        },
+        {
+          "path": "styles/maia/chart.css",
+          "target": "styles/maia/chart.css",
+          "role": "style",
+          "layer": "loseta.style"
+        },
+        {
+          "path": "styles/lyra/chart.css",
+          "target": "styles/lyra/chart.css",
+          "role": "style",
+          "layer": "loseta.style"
+        },
+        {
+          "path": "styles/mira/chart.css",
+          "target": "styles/mira/chart.css",
+          "role": "style",
+          "layer": "loseta.style"
+        },
+        {
+          "path": "styles/luma/chart.css",
+          "target": "styles/luma/chart.css",
+          "role": "style",
+          "layer": "loseta.style"
+        },
+        {
+          "path": "styles/sera/chart.css",
+          "target": "styles/sera/chart.css",
+          "role": "style",
+          "layer": "loseta.style"
+        },
+        {
+          "path": "styles/rhea/chart.css",
+          "target": "styles/rhea/chart.css",
+          "role": "style",
+          "layer": "loseta.style"
         }
       ],
       "examples": [
@@ -3921,7 +4215,7 @@
     {
       "name": "resizable",
       "type": "component",
-      "status": "experimental",
+      "status": "stable",
       "title": "Resizable",
       "description": "A flex layout with draggable separator handles.",
       "docs": "/docs/components/resizable",
@@ -3940,6 +4234,48 @@
         {
           "path": "styles/nova/resizable.css",
           "target": "styles/nova/resizable.css",
+          "role": "style",
+          "layer": "loseta.style"
+        },
+        {
+          "path": "styles/vega/resizable.css",
+          "target": "styles/vega/resizable.css",
+          "role": "style",
+          "layer": "loseta.style"
+        },
+        {
+          "path": "styles/maia/resizable.css",
+          "target": "styles/maia/resizable.css",
+          "role": "style",
+          "layer": "loseta.style"
+        },
+        {
+          "path": "styles/lyra/resizable.css",
+          "target": "styles/lyra/resizable.css",
+          "role": "style",
+          "layer": "loseta.style"
+        },
+        {
+          "path": "styles/mira/resizable.css",
+          "target": "styles/mira/resizable.css",
+          "role": "style",
+          "layer": "loseta.style"
+        },
+        {
+          "path": "styles/luma/resizable.css",
+          "target": "styles/luma/resizable.css",
+          "role": "style",
+          "layer": "loseta.style"
+        },
+        {
+          "path": "styles/sera/resizable.css",
+          "target": "styles/sera/resizable.css",
+          "role": "style",
+          "layer": "loseta.style"
+        },
+        {
+          "path": "styles/rhea/resizable.css",
+          "target": "styles/rhea/resizable.css",
           "role": "style",
           "layer": "loseta.style"
         }

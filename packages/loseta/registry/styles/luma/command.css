@@ -1,0 +1,21 @@
+/* Command */
+@layer loseta.style {
+  .command {
+    gap: 0.625rem;
+
+    [data-slot='shortcut'] {
+      font-size: var(--text-xs);
+      line-height: var(--text-xs--line-height);
+      letter-spacing: 0.1em;
+      color: var(--muted-foreground);
+    }
+
+    [role='listbox'] [role='option'] {
+      padding-inline-end: 0.75rem;
+    }
+
+    [role='listbox'] [role='option']:is(:hover, [data-highlighted]) [data-slot='shortcut'] {
+      color: var(--accent-foreground);
+    }
+  }
+}

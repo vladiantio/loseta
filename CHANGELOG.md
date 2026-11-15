@@ -1,5 +1,26 @@
 # Changelog
 
+## 0.14.0 - 2026-11-15
+
+### Changed
+
+- Promoted `calendar`, `carousel`, `chart`, `command`, `combobox`,
+  `resizable`, `select` and the `listbox` primitive to stable. They now ship all
+  eight styles and are covered by the v1 contract.
+
+### Fixed
+
+- Select placeholder text now switches to the foreground color on hover, focus
+  and expanded states, meeting the 4.5:1 contrast threshold on the muted hover
+  surface.
+
+### Notes
+
+- The registry now has 55 stable components and 7 experimental components.
+- All four primitives are stable.
+- The eight promoted items install without `--experimental` in every style, and
+  `loseta add all` includes the components.
+
 ## 0.13.0 - 2026-11-15
 
 ### Changed

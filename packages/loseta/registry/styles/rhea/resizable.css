@@ -1,0 +1,34 @@
+/* Resizable */
+@layer loseta.style {
+  .resizable {
+    border-style: solid;
+    border-width: 1px;
+    border-color: var(--border);
+    border-radius: var(--radius-2xl);
+    background-color: var(--background);
+
+    > .resizable-panel {
+      padding: 1rem;
+      font-size: var(--text-sm);
+      line-height: var(--text-sm--line-height);
+    }
+
+    > [data-slot='handle'] {
+      flex-basis: 0.5rem;
+      background-color: var(--background);
+
+      &::before {
+        background-color: var(--border);
+      }
+
+      &:hover::before,
+      &:focus-visible::before {
+        background-color: var(--ring);
+      }
+
+      &:focus-visible {
+        box-shadow: inset 0 0 0 1px var(--ring);
+      }
+    }
+  }
+}

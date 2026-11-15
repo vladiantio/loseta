@@ -67,5 +67,9 @@
     [data-slot='value'][data-placeholder] {
       color: var(--muted-foreground);
     }
+
+    &:is(:hover, :focus-visible, [aria-expanded='true']) [data-slot='value'][data-placeholder] {
+      color: var(--foreground);
+    }
   }
 }

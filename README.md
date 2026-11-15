@@ -27,7 +27,7 @@ npx loseta list               # available components
 npx loseta list --experimental # include experimental components
 npx loseta list --all         # include experimental, primitives and foundation
 npx loseta add button --html  # print the example markup
-npx loseta add calendar --experimental # add an experimental component
+npx loseta add bubble --experimental # add an experimental component
 ```
 
 ## What you get
@@ -42,9 +42,9 @@ npx loseta add calendar --experimental # add an experimental component
   data-attribute contract; the docs use a small demo-only script to keep the
   examples interactive.
 
-The v1 registry includes 48 stable components: accordion, alert, alert-dialog, aspect-ratio, avatar, badge, breadcrumb, button, button-group, card, checkbox, code-block, collapsible, context-menu, dialog, drawer, dropdown-menu, empty, field, hover-card, input, input-group, input-otp, item, kbd, label, menubar, native-select, navigation-menu, pagination, popover, progress, radio, scroll-area, separator, sheet, sidebar, skeleton, slider, spinner, switch, table, tabs, textarea, toast, toggle, toggle-group and tooltip.
+The v1 registry includes 55 stable components: accordion, alert, alert-dialog, aspect-ratio, avatar, badge, breadcrumb, button, button-group, calendar, card, carousel, chart, checkbox, code-block, collapsible, combobox, command, context-menu, dialog, drawer, dropdown-menu, empty, field, hover-card, input, input-group, input-otp, item, kbd, label, menubar, native-select, navigation-menu, pagination, popover, progress, radio, resizable, scroll-area, select, separator, sheet, sidebar, skeleton, slider, spinner, switch, table, tabs, textarea, toast, toggle, toggle-group and tooltip.
 
-Fourteen experimental components ship alongside them: attachment, bubble, calendar, carousel, chart, combobox, command, marker, message, message-scroller, questionnaire, resizable, select and trace. They are
+Seven experimental components ship alongside them: attachment, bubble, marker, message, message-scroller, questionnaire and trace. They are
 Nova-only, install with `--experimental` and stay outside the v1 compatibility
 contract until they are promoted.
 

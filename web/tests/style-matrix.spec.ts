@@ -252,6 +252,96 @@ const cases: StyleCase[] = [
       sera: "0px",
       rhea: "18px"
     }
+  },
+  {
+    id: "select",
+    selector: ".docs-preview .select > button",
+    property: "height",
+    values: {
+      nova: "32px",
+      vega: "36px",
+      maia: "36px",
+      lyra: "32px",
+      mira: "28px",
+      luma: "36px",
+      sera: "40px",
+      rhea: "32px"
+    }
+  },
+  {
+    id: "combobox",
+    selector: ".docs-preview .combobox > input",
+    property: "height",
+    values: {
+      nova: "32px",
+      vega: "36px",
+      maia: "36px",
+      lyra: "32px",
+      mira: "28px",
+      luma: "36px",
+      sera: "40px",
+      rhea: "32px"
+    }
+  },
+  {
+    id: "calendar",
+    selector: ".docs-preview .calendar td > button",
+    property: "width",
+    values: {
+      nova: "32px",
+      vega: "36px",
+      maia: "36px",
+      lyra: "32px",
+      mira: "28px",
+      luma: "36px",
+      sera: "40px",
+      rhea: "32px"
+    }
+  },
+  {
+    id: "carousel",
+    selector: ".docs-preview .carousel-button",
+    property: "width",
+    values: {
+      nova: "32px",
+      vega: "36px",
+      maia: "36px",
+      lyra: "32px",
+      mira: "28px",
+      luma: "36px",
+      sera: "40px",
+      rhea: "32px"
+    }
+  },
+  {
+    id: "chart",
+    selector: ".docs-preview .chart [data-slot='swatch']",
+    property: "width",
+    values: {
+      nova: "8px",
+      vega: "8px",
+      maia: "10px",
+      lyra: "8px",
+      mira: "6px",
+      luma: "10px",
+      sera: "8px",
+      rhea: "8px"
+    }
+  },
+  {
+    id: "resizable",
+    selector: ".docs-preview .resizable-panel",
+    property: "padding-top",
+    values: {
+      nova: "16px",
+      vega: "20px",
+      maia: "20px",
+      lyra: "12px",
+      mira: "12px",
+      luma: "20px",
+      sera: "24px",
+      rhea: "16px"
+    }
   }
 ];
 

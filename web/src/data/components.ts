@@ -172,7 +172,7 @@ const notesBy: Record<string, string> = {
   "message-scroller":
     "The viewport is the scroll container and needs tabindex=\"0\" and an accessible name. Following new messages, anchoring, scroll position and showing [data-slot=\"jump\"] are consumer JavaScript; the jump button needs an accessible label.",
   "native-select":
-    ".native-select is the native select root. The custom Select is experimental and is not part of v1.",
+    ".native-select is the native select root. The custom Select is a separate component with its own install.",
   switch: "Use input type=\"checkbox\" role=\"switch\" together with the .switch class.",
   questionnaire:
     "A sequence of fieldset steps. Use aria-current=\"step\" on the active item and hidden on inactive ones, a native progress with an accessible name, and native radios, checkboxes and inputs for answers. Step changes, validation and completion are consumer JavaScript.",

@@ -1,0 +1,59 @@
+/* Combobox */
+@layer loseta.style {
+  .combobox {
+    > input {
+      height: 1.75rem;
+      border-style: solid;
+      border-width: 1px;
+      border-color: var(--input);
+      border-radius: var(--radius-md);
+      background-color: light-dark(
+        transparent,
+        color-mix(in oklab, var(--input) 30%, transparent)
+      );
+      padding-inline: 0.5rem;
+      font-size: var(--text-sm);
+      line-height: 1.5;
+      transition-property: color, background-color, border-color, box-shadow;
+      transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+      transition-duration: 150ms;
+
+      &:focus-visible {
+        border-color: var(--ring);
+        box-shadow: 0 0 0 3px color-mix(in oklab, var(--ring) 50%, transparent);
+      }
+
+      &[aria-invalid='true'] {
+        border-color: light-dark(
+          var(--destructive),
+          color-mix(in oklab, var(--destructive) 50%, transparent)
+        );
+        box-shadow: 0 0 0 3px light-dark(
+          color-mix(in oklab, var(--destructive) 20%, transparent),
+          color-mix(in oklab, var(--destructive) 40%, transparent)
+        );
+      }
+
+      @media (width >= 48rem) {
+        font-size: var(--text-xs);
+        line-height: var(--text-xs--line-height);
+      }
+    }
+
+    &:has(> [data-slot='clear']) > input {
+      padding-inline-end: 2rem;
+    }
+
+    > [data-slot='clear'] {
+      width: 1.25rem;
+      height: 1.25rem;
+      border-radius: var(--radius-sm);
+      color: var(--muted-foreground);
+
+      &:hover {
+        background-color: var(--muted);
+        color: var(--foreground);
+      }
+    }
+  }
+}

@@ -7,6 +7,7 @@
 @import "../../../packages/loseta/registry/utilities.css";
 @import "../../../packages/loseta/registry/primitives/dialog-shell.css";
 @import "../../../packages/loseta/registry/primitives/menu.css";
+@import "../../../packages/loseta/registry/primitives/listbox.css";
 @import "../../../packages/loseta/registry/primitives/popover.css";
 @import "../../../packages/loseta/registry/components/alert.css";
 @import "../../../packages/loseta/registry/components/alert-dialog.css";
@@ -54,5 +55,12 @@
 @import "../../../packages/loseta/registry/components/input-otp.css";
 @import "../../../packages/loseta/registry/components/scroll-area.css";
 @import "../../../packages/loseta/registry/components/slider.css";
+@import "../../../packages/loseta/registry/components/select.css";
+@import "../../../packages/loseta/registry/components/combobox.css";
+@import "../../../packages/loseta/registry/components/command.css";
+@import "../../../packages/loseta/registry/components/calendar.css";
+@import "../../../packages/loseta/registry/components/carousel.css";
+@import "../../../packages/loseta/registry/components/chart.css";
+@import "../../../packages/loseta/registry/components/resizable.css";
 @import "../../../packages/loseta/registry/components/sidebar.css";
 @import "../../../packages/loseta/registry/components/toast.css";

@@ -658,8 +658,9 @@ Notes:
 - Standard easing is `cubic-bezier(0.4, 0, 0.2, 1)`.
 - Controls, hover states, tabs, table rows and tooltips transition in `150ms`.
 - Accordion and collapsible content transition `block-size` and opacity in
-  `150ms` where `::details-content` and `calc-size()` are supported; the open
-  state itself is native and works without either feature.
+  `150ms`, with a discrete `content-visibility` transition so the closing state
+  animates too, where `::details-content` and `calc-size()` are supported; the
+  open state itself is native and works without either feature.
 - Code Block's floating actions fade in `150ms` on hover and focus-within.
 - Overlays (popover, dropdown, dialog, alert dialog) transition in `100ms`;
   the underlying shell defaults to `150ms` when a style does not override it.

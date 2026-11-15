@@ -418,6 +418,31 @@ test("toggle demo flips aria-pressed", async ({ page }) => {
   await expect(toggle).toHaveAttribute("aria-pressed", "false");
 });
 
+test("accordion and collapsible animate their content on close", async ({ page }) => {
+  for (const [slug, selector] of [
+    ["accordion", ".accordion details"],
+    ["collapsible", ".collapsible"]
+  ] as const) {
+    await page.goto(`/docs/components/${slug}`);
+    const transition = await page
+      .locator(`.docs-preview ${selector}`)
+      .first()
+      .evaluate((element) => {
+        const style = getComputedStyle(element, "::details-content");
+        return {
+          property: style.transitionProperty,
+          duration: style.transitionDuration,
+          behavior: style.transitionBehavior
+        };
+      });
+
+    expect(transition.property).toContain("block-size");
+    expect(transition.property).toContain("content-visibility");
+    expect(transition.duration).toBe("0.15s");
+    expect(transition.behavior).toBe("allow-discrete");
+  }
+});
+
 test("experimental pages expose the banner, install flag and stylesheet", async ({
   page
 }) => {

@@ -1,5 +1,32 @@
 # Changelog
 
+## 0.7.0 - 2026-11-15
+
+### Added
+
+- Five experimental components: collapsible, input-group, input-otp,
+  scroll-area and slider. They replace the collapsible, input-group, range and
+  scrollbar drafts.
+- `scroll-area` consumes the reserved `--scrollbar-track`, `--scrollbar-thumb`,
+  `--scrollbar-width`, `--scrollbar-sm-width` and `--scrollbar-radius` tokens.
+- `input-group` addons (`[data-slot="addon"]`) support inline and block
+  placement, and the group owns the focus and invalid rings.
+- `input-otp` styles a single native input; `slider` uses a native range input
+  with `accent-color` and no JavaScript fill logic.
+
+### Changed
+
+- The draft `range` component is now `slider`; the draft `scrollbar` component
+  is now `scroll-area`.
+
+### Notes
+
+- Experimental components remain outside the v1 compatibility contract and
+  ship only the Nova style.
+- Sliders keep native tracks and thumbs; OTP inputs do not auto-advance or draw
+  per-digit slots; input-group addons do not focus the control when clicked.
+  Those are consumer JavaScript concerns.
+
 ## 0.6.0 - 2026-11-15
 
 ### Added

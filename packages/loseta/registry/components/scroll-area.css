@@ -1,0 +1,16 @@
+/* Scroll Area */
+@layer loseta.components {
+  .scroll-area {
+    overflow: auto;
+
+    &[data-orientation='horizontal'] {
+      overflow-x: auto;
+      overflow-y: hidden;
+    }
+
+    &[data-orientation='vertical'] {
+      overflow-y: auto;
+      overflow-x: hidden;
+    }
+  }
+}

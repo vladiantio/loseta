@@ -110,6 +110,10 @@ _Avoid_: subcomponent, child class
 The public name that identifies a part, shared across components with the same anatomy.
 _Avoid_: role, region
 
+**Addon**:
+A leading or trailing part inside an input group that is not itself a control.
+_Avoid_: prefix, suffix, icon
+
 **Variant**:
 A named visual alternative of a component.
 _Avoid_: type, kind, style, modifier

@@ -1,0 +1,57 @@
+/* Collapsible */
+@layer loseta.components {
+  .collapsible {
+    > summary {
+      display: flex;
+      width: 100%;
+      cursor: pointer;
+      list-style-type: none;
+      align-items: center;
+      justify-content: space-between;
+      outline-style: none;
+      -webkit-user-select: none;
+      user-select: none;
+
+      @media (forced-colors: active) {
+        outline: 2px solid transparent;
+        outline-offset: 2px;
+      }
+
+      &::-webkit-details-marker {
+        display: none;
+      }
+
+      > svg:last-child {
+        pointer-events: none;
+        flex-shrink: 0;
+        transition-property: rotate;
+        transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+        transition-duration: 150ms;
+      }
+    }
+
+    &[open] > summary > svg:last-child {
+      rotate: 180deg;
+    }
+
+    &[inert] > summary {
+      pointer-events: none;
+      opacity: 50%;
+    }
+
+    > :not(summary) {
+      overflow: hidden;
+    }
+
+    &::details-content {
+      block-size: 0;
+      display: block;
+      overflow: hidden;
+    }
+
+    &[open]::details-content {
+      block-size: auto;
+      block-size: calc-size(auto, size);
+    }
+  }
+}

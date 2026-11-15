@@ -1,7 +1,7 @@
 {
   "$schema": "./schema.json",
   "name": "loseta",
-  "version": "0.6.0",
+  "version": "0.7.0",
   "styles": [
     {
       "name": "nova",
@@ -2657,6 +2657,160 @@
       ],
       "examples": [
         "examples/sheet.html"
+      ]
+    },
+    {
+      "name": "collapsible",
+      "type": "component",
+      "status": "experimental",
+      "title": "Collapsible",
+      "description": "A native disclosure that reveals or hides content.",
+      "docs": "/docs/components/collapsible",
+      "root": [
+        ".collapsible"
+      ],
+      "registryDependencies": [],
+      "optionalDependencies": [],
+      "files": [
+        {
+          "path": "components/collapsible.css",
+          "target": "components/collapsible.css",
+          "role": "base",
+          "layer": "loseta.components"
+        },
+        {
+          "path": "styles/nova/collapsible.css",
+          "target": "styles/nova/collapsible.css",
+          "role": "style",
+          "layer": "loseta.style"
+        }
+      ],
+      "examples": [
+        "examples/collapsible.html"
+      ]
+    },
+    {
+      "name": "input-group",
+      "type": "component",
+      "status": "experimental",
+      "title": "Input Group",
+      "description": "Composes inputs, textareas and addons into one control surface.",
+      "docs": "/docs/components/input-group",
+      "root": [
+        ".input-group"
+      ],
+      "registryDependencies": [],
+      "optionalDependencies": [
+        "input",
+        "textarea",
+        "button"
+      ],
+      "files": [
+        {
+          "path": "components/input-group.css",
+          "target": "components/input-group.css",
+          "role": "base",
+          "layer": "loseta.components"
+        },
+        {
+          "path": "styles/nova/input-group.css",
+          "target": "styles/nova/input-group.css",
+          "role": "style",
+          "layer": "loseta.style"
+        }
+      ],
+      "examples": [
+        "examples/input-group.html"
+      ]
+    },
+    {
+      "name": "input-otp",
+      "type": "component",
+      "status": "experimental",
+      "title": "Input OTP",
+      "description": "A single native input for one-time codes.",
+      "docs": "/docs/components/input-otp",
+      "root": [
+        ".input-otp"
+      ],
+      "registryDependencies": [],
+      "optionalDependencies": [],
+      "files": [
+        {
+          "path": "components/input-otp.css",
+          "target": "components/input-otp.css",
+          "role": "base",
+          "layer": "loseta.components"
+        },
+        {
+          "path": "styles/nova/input-otp.css",
+          "target": "styles/nova/input-otp.css",
+          "role": "style",
+          "layer": "loseta.style"
+        }
+      ],
+      "examples": [
+        "examples/input-otp.html"
+      ]
+    },
+    {
+      "name": "scroll-area",
+      "type": "component",
+      "status": "experimental",
+      "title": "Scroll Area",
+      "description": "A scroll container with native styled scrollbars.",
+      "docs": "/docs/components/scroll-area",
+      "root": [
+        ".scroll-area"
+      ],
+      "registryDependencies": [],
+      "optionalDependencies": [],
+      "files": [
+        {
+          "path": "components/scroll-area.css",
+          "target": "components/scroll-area.css",
+          "role": "base",
+          "layer": "loseta.components"
+        },
+        {
+          "path": "styles/nova/scroll-area.css",
+          "target": "styles/nova/scroll-area.css",
+          "role": "style",
+          "layer": "loseta.style"
+        }
+      ],
+      "examples": [
+        "examples/scroll-area.html"
+      ]
+    },
+    {
+      "name": "slider",
+      "type": "component",
+      "status": "experimental",
+      "title": "Slider",
+      "description": "A native range input for selecting a value from a range.",
+      "docs": "/docs/components/slider",
+      "root": [
+        ".slider"
+      ],
+      "registryDependencies": [],
+      "optionalDependencies": [],
+      "files": [
+        {
+          "path": "components/slider.css",
+          "target": "components/slider.css",
+          "role": "base",
+          "layer": "loseta.components"
+        },
+        {
+          "path": "styles/nova/slider.css",
+          "target": "styles/nova/slider.css",
+          "role": "style",
+          "layer": "loseta.style"
+        }
+      ],
+      "examples": [
+        "examples/slider.html"
       ]
     }
   ]

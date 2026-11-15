@@ -8,7 +8,7 @@ It is not an implementation guide. The installed CSS is the reference
 implementation: if this document and the registry disagree,
 [`packages/loseta/registry/tokens.css`](packages/loseta/registry/tokens.css)
 and [`registry.json`](packages/loseta/registry/registry.json) win, and this
-document must be corrected. The baseline covers registry version `0.6.0`.
+document must be corrected. The baseline covers registry version `0.7.0`.
 
 Vocabulary is defined in [`GLOSSARY.md`](GLOSSARY.md).
 
@@ -41,7 +41,7 @@ Vocabulary is defined in [`GLOSSARY.md`](GLOSSARY.md).
 
 ## Scope
 
-The registry contains 25 stable components, 16 experimental components, three
+The registry contains 25 stable components, 21 experimental components, three
 primitives and four foundations:
 
 - **Stable components**: alert, alert-dialog, badge, button, button-group,
@@ -49,10 +49,11 @@ primitives and four foundations:
   kbd, label, native-select, popover, radio, skeleton, switch, table, tabs,
   textarea and tooltip.
 - **Experimental components**: accordion, aspect-ratio, avatar, breadcrumb,
-  context-menu, drawer, hover-card, menubar, navigation-menu, pagination,
-  progress, separator, sheet, spinner, toggle and toggle-group. They are
-  installable by name with `loseta add <name> --experimental`, ship exactly one
-  Nova style file and are explicitly outside the v1 compatibility contract.
+  collapsible, context-menu, drawer, hover-card, input-group, input-otp,
+  menubar, navigation-menu, pagination, progress, scroll-area, separator,
+  sheet, slider, spinner, toggle and toggle-group. They are installable by
+  name with `loseta add <name> --experimental`, ship exactly one Nova style
+  file and are explicitly outside the v1 compatibility contract.
 - **3 primitives**: `dialog-shell`, `menu` and `popover-primitive`. They are
   installed automatically as dependencies and are not consumer-facing
   components.
@@ -132,7 +133,8 @@ for values; this table defines intent.
 | `--border` | Separators, card outlines and outline-variant borders. |
 | `--input` | Form-control borders and subtle control fills in the dark scheme. |
 | `--ring` | Focus border and focus shadow. |
-| `--chart-*`, `--sidebar-*`, `--scrollbar-*` | Reserved token families shipped with the style; v1 components do not consume them. |
+| `--chart-*`, `--sidebar-*` | Reserved token families shipped with the style; v1 components do not consume them. |
+| `--scrollbar-*` | Scroll Area track, thumb, width and radius. |
 
 Transparency is derived with `color-mix(in oklab, var(--token) N%, transparent)`
 or `currentColor`; raw palette colors do not belong in component CSS except
@@ -210,6 +212,9 @@ fixed 4px radius. Code Block uses `--radius-xl`; its `sm` size uses
 - Badges, kbd, tooltips, `sm` toggles and `xs` buttons use `--text-xs`; the
   `sm` button is a deliberate `0.8rem` exception. Menu headings and
   navigation-menu descriptions also use `--text-xs`.
+- Input group addons use `--text-sm`; the inner input and textarea controls
+  keep the input type scale. OTP inputs use `--text-lg` by default,
+  `--text-base` at `sm` and `--text-xl` at `lg`.
 - Line heights are paired tokens (`--text-*--line-height`) or explicit unitless
   values where the component needs a tighter title or description rhythm. Code
   Block uses `1.6` for code lines.
@@ -225,9 +230,10 @@ fixed 4px radius. Code Block uses `--radius-xl`; its `sm` size uses
   fallback is `1rem`; button sizes override it to `0.75rem` (`xs`) or
   `0.875rem` (`sm`). Kbd and badge icons are `0.75rem`; the alert-dialog figure
   icon is `1.5rem`. Code Block title icons are `1rem`; its copy and wrap
-  controls use the `icon-xs` button size (`0.75rem` icons). Accordion chevrons
-  and pagination icons are `1rem`; breadcrumb separators are `0.875rem` and
-  avatar badges use `0.5rem` (`sm` badges hide the icon).
+  controls use the `icon-xs` button size (`0.75rem` icons). Accordion,
+  collapsible and pagination icons are `1rem`; input-group addon icons are
+  `1rem`; breadcrumb separators are `0.875rem` and avatar badges use `0.5rem`
+  (`sm` badges hide the icon).
 
 ### Spacing
 
@@ -253,11 +259,14 @@ file they own, not by expecting a spacing API.
 | Avatar | `--muted` fallback, `--primary` badge and a 1px `--border` ring. |
 | Context menu | `--popover` surface, foreground-at-10% ring and `--shadow-md`. |
 | Hover card | `--popover` surface through the popover primitive. |
+| Input group, OTP | `--input` border, `--ring` focus-within/focus and destructive invalid ring. |
 | Menu | Shared menu primitive: `--popover` surface, foreground-at-10% ring and the style's menu shadow. |
 | Menubar | `--background` bar with a 1px `--border` outline and `--shadow-xs`. |
 | Navigation menu | `--popover` panels through the popover primitive. |
 | Progress | `--primary` at 20% for the track and full `--primary` for the indicator. |
+| Scroll area | Native scrollbars from `--scrollbar-thumb`, `--scrollbar-track` and `--scrollbar-width`. |
 | Sheet, drawer | `--background` panel, `--border` side edge on sheets and `--shadow-lg`. |
+| Slider | Native track and thumb colored by `accent-color: --primary`. |
 | Toggle | Transparent or outline surface; pressed uses `--accent` / `--accent-foreground`. |
 | Pagination | Current page uses `--background` with a `--border` outline; links compose with button. |
 
@@ -300,13 +309,18 @@ visible.
 | Badge | `1.25rem` high | — |
 | Avatar | `2rem` square | `sm` 1.5rem, `lg` 2.5rem |
 | Accordion summary | No fixed height | `0.625rem` block padding |
+| Collapsible summary | No fixed height | `0.25rem` block padding |
 | Context menu | `8rem`–`20rem` wide | — |
 | Drawer | `80vh` maximum height | `sm` 50vh, `lg` 90vh |
 | Hover card | `18rem` wide | — |
+| Input group | `2rem` minimum height | Auto with a textarea |
+| Input OTP | `2.5rem` high | `sm` 2rem, `lg` 3rem |
 | Menubar trigger | `1.75rem` high | — |
 | Navigation trigger | `2rem` high | — |
 | Progress | `0.5rem` high | — |
+| Scroll area | Consumer-sized | `sm` narrower scrollbar |
 | Sheet | `24rem` wide | `sm` 20rem, `lg` 28rem |
+| Slider | `1.25rem` hit area | `sm` 1rem, `lg` 1.5rem |
 | Separator | `1px` | Vertical: `1px` wide and stretches |
 | Spinner | `1rem` square | `sm` 0.75rem, `lg` 1.5rem |
 | Toggle | `2rem` high, `2rem` minimum width | `sm` 1.75rem, `lg` 2.25rem |
@@ -365,6 +379,7 @@ on an RTL page; its header follows the page direction.
 | Card | `.card` | `header` with title/description/action, `section`, `footer`, optional leading/trailing image. | `data-size="default|sm"`; `data-separator="bottom"` on the header |
 | Checkbox | `.checkbox` | Native `input[type="checkbox"]`; must not carry `role="switch"`. | — |
 | Code Block | `.code-block` | Optional `header` with `[data-slot="title"]` and `[data-slot="actions"]`; required `pre` containing `code`; optional `footer`; line parts `[data-slot="line"]` wrapping `[data-slot="line-content"]`. | `data-size="default|sm"`; `data-variant="default|destructive"`; `pre` `data-line-numbers`, `data-wrap`, `--line-start`; line `data-variant="added|removed|highlighted"` |
+| Collapsible | `.collapsible` | Native `<details>` with a `<summary>` trigger and content directly after `summary`. | `[open]`; `inert` for disabled items |
 | Context menu | `.context-menu` | `[role="menu"]` panel with menu items, headings, separators and shortcuts. | `--context-x`, `--context-y` on the panel; `aria-hidden="true|false"` |
 | Dialog | `.dialog` | Native `<dialog>` containing a panel; panel contains `header`, title, description, `section`, `footer` and a close button or `form[method="dialog"]`. | — |
 | Drawer | `.drawer` | Native `<dialog>` with `data-side` and a panel containing `[data-slot="handle"]`, `header`, `section` and `footer`. | `data-side="block-start|block-end"`; `data-size="default|sm|lg"` |
@@ -373,6 +388,8 @@ on an RTL page; its header follows the page direction.
 | Field | `.field`, `.fieldset` | Label or legend, control, description `p`, error `[role="alert"]`, group/radiogroup container and `.field-separator`. | Legend `data-variant="label|legend"`; field `data-orientation="horizontal|responsive"`; group `data-slot="checkbox-group|radio-group"` |
 | Hover card | `.hover-card` | Trigger and `[data-popover]` panel; CSS-only open on hover and focus-within. | Placement attributes; no open state |
 | Input | `.input` | Native `<input>`. | — |
+| Input group | `.input-group` | `role="group"` with semantic `input`/`textarea` and `[data-slot="addon"]` parts. | Addon `data-align="inline-start|inline-end|block-start|block-end"` |
+| Input OTP | `.input-otp` | Native `<input>` with `inputmode="numeric"`, `autocomplete="one-time-code"`, `maxlength` and `pattern`. | `data-size="default|sm|lg"` |
 | Item | `.item`, `.item-group` | `figure`, `section`, `aside`, `header`, `footer`; item groups accept `hr` separators. | Item `data-variant="default|outline|muted"`; `data-size="default|sm|xs"` |
 | Kbd | `.kbd` | Inline shortcut text or SVG. | — |
 | Label | `.label` | Native `<label>`; also supported as a direct label inside `.field`. | — |
@@ -383,9 +400,11 @@ on an RTL page; its header follows the page direction.
 | Popover | `.popover` | Trigger and `[data-popover]` panel with optional header, title and description. | Placement attributes |
 | Progress | `.progress` | Native `<progress>` with fallback text. | `value`/`max`; omit `value` for indeterminate |
 | Radio | `.radio` | Native `input[type="radio"]`, normally inside `role="radiogroup"`. | — |
+| Scroll area | `.scroll-area` | Scroll container; the consumer sets dimensions and content. | `data-orientation="horizontal|vertical"`; `data-size="default|sm"` |
 | Separator | `.separator` | `<hr>` or `[role="separator"]`. | `data-orientation="horizontal|vertical"`; `aria-orientation` is also recognized |
 | Sheet | `.sheet` | Native `<dialog>` with `data-side` and a panel containing `header`, `section` and `footer`. | `data-side="inline-start|inline-end"`; `data-size="default|sm|lg"` |
 | Skeleton | `.skeleton` | No required children; the consumer sets dimensions. | — |
+| Slider | `.slider` | Native `<input type="range">`. | `data-size="default|sm|lg"` |
 | Spinner | `.spinner` | Empty span; the CSS draws the ring. | `data-size="default|sm|lg"`; `role="status"` plus a label in markup |
 | Switch | `.switch` | Native `input[type="checkbox"]` with `role="switch"` and a label. | `data-size="default|sm"` |
 | Table | `.table-container`, `.table` | `caption`, `thead`, `tbody`, `tfoot`, `tr`, `th`, `td`; checkbox cells use `role="checkbox"`. | Row `aria-selected="true"` |
@@ -421,6 +440,7 @@ The public slot vocabulary is shared across components:
 - `data-slot="label"` — pagination previous/next text.
 - `data-slot="handle"` — drawer.
 - `data-slot="title"`, `data-slot="description"` — navigation menu panels.
+- `data-slot="addon"` — input group.
 
 Semantic parts are equally public where documented: `header`, `section`,
 `footer`, `figure`, `aside`, `pre`, `code`, `details`, `summary`, `nav`, `ol`,
@@ -441,6 +461,9 @@ Popover panels, dropdown panels and tooltips share placement hooks:
 | `data-side` | `top`, `bottom`, `left`, `right`, `inline-start`, `inline-end`, `block-start`, `block-end` | `bottom` for popover/dropdown/tooltip; required on sheets and drawers | Popover, dropdown, tooltip, sheet, drawer and navigation panels |
 | `data-align` | `start`, `center`, `end` | `start` | Popover, dropdown, tooltip and navigation panels |
 | `data-arrow` | Present or absent | No arrow | Tooltip |
+
+Input-group addons also use `data-align`, but with
+`inline-start`, `inline-end`, `block-start` and `block-end`.
 
 Physical sides (`left`/`right`) and logical sides (`inline-start`/`inline-end`)
 are both supported. `center` alignment uses a translate offset. `data-inset`
@@ -483,6 +506,7 @@ public state hooks:
 | Range value | Native `value` and `max` | Progress; no ARIA override. |
 | Disabled, inert | `inert` | Accordion items. |
 | Focus | `:focus-visible` | All focusable controls. |
+| Focus within | `:focus-within` | Input group; the group draws the ring instead of the inner control. |
 
 The state contract is deliberately small. Do **not** use `.active`,
 `data-active`, `data-invalid`, `data-disabled`, `data-selected`,
@@ -527,9 +551,9 @@ Notes:
 
 - Standard easing is `cubic-bezier(0.4, 0, 0.2, 1)`.
 - Controls, hover states, tabs, table rows and tooltips transition in `150ms`.
-- Accordion content transitions `block-size` and opacity in `150ms` where
-  `::details-content` and `calc-size()` are supported; the open state itself is
-  native and works without either feature.
+- Accordion and collapsible content transition `block-size` and opacity in
+  `150ms` where `::details-content` and `calc-size()` are supported; the open
+  state itself is native and works without either feature.
 - Code Block's floating actions fade in `150ms` on hover and focus-within.
 - Overlays (popover, dropdown, dialog, alert dialog) transition in `100ms`;
   the underlying shell defaults to `150ms` when a style does not override it.
@@ -565,6 +589,18 @@ progress sweep slow down instead of stopping. This remains a known gap.
 - Accordion items must keep the trigger as the `<summary>`; disabled items use
   `inert`, which removes them and their content from the tab order. Exclusive
   groups use the native `name` attribute.
+- Collapsible uses the same native `<details>`/`<summary>` contract. It does
+  not impose exclusivity; consumers can add the native `name` attribute.
+- Input groups need an accessible name on the group and on the inner control.
+  Addons are presentation; clicking an addon to focus the control is consumer
+  JavaScript.
+- OTP inputs need an accessible label, `inputmode="numeric"`,
+  `autocomplete="one-time-code"`, `maxlength` and optionally `pattern`. CSS
+  does not auto-advance or draw per-digit slots.
+- Scroll areas need `tabindex="0"` and an accessible name so keyboard users can
+  scroll them.
+- Sliders are native range inputs and need a label; keep min, max and value in
+  markup. The native focus ring is not suppressed.
 - Avatars need `alt` text on the image and an `aria-hidden` fallback; a
   decorative badge is `aria-hidden`. The consumer hides the image when loading
   fails.
@@ -653,7 +689,8 @@ hints only and are never installed automatically. Notable optional pairs are
 field with its form controls, button group with
 button/input/popover/dropdown-menu, table with checkbox, dropdown-menu with
 kbd, breadcrumb with dropdown-menu, pagination with button, sheet and drawer
-with button, and code block with button for copy and wrap controls.
+with button, input group with input/textarea/button, and code block with button
+for copy and wrap controls.
 
 The `menu` primitive styles every `[role="menu"]` in the project. It owns the
 shared item, heading, separator, shortcut and indicator rules; `dropdown-menu`,
@@ -721,8 +758,15 @@ semantic versioning.
 - The `menu` primitive styles every `[role="menu"]` in the project.
 - There is no `loseta remove` command; removing an experimental item before a
   style switch is a manual file and manifest edit.
-- Accordion animation relies on `::details-content` and `calc-size()`; older
-  engines in the support window open and close instantly.
+- Accordion and collapsible animation relies on `::details-content` and
+  `calc-size()`; older engines in the support window open and close instantly.
+- Sliders use native tracks and thumbs. A custom thumb needs `appearance: none`
+  and consumer-managed fill.
+- OTP inputs do not auto-advance or draw per-digit slots.
+- Input-group addons do not focus the control when clicked; that is consumer
+  JavaScript.
+- Scroll areas use native scrollbars; there are no custom overlay thumb
+  elements.
 - Uncurated drafts remain in `packages/loseta/experimental/` and are not
   published.
 - There is no spacing or motion token scale; spacing and durations are

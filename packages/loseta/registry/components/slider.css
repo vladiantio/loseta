@@ -1,0 +1,13 @@
+/* Slider */
+@layer loseta.components {
+  .slider {
+    display: block;
+    width: 100%;
+    cursor: pointer;
+
+    &:disabled {
+      cursor: not-allowed;
+      opacity: 50%;
+    }
+  }
+}

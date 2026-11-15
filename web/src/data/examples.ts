@@ -1031,5 +1031,105 @@ Done in 2.8s using pnpm v10.18.0</code></pre>
   </div>
 </dialog>`
     }
+  ],
+  collapsible: [
+    {
+      title: "Default",
+      html: `<details class="collapsible">
+  <summary>
+    Show details
+    ${chevronDown}
+  </summary>
+  <div>
+    <p>This content is revealed with the native details element.</p>
+  </div>
+</details>`
+    },
+    {
+      title: "Open",
+      html: `<details class="collapsible" open>
+  <summary>
+    Shipping information
+    ${chevronDown}
+  </summary>
+  <div>
+    <p>Orders placed before 14:00 ship the same day.</p>
+    <p>Tracking details arrive by email.</p>
+  </div>
+</details>`
+    }
+  ],
+  "input-group": [
+    {
+      title: "Inline addons",
+      html: `<div class="input-group" role="group" aria-label="Email">
+  <span data-slot="addon" data-align="inline-start" aria-hidden="true">@</span>
+  <input class="input" type="email" placeholder="you@example.com" aria-label="Email">
+  <span data-slot="addon" data-align="inline-end">
+    <button type="button" class="btn" data-variant="ghost" data-size="icon-xs" aria-label="Copy email">${copy}</button>
+  </span>
+</div>`
+    },
+    {
+      title: "Block addon",
+      html: `<div class="input-group" role="group" aria-label="Message">
+  <span data-slot="addon" data-align="block-start">Message</span>
+  <textarea class="textarea" placeholder="Type your message here." aria-label="Message"></textarea>
+</div>`
+    }
+  ],
+  "input-otp": [
+    {
+      title: "Default",
+      html: `<input class="input-otp" type="text" inputmode="numeric" autocomplete="one-time-code" maxlength="6" pattern="[0-9]*" aria-label="One-time code" placeholder="000000">`
+    },
+    {
+      title: "Large",
+      html: `<input class="input-otp" data-size="lg" type="text" inputmode="numeric" autocomplete="one-time-code" maxlength="6" pattern="[0-9]*" aria-label="One-time code" placeholder="000000">`
+    }
+  ],
+  "scroll-area": [
+    {
+      title: "Vertical",
+      html: `<div class="scroll-area" role="region" aria-label="Scrollable content" tabindex="0" style="max-height: 10rem; border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 0.75rem">
+  <p>loseta copies readable CSS files into your project.</p>
+  <p>The registry validates layers, dependencies and generated examples.</p>
+  <p>Eight styles share one markup contract.</p>
+  <p>The docs site renders the same files consumers install.</p>
+  <p>Scrollbars use the reserved scrollbar tokens.</p>
+  <p>This region is focusable so keyboard users can scroll it.</p>
+  <p>No JavaScript is involved in the scrollbar styling.</p>
+</div>`
+    },
+    {
+      title: "Horizontal, small",
+      html: `<div class="scroll-area" data-size="sm" data-orientation="horizontal" role="region" aria-label="Scrollable row" tabindex="0" style="border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 0.75rem">
+  <div style="display: flex; gap: 0.5rem; width: max-content">
+    <span class="badge">Accordion</span>
+    <span class="badge">Avatar</span>
+    <span class="badge">Breadcrumb</span>
+    <span class="badge">Context menu</span>
+    <span class="badge">Drawer</span>
+    <span class="badge">Hover card</span>
+    <span class="badge">Menubar</span>
+    <span class="badge">Navigation menu</span>
+    <span class="badge">Sheet</span>
+  </div>
+</div>`
+    }
+  ],
+  slider: [
+    {
+      title: "Default",
+      html: `<input class="slider" type="range" min="0" max="100" value="60" aria-label="Volume">`
+    },
+    {
+      title: "Sizes and disabled",
+      html: `<div style="display: grid; gap: 0.75rem">
+  <input class="slider" data-size="sm" type="range" min="0" max="100" value="30" aria-label="Small volume">
+  <input class="slider" data-size="lg" type="range" min="0" max="100" value="70" aria-label="Large volume">
+  <input class="slider" type="range" min="0" max="100" value="50" aria-label="Disabled volume" disabled>
+</div>`
+    }
   ]
 };

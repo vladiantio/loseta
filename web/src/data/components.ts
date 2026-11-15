@@ -17,11 +17,14 @@ const groupBy: Record<string, ComponentGroup> = {
   button: "Forms",
   "button-group": "Forms",
   checkbox: "Forms",
+  collapsible: "Disclosure",
   "context-menu": "Overlays",
   drawer: "Overlays",
   field: "Forms",
   "hover-card": "Overlays",
   input: "Forms",
+  "input-group": "Forms",
+  "input-otp": "Forms",
   label: "Forms",
   menubar: "Navigation",
   "navigation-menu": "Navigation",
@@ -29,7 +32,9 @@ const groupBy: Record<string, ComponentGroup> = {
   pagination: "Navigation",
   progress: "Feedback",
   radio: "Forms",
+  "scroll-area": "Surfaces",
   separator: "Surfaces",
+  slider: "Forms",
   spinner: "Feedback",
   switch: "Forms",
   textarea: "Forms",
@@ -85,8 +90,18 @@ const notesBy: Record<string, string> = {
     "Use <hr class=\"separator\"> for a semantic horizontal separator. For vertical use <div role=\"separator\" data-orientation=\"vertical\">; decorative separators use role=\"presentation\" or aria-hidden.",
   "context-menu":
     "CSS cannot follow the pointer. The consumer sets --context-x and --context-y on the panel (physical left/top, even in RTL), toggles aria-hidden and manages roving focus. Items use role=\"menu\" and role=\"menuitem\".",
+  collapsible:
+    "Native <details> with <summary> as the trigger and content directly after it. Use [open] and inert; no JavaScript is required. For exclusive groups, use several details with the same name.",
   drawer:
     "Native <dialog> with data-side=\"block-end\". CSS only handles presentation; call showModal() and close(). The handle is [data-slot=\"handle\"]; drag gestures are consumer JavaScript. data-size sm/default/lg changes the height.",
+  "input-group":
+    "role=\"group\" root. Addons use [data-slot=\"addon\"] and data-align=\"inline-start|inline-end|block-start|block-end\". The group owns the border and focus ring; inner input and textarea controls are borderless. Clicking an addon does not focus the control; that is consumer JavaScript.",
+  "input-otp":
+    "A single native input. Use inputmode=\"numeric\", autocomplete=\"one-time-code\", maxlength and pattern. CSS draws no per-digit slots and does not auto-advance; those need consumer behavior.",
+  "scroll-area":
+    "Put .scroll-area on the scroll container and size it with your own layout or inline styles. Native scrollbars follow the --scrollbar-* tokens; data-orientation limits the axis and data-size=\"sm\" narrows the scrollbar. A scrollable region needs tabindex=\"0\" and an accessible name.",
+  slider:
+    "Native input[type=\"range\"]. accent-color draws the filled track and thumb; a custom thumb needs appearance:none and consumer-managed fill. data-size sm/default/lg changes the hit area.",
   "hover-card":
     "CSS-only: opens on hover and focus-within with a 300ms delay. Point the trigger at the panel with aria-describedby. Use popover for interactive content that needs explicit dismissal.",
   menubar:

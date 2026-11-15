@@ -17,7 +17,12 @@ const staticPages = [
   "/docs/installation",
   "/docs/theming",
   "/docs/styles",
-  "/docs/components"
+  "/docs/components",
+  "/docs/recipes",
+  "/docs/recipes/form",
+  "/docs/recipes/data-table",
+  "/docs/recipes/date-picker",
+  "/docs/guidelines/typography"
 ];
 const pages = [
   ...staticPages,
@@ -634,6 +639,47 @@ test("toast dismissal removes the item", async ({ page }) => {
   await expect(toasts).toHaveCount(2);
   await toasts.first().getByRole("button", { name: "Dismiss" }).click();
   await expect(toasts).toHaveCount(1);
+});
+
+test("questionnaire navigates between fieldset steps", async ({ page }) => {
+  await page.goto("/docs/components/questionnaire");
+  const questionnaire = page.locator(".questionnaire");
+  const label = questionnaire.locator("[data-slot='progress-label']");
+  const steps = questionnaire.locator("[data-slot='item']");
+
+  await expect(label).toHaveText("Question 1 of 2");
+  await expect(steps.first()).toBeVisible();
+  await expect(
+    questionnaire.getByRole("button", { name: "Previous" })
+  ).toBeDisabled();
+
+  await questionnaire.getByRole("button", { name: "Next" }).click();
+  await expect(label).toHaveText("Question 2 of 2");
+  await expect(steps.first()).toBeHidden();
+  await expect(steps.nth(1)).toBeVisible();
+  await expect(
+    questionnaire.getByRole("button", { name: "Next" })
+  ).toBeDisabled();
+
+  await questionnaire.getByRole("button", { name: "Previous" }).click();
+  await expect(label).toHaveText("Question 1 of 2");
+  await expect(steps.first()).toBeVisible();
+});
+
+test("message scroller jumps to the latest message", async ({ page }) => {
+  await page.goto("/docs/components/message-scroller");
+  const scroller = page.locator(".message-scroller");
+  const viewport = scroller.locator(".message-scroller-viewport");
+  const jump = scroller.getByRole("button", { name: "Jump to latest" });
+  const scrollTop = () => viewport.evaluate((element) => element.scrollTop);
+
+  expect(await viewport.evaluate((element) => element.scrollHeight)).toBeGreaterThan(
+    await viewport.evaluate((element) => element.clientHeight)
+  );
+  await expect(jump).toBeVisible();
+  await jump.click();
+  await expect.poll(scrollTop).toBeGreaterThan(0);
+  await expect(jump).toBeHidden();
 });
 
 test("component preview reveals cleaned example code", async ({ page }) => {

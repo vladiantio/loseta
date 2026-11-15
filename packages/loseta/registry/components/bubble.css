@@ -1,0 +1,92 @@
+/* Bubble */
+@layer loseta.components {
+  .bubble-group {
+    display: flex;
+    min-width: 0;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .bubble {
+    position: relative;
+    display: flex;
+    width: fit-content;
+    max-width: 80%;
+    min-width: 0;
+    flex-direction: column;
+    gap: 0.25rem;
+
+    &[data-align='end'] {
+      align-self: flex-end;
+    }
+
+    &[data-variant='ghost'] {
+      max-width: 100%;
+    }
+
+    > [data-slot='content'] {
+      width: fit-content;
+      max-width: 100%;
+      min-width: 0;
+      overflow: hidden;
+      overflow-wrap: anywhere;
+      border-style: solid;
+      border-width: 1px;
+      border-color: transparent;
+      outline-style: none;
+
+      &:is(a, button) {
+        text-align: start;
+      }
+
+      @media (forced-colors: active) {
+        &:is(a, button) {
+          outline: 2px solid transparent;
+          outline-offset: 2px;
+        }
+      }
+    }
+
+    > [data-slot='reactions'] {
+      position: absolute;
+      z-index: 1;
+      display: flex;
+      width: fit-content;
+      align-items: center;
+      justify-content: center;
+      gap: 0.25rem;
+      inset-block-end: 0;
+      inset-inline-end: 0.75rem;
+      translate: 0 75%;
+
+      &[data-side='top'] {
+        inset-block-start: 0;
+        inset-block-end: auto;
+        translate: 0 -75%;
+      }
+
+      &[data-align='start'] {
+        inset-inline-start: 0.75rem;
+        inset-inline-end: auto;
+      }
+    }
+
+    [data-slot='reaction'] {
+      display: inline-flex;
+      flex-shrink: 0;
+      align-items: center;
+      justify-content: center;
+      gap: 0.25rem;
+      border-style: none;
+      border-radius: var(--radius-full);
+      font: inherit;
+      cursor: pointer;
+      outline-style: none;
+
+      @media (forced-colors: active) {
+        outline: 2px solid transparent;
+        outline-offset: 2px;
+      }
+    }
+  }
+}

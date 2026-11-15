@@ -194,6 +194,21 @@ const defaultStyle = registry.styles[0]?.name ?? "nova";
               >Components</a
             >
           </div>
+          <div class="docs-nav-group">
+            <span class="docs-nav-title">Reference</span>
+            <a
+              class="docs-nav-link"
+              href="/docs/recipes"
+              aria-current={isActive("/docs/recipes") ? "page" : undefined}
+              >Recipes</a
+            >
+            <a
+              class="docs-nav-link"
+              href="/docs/guidelines/typography"
+              aria-current={isActive("/docs/guidelines/typography") ? "page" : undefined}
+              >Typography</a
+            >
+          </div>
           {
             componentGroups
               .filter((group) => stableComponentsInGroup(group).length > 0)

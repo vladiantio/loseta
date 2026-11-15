@@ -1,0 +1,56 @@
+/* Message Scroller */
+@layer loseta.components {
+  .message-scroller {
+    position: relative;
+    display: flex;
+    min-height: 0;
+    width: 100%;
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+  .message-scroller-viewport {
+    min-height: 0;
+    flex: 1 1 auto;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    scrollbar-width: thin;
+    outline-style: none;
+
+    @media (forced-colors: active) {
+      outline: 2px solid transparent;
+      outline-offset: 2px;
+    }
+  }
+
+  .message-scroller [data-slot='content'] {
+    display: flex;
+    min-height: 100%;
+    min-width: 0;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .message-scroller [data-slot='jump'] {
+    position: absolute;
+    z-index: 2;
+    inset-block-end: 1rem;
+    inset-inline-end: 1rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-style: solid;
+    border-width: 1px;
+    outline-style: none;
+    cursor: pointer;
+
+    &[hidden] {
+      display: none;
+    }
+
+    @media (forced-colors: active) {
+      outline: 2px solid transparent;
+      outline-offset: 2px;
+    }
+  }
+}

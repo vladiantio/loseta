@@ -7,13 +7,16 @@ export type ComponentGroup =
   | "Overlays"
   | "Disclosure"
   | "Navigation"
-  | "Feedback";
+  | "Feedback"
+  | "Conversation";
 
 const groupBy: Record<string, ComponentGroup> = {
   accordion: "Disclosure",
+  attachment: "Conversation",
   "aspect-ratio": "Surfaces",
   avatar: "Surfaces",
   breadcrumb: "Navigation",
+  bubble: "Conversation",
   button: "Forms",
   "button-group": "Forms",
   calendar: "Forms",
@@ -29,11 +32,15 @@ const groupBy: Record<string, ComponentGroup> = {
   "input-group": "Forms",
   "input-otp": "Forms",
   label: "Forms",
+  marker: "Conversation",
   menubar: "Navigation",
+  message: "Conversation",
+  "message-scroller": "Conversation",
   "navigation-menu": "Navigation",
   "native-select": "Forms",
   pagination: "Navigation",
   progress: "Feedback",
+  questionnaire: "Conversation",
   radio: "Forms",
   resizable: "Surfaces",
   "scroll-area": "Surfaces",
@@ -63,18 +70,23 @@ const groupBy: Record<string, ComponentGroup> = {
   "dropdown-menu": "Overlays",
   popover: "Overlays",
   tooltip: "Overlays",
+  trace: "Conversation",
   tabs: "Disclosure"
 };
 
 const notesBy: Record<string, string> = {
   accordion:
     "Uses native <details> and <summary>. Put the content directly after summary; exclusive groups use the native name attribute. Mark disabled items with inert.",
+  attachment:
+    "Use aria-busy=\"true\" while uploading or processing. Put an error in [data-slot=\"description\"] with role=\"alert\"; the root styles it through :has(). Media, content and actions use data-slot. An optional [data-slot=\"trigger\"] overlay keeps actions above the hit area.",
   "aspect-ratio":
     "Set --ratio on the root (default 16 / 9). Media children fill the box; data-fit=\"contain\" preserves the whole image.",
   avatar:
     "Render the fallback under the image. CSS cannot detect a broken image, so hide the img (or omit it) when loading fails. Use alt text for img and aria-hidden on decorative badges.",
   breadcrumb:
     "Use nav[aria-label=\"breadcrumb\"] and an ordered list. Mark the current page with aria-current=\"page\" and separators with aria-hidden=\"true\".",
+  bubble:
+    "Variants default, secondary, muted, tinted, outline, ghost and destructive. [data-slot=\"content\"] may be a div, a or button. Reactions use [data-slot=\"reactions\"] with [data-slot=\"reaction\"] buttons and aria-pressed. data-align=\"end\" aligns a standalone bubble.",
   button:
     "Use data-variant and data-size for the public variants. aria-invalid and aria-expanded are supported states.",
   "button-group":
@@ -129,6 +141,8 @@ const notesBy: Record<string, string> = {
     "Native input[type=\"range\"]. accent-color draws the filled track and thumb; a custom thumb needs appearance:none and consumer-managed fill. data-size sm/default/lg changes the hit area.",
   "hover-card":
     "CSS-only: opens on hover and focus-within with a 300ms delay. Point the trigger at the panel with aria-describedby. Use popover for interactive content that needs explicit dismissal.",
+  marker:
+    "Use data-variant=\"separator\" for a divider and \"border\" for a trailing rule. The icon is decorative; put the status in the content text and use role=\"status\" for live updates.",
   menubar:
     "role=\"menubar\" with .menubar-item wrappers (role=\"none\"). Each trigger is role=\"menuitem\" with aria-haspopup=\"menu\" and aria-expanded; submenus are [data-popover] panels with role=\"menu\". Roving focus and arrow keys are consumer JavaScript; there is no built-in mobile layout.",
   "navigation-menu":
@@ -143,6 +157,8 @@ const notesBy: Record<string, string> = {
     "Use a button with aria-pressed=\"true|false\". CSS styles aria-pressed, not a data-state alias. data-variant and data-size are optional.",
   "toggle-group":
     "Wrap toggles in role=\"group\" with an accessible label. Each toggle carries its own aria-pressed. Single-choice selection belongs to a radio group; data-spacing=\"joined\" merges the edges.",
+  trace:
+    "A native details disclosure. Put the line in summary with data-slot icon, title and status, and the detail in data-slot body. Use data-variant=\"error\" or \"success\" on status; aria-busy=\"true\" marks a running step. Nested traces compose inside the body.",
   tooltip:
     "CSS-only: visible on hover and focus-visible. Use data-arrow for the pointer arrow and data-side/data-align to place it. Keep an aria-label or aria-describedby for screen readers.",
   field: "Use aria-invalid=\"true\" on the control and role=\"alert\" for error messages.",
@@ -150,10 +166,16 @@ const notesBy: Record<string, string> = {
   input: "Use aria-invalid=\"true\" for the invalid state.",
   textarea: "Use aria-invalid=\"true\" for the invalid state.",
   toast:
-    "Wrap toasts in .toaster for fixed positioning. Items use role=\"status\" or role=\"alert\"; timing, dismissal and Sonner integration are consumer JavaScript.",
+    "Wrap toasts in .toaster for fixed positioning. Items use role=\"status\" or role=\"alert\"; timing and dismissal are consumer JavaScript. Sonner is a compatibility note, not a registry item; keep the toast markup and add Sonner in consumer code when you need its queue.",
+  message:
+    "A presentational row. Avatar, header, content and footer use data-slot; data-align=\"start|end\" controls the side. Compose the surface with bubble and give a message group an accessible name.",
+  "message-scroller":
+    "The viewport is the scroll container and needs tabindex=\"0\" and an accessible name. Following new messages, anchoring, scroll position and showing [data-slot=\"jump\"] are consumer JavaScript; the jump button needs an accessible label.",
   "native-select":
     ".native-select is the native select root. The custom Select is experimental and is not part of v1.",
   switch: "Use input type=\"checkbox\" role=\"switch\" together with the .switch class.",
+  questionnaire:
+    "A sequence of fieldset steps. Use aria-current=\"step\" on the active item and hidden on inactive ones, a native progress with an accessible name, and native radios, checkboxes and inputs for answers. Step changes, validation and completion are consumer JavaScript.",
   radio: "Use .radio and a role=\"radiogroup\" container.",
   label: "Use .label or a native <label> inside .field.",
   empty: "Uses header/figure/section/footer structure.",
@@ -218,7 +240,8 @@ export const componentGroups: ComponentGroup[] = [
   "Overlays",
   "Disclosure",
   "Navigation",
-  "Feedback"
+  "Feedback",
+  "Conversation"
 ];
 
 export function getComponent(id: string): ComponentDoc | undefined {

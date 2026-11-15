@@ -76,7 +76,8 @@ import CodeBlock from "@/components/CodeBlock.astro";
     </ul>
     <p>
       <code>--chart-*</code>, <code>--sidebar-*</code> and <code>--scrollbar-*</code> are
-      reserved families shipped with the style; v1 components do not consume them.
+      consumed by the chart, sidebar and scroll area components. The families stay stable
+      across styles.
     </p>
 
     <h2>Radius</h2>
@@ -146,6 +147,32 @@ import CodeBlock from "@/components/CodeBlock.astro";
       lists every shipped style and how to switch.
     </p>
 
+    <h2>Direction</h2>
+    <p>
+      Direction is a native HTML concern, not a component. Set <code>dir="rtl"</code> on
+      <code>&lt;html&gt;</code> or on any container. The reset and every component use
+      logical properties, so margins, padding, borders and placement follow the nearest
+      direction without extra classes.
+    </p>
+    <CodeBlock
+      lang="html"
+      code={`<html lang="ar" dir="rtl">...</html>
+
+<section dir="rtl">
+  <p>This section flows right to left.</p>
+</section>`}
+    />
+    <p>
+      The placement attributes <code>data-side="inline-start|inline-end"</code> follow the
+      container direction. The one physical exception is the context menu position, which
+      uses <code>--context-x</code> and <code>--context-y</code> because it follows the
+      pointer.
+    </p>
+    <div class="docs-callout">
+      <strong>No direction item.</strong> shadcn's Direction maps to the native
+      <code>dir</code> attribute. There is nothing to install and no JavaScript provider.
+    </div>
+
     <h2>Public style contract</h2>
     <p>
       Components expose variants, sizes and states through data attributes and ARIA. The most
@@ -155,20 +182,23 @@ import CodeBlock from "@/components/CodeBlock.astro";
       <li><code>data-variant</code> and <code>data-size</code> for visual variants.</li>
       <li>
         <code>data-orientation</code>, <code>data-spacing</code> and <code>data-fit</code>
-        for layout-specific presentation.
+        for layout-specific presentation. <code>data-align="start|end"</code> places
+        messages and standalone bubbles.
       </li>
       <li>
-        <code>data-slot="title|description|action|header|shortcut|indicator|fallback|badge|ellipsis|label|handle|addon|text|empty|clear|plot|legend|legend-item|swatch|tooltip|brand|close"</code>
+        <code>data-slot="title|description|action|header|footer|avatar|content|media|actions|trigger|reactions|reaction|icon|shortcut|indicator|fallback|badge|ellipsis|text|label|status|body|source|progress|progress-label|choices|item|error|skip|jump|handle|addon|empty|clear|plot|legend|legend-item|swatch|tooltip|brand|close"</code>
         for parts.
       </li>
       <li><code>:focus-within</code> for the input-group focus ring.</li>
       <li><code>aria-invalid="true"</code> for invalid controls.</li>
-      <li><code>aria-selected="true"</code> for tabs, options and selectable rows.</li>
+      <li><code>aria-busy="true"</code> for an attachment or trace that is still working.</li>
+      <li><code>aria-selected="true"</code> for tabs, options, calendar cells and selectable rows.</li>
       <li><code>aria-multiselectable="true"</code> for a multiple listbox.</li>
       <li><code>aria-checked="true"</code> for checkable menu items.</li>
-      <li><code>aria-pressed="true"</code> for toggle buttons.</li>
+      <li><code>aria-pressed="true"</code> for toggle buttons and message reactions.</li>
       <li><code>aria-current="page"</code> for the active breadcrumb or pagination item.</li>
       <li><code>aria-current="date"</code> for today in a calendar.</li>
+      <li><code>aria-current="step"</code> for the active questionnaire step.</li>
       <li><code>aria-valuenow</code>, <code>aria-valuemin</code> and <code>aria-valuemax</code> for resizable separators.</li>
       <li><code>data-highlighted</code> for the highlighted menu or listbox item.</li>
       <li><code>:disabled</code> and <code>aria-disabled="true"</code> for disabled states.</li>

@@ -96,6 +96,35 @@ _Avoid_: suggested dependency, nice-to-have
 Using items together in markup without requiring CSS coupling between them.
 _Avoid_: inheritance, extension
 
+**Conversation**:
+A sequence of message rows, bubbles, markers, attachments and traces around a
+chat or agent transcript.
+_Avoid_: chat, thread, transcript
+
+**Message**:
+The row layout of one turn: avatar, header, content and footer.
+_Avoid_: chat bubble, entry
+
+**Bubble**:
+The visible surface of a message, with variants, reactions and alignment.
+_Avoid_: chat bubble, balloon
+
+**Marker**:
+An inline note, status or divider between conversation turns.
+_Avoid_: separator, label, footnote
+
+**Attachment**:
+A file or media card inside a message, with busy and error states.
+_Avoid_: file chip, upload, media item
+
+**Trace**:
+One expandable step in agent work, built on native `<details>`.
+_Avoid_: timeline, log, tool call
+
+**Questionnaire**:
+A multi-step form of fieldset questions, native choices and progress.
+_Avoid_: quiz, survey, wizard
+
 ## Public API
 
 **Root class**:
@@ -191,3 +220,8 @@ _Avoid_: demo, snippet, sample
 **Docs client**:
 The browser-side module of the docs site that applies stored preferences and mounts per-page behavior across client-side navigation.
 _Avoid_: docs runtime, docs shell
+
+**Recipe**:
+A docs-only composition of registry items that is not installable and has no
+registry entry, such as Form, Data table or Date picker.
+_Avoid_: block, template, example

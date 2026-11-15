@@ -1,0 +1,64 @@
+---
+import Layout from "@/layouts/Layout.astro";
+---
+
+<Layout
+  title="Recipes"
+  description="Docs-only compositions for forms, data tables and date pickers."
+>
+  <div class="docs-content">
+    <p class="docs-eyebrow">Recipes</p>
+    <h1>Compositions, not registry items</h1>
+    <p class="docs-lead">
+      Recipes show how the registry components fit together. They are documentation
+      only: <code>loseta add</code> never installs a recipe, and the markup uses the
+      same public classes and state contract as the component pages.
+    </p>
+
+    <div class="docs-grid">
+      <a class="docs-card" href="/docs/recipes/form">
+        <span class="docs-card-title">Form</span>
+        <span class="docs-card-description">Field layout, native validation, choices and actions.</span>
+      </a>
+      <a class="docs-card" href="/docs/recipes/data-table">
+        <span class="docs-card-title">Data table</span>
+        <span class="docs-card-description">A table with selection, status badges and row actions.</span>
+      </a>
+      <a class="docs-card" href="/docs/recipes/date-picker">
+        <span class="docs-card-title">Date picker</span>
+        <span class="docs-card-description">A calendar composed with a popover and a trigger.</span>
+      </a>
+      <a class="docs-card" href="/docs/guidelines/typography">
+        <span class="docs-card-title">Typography</span>
+        <span class="docs-card-description">The type scale, prose defaults and the reading rules.</span>
+      </a>
+    </div>
+
+    <h2>Why recipes are not items</h2>
+    <p>
+      A registry item has a stable root selector, a documented anatomy and one style
+      file per declared style. A recipe has consumer data, column definitions or a
+      date library; shipping it as CSS would either hard-code a data model or ship
+      behavior. Recipes stay in the docs so the registry can remain CSS-only.
+    </p>
+
+    <h2>Remaining shadcn names</h2>
+    <p>
+      Two shadcn names are not visual components and do not become registry items:
+    </p>
+    <ul>
+      <li>
+        <strong>Direction</strong> is the native <code>dir</code> attribute and logical
+        properties. See <a href="/docs/theming#direction">Direction</a> in Theming.
+      </li>
+      <li>
+        <strong>Sonner</strong> is a toast library. The <a href="/docs/components/toast">Toast</a>
+        component documents it as a compatibility note; add the library in consumer code.
+      </li>
+    </ul>
+    <p>
+      Typography is a guidelines page because the registry already styles prose through
+      the base layer. There is no separate <code>typography</code> class to install.
+    </p>
+  </div>
+</Layout>

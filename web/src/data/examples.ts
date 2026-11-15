@@ -16,6 +16,12 @@ const alignLeft = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" f
 const alignCenter = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="21" x2="3" y1="6" y2="6"/><line x1="17" x2="7" y1="12" y2="12"/><line x1="19" x2="5" y1="18" y2="18"/></svg>`;
 const alignRight = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="21" x2="3" y1="6" y2="6"/><line x1="21" x2="9" y1="12" y2="12"/><line x1="21" x2="7" y1="18" y2="18"/></svg>`;
 const avatarImage = `data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%23cbd5e1'/%3E%3Ccircle cx='32' cy='24' r='11' fill='%23475569'/%3E%3Cpath d='M10 64c0-12 10-22 22-22s22 10 22 22z' fill='%23475569'/%3E%3C/svg%3E`;
+const fileText = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M10 9H8"/><path d="M16 13H8"/><path d="M16 17H8"/></svg>`;
+const terminal = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="4 17 10 11 4 5"/><line x1="12" x2="20" y1="19" y2="19"/></svg>`;
+const globe = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>`;
+const info = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>`;
+const circleAlert = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="12" x2="12" y1="8" y2="12"/><line x1="12" x2="12.01" y1="16" y2="16"/></svg>`;
+const arrowDown = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14"/><path d="m19 12-7 7-7-7"/></svg>`;
 const ratioImage = `data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 160 90'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop stop-color='%2394a3b8'/%3E%3Cstop offset='1' stop-color='%23e2e8f0'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='160' height='90' fill='url(%23g)'/%3E%3Ctext x='80' y='49' text-anchor='middle' font-family='sans-serif' font-size='12' fill='%23334155'%3E16:9%3C/text%3E%3C/svg%3E`;
 
 export const examples: Record<string, Example[]> = {
@@ -1486,7 +1492,7 @@ Done in 2.8s using pnpm v10.18.0</code></pre>
     </nav>
   </section>
   <footer>
-    <span>v0.9.0</span>
+    <span>v0.10.0</span>
   </footer>
 </aside>`
     }
@@ -1509,6 +1515,305 @@ Done in 2.8s using pnpm v10.18.0</code></pre>
     </section>
     <button type="button" class="btn" data-variant="ghost" data-size="icon-xs" data-slot="close" data-demo-toast-close aria-label="Dismiss">×</button>
   </div>
+</div>`
+    }
+  ],
+  message: [
+    {
+      title: "Conversation",
+      html: `<div class="message-group" role="log" aria-label="Conversation">
+  <article class="message" data-align="start">
+    <div data-slot="avatar">
+      <span class="avatar" data-size="sm">
+        <span data-slot="fallback">CN</span>
+      </span>
+    </div>
+    <div data-slot="content">
+      <div data-slot="header">shadcn</div>
+      <div class="bubble" data-variant="muted">
+        <div data-slot="content">How can I help you today?</div>
+      </div>
+      <div data-slot="footer">10:42 AM</div>
+    </div>
+  </article>
+  <article class="message" data-align="end">
+    <div data-slot="avatar">
+      <span class="avatar" data-size="sm">
+        <span data-slot="fallback">YO</span>
+      </span>
+    </div>
+    <div data-slot="content">
+      <div data-slot="header">You</div>
+      <div class="bubble">
+        <div data-slot="content">Add a calendar and a date picker to the docs.</div>
+      </div>
+      <div data-slot="footer">Delivered</div>
+    </div>
+  </article>
+</div>`
+    }
+  ],
+  bubble: [
+    {
+      title: "Variants",
+      html: `<div style="display: flex; flex-wrap: wrap; gap: 0.5rem; align-items: flex-start">
+  <div class="bubble"><div data-slot="content">Default</div></div>
+  <div class="bubble" data-variant="secondary"><div data-slot="content">Secondary</div></div>
+  <div class="bubble" data-variant="muted"><div data-slot="content">Muted</div></div>
+  <div class="bubble" data-variant="tinted"><div data-slot="content">Tinted</div></div>
+  <div class="bubble" data-variant="outline"><div data-slot="content">Outline</div></div>
+  <div class="bubble" data-variant="ghost"><div data-slot="content">Ghost content</div></div>
+  <div class="bubble" data-variant="destructive"><div data-slot="content">Something went wrong.</div></div>
+</div>`
+    },
+    {
+      title: "Reactions",
+      html: `<div style="display: flex; flex-direction: column; gap: 2rem; padding-block: 1rem; max-width: 22rem">
+  <div class="bubble" data-variant="muted" data-align="start">
+    <div data-slot="content">The install failure came from an out-of-date lockfile.</div>
+    <div data-slot="reactions">
+      <button type="button" data-slot="reaction" aria-pressed="true" aria-label="Helpful, 2 reactions">👍 <span>2</span></button>
+      <button type="button" data-slot="reaction" aria-pressed="false" aria-label="Celebrate, 0 reactions">🎉</button>
+    </div>
+  </div>
+</div>`
+    }
+  ],
+  marker: [
+    {
+      title: "Variants",
+      html: `<div style="display: flex; flex-direction: column; gap: 1rem">
+  <div class="marker">
+    <span data-slot="icon">${info}</span>
+    <span data-slot="content">Assistant is thinking…</span>
+  </div>
+  <div class="marker" data-variant="separator">
+    <span data-slot="content">Today</span>
+  </div>
+  <div class="marker" data-variant="border">
+    <span data-slot="icon">${globe}</span>
+    <span data-slot="content">Searched 3 sources · <a href="#">View sources</a></span>
+  </div>
+</div>`
+    }
+  ],
+  attachment: [
+    {
+      title: "States",
+      html: `<div style="display: flex; flex-direction: column; gap: 0.75rem; max-width: 24rem">
+  <div class="attachment">
+    <div data-slot="media">${fileText}</div>
+    <div data-slot="content">
+      <span data-slot="title">report.pdf</span>
+      <span data-slot="description">PDF · 2.4 MB</span>
+    </div>
+    <div data-slot="actions">
+      <button type="button" class="btn" data-variant="ghost" data-size="icon-xs" aria-label="Remove report.pdf">×</button>
+    </div>
+  </div>
+  <div class="attachment" aria-busy="true">
+    <div data-slot="media"><span class="spinner" data-size="sm"></span></div>
+    <div data-slot="content">
+      <span data-slot="title">sales-dashboard.csv</span>
+      <span data-slot="description">Uploading · 64%</span>
+    </div>
+  </div>
+  <div class="attachment">
+    <div data-slot="media">${circleAlert}</div>
+    <div data-slot="content">
+      <span data-slot="title">workspace.zip</span>
+      <span data-slot="description" role="alert">Upload failed. The file is larger than 10 MB.</span>
+    </div>
+  </div>
+</div>`
+    },
+    {
+      title: "Media",
+      html: `<div class="attachment" data-orientation="vertical">
+  <div data-slot="media">
+    <img src="${ratioImage}" alt="Workspace preview">
+  </div>
+  <div data-slot="content">
+    <span data-slot="title">cover.png</span>
+    <span data-slot="description">PNG · 840 KB</span>
+  </div>
+  <div data-slot="actions">
+    <button type="button" class="btn" data-variant="secondary" data-size="icon-xs" aria-label="Remove cover.png">×</button>
+  </div>
+</div>`
+    }
+  ],
+  questionnaire: [
+    {
+      title: "Steps",
+      html: `<div class="questionnaire" data-demo="questionnaire">
+  <div data-slot="progress">
+    <span data-slot="progress-label" id="questionnaire-progress" aria-live="polite">Question 1 of 2</span>
+    <progress aria-labelledby="questionnaire-progress" value="1" max="2">1 of 2</progress>
+  </div>
+  <fieldset data-slot="item" aria-current="step">
+    <legend>What should the agent build next?</legend>
+    <p data-slot="description">Choose a direction or describe another task.</p>
+    <div data-slot="choices">
+      <label class="questionnaire-choice">
+        <input type="radio" name="direction" value="timeline" checked>
+        <span data-slot="text">
+          <span data-slot="label">Tool call timeline</span>
+          <span data-slot="description">Show what the agent ran and what came back.</span>
+        </span>
+      </label>
+      <label class="questionnaire-choice">
+        <input type="radio" name="direction" value="checkpoints">
+        <span data-slot="text">
+          <span data-slot="label">Approval checkpoints</span>
+          <span data-slot="description">Ask before sensitive or destructive actions.</span>
+        </span>
+      </label>
+      <label class="questionnaire-choice">
+        <input type="radio" name="direction" value="handoffs">
+        <span data-slot="text">
+          <span data-slot="label">Sub-agent handoffs</span>
+          <span data-slot="description">Make delegated work and results easier to follow.</span>
+        </span>
+      </label>
+      <input type="text" data-slot="input" name="other" aria-label="Another answer" placeholder="Type another answer…">
+    </div>
+  </fieldset>
+  <fieldset data-slot="item" hidden>
+    <legend>What context should the agent inspect?</legend>
+    <p data-slot="description">Select every source that may affect the implementation.</p>
+    <div data-slot="choices">
+      <label class="questionnaire-choice">
+        <input type="checkbox" name="context" value="files">
+        <span data-slot="text">
+          <span data-slot="label">Relevant source files</span>
+          <span data-slot="description">Components, styles and tests touched by the change.</span>
+        </span>
+      </label>
+      <label class="questionnaire-choice">
+        <input type="checkbox" name="context" value="tests" checked>
+        <span data-slot="text">
+          <span data-slot="label">Existing tests</span>
+          <span data-slot="description">Unit and browser coverage for the affected area.</span>
+        </span>
+      </label>
+      <label class="questionnaire-choice">
+        <input type="checkbox" name="context" value="history">
+        <span data-slot="text">
+          <span data-slot="label">Recent commit history</span>
+          <span data-slot="description">Changes that explain the current behavior.</span>
+        </span>
+      </label>
+    </div>
+  </fieldset>
+  <div data-slot="actions">
+    <button type="button" class="btn" data-variant="outline" data-demo-questionnaire-prev disabled>Previous</button>
+    <button type="button" class="btn" data-demo-questionnaire-next>Next</button>
+  </div>
+</div>`
+    }
+  ],
+  trace: [
+    {
+      title: "Tool calls",
+      html: `<div style="display: flex; flex-direction: column">
+  <details class="trace" open>
+    <summary>
+      <span data-slot="icon">${terminal}</span>
+      <span data-slot="title">Ran pnpm install</span>
+      <span data-slot="status" data-variant="error">Failed</span>
+    </summary>
+    <div data-slot="body">
+      <p>The frozen install failed because the lockfile is out of date.</p>
+      <a data-slot="source" href="#">pnpm install logs</a>
+    </div>
+  </details>
+  <details class="trace" aria-busy="true">
+    <summary>
+      <span data-slot="icon"><span class="spinner" data-size="sm"></span></span>
+      <span data-slot="title">Running pnpm build</span>
+      <span data-slot="status">Running</span>
+    </summary>
+    <div data-slot="body">
+      <p>Compiling the registry and the docs site.</p>
+    </div>
+  </details>
+  <details class="trace">
+    <summary>
+      <span data-slot="icon">${search}</span>
+      <span data-slot="title">Searched for minimumReleaseAge</span>
+      <span data-slot="status" data-variant="success">8 results</span>
+    </summary>
+    <div data-slot="body">
+      <details class="trace">
+        <summary>
+          <span data-slot="icon">${globe}</span>
+          <span data-slot="title">Read pnpm.io settings</span>
+        </summary>
+        <div data-slot="body">
+          <p>minimumReleaseAge delays newly published versions.</p>
+        </div>
+      </details>
+    </div>
+  </details>
+</div>`
+    }
+  ],
+  "message-scroller": [
+    {
+      title: "Default",
+      html: `<div class="message-scroller" data-demo="message-scroller" style="height: 22rem">
+  <div class="message-scroller-viewport" tabindex="0" role="log" aria-label="Conversation">
+    <div data-slot="content">
+      <div class="marker" data-variant="separator">
+        <span data-slot="content">Today</span>
+      </div>
+      <div class="message" data-align="start">
+        <div data-slot="avatar"><span class="avatar" data-size="sm"><span data-slot="fallback">CN</span></span></div>
+        <div data-slot="content">
+          <div data-slot="header">shadcn</div>
+          <div class="bubble" data-variant="muted"><div data-slot="content">I checked the registry build.</div></div>
+        </div>
+      </div>
+      <div class="message" data-align="end">
+        <div data-slot="avatar"><span class="avatar" data-size="sm"><span data-slot="fallback">YO</span></span></div>
+        <div data-slot="content">
+          <div class="bubble"><div data-slot="content">Did the docs bundle pick up the new files?</div></div>
+        </div>
+      </div>
+      <div class="message" data-align="start">
+        <div data-slot="avatar"><span class="avatar" data-size="sm"><span data-slot="fallback">CN</span></span></div>
+        <div data-slot="content">
+          <div class="bubble" data-variant="muted"><div data-slot="content">Yes. The experimental bundle imports the base and Nova files.</div></div>
+        </div>
+      </div>
+      <div class="message" data-align="end">
+        <div data-slot="avatar"><span class="avatar" data-size="sm"><span data-slot="fallback">YO</span></span></div>
+        <div data-slot="content">
+          <div class="bubble"><div data-slot="content">Great. Run the registry validator before the browser suite.</div></div>
+        </div>
+      </div>
+      <div class="message" data-align="start">
+        <div data-slot="avatar"><span class="avatar" data-size="sm"><span data-slot="fallback">CN</span></span></div>
+        <div data-slot="content">
+          <div class="bubble" data-variant="muted"><div data-slot="content">Both are green. The chat components are ready for review.</div></div>
+        </div>
+      </div>
+      <div class="message" data-align="end">
+        <div data-slot="avatar"><span class="avatar" data-size="sm"><span data-slot="fallback">YO</span></span></div>
+        <div data-slot="content">
+          <div class="bubble"><div data-slot="content">Then this scroller needs enough history to prove the jump button.</div></div>
+        </div>
+      </div>
+      <div class="message" data-align="start">
+        <div data-slot="avatar"><span class="avatar" data-size="sm"><span data-slot="fallback">CN</span></span></div>
+        <div data-slot="content">
+          <div class="bubble" data-variant="muted"><div data-slot="content">Scroll up and the jump button appears; it returns you here.</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <button type="button" data-slot="jump" data-demo-scroll-end aria-label="Jump to latest">${arrowDown}</button>
 </div>`
     }
   ]

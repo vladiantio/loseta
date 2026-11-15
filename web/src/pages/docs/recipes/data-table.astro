@@ -1,0 +1,117 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import ComponentPreview from "@/components/ComponentPreview.astro";
+import CodeBlock from "@/components/CodeBlock.astro";
+---
+
+<Layout
+  title="Data table"
+  description="A docs-only data table recipe built from table, checkbox, badge and button."
+>
+  <div class="docs-content">
+    <p class="docs-eyebrow">Recipes</p>
+    <h1>Data table</h1>
+    <p class="docs-lead">
+      A data table is a native table with selection, status and row actions. Sorting,
+      filtering, pagination and bulk actions stay in consumer JavaScript.
+    </p>
+
+    <div class="docs-callout" role="note">
+      <strong>Recipe, not a registry item.</strong> Install the composition pieces with
+      <code>loseta add table checkbox badge button</code>. There is no data-table class
+      to install.
+    </div>
+
+    <h2>Invoices</h2>
+    <ComponentPreview
+      id="recipe-data-table"
+      title="Default"
+      html={`<div class="table-container" style="border: 1px solid var(--border); border-radius: var(--radius-lg); overflow: hidden">
+  <table class="table">
+    <caption class="sr-only">Recent invoices</caption>
+    <thead>
+      <tr>
+        <th scope="col"><input class="checkbox" type="checkbox" aria-label="Select all invoices"></th>
+        <th scope="col" aria-sort="ascending">Invoice</th>
+        <th scope="col">Status</th>
+        <th scope="col">Method</th>
+        <th scope="col">Amount</th>
+        <th scope="col"><span class="sr-only">Actions</span></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><input class="checkbox" type="checkbox" aria-label="Select INV-001"></td>
+        <td>INV-001</td>
+        <td><span class="badge" data-variant="outline">Paid</span></td>
+        <td>Credit card</td>
+        <td>$250.00</td>
+        <td><button type="button" class="btn" data-variant="ghost" data-size="icon-sm" aria-label="Open actions for INV-001"><span aria-hidden="true">···</span></button></td>
+      </tr>
+      <tr aria-selected="true">
+        <td><input class="checkbox" type="checkbox" aria-label="Select INV-002" checked></td>
+        <td>INV-002</td>
+        <td><span class="badge" data-variant="secondary">Pending</span></td>
+        <td>PayPal</td>
+        <td>$150.00</td>
+        <td><button type="button" class="btn" data-variant="ghost" data-size="icon-sm" aria-label="Open actions for INV-002"><span aria-hidden="true">···</span></button></td>
+      </tr>
+      <tr>
+        <td><input class="checkbox" type="checkbox" aria-label="Select INV-003"></td>
+        <td>INV-003</td>
+        <td><span class="badge" data-variant="destructive">Unpaid</span></td>
+        <td>Bank transfer</td>
+        <td>$350.00</td>
+        <td><button type="button" class="btn" data-variant="ghost" data-size="icon-sm" aria-label="Open actions for INV-003"><span aria-hidden="true">···</span></button></td>
+      </tr>
+    </tbody>
+  </table>
+</div>`}
+    />
+
+    <h2>Selection</h2>
+    <p>
+      Use native checkboxes with an accessible name per row. Mark a selected row with
+      <code>aria-selected="true"</code>; the table styles the row without requiring a
+      custom class. A header checkbox can select the visible page, but the select-all
+      state is consumer behavior.
+    </p>
+
+    <h2>Sorting</h2>
+    <p>
+      Put <code>aria-sort="ascending"</code>, <code>"descending"</code> or
+      <code>"none"</code> on the active column header and update it when the sort changes.
+      The CSS does not draw an arrow, so include a visible indicator or an
+      <code>aria-label</code> that explains the current order.
+    </p>
+    <CodeBlock
+      lang="html"
+      code={`<th scope="col" aria-sort="ascending">
+  Invoice
+  <span class="sr-only">sorted ascending</span>
+</th>`}
+    />
+
+    <h2>Row actions</h2>
+    <p>
+      Compose the actions trigger with <code>dropdown-menu</code>. The trigger needs an
+      accessible name that identifies the row; the menu carries the open state and
+      keyboard behavior in consumer JavaScript.
+    </p>
+    <CodeBlock
+      lang="html"
+      code={`<button class="btn" data-variant="ghost" data-size="icon-sm"
+  aria-label="Open actions for INV-002" aria-expanded="false">
+  <span aria-hidden="true">···</span>
+</button>`}
+    />
+
+    <h2>Composition notes</h2>
+    <ul>
+      <li>Put the table in <code>.table-container</code> so narrow screens can scroll it.</li>
+      <li>Use <code>&lt;th scope="col"&gt;</code> for headers and a <code>&lt;caption&gt;</code> for the table name.</li>
+      <li>Do not hide the table header to save space; keep the column meaning available.</li>
+      <li>Pagination is a separate composition with <code>pagination</code>; it is not built into the table.</li>
+    </ul>
+  </div>
+</Layout>

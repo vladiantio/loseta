@@ -1,5 +1,29 @@
 # Changelog
 
+## 0.10.0 - 2026-11-15
+
+### Added
+
+- Seven experimental conversation components: attachment, bubble, marker,
+  message, message-scroller, questionnaire and trace.
+- Docs-only message-scroller jump-to-latest and questionnaire step navigation.
+- Docs-only recipes for Form, Data table and Date picker, plus a Typography
+  guidelines page.
+- Direction documentation for the native `dir` attribute and a Sonner
+  compatibility note on the Toast page.
+- `data-align`, `aria-busy="true"` and `aria-current="step"` are part of the
+  documented state contract.
+
+### Notes
+
+- The registry now has 62 components: 25 stable and 37 experimental. All 65
+  shadcn `registry:ui` names are accounted for.
+- Experimental components remain outside the v1 compatibility contract and
+  ship only the Nova style.
+- Form, data-table, date-picker and typography stay docs-only; direction and
+  Sonner are native/third-party concerns. Promotion of experimental items is a
+  separate phase.
+
 ## 0.9.0 - 2026-11-15
 
 ### Added

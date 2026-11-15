@@ -1,0 +1,47 @@
+/* Marker */
+@layer loseta.components {
+  .marker {
+    position: relative;
+    display: flex;
+    min-height: 1rem;
+    width: 100%;
+    align-items: center;
+    gap: 0.5rem;
+    text-align: start;
+
+    > [data-slot='icon'] {
+      display: inline-flex;
+      width: 1rem;
+      height: 1rem;
+      flex-shrink: 0;
+      align-items: center;
+      justify-content: center;
+    }
+
+    > [data-slot='content'] {
+      min-width: 0;
+      overflow-wrap: anywhere;
+    }
+
+    &[data-variant='separator'] {
+      &::before,
+      &::after {
+        height: 1px;
+        min-width: 0;
+        flex: 1;
+        content: '';
+      }
+
+      > [data-slot='content'] {
+        flex: none;
+        text-align: center;
+      }
+    }
+
+    &[data-variant='border'] {
+      border-block-end-style: solid;
+      border-block-end-width: 1px;
+      padding-block-end: 0.5rem;
+    }
+  }
+}

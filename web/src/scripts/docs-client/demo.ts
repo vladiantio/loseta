@@ -56,6 +56,73 @@ const filterOptions = (root: Element, query: string): void => {
     ?.toggleAttribute("hidden", visible > 0);
 };
 
+const questionnaireStep = (button: Element): void => {
+  const root = button.closest(".questionnaire");
+  if (!(root instanceof HTMLElement)) return;
+
+  const steps = [...root.querySelectorAll<HTMLElement>("[data-slot='item']")];
+  if (steps.length === 0) return;
+
+  const current = Math.max(
+    0,
+    steps.findIndex((step) => step.getAttribute("aria-current") === "step")
+  );
+  const next = button.hasAttribute("data-demo-questionnaire-prev")
+    ? current - 1
+    : current + 1;
+  if (next < 0 || next >= steps.length) return;
+
+  steps.forEach((step, index) => {
+    step.hidden = index !== next;
+    if (index === next) {
+      step.setAttribute("aria-current", "step");
+    } else {
+      step.removeAttribute("aria-current");
+    }
+  });
+
+  const progress = root.querySelector<HTMLProgressElement>("progress");
+  if (progress) {
+    progress.value = next + 1;
+    progress.textContent = `${next + 1} of ${steps.length}`;
+  }
+
+  const label = root.querySelector<HTMLElement>("[data-slot='progress-label']");
+  if (label) label.textContent = `Question ${next + 1} of ${steps.length}`;
+
+  const previous = root.querySelector<HTMLButtonElement>(
+    "[data-demo-questionnaire-prev]"
+  );
+  if (previous) previous.disabled = next === 0;
+
+  const forward = root.querySelector<HTMLButtonElement>(
+    "[data-demo-questionnaire-next]"
+  );
+  if (forward) forward.disabled = next === steps.length - 1;
+
+  steps[next]
+    .querySelector<HTMLElement>("input, button, select, textarea")
+    ?.focus();
+};
+
+const updateMessageScroller = (scroller: Element): void => {
+  const viewport = scroller.querySelector<HTMLElement>(
+    ".message-scroller-viewport"
+  );
+  const jump = scroller.querySelector<HTMLElement>("[data-slot='jump']");
+  if (!viewport || !jump) return;
+
+  const distance =
+    viewport.scrollHeight - viewport.scrollTop - viewport.clientHeight;
+  jump.hidden = distance < 24;
+};
+
+const refreshMessageScrollers = (): void => {
+  document
+    .querySelectorAll<HTMLElement>("[data-demo='message-scroller']")
+    .forEach(updateMessageScroller);
+};
+
 const onClick = async (event: MouseEvent): Promise<void> => {
   const target = event.target;
   if (!(target instanceof Element)) return;
@@ -185,6 +252,27 @@ const onClick = async (event: MouseEvent): Promise<void> => {
   const toastClose = target.closest("[data-demo-toast-close]");
   if (toastClose) {
     toastClose.closest(".toast")?.remove();
+    return;
+  }
+
+  const questionnaire = target.closest(
+    "[data-demo-questionnaire-next], [data-demo-questionnaire-prev]"
+  );
+  if (questionnaire) {
+    questionnaireStep(questionnaire);
+    return;
+  }
+
+  const scrollEnd = target.closest("[data-demo-scroll-end]");
+  if (scrollEnd) {
+    const scroller = scrollEnd.closest(".message-scroller");
+    const viewport = scroller?.querySelector<HTMLElement>(
+      ".message-scroller-viewport"
+    );
+    if (scroller && viewport) {
+      viewport.scrollTo({ top: viewport.scrollHeight, behavior: "smooth" });
+      updateMessageScroller(scroller);
+    }
     return;
   }
 
@@ -372,6 +460,13 @@ const onFocusIn = (event: FocusEvent): void => {
   }
 };
 
+const onScroll = (event: Event): void => {
+  const target = event.target;
+  if (!(target instanceof Element)) return;
+  const scroller = target.closest("[data-demo='message-scroller']");
+  if (scroller) updateMessageScroller(scroller);
+};
+
 let mounted = false;
 
 /** Demo-only interactions. Registered once; the docs client never re-mounts it. */
@@ -383,4 +478,7 @@ export function mountDemo(): void {
   document.addEventListener("contextmenu", onContextMenu);
   document.addEventListener("input", onInput);
   document.addEventListener("focusin", onFocusIn);
+  document.addEventListener("scroll", onScroll, true);
+  document.addEventListener("astro:page-load", refreshMessageScrollers);
+  refreshMessageScrollers();
 }

@@ -1,0 +1,137 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import CodeBlock from "@/components/CodeBlock.astro";
+---
+
+<Layout
+  title="Typography"
+  description="The loseta type scale, prose rules and font fallbacks."
+>
+  <div class="docs-content">
+    <p class="docs-eyebrow">Guidelines</p>
+    <h1>Typography</h1>
+    <p class="docs-lead">
+      loseta ships type tokens, not a prose plugin. Components pick from the same scale;
+      long-form prose stays consumer CSS.
+    </p>
+
+    <div class="docs-callout" role="note">
+      <strong>Guidelines, not a registry item.</strong> shadcn's typography page maps to
+      this page. There is no <code>typography</code> class to install.
+    </div>
+
+    <h2>Type scale</h2>
+    <div class="table-container">
+      <table class="table">
+        <caption class="sr-only">Type tokens and their intended use</caption>
+        <thead>
+          <tr>
+            <th scope="col">Token</th>
+            <th scope="col">Size</th>
+            <th scope="col">Use</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td><code>--text-4xl</code></td><td>2.25rem</td><td>Marketing display</td></tr>
+          <tr><td><code>--text-3xl</code></td><td>1.875rem</td><td>Page titles</td></tr>
+          <tr><td><code>--text-2xl</code></td><td>1.5rem</td><td>Section titles</td></tr>
+          <tr><td><code>--text-xl</code></td><td>1.25rem</td><td>Subsections</td></tr>
+          <tr><td><code>--text-lg</code></td><td>1.125rem</td><td>Questionnaire legends</td></tr>
+          <tr><td><code>--text-base</code></td><td>1rem</td><td>Long-form body and mobile inputs</td></tr>
+          <tr><td><code>--text-sm</code></td><td>0.875rem</td><td>Component text and menu items</td></tr>
+          <tr><td><code>--text-xs</code></td><td>0.75rem</td><td>Labels, metadata and badges</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>
+      Every token has a paired line height token: <code>--text-sm</code> pairs with
+      <code>--text-sm--line-height</code>. Use the pair; do not set a size and leave the
+      line height at the browser default.
+    </p>
+
+    <h2>Specimen</h2>
+    <div class="card">
+      <section style="display: flex; flex-direction: column; gap: 1rem; max-width: 42rem">
+        <p style="margin: 0; font-size: var(--text-4xl); line-height: var(--text-4xl--line-height); font-weight: 700; letter-spacing: -0.02em">
+          Build with native CSS
+        </p>
+        <p style="margin: 0; font-size: var(--text-2xl); line-height: var(--text-2xl--line-height); font-weight: 600">
+          A registry of components, not a runtime
+        </p>
+        <p style="margin: 0; font-size: var(--text-base); line-height: var(--text-base--line-height)">
+          The base scale keeps long-form reading comfortable. Interface text uses the
+          smaller sizes so controls stay compact.
+        </p>
+        <p style="margin: 0; font-size: var(--text-sm); line-height: var(--text-sm--line-height); color: var(--muted-foreground)">
+          Secondary text uses <code>--muted-foreground</code> and <code>--text-sm</code>.
+        </p>
+        <p style="margin: 0; font-size: var(--text-xs); line-height: var(--text-xs--line-height); color: var(--muted-foreground); text-transform: uppercase; letter-spacing: 0.06em">
+          Metadata label
+        </p>
+      </section>
+    </div>
+
+    <h2>Fonts</h2>
+    <p>
+      The reset reads <code>--font-sans</code> for body text and <code>--font-mono</code>
+      for code and keyboard hints. Both fall back to the platform UI and monospace stacks,
+      so a project without font tokens still renders correctly. The docs use Inter; the
+      registry does not ship a font file.
+    </p>
+    <CodeBlock
+      lang="css"
+      code={`:root {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, monospace;
+}`}
+    />
+
+    <h2>Interface rules</h2>
+    <ul>
+      <li>
+        UI text defaults to <code>--text-sm</code>. Inputs and textareas use
+        <code>--text-base</code> below <code>48rem</code> and <code>--text-sm</code> above
+        it, so mobile Safari does not zoom on focus.
+      </li>
+      <li>
+        Card, dialog and alert-dialog titles use <code>--text-base</code>; alert, popover,
+        empty and field titles use <code>--text-sm</code>.
+      </li>
+      <li>
+        Badges, keyboard hints, tooltips and navigation descriptions use
+        <code>--text-xs</code>. Menu headings and listbox group labels use the same size.
+      </li>
+      <li>
+        Questionnaires use <code>--text-lg</code> for the question legend and
+        <code>--text-sm</code> for descriptions and choices.
+      </li>
+      <li>Keep long-form prose near a 65–75 character measure; use your own prose layer.</li>
+    </ul>
+
+    <h2>Prose is consumer CSS</h2>
+    <p>
+      The registry styles component anatomy. It does not ship a <code>.prose</code> class,
+      heading margins for articles or an automatic vertical rhythm. Use your site's prose
+      styles or a content plugin, and keep the registry tokens for size and color.
+    </p>
+    <CodeBlock
+      lang="css"
+      code={`/* Site prose, not registry CSS */
+.prose :is(h2, h3) {
+  margin-block-start: 2em;
+  font-size: var(--text-2xl);
+  line-height: var(--text-2xl--line-height);
+}`}
+    />
+
+    <h2>Code and keys</h2>
+    <p>
+      Code uses <code>--font-mono</code>. Inline code inherits the surrounding size; the
+      <code>.code-block</code> component owns block code and its line-height. Keyboard
+      hints use <code>.kbd</code>.
+    </p>
+    <p style="display: flex; align-items: center; gap: 0.5rem">
+      Press <span class="kbd">⌘</span><span class="kbd">K</span> to open the command menu.
+    </p>
+  </div>
+</Layout>

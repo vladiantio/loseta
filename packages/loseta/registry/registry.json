@@ -1,7 +1,7 @@
 {
   "$schema": "./schema.json",
   "name": "loseta",
-  "version": "0.9.0",
+  "version": "0.10.0",
   "styles": [
     {
       "name": "nova",
@@ -3131,6 +3131,232 @@
       ],
       "examples": [
         "examples/toast.html"
+      ]
+    },
+    {
+      "name": "attachment",
+      "type": "component",
+      "status": "experimental",
+      "title": "Attachment",
+      "description": "A file or media card with upload and error states.",
+      "docs": "/docs/components/attachment",
+      "root": [
+        ".attachment"
+      ],
+      "registryDependencies": [],
+      "optionalDependencies": [
+        "button",
+        "spinner"
+      ],
+      "files": [
+        {
+          "path": "components/attachment.css",
+          "target": "components/attachment.css",
+          "role": "base",
+          "layer": "loseta.components"
+        },
+        {
+          "path": "styles/nova/attachment.css",
+          "target": "styles/nova/attachment.css",
+          "role": "style",
+          "layer": "loseta.style"
+        }
+      ],
+      "examples": [
+        "examples/attachment.html"
+      ]
+    },
+    {
+      "name": "bubble",
+      "type": "component",
+      "status": "experimental",
+      "title": "Bubble",
+      "description": "The message surface with variants and reaction chips.",
+      "docs": "/docs/components/bubble",
+      "root": [
+        ".bubble",
+        ".bubble-group"
+      ],
+      "registryDependencies": [],
+      "optionalDependencies": [],
+      "files": [
+        {
+          "path": "components/bubble.css",
+          "target": "components/bubble.css",
+          "role": "base",
+          "layer": "loseta.components"
+        },
+        {
+          "path": "styles/nova/bubble.css",
+          "target": "styles/nova/bubble.css",
+          "role": "style",
+          "layer": "loseta.style"
+        }
+      ],
+      "examples": [
+        "examples/bubble.html"
+      ]
+    },
+    {
+      "name": "marker",
+      "type": "component",
+      "status": "experimental",
+      "title": "Marker",
+      "description": "An inline note, status or divider between conversation turns.",
+      "docs": "/docs/components/marker",
+      "root": [
+        ".marker"
+      ],
+      "registryDependencies": [],
+      "optionalDependencies": [],
+      "files": [
+        {
+          "path": "components/marker.css",
+          "target": "components/marker.css",
+          "role": "base",
+          "layer": "loseta.components"
+        },
+        {
+          "path": "styles/nova/marker.css",
+          "target": "styles/nova/marker.css",
+          "role": "style",
+          "layer": "loseta.style"
+        }
+      ],
+      "examples": [
+        "examples/marker.html"
+      ]
+    },
+    {
+      "name": "message",
+      "type": "component",
+      "status": "experimental",
+      "title": "Message",
+      "description": "A conversation row with avatar, header, content and footer.",
+      "docs": "/docs/components/message",
+      "root": [
+        ".message",
+        ".message-group"
+      ],
+      "registryDependencies": [],
+      "optionalDependencies": [
+        "avatar",
+        "bubble"
+      ],
+      "files": [
+        {
+          "path": "components/message.css",
+          "target": "components/message.css",
+          "role": "base",
+          "layer": "loseta.components"
+        },
+        {
+          "path": "styles/nova/message.css",
+          "target": "styles/nova/message.css",
+          "role": "style",
+          "layer": "loseta.style"
+        }
+      ],
+      "examples": [
+        "examples/message.html"
+      ]
+    },
+    {
+      "name": "message-scroller",
+      "type": "component",
+      "status": "experimental",
+      "title": "Message Scroller",
+      "description": "A scroll container for conversations with a jump-to-latest button.",
+      "docs": "/docs/components/message-scroller",
+      "root": [
+        ".message-scroller"
+      ],
+      "registryDependencies": [],
+      "optionalDependencies": [
+        "bubble",
+        "message"
+      ],
+      "files": [
+        {
+          "path": "components/message-scroller.css",
+          "target": "components/message-scroller.css",
+          "role": "base",
+          "layer": "loseta.components"
+        },
+        {
+          "path": "styles/nova/message-scroller.css",
+          "target": "styles/nova/message-scroller.css",
+          "role": "style",
+          "layer": "loseta.style"
+        }
+      ],
+      "examples": [
+        "examples/message-scroller.html"
+      ]
+    },
+    {
+      "name": "questionnaire",
+      "type": "component",
+      "status": "experimental",
+      "title": "Questionnaire",
+      "description": "A multi-step form with native choices, progress and navigation.",
+      "docs": "/docs/components/questionnaire",
+      "root": [
+        ".questionnaire"
+      ],
+      "registryDependencies": [],
+      "optionalDependencies": [
+        "button"
+      ],
+      "files": [
+        {
+          "path": "components/questionnaire.css",
+          "target": "components/questionnaire.css",
+          "role": "base",
+          "layer": "loseta.components"
+        },
+        {
+          "path": "styles/nova/questionnaire.css",
+          "target": "styles/nova/questionnaire.css",
+          "role": "style",
+          "layer": "loseta.style"
+        }
+      ],
+      "examples": [
+        "examples/questionnaire.html"
+      ]
+    },
+    {
+      "name": "trace",
+      "type": "component",
+      "status": "experimental",
+      "title": "Trace",
+      "description": "A native disclosure for agent steps, tool calls and sources.",
+      "docs": "/docs/components/trace",
+      "root": [
+        ".trace"
+      ],
+      "registryDependencies": [],
+      "optionalDependencies": [
+        "code-block",
+        "spinner"
+      ],
+      "files": [
+        {
+          "path": "components/trace.css",
+          "target": "components/trace.css",
+          "role": "base",
+          "layer": "loseta.components"
+        },
+        {
+          "path": "styles/nova/trace.css",
+          "target": "styles/nova/trace.css",
+          "role": "style",
+          "layer": "loseta.style"
+        }
+      ],
+      "examples": [
+        "examples/trace.html"
       ]
     }
   ]

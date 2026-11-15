@@ -1,0 +1,119 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import ComponentPreview from "@/components/ComponentPreview.astro";
+import CodeBlock from "@/components/CodeBlock.astro";
+---
+
+<Layout
+  title="Form"
+  description="A docs-only form recipe built from field, input, checkbox, radio and button."
+>
+  <div class="docs-content">
+    <p class="docs-eyebrow">Recipes</p>
+    <h1>Form</h1>
+    <p class="docs-lead">
+      A form is a composition: <code>.fieldset</code> for the page, <code>.field</code>
+      for each control, native inputs for state and <code>.btn</code> for actions.
+    </p>
+
+    <div class="docs-callout" role="note">
+      <strong>Recipe, not a registry item.</strong> Install the composition pieces with
+      <code>loseta add field input checkbox radio button label</code>. Validation and
+      submission remain yours.
+    </div>
+
+    <h2>Account form</h2>
+    <ComponentPreview
+      id="recipe-form-account"
+      title="Default"
+      html={`<div class="fieldset" style="max-width: 28rem">
+  <div class="field">
+    <label class="label" for="recipe-form-name">Display name</label>
+    <input class="input" id="recipe-form-name" name="name" type="text" value="Ada Lovelace" autocomplete="name">
+    <p>This name appears on your public profile.</p>
+  </div>
+  <div class="field">
+    <label class="label" for="recipe-form-email">Email</label>
+    <input class="input" id="recipe-form-email" name="email" type="email" value="ada@example.com" autocomplete="email">
+  </div>
+  <fieldset class="field">
+    <legend class="label">Plan</legend>
+    <div role="radiogroup" aria-label="Plan" style="display: flex; flex-direction: column; gap: 0.5rem">
+      <label class="label">
+        <input class="radio" type="radio" name="plan" value="starter" checked>
+        Starter
+      </label>
+      <label class="label">
+        <input class="radio" type="radio" name="plan" value="pro">
+        Pro
+      </label>
+    </div>
+  </fieldset>
+  <div class="field" data-orientation="horizontal">
+    <section>
+      <label class="label" for="recipe-form-updates">Product updates</label>
+      <p>Receive an email when a new component ships.</p>
+    </section>
+    <input class="checkbox" type="checkbox" id="recipe-form-updates" name="updates" checked>
+  </div>
+  <div style="display: flex; flex-wrap: wrap; gap: 0.5rem">
+    <button type="button" class="btn">Create account</button>
+    <button type="button" class="btn" data-variant="outline">Cancel</button>
+  </div>
+</div>`}
+    />
+
+    <h2>Invalid state</h2>
+    <p>
+      Native validity is not enough on its own: mark the control with
+      <code>aria-invalid="true"</code> and render the message with <code>role="alert"</code>.
+      The field turns destructive and the message is announced when it appears.
+    </p>
+    <ComponentPreview
+      id="recipe-form-invalid"
+      title="Invalid"
+      html={`<div class="field" style="max-width: 22rem">
+  <label class="label" for="recipe-form-username">Username</label>
+  <input class="input" id="recipe-form-username" name="username" value="invalid name" aria-invalid="true" aria-describedby="recipe-form-username-error">
+  <p id="recipe-form-username-error" role="alert">Username may only contain letters and numbers.</p>
+</div>`}
+    />
+
+    <h2>Submission</h2>
+    <p>
+      Put the composition in a native <code>&lt;form&gt;</code> and let the browser
+      submit it, or intercept <code>submit</code> in your client. The registry does not
+      provide a submit handler, a schema validator or a reset behavior.
+    </p>
+    <CodeBlock
+      lang="html"
+      code={`<form class="fieldset" action="/settings" method="post">
+  <div class="field">
+    <label class="label" for="email">Email</label>
+    <input class="input" id="email" name="email" type="email" required>
+  </div>
+  <button class="btn" type="submit">Save</button>
+</form>`}
+    />
+
+    <h2>Composition notes</h2>
+    <ul>
+      <li>
+        Use one <code>&lt;label&gt;</code> per control and connect it with <code>for</code>
+        and <code>id</code>. A placeholder is not a label.
+      </li>
+      <li>
+        Use <code>&lt;fieldset&gt;</code> and <code>&lt;legend&gt;</code> for radio and
+        checkbox groups; <code>role="radiogroup"</code> plus an accessible name also works.
+      </li>
+      <li>
+        Horizontal rows use <code>data-orientation="horizontal"</code>; responsive rows use
+        <code>"responsive"</code>.
+      </li>
+      <li>
+        Error text goes in <code>role="alert"</code>. Do not rely on color alone; the text
+        must say what failed.
+      </li>
+    </ul>
+  </div>
+</Layout>

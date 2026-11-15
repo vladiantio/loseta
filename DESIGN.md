@@ -8,7 +8,7 @@ It is not an implementation guide. The installed CSS is the reference
 implementation: if this document and the registry disagree,
 [`packages/loseta/registry/tokens.css`](packages/loseta/registry/tokens.css)
 and [`registry.json`](packages/loseta/registry/registry.json) win, and this
-document must be corrected. The baseline covers registry version `0.9.0`.
+document must be corrected. The baseline covers registry version `0.10.0`.
 
 Vocabulary is defined in [`GLOSSARY.md`](GLOSSARY.md).
 
@@ -41,18 +41,19 @@ Vocabulary is defined in [`GLOSSARY.md`](GLOSSARY.md).
 
 ## Scope
 
-The registry contains 25 stable components, 30 experimental components, four
+The registry contains 25 stable components, 37 experimental components, four
 primitives and four foundations:
 
 - **Stable components**: alert, alert-dialog, badge, button, button-group,
   card, checkbox, code-block, dialog, dropdown-menu, empty, field, input, item,
   kbd, label, native-select, popover, radio, skeleton, switch, table, tabs,
   textarea and tooltip.
-- **Experimental components**: accordion, aspect-ratio, avatar, breadcrumb,
-  calendar, carousel, chart, collapsible, combobox, command, context-menu,
-  drawer, hover-card, input-group, input-otp, menubar, navigation-menu,
-  pagination, progress, resizable, scroll-area, select, separator, sheet,
-  sidebar, slider, spinner, toast, toggle and toggle-group. They are installable
+- **Experimental components**: accordion, aspect-ratio, attachment, avatar,
+  breadcrumb, bubble, calendar, carousel, chart, collapsible, combobox, command,
+  context-menu, drawer, hover-card, input-group, input-otp, marker, menubar,
+  message, message-scroller, navigation-menu, pagination, progress,
+  questionnaire, resizable, scroll-area, select, separator, sheet, sidebar,
+  slider, spinner, toast, toggle, toggle-group and trace. They are installable
   by name with `loseta add <name> --experimental`, ship exactly one Nova style
   file and are explicitly outside the v1 compatibility contract.
 - **4 primitives**: `dialog-shell`, `listbox`, `menu` and `popover-primitive`.
@@ -207,8 +208,14 @@ fixed 4px radius. Code Block uses `--radius-xl`; its `sm` size uses
 - UI text defaults to `--text-sm` (`0.875rem`), with its paired line height.
   Cards, alerts, items, tables, menus, listbox options, tabs, code blocks,
   accordion content, avatar fallbacks, breadcrumb, pagination, hover cards,
-  sheets, drawers, select triggers, sidebar links, toast items and command
-  bodies follow it. Menubar and navigation-menu triggers use it too.
+  sheets, drawers, select triggers, sidebar links, toast items, command
+  bodies, message rows, bubbles, markers and trace rows follow it. Menubar and
+  navigation-menu triggers use it too.
+- Conversation metadata uses `--text-xs`: message headers and footers,
+  attachment descriptions, trace status pills and reaction counts. Attachment
+  titles and content follow the row size. Questionnaire legends use
+  `--text-lg`; descriptions and choices use `--text-sm`. Bubble content uses a
+  `1.625` line height for readable replies.
 - Inputs and textareas use `--text-base` (`1rem`) below `48rem` and `--text-sm`
   at and above it. Combobox inputs follow the input scale; `sm` select triggers
   use `--text-xs`.
@@ -265,6 +272,13 @@ file they own, not by expecting a spacing API.
 | Dialog backdrop | Black at 10% plus a 4px backdrop blur. |
 | Empty | Dashed `--border` outline, no fill. |
 | Accordion | Bottom `--border` divider between items; summary hover underline. |
+| Attachment | `--card` surface with a `--border` outline; media uses `--muted`; error uses a destructive border and media tint. |
+| Bubble | Default uses `--primary` / `--primary-foreground`; secondary and muted use their surfaces; tinted mixes primary into the background; destructive uses a destructive tint. |
+| Marker | `--muted-foreground` text; separator and border variants use `--border`. |
+| Message | Metadata uses `--muted-foreground`; the row itself has no surface. |
+| Message scroller | `--background` surface with a `--border` outline; the jump button uses the background and a `--shadow-md`. |
+| Questionnaire | Choice cards use the `--border` outline and a primary tint when checked; the progress track uses primary at 20%. |
+| Trace | Bottom `--border` divider per row; body text is muted; status pills use `--muted`, destructive or primary tints. |
 | Avatar | `--muted` fallback, `--primary` badge and a 1px `--border` ring. |
 | Calendar | Selected day uses `--primary` / `--primary-foreground`; today uses an inset `--ring`. |
 | Carousel | Controls use `--border`; active indicators use `--primary`. |
@@ -346,6 +360,13 @@ visible.
 | Calendar | `18rem` wide | — |
 | Carousel | Consumer-sized | `data-orientation` sets the axis |
 | Chart plot | `16 / 9` aspect ratio | Consumer can override |
+| Attachment | `10rem` minimum width horizontally | `sm`/`xs` shrink media; vertical is `7rem` wide |
+| Bubble | `80%` maximum width | Ghost is full width |
+| Marker | Full width, `1rem` minimum height | — |
+| Message | Full width | — |
+| Message scroller | Consumer-sized | The docs example uses `22rem` height |
+| Questionnaire | Consumer-sized | Progress bar is `0.375rem` high |
+| Trace | Full width | — |
 | Separator | `1px` | Vertical: `1px` wide and stretches |
 | Spinner | `1rem` square | `sm` 0.75rem, `lg` 1.5rem |
 | Toggle | `2rem` high, `2rem` minimum width | `sm` 1.75rem, `lg` 2.25rem |
@@ -396,9 +417,11 @@ on an RTL page; its header follows the page direction.
 | Alert | `.alert` | Direct SVG icon; title (`h2`–`h6`, `strong` or `[data-slot="title"]`); description (`[data-slot="description"]` or `section`); action (`footer`). | `data-variant="destructive"`; default by omission |
 | Alert dialog | `.alert-dialog` | Native `<dialog>` containing a panel; panel contains `header` (optional `figure`), title, description, `section` and `footer`. | `data-size="sm"` on the dialog or panel; default by omission |
 | Aspect ratio | `.aspect-ratio` | A single media child (`img`, `video`, `iframe`, `canvas` or `svg`). | `--ratio` local property (default `16 / 9`); `data-fit="cover|contain"` |
+| Attachment | `.attachment` | `[data-slot="media"]`, `[data-slot="content"]` with title/description and `[data-slot="actions"]`; optional `[data-slot="trigger"]` overlay. | `data-size="default|sm|xs"`; `data-orientation="horizontal|vertical"`; `aria-busy="true"` on the root |
 | Avatar | `.avatar`, `.avatar-group` | Real `img`, `[data-slot="fallback"]` layer and optional `[data-slot="badge"]`; `.avatar-group` overlaps avatars. | `data-size="default|sm|lg"` |
 | Badge | `.badge` | Text and optional SVG. | `data-variant="primary|secondary|outline|destructive|ghost|link"` |
 | Breadcrumb | `.breadcrumb` | `nav` with `ol`/`li`, links and a current `span`; separators are `li[aria-hidden="true"]`; `[data-slot="ellipsis"]` for collapsed paths. | `aria-current="page"` on the current item |
+| Bubble | `.bubble`, `.bubble-group` | `[data-slot="content"]` surface and optional `[data-slot="reactions"]` containing `[data-slot="reaction"]` buttons. | `data-variant="default|secondary|muted|tinted|outline|ghost|destructive"`; `data-align="start|end"`; reaction `aria-pressed` |
 | Button | `.btn` | Text and optional SVG; `data-icon="inline-start|inline-end"` marks inline icons for padding. | `data-variant="default|primary|secondary|outline|destructive|ghost|link"`; `data-size="default|xs|sm|lg|icon|icon-xs|icon-sm|icon-lg"` |
 | Button group | `.btn-group` | Buttons, inputs, dropdown/popover wrappers, `span`/`label`/`output` and `hr[role="separator"]`. | `data-orientation="horizontal|vertical"` |
 | Calendar | `.calendar` | Header with `[data-slot="title"]` and nav buttons; native `<table role="grid">` with column headers and `td[role="gridcell"]` day cells. | Cell `aria-selected`; day `aria-current="date"` and `aria-disabled` |
@@ -423,12 +446,16 @@ on an RTL page; its header follows the page direction.
 | Item | `.item`, `.item-group` | `figure`, `section`, `aside`, `header`, `footer`; item groups accept `hr` separators. | Item `data-variant="default|outline|muted"`; `data-size="default|sm|xs"` |
 | Kbd | `.kbd` | Inline shortcut text or SVG. | — |
 | Label | `.label` | Native `<label>`; also supported as a direct label inside `.field`. | — |
+| Marker | `.marker` | `[data-slot="icon"]` and `[data-slot="content"]`. | `data-variant="default|separator|border"` |
 | Menubar | `.menubar`, `.menubar-item` | `role="menubar"`, `role="none"` item wrappers, `role="menuitem"` triggers with `aria-haspopup`/`aria-expanded`, and `[data-popover]` submenus with `role="menu"`. | Placement attributes on submenu panels |
+| Message | `.message`, `.message-group` | Row with `[data-slot="avatar"]` and `[data-slot="content"]` containing header, bubble and footer slots. | `data-align="start|end"` |
+| Message scroller | `.message-scroller` | `.message-scroller-viewport` scroll container, `[data-slot="content"]` and optional `[data-slot="jump"]` button. | Consumer-sized; `hidden` toggles the jump button |
 | Native select | `.native-select` | Native `<select>`. | `data-size="sm"`; default by omission |
 | Navigation menu | `.navigation-menu` | `nav` with `ul`/`li`, trigger buttons or links, and `[data-popover]` panels with link lists and `[data-slot="title"]`/`[data-slot="description"]`. | Placement attributes on panels |
 | Pagination | `.pagination` | `nav` with `ul`/`li`; links compose with `.btn`; `[data-slot="ellipsis"]` and `[data-slot="label"]` parts. | `aria-current="page"` on the active link |
 | Popover | `.popover` | Trigger and `[data-popover]` panel with optional header, title and description. | Placement attributes |
 | Progress | `.progress` | Native `<progress>` with fallback text. | `value`/`max`; omit `value` for indeterminate |
+| Questionnaire | `.questionnaire` | `[data-slot="progress"]`, fieldset steps with legends, `[data-slot="choices"]`, native inputs and `[data-slot="actions"]`. | `aria-current="step"` on the active step; `hidden` on inactive steps; native radio/checkbox/input |
 | Radio | `.radio` | Native `input[type="radio"]`, normally inside `role="radiogroup"`. | — |
 | Resizable | `.resizable` | `.resizable-panel` panes and `[data-slot="handle"]` separators. | `data-orientation="horizontal|vertical"`; panel `--panel-size`; handle `aria-valuenow/min/max` |
 | Scroll area | `.scroll-area` | Scroll container; the consumer sets dimensions and content. | `data-orientation="horizontal|vertical"`; `data-size="default|sm"` |
@@ -447,6 +474,7 @@ on an RTL page; its header follows the page direction.
 | Toggle | `.toggle` | Native `<button type="button">`; text and optional SVG. | `aria-pressed="true|false"`; `data-variant="default|outline"`; `data-size="default|sm|lg"` |
 | Toggle group | `.toggle-group` | `role="group"` container of `.toggle` children. | `data-orientation="horizontal|vertical"`; `data-spacing="default|joined"`; group `data-variant`/`data-size` apply to children without their own |
 | Tooltip | `.tooltip[data-tooltip]` | Pseudo-element content from `data-tooltip`; optional arrow. | `data-side`, `data-align`, `data-arrow` |
+| Trace | `.trace` | Native `<details>` with a `<summary>` line (`[data-slot="icon"]`, title and status) and `[data-slot="body"]`; `[data-slot="source"]` links compose inside the body. | `[open]`; `aria-busy="true"` while running; status `data-variant="error|success"` |
 
 On buttons, `default` and `primary` are aliases; omitting `data-variant` is
 the same as `primary`. On badges, `primary` and omission are equivalent and
@@ -481,6 +509,13 @@ The public slot vocabulary is shared across components:
 - `data-slot="plot"`, `data-slot="legend"`, `data-slot="legend-item"`, `data-slot="swatch"`, `data-slot="tooltip"` — chart.
 - `data-slot="brand"` — sidebar.
 - `data-slot="close"` — toast.
+- `data-slot="avatar"`, `data-slot="content"`, `data-slot="header"`, `data-slot="footer"` — message.
+- `data-slot="media"`, `data-slot="actions"`, `data-slot="trigger"` — attachment; title and description use the shared slots.
+- `data-slot="reactions"`, `data-slot="reaction"` — bubble.
+- `data-slot="icon"` — marker and trace.
+- `data-slot="progress"`, `data-slot="progress-label"`, `data-slot="item"`, `data-slot="choices"`, `data-slot="error"`, `data-slot="skip"` — questionnaire; `data-slot="label"` and `data-slot="text"` mark choice text.
+- `data-slot="status"`, `data-slot="body"`, `data-slot="source"` — trace.
+- `data-slot="jump"` — message scroller.
 
 Semantic parts are equally public where documented: `header`, `section`,
 `footer`, `figure`, `aside`, `pre`, `code`, `details`, `summary`, `nav`, `ol`,
@@ -603,6 +638,18 @@ Notes:
   while dragging.
 - Chart `data-series` values map to `--chart-*` tokens and are presentation
   modifiers, not states.
+- Attachment state uses `aria-busy="true"` for uploading or processing and a
+  `role="alert"` description for errors. There is no `data-state` mirror.
+- Message and standalone bubble alignment use `data-align="start|end"` as a
+  presentation modifier, not a state. Message reactions use `aria-pressed`.
+- Questionnaire steps use `aria-current="step"` on the active fieldset and the
+  native `hidden` attribute on inactive steps. Progress is a native `<progress>`
+  with an accessible name. Step changes, validation and submission are consumer
+  JavaScript.
+- Trace is a native `<details>` disclosure. `aria-busy="true"` marks a running
+  step; the status pill uses `data-variant="error|success"` as presentation.
+- The message scroller does not follow, anchor or restore scroll position. The
+  consumer toggles `hidden` on `[data-slot="jump"]` and scrolls the viewport.
 - Toast items use `role="status"` or `role="alert"`; timing, dismissal and
   Sonner integration are consumer JavaScript.
 
@@ -682,6 +729,21 @@ progress sweep slow down instead of stopping. This remains a known gap.
   link. Mobile composition uses a labelled sheet or dialog.
 - Toasts use `role="status"` for polite updates and `role="alert"` for errors;
   close buttons need labels. Timing and dismissal are consumer JavaScript.
+- Message groups should carry an accessible name; a live conversation uses
+  `role="log"`. Message headers and footers are metadata, not headings.
+- Attachments need a label for the media, a name for the root action and labels
+  for icon-only actions. Error descriptions use `role="alert"`; busy uploads use
+  `aria-busy="true"`.
+- Bubble reactions are buttons with accessible labels and `aria-pressed`; do not
+  rely on the emoji alone to convey the reaction.
+- Questionnaire steps are fieldsets with legends. The progress element needs an
+  accessible name; move focus to the new step after navigation. Inactive steps
+  are removed from rendering and the accessibility tree with `hidden`.
+- Trace rows take their accessible name from the summary text. Decorative icons
+  are `aria-hidden`; say what happened in the title, and repeat the status in
+  words rather than relying on color. The summary is the native keyboard target.
+- Message scroller viewports need `tabindex="0"` and an accessible name. The
+  jump button needs a label and must be hidden when it has no effect.
 - OTP inputs need an accessible label, `inputmode="numeric"`,
   `autocomplete="one-time-code"`, `maxlength` and optionally `pattern`. CSS
   does not auto-advance or draw per-digit slots.
@@ -877,6 +939,12 @@ semantic versioning.
   JavaScript.
 - Toast timing and dismissal are consumer JavaScript. `sonner` is documented as
   a compatibility note, not a registry item.
+- Message rendering, reactions, attachments, trace status, questionnaire
+  validation and message-scroller following/anchor behavior are consumer
+  JavaScript.
+- Form, data-table, date-picker and typography are docs recipes, not registry
+  items. Direction maps to the native `dir` attribute; Sonner maps to the toast
+  compatibility note.
 - Uncurated drafts remain in `packages/loseta/experimental/` and are not
   published.
 - There is no spacing or motion token scale; spacing and durations are

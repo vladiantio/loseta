@@ -86,6 +86,10 @@ for (const scheme of schemes) {
       await page.goto(`${base}/docs/components/${item}`, {
         waitUntil: "networkidle"
       });
+      await page.addStyleTag({
+        content:
+          "*, *::before, *::after { transition: none !important; animation: none !important; }"
+      });
       await page.locator("[data-style-select]").selectOption(style);
       await page.waitForFunction(
         (name) => {
@@ -95,10 +99,6 @@ for (const scheme of schemes) {
         style
       );
       await waitForStyle(style);
-      await page.addStyleTag({
-        content:
-          "*, *::before, *::after { transition: none !important; animation: none !important; }"
-      });
       await page.evaluate(() => document.fonts.ready);
 
       const preview = page.locator(".docs-preview").first();

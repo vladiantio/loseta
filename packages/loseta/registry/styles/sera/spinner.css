@@ -1,0 +1,35 @@
+/* Spinner */
+@layer loseta.style {
+  .spinner {
+    width: 1rem;
+    height: 1rem;
+    border-style: solid;
+    border-width: 2px;
+    border-color: color-mix(in oklab, currentColor 25%, transparent);
+    border-block-start-color: currentColor;
+    border-radius: var(--radius-full);
+    animation: loseta-spin 0.75s linear infinite;
+
+    @media (prefers-reduced-motion: reduce) {
+      animation-duration: 1.5s;
+    }
+
+    &[data-size='sm'] {
+      width: 0.75rem;
+      height: 0.75rem;
+      border-width: 1.5px;
+    }
+
+    &[data-size='lg'] {
+      width: 1.5rem;
+      height: 1.5rem;
+      border-width: 2.5px;
+    }
+  }
+
+  @keyframes loseta-spin {
+    to {
+      rotate: 360deg;
+    }
+  }
+}

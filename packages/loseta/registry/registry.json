@@ -1,7 +1,7 @@
 {
   "$schema": "./schema.json",
   "name": "loseta",
-  "version": "0.10.0",
+  "version": "0.11.0",
   "styles": [
     {
       "name": "nova",
@@ -2212,7 +2212,7 @@
     {
       "name": "aspect-ratio",
       "type": "component",
-      "status": "experimental",
+      "status": "stable",
       "title": "Aspect Ratio",
       "description": "Constrains media to a preferred aspect ratio.",
       "docs": "/docs/components/aspect-ratio",
@@ -2233,6 +2233,48 @@
           "target": "styles/nova/aspect-ratio.css",
           "role": "style",
           "layer": "loseta.style"
+        },
+        {
+          "path": "styles/vega/aspect-ratio.css",
+          "target": "styles/vega/aspect-ratio.css",
+          "role": "style",
+          "layer": "loseta.style"
+        },
+        {
+          "path": "styles/maia/aspect-ratio.css",
+          "target": "styles/maia/aspect-ratio.css",
+          "role": "style",
+          "layer": "loseta.style"
+        },
+        {
+          "path": "styles/lyra/aspect-ratio.css",
+          "target": "styles/lyra/aspect-ratio.css",
+          "role": "style",
+          "layer": "loseta.style"
+        },
+        {
+          "path": "styles/mira/aspect-ratio.css",
+          "target": "styles/mira/aspect-ratio.css",
+          "role": "style",
+          "layer": "loseta.style"
+        },
+        {
+          "path": "styles/luma/aspect-ratio.css",
+          "target": "styles/luma/aspect-ratio.css",
+          "role": "style",
+          "layer": "loseta.style"
+        },
+        {
+          "path": "styles/sera/aspect-ratio.css",
+          "target": "styles/sera/aspect-ratio.css",
+          "role": "style",
+          "layer": "loseta.style"
+        },
+        {
+          "path": "styles/rhea/aspect-ratio.css",
+          "target": "styles/rhea/aspect-ratio.css",
+          "role": "style",
+          "layer": "loseta.style"
         }
       ],
       "examples": [
@@ -2242,7 +2284,7 @@
     {
       "name": "avatar",
       "type": "component",
-      "status": "experimental",
+      "status": "stable",
       "title": "Avatar",
       "description": "Displays an image or fallback initials representing a user.",
       "docs": "/docs/components/avatar",
@@ -2262,6 +2304,48 @@
         {
           "path": "styles/nova/avatar.css",
           "target": "styles/nova/avatar.css",
+          "role": "style",
+          "layer": "loseta.style"
+        },
+        {
+          "path": "styles/vega/avatar.css",
+          "target": "styles/vega/avatar.css",
+          "role": "style",
+          "layer": "loseta.style"
+        },
+        {
+          "path": "styles/maia/avatar.css",
+          "target": "styles/maia/avatar.css",
+          "role": "style",
+          "layer": "loseta.style"
+        },
+        {
+          "path": "styles/lyra/avatar.css",
+          "target": "styles/lyra/avatar.css",
+          "role": "style",
+          "layer": "loseta.style"
+        },
+        {
+          "path": "styles/mira/avatar.css",
+          "target": "styles/mira/avatar.css",
+          "role": "style",
+          "layer": "loseta.style"
+        },
+        {
+          "path": "styles/luma/avatar.css",
+          "target": "styles/luma/avatar.css",
+          "role": "style",
+          "layer": "loseta.style"
+        },
+        {
+          "path": "styles/sera/avatar.css",
+          "target": "styles/sera/avatar.css",
+          "role": "style",
+          "layer": "loseta.style"
+        },
+        {
+          "path": "styles/rhea/avatar.css",
+          "target": "styles/rhea/avatar.css",
           "role": "style",
           "layer": "loseta.style"
         }
@@ -2337,7 +2421,7 @@
     {
       "name": "progress",
       "type": "component",
-      "status": "experimental",
+      "status": "stable",
       "title": "Progress",
       "description": "Displays an indicator showing the completion progress of a task.",
       "docs": "/docs/components/progress",
@@ -2358,6 +2442,48 @@
           "target": "styles/nova/progress.css",
           "role": "style",
           "layer": "loseta.style"
+        },
+        {
+          "path": "styles/vega/progress.css",
+          "target": "styles/vega/progress.css",
+          "role": "style",
+          "layer": "loseta.style"
+        },
+        {
+          "path": "styles/maia/progress.css",
+          "target": "styles/maia/progress.css",
+          "role": "style",
+          "layer": "loseta.style"
+        },
+        {
+          "path": "styles/lyra/progress.css",
+          "target": "styles/lyra/progress.css",
+          "role": "style",
+          "layer": "loseta.style"
+        },
+        {
+          "path": "styles/mira/progress.css",
+          "target": "styles/mira/progress.css",
+          "role": "style",
+          "layer": "loseta.style"
+        },
+        {
+          "path": "styles/luma/progress.css",
+          "target": "styles/luma/progress.css",
+          "role": "style",
+          "layer": "loseta.style"
+        },
+        {
+          "path": "styles/sera/progress.css",
+          "target": "styles/sera/progress.css",
+          "role": "style",
+          "layer": "loseta.style"
+        },
+        {
+          "path": "styles/rhea/progress.css",
+          "target": "styles/rhea/progress.css",
+          "role": "style",
+          "layer": "loseta.style"
         }
       ],
       "examples": [
@@ -2367,7 +2493,7 @@
     {
       "name": "separator",
       "type": "component",
-      "status": "experimental",
+      "status": "stable",
       "title": "Separator",
       "description": "Visually or semantically separates content.",
       "docs": "/docs/components/separator",
@@ -2388,6 +2514,48 @@
           "target": "styles/nova/separator.css",
           "role": "style",
           "layer": "loseta.style"
+        },
+        {
+          "path": "styles/vega/separator.css",
+          "target": "styles/vega/separator.css",
+          "role": "style",
+          "layer": "loseta.style"
+        },
+        {
+          "path": "styles/maia/separator.css",
+          "target": "styles/maia/separator.css",
+          "role": "style",
+          "layer": "loseta.style"
+        },
+        {
+          "path": "styles/lyra/separator.css",
+          "target": "styles/lyra/separator.css",
+          "role": "style",
+          "layer": "loseta.style"
+        },
+        {
+          "path": "styles/mira/separator.css",
+          "target": "styles/mira/separator.css",
+          "role": "style",
+          "layer": "loseta.style"
+        },
+        {
+          "path": "styles/luma/separator.css",
+          "target": "styles/luma/separator.css",
+          "role": "style",
+          "layer": "loseta.style"
+        },
+        {
+          "path": "styles/sera/separator.css",
+          "target": "styles/sera/separator.css",
+          "role": "style",
+          "layer": "loseta.style"
+        },
+        {
+          "path": "styles/rhea/separator.css",
+          "target": "styles/rhea/separator.css",
+          "role": "style",
+          "layer": "loseta.style"
         }
       ],
       "examples": [
@@ -2397,7 +2565,7 @@
     {
       "name": "spinner",
       "type": "component",
-      "status": "experimental",
+      "status": "stable",
       "title": "Spinner",
       "description": "Displays an animated loading indicator.",
       "docs": "/docs/components/spinner",
@@ -2418,6 +2586,48 @@
           "target": "styles/nova/spinner.css",
           "role": "style",
           "layer": "loseta.style"
+        },
+        {
+          "path": "styles/vega/spinner.css",
+          "target": "styles/vega/spinner.css",
+          "role": "style",
+          "layer": "loseta.style"
+        },
+        {
+          "path": "styles/maia/spinner.css",
+          "target": "styles/maia/spinner.css",
+          "role": "style",
+          "layer": "loseta.style"
+        },
+        {
+          "path": "styles/lyra/spinner.css",
+          "target": "styles/lyra/spinner.css",
+          "role": "style",
+          "layer": "loseta.style"
+        },
+        {
+          "path": "styles/mira/spinner.css",
+          "target": "styles/mira/spinner.css",
+          "role": "style",
+          "layer": "loseta.style"
+        },
+        {
+          "path": "styles/luma/spinner.css",
+          "target": "styles/luma/spinner.css",
+          "role": "style",
+          "layer": "loseta.style"
+        },
+        {
+          "path": "styles/sera/spinner.css",
+          "target": "styles/sera/spinner.css",
+          "role": "style",
+          "layer": "loseta.style"
+        },
+        {
+          "path": "styles/rhea/spinner.css",
+          "target": "styles/rhea/spinner.css",
+          "role": "style",
+          "layer": "loseta.style"
         }
       ],
       "examples": [
@@ -2427,7 +2637,7 @@
     {
       "name": "toggle",
       "type": "component",
-      "status": "experimental",
+      "status": "stable",
       "title": "Toggle",
       "description": "Displays a two-state button that can be pressed or unpressed.",
       "docs": "/docs/components/toggle",
@@ -2448,6 +2658,48 @@
           "target": "styles/nova/toggle.css",
           "role": "style",
           "layer": "loseta.style"
+        },
+        {
+          "path": "styles/vega/toggle.css",
+          "target": "styles/vega/toggle.css",
+          "role": "style",
+          "layer": "loseta.style"
+        },
+        {
+          "path": "styles/maia/toggle.css",
+          "target": "styles/maia/toggle.css",
+          "role": "style",
+          "layer": "loseta.style"
+        },
+        {
+          "path": "styles/lyra/toggle.css",
+          "target": "styles/lyra/toggle.css",
+          "role": "style",
+          "layer": "loseta.style"
+        },
+        {
+          "path": "styles/mira/toggle.css",
+          "target": "styles/mira/toggle.css",
+          "role": "style",
+          "layer": "loseta.style"
+        },
+        {
+          "path": "styles/luma/toggle.css",
+          "target": "styles/luma/toggle.css",
+          "role": "style",
+          "layer": "loseta.style"
+        },
+        {
+          "path": "styles/sera/toggle.css",
+          "target": "styles/sera/toggle.css",
+          "role": "style",
+          "layer": "loseta.style"
+        },
+        {
+          "path": "styles/rhea/toggle.css",
+          "target": "styles/rhea/toggle.css",
+          "role": "style",
+          "layer": "loseta.style"
         }
       ],
       "examples": [
@@ -2457,7 +2709,7 @@
     {
       "name": "toggle-group",
       "type": "component",
-      "status": "experimental",
+      "status": "stable",
       "title": "Toggle Group",
       "description": "Groups a set of toggle buttons.",
       "docs": "/docs/components/toggle-group",
@@ -2478,6 +2730,48 @@
         {
           "path": "styles/nova/toggle-group.css",
           "target": "styles/nova/toggle-group.css",
+          "role": "style",
+          "layer": "loseta.style"
+        },
+        {
+          "path": "styles/vega/toggle-group.css",
+          "target": "styles/vega/toggle-group.css",
+          "role": "style",
+          "layer": "loseta.style"
+        },
+        {
+          "path": "styles/maia/toggle-group.css",
+          "target": "styles/maia/toggle-group.css",
+          "role": "style",
+          "layer": "loseta.style"
+        },
+        {
+          "path": "styles/lyra/toggle-group.css",
+          "target": "styles/lyra/toggle-group.css",
+          "role": "style",
+          "layer": "loseta.style"
+        },
+        {
+          "path": "styles/mira/toggle-group.css",
+          "target": "styles/mira/toggle-group.css",
+          "role": "style",
+          "layer": "loseta.style"
+        },
+        {
+          "path": "styles/luma/toggle-group.css",
+          "target": "styles/luma/toggle-group.css",
+          "role": "style",
+          "layer": "loseta.style"
+        },
+        {
+          "path": "styles/sera/toggle-group.css",
+          "target": "styles/sera/toggle-group.css",
+          "role": "style",
+          "layer": "loseta.style"
+        },
+        {
+          "path": "styles/rhea/toggle-group.css",
+          "target": "styles/rhea/toggle-group.css",
           "role": "style",
           "layer": "loseta.style"
         }

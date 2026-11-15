@@ -8,7 +8,7 @@ It is not an implementation guide. The installed CSS is the reference
 implementation: if this document and the registry disagree,
 [`packages/loseta/registry/tokens.css`](packages/loseta/registry/tokens.css)
 and [`registry.json`](packages/loseta/registry/registry.json) win, and this
-document must be corrected. The baseline covers registry version `0.10.0`.
+document must be corrected. The baseline covers registry version `0.11.0`.
 
 Vocabulary is defined in [`GLOSSARY.md`](GLOSSARY.md). Style implementation
 guidance lives in [`STYLE-GUIDE.md`](STYLE-GUIDE.md).
@@ -42,21 +42,21 @@ guidance lives in [`STYLE-GUIDE.md`](STYLE-GUIDE.md).
 
 ## Scope
 
-The registry contains 25 stable components, 37 experimental components, four
+The registry contains 32 stable components, 30 experimental components, four
 primitives and four foundations:
 
-- **Stable components**: alert, alert-dialog, badge, button, button-group,
-  card, checkbox, code-block, dialog, dropdown-menu, empty, field, input, item,
-  kbd, label, native-select, popover, radio, skeleton, switch, table, tabs,
-  textarea and tooltip.
-- **Experimental components**: accordion, aspect-ratio, attachment, avatar,
-  breadcrumb, bubble, calendar, carousel, chart, collapsible, combobox, command,
-  context-menu, drawer, hover-card, input-group, input-otp, marker, menubar,
-  message, message-scroller, navigation-menu, pagination, progress,
-  questionnaire, resizable, scroll-area, select, separator, sheet, sidebar,
-  slider, spinner, toast, toggle, toggle-group and trace. They are installable
-  by name with `loseta add <name> --experimental`, ship exactly one Nova style
-  file and are explicitly outside the v1 compatibility contract.
+- **Stable components**: alert, alert-dialog, aspect-ratio, avatar, badge,
+  button, button-group, card, checkbox, code-block, dialog, dropdown-menu,
+  empty, field, input, item, kbd, label, native-select, popover, progress,
+  radio, separator, skeleton, spinner, switch, table, tabs, textarea, toggle,
+  toggle-group and tooltip.
+- **Experimental components**: accordion, attachment, breadcrumb, bubble,
+  calendar, carousel, chart, collapsible, combobox, command, context-menu,
+  drawer, hover-card, input-group, input-otp, marker, menubar, message,
+  message-scroller, navigation-menu, pagination, questionnaire, resizable,
+  scroll-area, select, sheet, sidebar, slider, toast and trace. They are
+  installable by name with `loseta add <name> --experimental`, ship exactly one
+  Nova style file and are explicitly outside the v1 compatibility contract.
 - **4 primitives**: `dialog-shell`, `listbox`, `menu` and `popover-primitive`.
   `listbox` is experimental and Nova-only until `select`, `combobox` and
   `command` are promoted; the other primitives are stable. Primitives are
@@ -270,6 +270,7 @@ file they own, not by expecting a spacing API.
 | Popover, menu, dialog | `--popover` surface, 1px foreground-at-10% ring, `--shadow-md` for popovers/menus, `--radius-lg` or `--radius-xl` by component. |
 | Code Block | `--muted` surface, 1px foreground-at-5% ring, `--radius-xl`; no header divider. Destructive uses a destructive tint, text and ring. |
 | Muted region | `--muted` at 50% for footers, table footers and subdued rows; `--muted` for skeletons and kbd. |
+| Aspect ratio | `--muted` media frame; the child fills the box and `data-fit` sets `object-fit`. |
 | Dialog backdrop | Black at 10% plus a 4px backdrop blur. |
 | Empty | Dashed `--border` outline, no fill. |
 | Accordion | Bottom `--border` divider between items; summary hover underline. |

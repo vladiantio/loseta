@@ -1,0 +1,14 @@
+/* Separator */
+@layer loseta.style {
+  .separator {
+    block-size: 1px;
+    inline-size: 100%;
+    background-color: var(--border);
+
+    &:is([data-orientation='vertical'], [aria-orientation='vertical']) {
+      block-size: auto;
+      inline-size: 1px;
+      align-self: stretch;
+    }
+  }
+}

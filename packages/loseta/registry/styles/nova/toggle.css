@@ -77,6 +77,11 @@
         color: var(--accent-foreground);
       }
     }
+
+    &[data-variant='outline'][aria-pressed='true'] {
+      background-color: var(--accent);
+      color: var(--accent-foreground);
+    }
   }
 
   .toggle:where(.toggle-group[data-size='sm'] > .toggle:not([data-size])) {
@@ -104,6 +109,13 @@
   .toggle:where(
       .toggle-group[data-variant='outline'] > .toggle:not([data-variant])
     ):hover {
+    background-color: var(--accent);
+    color: var(--accent-foreground);
+  }
+
+  .toggle:where(
+      .toggle-group[data-variant='outline'] > .toggle:not([data-variant])
+    )[aria-pressed='true'] {
     background-color: var(--accent);
     color: var(--accent-foreground);
   }

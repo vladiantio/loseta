@@ -1,0 +1,89 @@
+/* Avatar */
+@layer loseta.style {
+  .avatar {
+    border-radius: var(--radius-full);
+    background-color: var(--muted);
+
+    &::after {
+      position: absolute;
+      inset: 0;
+      border-style: solid;
+      border-width: 1px;
+      border-color: var(--border);
+      border-radius: inherit;
+      content: '';
+      pointer-events: none;
+    }
+
+    &:not([data-size]),
+    &[data-size='default'] {
+      width: 2rem;
+      height: 2rem;
+    }
+
+    &[data-size='sm'] {
+      width: 1.5rem;
+      height: 1.5rem;
+    }
+
+    &[data-size='lg'] {
+      width: 2.5rem;
+      height: 2.5rem;
+    }
+
+    > img {
+      border-radius: inherit;
+    }
+
+    > [data-slot='fallback'] {
+      border-radius: inherit;
+      background-color: var(--muted);
+      color: light-dark(var(--foreground), var(--muted-foreground));
+      font-size: var(--text-xs);
+      line-height: var(--text-xs--line-height);
+      font-weight: 500;
+    }
+
+    &[data-size='sm'] > [data-slot='fallback'] {
+      font-size: 0.625rem;
+      line-height: 1;
+    }
+
+    &[data-size='lg'] > [data-slot='fallback'] {
+      font-size: var(--text-sm);
+      line-height: var(--text-sm--line-height);
+    }
+
+    > [data-slot='badge'] {
+      width: 0.625rem;
+      height: 0.625rem;
+      border-radius: var(--radius-full);
+      background-color: var(--primary);
+      color: var(--primary-foreground);
+      box-shadow: 0 0 0 2px var(--background);
+
+      > svg {
+        width: 0.5rem;
+        height: 0.5rem;
+      }
+    }
+
+    &[data-size='sm'] > [data-slot='badge'] {
+      width: 0.5rem;
+      height: 0.5rem;
+
+      > svg {
+        display: none;
+      }
+    }
+
+    &[data-size='lg'] > [data-slot='badge'] {
+      width: 0.75rem;
+      height: 0.75rem;
+    }
+  }
+
+  .avatar-group > .avatar {
+    box-shadow: 0 0 0 2px var(--background);
+  }
+}

@@ -1,0 +1,67 @@
+/* Progress */
+@layer loseta.style {
+  .progress {
+    block-size: 0.5rem;
+    border-radius: var(--radius-2xl);
+    background-color: color-mix(in oklab, var(--primary) 20%, transparent);
+
+    &::-webkit-progress-bar {
+      border-radius: inherit;
+      background-color: transparent;
+    }
+
+    &::-webkit-progress-value {
+      border-radius: inherit;
+      background-color: var(--primary);
+      transition-property: inline-size;
+      transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+      transition-duration: 150ms;
+    }
+
+    &::-moz-progress-bar {
+      border-radius: inherit;
+      background-color: var(--primary);
+    }
+
+    &:indeterminate {
+      background-image: linear-gradient(
+        90deg,
+        transparent,
+        var(--primary),
+        transparent
+      );
+      background-size: 50% 100%;
+      background-repeat: no-repeat;
+      animation: loseta-progress-indeterminate 1.5s
+        cubic-bezier(0.4, 0, 0.2, 1) infinite;
+
+      &::-webkit-progress-bar {
+        background-color: transparent;
+      }
+
+      &::-webkit-progress-value {
+        background-color: transparent;
+      }
+
+      &::-moz-progress-bar {
+        background-color: transparent;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      &:indeterminate {
+        animation-duration: 3s;
+      }
+    }
+  }
+
+  @keyframes loseta-progress-indeterminate {
+    from {
+      background-position: -100% 0;
+    }
+
+    to {
+      background-position: 200% 0;
+    }
+  }
+}

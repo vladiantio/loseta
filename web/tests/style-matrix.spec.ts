@@ -72,6 +72,51 @@ const cases: StyleCase[] = [
       sera: "40px",
       rhea: "32px"
     }
+  },
+  {
+    id: "toggle",
+    selector: ".docs-preview .toggle",
+    property: "height",
+    values: {
+      nova: "32px",
+      vega: "36px",
+      maia: "36px",
+      lyra: "32px",
+      mira: "28px",
+      luma: "36px",
+      sera: "40px",
+      rhea: "32px"
+    }
+  },
+  {
+    id: "avatar",
+    selector: ".docs-preview .avatar [data-slot='fallback']",
+    property: "font-size",
+    values: {
+      nova: "12px",
+      vega: "12px",
+      maia: "12px",
+      lyra: "10px",
+      mira: "10px",
+      luma: "12px",
+      sera: "12px",
+      rhea: "12px"
+    }
+  },
+  {
+    id: "progress",
+    selector: ".docs-preview .progress",
+    property: "height",
+    values: {
+      nova: "8px",
+      vega: "8px",
+      maia: "8px",
+      lyra: "6px",
+      mira: "6px",
+      luma: "8px",
+      sera: "10px",
+      rhea: "8px"
+    }
   }
 ];
 

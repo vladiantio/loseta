@@ -1,0 +1,6 @@
+/* Aspect Ratio */
+@layer loseta.style {
+  .aspect-ratio {
+    background-color: var(--muted);
+  }
+}

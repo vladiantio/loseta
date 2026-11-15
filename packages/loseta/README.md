@@ -85,6 +85,7 @@ The registry is validated for:
 - dependency resolution and cycles,
 - `@layer` wrapping,
 - one complete style file per declared style for every stable component and primitive,
+- no promotion scaffold markers in stable style files,
 - exactly one Nova style file for every experimental component and primitive,
 - valid `styles/<name>/` paths and no unreferenced style files,
 - forbidden Tailwind/legacy patterns,

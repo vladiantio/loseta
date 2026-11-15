@@ -1,5 +1,21 @@
 # Changelog
 
+## 0.11.0 - 2026-11-15
+
+### Changed
+
+- Promoted `aspect-ratio`, `avatar`, `progress`, `separator`, `spinner`,
+  `toggle` and `toggle-group` to stable. They now ship all eight styles and are
+  covered by the v1 contract.
+- Fixed pressed outline toggles to use the accent surface instead of the outline
+  background in every style.
+
+### Notes
+
+- The registry now has 32 stable components and 30 experimental components.
+- The seven promoted components install without `--experimental` in every
+  style, and `loseta add all` includes them.
+
 ## 0.10.0 - 2026-11-15
 
 ### Added

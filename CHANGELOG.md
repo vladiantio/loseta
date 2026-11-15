@@ -2,6 +2,15 @@
 
 ## Unreleased
 
+### Changed
+
+- **Breaking:** `reset.css` is now a preflight-style reset. It normalizes
+  padding, margins, borders, tables and form controls, applies default
+  `--font-sans` and `--font-mono` stacks with system fallbacks, and adds
+  cross-browser input and focus fixes. Consumers that relied on the host
+  document's typography should set those custom properties or ship their own
+  font rules.
+
 ## 0.3.0 - 2026-11-14
 
 ### Added

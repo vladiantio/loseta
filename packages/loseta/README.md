@@ -32,7 +32,7 @@ registry/
   registry.json          # item manifest
   schema.json            # JSON Schema for the manifest
   tokens.css             # design tokens
-  reset.css              # minimal reset
+  reset.css              # preflight-style reset
   base.css               # element defaults
   utilities.css          # sr-only
   primitives/            # shared popover and dialog shells

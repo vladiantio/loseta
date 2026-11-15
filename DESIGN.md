@@ -82,7 +82,7 @@ Every generated `index.css` declares this order before importing any file:
 | Layer | Owner | Responsibility |
 | --- | --- | --- |
 | `loseta.tokens` | foundation | Custom properties, light/dark token values, `color-scheme`. |
-| `loseta.reset` | foundation | Minimal reset: box sizing, borders, margins, media defaults, form inheritance. Not a full preflight. |
+| `loseta.reset` | foundation | Preflight-style reset: box sizing, margins and padding, borders, media and table defaults, form inheritance, default font stacks and focus defaults. |
 | `loseta.base` | foundation | Global element defaults: page colors, button cursor, selection color, outline color. |
 | `loseta.components` | base files and primitives | Anatomy, layout, behavior hooks and structural state rules. |
 | `loseta.style` | style files | Color, typography, spacing, radii, shadows, surfaces and animations. |
@@ -157,10 +157,12 @@ fixed 4px radius. Code Block uses `--radius-xl`; its `sm` size uses
 
 ### Typography
 
-- loseta ships **no UI font family**. The reset makes form controls inherit and
-  the system inherits the host document's typography.
-- Code Block uses a monospace stack with `var(--font-mono, …)` so consumers can
-  point it at their own mono family without a global font token.
+- The reset sets default `--font-sans` and `--font-mono` stacks on the document,
+  with system fallbacks, and makes form controls inherit them. Consumers can
+  override either custom property without touching component CSS; no component
+  or style file requires a global font token.
+- Code Block keeps an explicit monospace stack with `var(--font-mono, …)` so it
+  still renders correctly when the reset is not installed.
 - UI text defaults to `--text-sm` (`0.875rem`), with its paired line height.
   Cards, alerts, items, tables, menus, tabs, code blocks and dialog bodies
   follow it.

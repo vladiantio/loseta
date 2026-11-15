@@ -1,8 +1,11 @@
 @layer docs {
   :root {
-    --docs-font-sans: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-    --docs-font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-    --font-mono: var(--docs-font-mono);
+    --font-sans:
+      -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", "Noto Sans", Arial,
+      sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+    --font-mono:
+      ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New",
+      monospace;
     --docs-header-height: 3.5rem;
     --docs-sidebar-width: 16rem;
     --docs-toc-width: 18rem;
@@ -15,9 +18,6 @@
   }
 
   body {
-    font-family: var(--docs-font-sans);
-    font-size: 1rem;
-    line-height: 1.5;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
@@ -105,11 +105,6 @@
       animation: none;
       opacity: 0.6;
     }
-  }
-
-  code,
-  pre {
-    font-family: var(--docs-font-mono);
   }
 
   .docs-header {

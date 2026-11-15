@@ -1,0 +1,43 @@
+<!-- Default -->
+<div style="display: flex; align-items: flex-start; justify-content: center; min-height: 16rem; padding-top: 1rem">
+  <div class="menubar" role="menubar" aria-label="Main">
+    <div class="menubar-item" role="none">
+      <button type="button" role="menuitem" aria-haspopup="menu" aria-expanded="false">File</button>
+      <div data-popover data-side="bottom" aria-hidden="true">
+        <div role="menu">
+          <button type="button" role="menuitem">New tab <span class="kbd">⌘T</span></button>
+          <button type="button" role="menuitem">New window <span class="kbd">⌘N</span></button>
+          <div role="separator"></div>
+          <button type="button" role="menuitem">Print <span class="kbd">⌘P</span></button>
+        </div>
+      </div>
+    </div>
+    <div class="menubar-item" role="none">
+      <button type="button" role="menuitem" aria-haspopup="menu" aria-expanded="false">Edit</button>
+      <div data-popover data-side="bottom" aria-hidden="true">
+        <div role="menu">
+          <button type="button" role="menuitem">Undo <span class="kbd">⌘Z</span></button>
+          <button type="button" role="menuitem">Redo <span class="kbd">⇧⌘Z</span></button>
+          <div role="separator"></div>
+          <button type="button" role="menuitem">Cut</button>
+          <button type="button" role="menuitem">Copy</button>
+          <button type="button" role="menuitem">Paste</button>
+        </div>
+      </div>
+    </div>
+    <div class="menubar-item" role="none">
+      <button type="button" role="menuitem" aria-haspopup="menu" aria-expanded="false">View</button>
+      <div data-popover data-side="bottom" aria-hidden="true">
+        <div role="menu">
+          <button type="button" role="menuitem">Zoom in</button>
+          <button type="button" role="menuitem">Zoom out</button>
+          <div role="separator"></div>
+          <button type="button" role="menuitemcheckbox" aria-checked="true">
+            <span data-slot="indicator">✓</span>
+            Show sidebar
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

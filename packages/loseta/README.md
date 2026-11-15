@@ -38,7 +38,7 @@ registry/
   reset.css              # preflight-style reset
   base.css               # element defaults
   utilities.css          # sr-only
-  primitives/            # shared popover and dialog shells
+  primitives/            # shared popover, menu and dialog shells
   components/            # structural CSS per component
   styles/                # visual CSS per declared style
   examples/              # example markup used by `add --html`

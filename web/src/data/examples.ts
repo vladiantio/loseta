@@ -793,5 +793,243 @@ Done in 2.8s using pnpm v10.18.0</code></pre>
   <button type="button" class="toggle" aria-pressed="false" data-demo-toggle>Comfortable</button>
 </div>`
     }
+  ],
+  "context-menu": [
+    {
+      title: "Default",
+      html: `<div data-demo="context-menu" data-demo-context style="display: grid; place-items: center; min-height: 10rem; border: 1px dashed var(--border); border-radius: var(--radius-lg)">
+  <p>Right-click anywhere in this area.</p>
+  <div class="context-menu" role="menu" aria-hidden="true" style="--context-x: 0px; --context-y: 0px">
+    <button type="button" role="menuitem">Profile</button>
+    <button type="button" role="menuitem">Billing</button>
+    <div role="separator"></div>
+    <button type="button" role="menuitem" data-variant="destructive">Delete account</button>
+  </div>
+</div>`
+    }
+  ],
+  drawer: [
+    {
+      title: "Default",
+      html: `<button type="button" class="btn" data-variant="outline" data-open-dialog="demo-drawer">
+  Open drawer
+</button>
+
+<dialog class="drawer" id="demo-drawer" data-side="block-end" aria-labelledby="drawer-title">
+  <div>
+    <span data-slot="handle" aria-hidden="true"></span>
+    <header>
+      <h2 data-slot="title" id="drawer-title">Edit profile</h2>
+      <p data-slot="description">Make changes to your profile here.</p>
+    </header>
+    <section>
+      <div class="field">
+        <label class="label" for="drawer-name">Name</label>
+        <input class="input" id="drawer-name" value="Ada Lovelace">
+      </div>
+    </section>
+    <footer>
+      <button type="button" class="btn" data-variant="outline" data-close-dialog>Cancel</button>
+      <button type="button" class="btn" data-close-dialog>Save changes</button>
+    </footer>
+  </div>
+</dialog>`
+    },
+    {
+      title: "Large",
+      html: `<button type="button" class="btn" data-variant="outline" data-open-dialog="demo-drawer-large">
+  Open large drawer
+</button>
+
+<dialog class="drawer" id="demo-drawer-large" data-side="block-end" data-size="lg" aria-labelledby="drawer-large-title">
+  <div>
+    <span data-slot="handle" aria-hidden="true"></span>
+    <header>
+      <h2 data-slot="title" id="drawer-large-title">Filters</h2>
+      <p data-slot="description">Narrow the results to the records you need.</p>
+    </header>
+    <section>
+      <p>Use the controls in your application to filter this content.</p>
+    </section>
+    <footer>
+      <button type="button" class="btn" data-variant="outline" data-close-dialog>Cancel</button>
+      <button type="button" class="btn" data-close-dialog>Apply</button>
+    </footer>
+  </div>
+</dialog>`
+    }
+  ],
+  "hover-card": [
+    {
+      title: "Default",
+      html: `<div style="display: flex; align-items: center; justify-content: center; min-height: 14rem">
+  <span class="hover-card">
+    <a href="#" aria-describedby="hover-card-profile">@loseta</a>
+    <div data-popover data-side="bottom" data-align="start" id="hover-card-profile">
+      <div>
+        <h3>loseta</h3>
+        <p>Native CSS component scaffolds with the shadcn feel.</p>
+      </div>
+      <p>Joined November 2026</p>
+    </div>
+  </span>
+</div>`
+    }
+  ],
+  menubar: [
+    {
+      title: "Default",
+      html: `<div style="display: flex; align-items: flex-start; justify-content: center; min-height: 16rem; padding-top: 1rem">
+  <div class="menubar" role="menubar" aria-label="Main" data-demo="menubar">
+    <div class="menubar-item" role="none">
+      <button type="button" role="menuitem" aria-haspopup="menu" aria-expanded="false" data-demo-menu-trigger>File</button>
+      <div data-popover data-side="bottom" aria-hidden="true">
+        <div role="menu">
+          <button type="button" role="menuitem">New tab <span class="kbd">⌘T</span></button>
+          <button type="button" role="menuitem">New window <span class="kbd">⌘N</span></button>
+          <div role="separator"></div>
+          <button type="button" role="menuitem">Print <span class="kbd">⌘P</span></button>
+        </div>
+      </div>
+    </div>
+    <div class="menubar-item" role="none">
+      <button type="button" role="menuitem" aria-haspopup="menu" aria-expanded="false" data-demo-menu-trigger>Edit</button>
+      <div data-popover data-side="bottom" aria-hidden="true">
+        <div role="menu">
+          <button type="button" role="menuitem">Undo <span class="kbd">⌘Z</span></button>
+          <button type="button" role="menuitem">Redo <span class="kbd">⇧⌘Z</span></button>
+          <div role="separator"></div>
+          <button type="button" role="menuitem">Cut</button>
+          <button type="button" role="menuitem">Copy</button>
+          <button type="button" role="menuitem">Paste</button>
+        </div>
+      </div>
+    </div>
+    <div class="menubar-item" role="none">
+      <button type="button" role="menuitem" aria-haspopup="menu" aria-expanded="false" data-demo-menu-trigger>View</button>
+      <div data-popover data-side="bottom" aria-hidden="true">
+        <div role="menu">
+          <button type="button" role="menuitem">Zoom in</button>
+          <button type="button" role="menuitem">Zoom out</button>
+          <div role="separator"></div>
+          <button type="button" role="menuitemcheckbox" aria-checked="true">
+            <span data-slot="indicator">✓</span>
+            Show sidebar
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>`
+    }
+  ],
+  "navigation-menu": [
+    {
+      title: "Default",
+      html: `<div style="display: flex; justify-content: center; min-height: 18rem; padding-top: 1rem">
+  <nav class="navigation-menu" aria-label="Main" data-demo="navigation-menu">
+    <ul>
+      <li>
+        <button type="button" aria-expanded="false" aria-controls="nav-products" data-demo-menu-trigger>
+          Products
+          ${chevronDown}
+        </button>
+        <div data-popover data-side="bottom" aria-hidden="true" id="nav-products">
+          <ul>
+            <li>
+              <a href="#">
+                <span data-slot="title">Components</span>
+                <span data-slot="description">Copy-paste CSS components.</span>
+              </a>
+            </li>
+            <li>
+              <a href="#">
+                <span data-slot="title">Styles</span>
+                <span data-slot="description">Eight visual interpretations.</span>
+              </a>
+            </li>
+            <li>
+              <a href="#">
+                <span data-slot="title">CLI</span>
+                <span data-slot="description">Install only what you use.</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </li>
+      <li>
+        <button type="button" aria-expanded="false" aria-controls="nav-resources" data-demo-menu-trigger>
+          Resources
+          ${chevronDown}
+        </button>
+        <div data-popover data-side="bottom" aria-hidden="true" id="nav-resources">
+          <ul>
+            <li>
+              <a href="#">
+                <span data-slot="title">Docs</span>
+                <span data-slot="description">Installation and component contracts.</span>
+              </a>
+            </li>
+            <li>
+              <a href="#">
+                <span data-slot="title">GitHub</span>
+                <span data-slot="description">Source and issue tracker.</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </li>
+      <li><a href="#">Docs</a></li>
+    </ul>
+  </nav>
+</div>`
+    }
+  ],
+  sheet: [
+    {
+      title: "Right",
+      html: `<button type="button" class="btn" data-variant="outline" data-open-dialog="demo-sheet">
+  Open sheet
+</button>
+
+<dialog class="sheet" id="demo-sheet" data-side="inline-end" aria-labelledby="sheet-title" aria-describedby="sheet-description">
+  <div>
+    <header>
+      <h2 data-slot="title" id="sheet-title">Edit profile</h2>
+      <p data-slot="description" id="sheet-description">Make changes to your profile here.</p>
+    </header>
+    <section>
+      <div class="field">
+        <label class="label" for="sheet-name">Name</label>
+        <input class="input" id="sheet-name" value="Ada Lovelace">
+      </div>
+    </section>
+    <footer>
+      <button type="button" class="btn" data-variant="outline" data-close-dialog>Cancel</button>
+      <button type="button" class="btn" data-close-dialog>Save changes</button>
+    </footer>
+  </div>
+</dialog>`
+    },
+    {
+      title: "Left, small",
+      html: `<button type="button" class="btn" data-variant="outline" data-open-dialog="demo-sheet-left">
+  Open left sheet
+</button>
+
+<dialog class="sheet" id="demo-sheet-left" data-side="inline-start" data-size="sm" aria-labelledby="sheet-left-title">
+  <div>
+    <header>
+      <h2 data-slot="title" id="sheet-left-title">Navigation</h2>
+    </header>
+    <section>
+      <p>Use the left sheet for navigation or secondary controls.</p>
+    </section>
+    <footer>
+      <button type="button" class="btn" data-variant="outline" data-close-dialog>Close</button>
+    </footer>
+  </div>
+</dialog>`
+    }
   ]
 };

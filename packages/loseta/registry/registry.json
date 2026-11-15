@@ -1,7 +1,7 @@
 {
   "$schema": "./schema.json",
   "name": "loseta",
-  "version": "0.5.0",
+  "version": "0.6.0",
   "styles": [
     {
       "name": "nova",
@@ -173,6 +173,72 @@
         {
           "path": "styles/rhea/primitives/dialog-shell.css",
           "target": "styles/rhea/primitives/dialog-shell.css",
+          "role": "style",
+          "layer": "loseta.style"
+        }
+      ]
+    },
+    {
+      "name": "menu",
+      "type": "primitive",
+      "status": "stable",
+      "title": "Menu primitive",
+      "description": "Shared menu items, headings, separators, shortcuts and indicators used by menu components.",
+      "root": [
+        "[role='menu']"
+      ],
+      "files": [
+        {
+          "path": "primitives/menu.css",
+          "target": "primitives/menu.css",
+          "role": "base",
+          "layer": "loseta.components"
+        },
+        {
+          "path": "styles/nova/primitives/menu.css",
+          "target": "styles/nova/primitives/menu.css",
+          "role": "style",
+          "layer": "loseta.style"
+        },
+        {
+          "path": "styles/vega/primitives/menu.css",
+          "target": "styles/vega/primitives/menu.css",
+          "role": "style",
+          "layer": "loseta.style"
+        },
+        {
+          "path": "styles/maia/primitives/menu.css",
+          "target": "styles/maia/primitives/menu.css",
+          "role": "style",
+          "layer": "loseta.style"
+        },
+        {
+          "path": "styles/lyra/primitives/menu.css",
+          "target": "styles/lyra/primitives/menu.css",
+          "role": "style",
+          "layer": "loseta.style"
+        },
+        {
+          "path": "styles/mira/primitives/menu.css",
+          "target": "styles/mira/primitives/menu.css",
+          "role": "style",
+          "layer": "loseta.style"
+        },
+        {
+          "path": "styles/luma/primitives/menu.css",
+          "target": "styles/luma/primitives/menu.css",
+          "role": "style",
+          "layer": "loseta.style"
+        },
+        {
+          "path": "styles/sera/primitives/menu.css",
+          "target": "styles/sera/primitives/menu.css",
+          "role": "style",
+          "layer": "loseta.style"
+        },
+        {
+          "path": "styles/rhea/primitives/menu.css",
+          "target": "styles/rhea/primitives/menu.css",
           "role": "style",
           "layer": "loseta.style"
         }
@@ -916,7 +982,8 @@
         ".dropdown-menu"
       ],
       "registryDependencies": [
-        "popover-primitive"
+        "popover-primitive",
+        "menu"
       ],
       "optionalDependencies": [
         "kbd"
@@ -2393,6 +2460,203 @@
       ],
       "examples": [
         "examples/toggle-group.html"
+      ]
+    },
+    {
+      "name": "context-menu",
+      "type": "component",
+      "status": "experimental",
+      "title": "Context Menu",
+      "description": "Displays a menu at the pointer position.",
+      "docs": "/docs/components/context-menu",
+      "root": [
+        ".context-menu"
+      ],
+      "registryDependencies": [
+        "menu"
+      ],
+      "optionalDependencies": [],
+      "files": [
+        {
+          "path": "components/context-menu.css",
+          "target": "components/context-menu.css",
+          "role": "base",
+          "layer": "loseta.components"
+        },
+        {
+          "path": "styles/nova/context-menu.css",
+          "target": "styles/nova/context-menu.css",
+          "role": "style",
+          "layer": "loseta.style"
+        }
+      ],
+      "examples": [
+        "examples/context-menu.html"
+      ]
+    },
+    {
+      "name": "drawer",
+      "type": "component",
+      "status": "experimental",
+      "title": "Drawer",
+      "description": "A bottom sheet built on the dialog shell.",
+      "docs": "/docs/components/drawer",
+      "root": [
+        ".drawer"
+      ],
+      "registryDependencies": [
+        "dialog-shell"
+      ],
+      "optionalDependencies": [
+        "button"
+      ],
+      "files": [
+        {
+          "path": "components/drawer.css",
+          "target": "components/drawer.css",
+          "role": "base",
+          "layer": "loseta.components"
+        },
+        {
+          "path": "styles/nova/drawer.css",
+          "target": "styles/nova/drawer.css",
+          "role": "style",
+          "layer": "loseta.style"
+        }
+      ],
+      "examples": [
+        "examples/drawer.html"
+      ]
+    },
+    {
+      "name": "hover-card",
+      "type": "component",
+      "status": "experimental",
+      "title": "Hover Card",
+      "description": "Shows a preview of content when a trigger is hovered or focused.",
+      "docs": "/docs/components/hover-card",
+      "root": [
+        ".hover-card"
+      ],
+      "registryDependencies": [
+        "popover-primitive"
+      ],
+      "optionalDependencies": [],
+      "files": [
+        {
+          "path": "components/hover-card.css",
+          "target": "components/hover-card.css",
+          "role": "base",
+          "layer": "loseta.components"
+        },
+        {
+          "path": "styles/nova/hover-card.css",
+          "target": "styles/nova/hover-card.css",
+          "role": "style",
+          "layer": "loseta.style"
+        }
+      ],
+      "examples": [
+        "examples/hover-card.html"
+      ]
+    },
+    {
+      "name": "menubar",
+      "type": "component",
+      "status": "experimental",
+      "title": "Menubar",
+      "description": "Displays a horizontal bar of menus.",
+      "docs": "/docs/components/menubar",
+      "root": [
+        ".menubar"
+      ],
+      "registryDependencies": [
+        "menu",
+        "popover-primitive"
+      ],
+      "optionalDependencies": [],
+      "files": [
+        {
+          "path": "components/menubar.css",
+          "target": "components/menubar.css",
+          "role": "base",
+          "layer": "loseta.components"
+        },
+        {
+          "path": "styles/nova/menubar.css",
+          "target": "styles/nova/menubar.css",
+          "role": "style",
+          "layer": "loseta.style"
+        }
+      ],
+      "examples": [
+        "examples/menubar.html"
+      ]
+    },
+    {
+      "name": "navigation-menu",
+      "type": "component",
+      "status": "experimental",
+      "title": "Navigation Menu",
+      "description": "Displays site navigation with popover panels.",
+      "docs": "/docs/components/navigation-menu",
+      "root": [
+        ".navigation-menu"
+      ],
+      "registryDependencies": [
+        "popover-primitive"
+      ],
+      "optionalDependencies": [],
+      "files": [
+        {
+          "path": "components/navigation-menu.css",
+          "target": "components/navigation-menu.css",
+          "role": "base",
+          "layer": "loseta.components"
+        },
+        {
+          "path": "styles/nova/navigation-menu.css",
+          "target": "styles/nova/navigation-menu.css",
+          "role": "style",
+          "layer": "loseta.style"
+        }
+      ],
+      "examples": [
+        "examples/navigation-menu.html"
+      ]
+    },
+    {
+      "name": "sheet",
+      "type": "component",
+      "status": "experimental",
+      "title": "Sheet",
+      "description": "Extends the dialog shell to the side of the screen.",
+      "docs": "/docs/components/sheet",
+      "root": [
+        ".sheet"
+      ],
+      "registryDependencies": [
+        "dialog-shell"
+      ],
+      "optionalDependencies": [
+        "button"
+      ],
+      "files": [
+        {
+          "path": "components/sheet.css",
+          "target": "components/sheet.css",
+          "role": "base",
+          "layer": "loseta.components"
+        },
+        {
+          "path": "styles/nova/sheet.css",
+          "target": "styles/nova/sheet.css",
+          "role": "style",
+          "layer": "loseta.style"
+        }
+      ],
+      "examples": [
+        "examples/sheet.html"
       ]
     }
   ]

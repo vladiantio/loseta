@@ -6,6 +6,7 @@
 @import "../../../packages/loseta/registry/base.css";
 @import "../../../packages/loseta/registry/utilities.css";
 @import "../../../packages/loseta/registry/primitives/dialog-shell.css";
+@import "../../../packages/loseta/registry/primitives/menu.css";
 @import "../../../packages/loseta/registry/primitives/popover.css";
 @import "../../../packages/loseta/registry/components/alert.css";
 @import "../../../packages/loseta/registry/components/alert-dialog.css";

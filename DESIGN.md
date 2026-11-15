@@ -8,7 +8,7 @@ It is not an implementation guide. The installed CSS is the reference
 implementation: if this document and the registry disagree,
 [`packages/loseta/registry/tokens.css`](packages/loseta/registry/tokens.css)
 and [`registry.json`](packages/loseta/registry/registry.json) win, and this
-document must be corrected. The baseline covers registry version `0.5.0`.
+document must be corrected. The baseline covers registry version `0.6.0`.
 
 Vocabulary is defined in [`GLOSSARY.md`](GLOSSARY.md).
 
@@ -41,7 +41,7 @@ Vocabulary is defined in [`GLOSSARY.md`](GLOSSARY.md).
 
 ## Scope
 
-The registry contains 25 stable components, 10 experimental components, two
+The registry contains 25 stable components, 16 experimental components, three
 primitives and four foundations:
 
 - **Stable components**: alert, alert-dialog, badge, button, button-group,
@@ -49,11 +49,13 @@ primitives and four foundations:
   kbd, label, native-select, popover, radio, skeleton, switch, table, tabs,
   textarea and tooltip.
 - **Experimental components**: accordion, aspect-ratio, avatar, breadcrumb,
-  pagination, progress, separator, spinner, toggle and toggle-group. They are
+  context-menu, drawer, hover-card, menubar, navigation-menu, pagination,
+  progress, separator, sheet, spinner, toggle and toggle-group. They are
   installable by name with `loseta add <name> --experimental`, ship exactly one
   Nova style file and are explicitly outside the v1 compatibility contract.
-- **2 primitives**: `dialog-shell` and `popover-primitive`. They are installed
-  automatically as dependencies and are not consumer-facing components.
+- **3 primitives**: `dialog-shell`, `menu` and `popover-primitive`. They are
+  installed automatically as dependencies and are not consumer-facing
+  components.
 - **4 foundations**: tokens, reset, base and utilities.
 
 Uncurated drafts live in `packages/loseta/experimental/`. They are neither
@@ -198,14 +200,16 @@ fixed 4px radius. Code Block uses `--radius-xl`; its `sm` size uses
   still renders correctly when the reset is not installed.
 - UI text defaults to `--text-sm` (`0.875rem`), with its paired line height.
   Cards, alerts, items, tables, menus, tabs, code blocks, accordion content,
-  avatar fallbacks, breadcrumb, pagination and dialog bodies follow it.
+  avatar fallbacks, breadcrumb, pagination, hover cards, sheets, drawers and
+  dialog bodies follow it. Menubar and navigation-menu triggers use it too.
 - Inputs and textareas use `--text-base` (`1rem`) below `48rem` and `--text-sm`
   at and above it.
 - Card, dialog and alert-dialog titles use `--text-base` at their default size
   (the `sm` card uses `--text-sm`); alert, popover, empty and field titles use
-  `--text-sm`. `lg` avatar fallbacks use `--text-base`.
+  `--text-sm`. `lg` avatar fallbacks and sheet/drawer titles use `--text-base`.
 - Badges, kbd, tooltips, `sm` toggles and `xs` buttons use `--text-xs`; the
-  `sm` button is a deliberate `0.8rem` exception.
+  `sm` button is a deliberate `0.8rem` exception. Menu headings and
+  navigation-menu descriptions also use `--text-xs`.
 - Line heights are paired tokens (`--text-*--line-height`) or explicit unitless
   values where the component needs a tighter title or description rhythm. Code
   Block uses `1.6` for code lines.
@@ -247,7 +251,13 @@ file they own, not by expecting a spacing API.
 | Empty | Dashed `--border` outline, no fill. |
 | Accordion | Bottom `--border` divider between items; summary hover underline. |
 | Avatar | `--muted` fallback, `--primary` badge and a 1px `--border` ring. |
+| Context menu | `--popover` surface, foreground-at-10% ring and `--shadow-md`. |
+| Hover card | `--popover` surface through the popover primitive. |
+| Menu | Shared menu primitive: `--popover` surface, foreground-at-10% ring and the style's menu shadow. |
+| Menubar | `--background` bar with a 1px `--border` outline and `--shadow-xs`. |
+| Navigation menu | `--popover` panels through the popover primitive. |
 | Progress | `--primary` at 20% for the track and full `--primary` for the indicator. |
+| Sheet, drawer | `--background` panel, `--border` side edge on sheets and `--shadow-lg`. |
 | Toggle | Transparent or outline surface; pressed uses `--accent` / `--accent-foreground`. |
 | Pagination | Current page uses `--background` with a `--border` outline; links compose with button. |
 
@@ -290,7 +300,13 @@ visible.
 | Badge | `1.25rem` high | — |
 | Avatar | `2rem` square | `sm` 1.5rem, `lg` 2.5rem |
 | Accordion summary | No fixed height | `0.625rem` block padding |
+| Context menu | `8rem`–`20rem` wide | — |
+| Drawer | `80vh` maximum height | `sm` 50vh, `lg` 90vh |
+| Hover card | `18rem` wide | — |
+| Menubar trigger | `1.75rem` high | — |
+| Navigation trigger | `2rem` high | — |
 | Progress | `0.5rem` high | — |
+| Sheet | `24rem` wide | `sm` 20rem, `lg` 28rem |
 | Separator | `1px` | Vertical: `1px` wide and stretches |
 | Spinner | `1rem` square | `sm` 0.75rem, `lg` 1.5rem |
 | Toggle | `2rem` high, `2rem` minimum width | `sm` 1.75rem, `lg` 2.25rem |
@@ -349,20 +365,26 @@ on an RTL page; its header follows the page direction.
 | Card | `.card` | `header` with title/description/action, `section`, `footer`, optional leading/trailing image. | `data-size="default|sm"`; `data-separator="bottom"` on the header |
 | Checkbox | `.checkbox` | Native `input[type="checkbox"]`; must not carry `role="switch"`. | — |
 | Code Block | `.code-block` | Optional `header` with `[data-slot="title"]` and `[data-slot="actions"]`; required `pre` containing `code`; optional `footer`; line parts `[data-slot="line"]` wrapping `[data-slot="line-content"]`. | `data-size="default|sm"`; `data-variant="default|destructive"`; `pre` `data-line-numbers`, `data-wrap`, `--line-start`; line `data-variant="added|removed|highlighted"` |
+| Context menu | `.context-menu` | `[role="menu"]` panel with menu items, headings, separators and shortcuts. | `--context-x`, `--context-y` on the panel; `aria-hidden="true|false"` |
 | Dialog | `.dialog` | Native `<dialog>` containing a panel; panel contains `header`, title, description, `section`, `footer` and a close button or `form[method="dialog"]`. | — |
+| Drawer | `.drawer` | Native `<dialog>` with `data-side` and a panel containing `[data-slot="handle"]`, `header`, `section` and `footer`. | `data-side="block-start|block-end"`; `data-size="default|sm|lg"` |
 | Dropdown menu | `.dropdown-menu` | Trigger, `[data-popover]` panel, `[role="menu"]`, menu item roles, `[role="separator"]`, `[role="heading"]`, shortcut and indicator slots. | Item `data-variant="destructive"`; default by omission; placement attributes; `data-inset`; `data-rtl-flip` |
 | Empty | `.empty` | `header` with `figure`, title and description; `section`; `footer`. | — |
 | Field | `.field`, `.fieldset` | Label or legend, control, description `p`, error `[role="alert"]`, group/radiogroup container and `.field-separator`. | Legend `data-variant="label|legend"`; field `data-orientation="horizontal|responsive"`; group `data-slot="checkbox-group|radio-group"` |
+| Hover card | `.hover-card` | Trigger and `[data-popover]` panel; CSS-only open on hover and focus-within. | Placement attributes; no open state |
 | Input | `.input` | Native `<input>`. | — |
 | Item | `.item`, `.item-group` | `figure`, `section`, `aside`, `header`, `footer`; item groups accept `hr` separators. | Item `data-variant="default|outline|muted"`; `data-size="default|sm|xs"` |
 | Kbd | `.kbd` | Inline shortcut text or SVG. | — |
 | Label | `.label` | Native `<label>`; also supported as a direct label inside `.field`. | — |
+| Menubar | `.menubar`, `.menubar-item` | `role="menubar"`, `role="none"` item wrappers, `role="menuitem"` triggers with `aria-haspopup`/`aria-expanded`, and `[data-popover]` submenus with `role="menu"`. | Placement attributes on submenu panels |
 | Native select | `.native-select` | Native `<select>`. | `data-size="sm"`; default by omission |
+| Navigation menu | `.navigation-menu` | `nav` with `ul`/`li`, trigger buttons or links, and `[data-popover]` panels with link lists and `[data-slot="title"]`/`[data-slot="description"]`. | Placement attributes on panels |
 | Pagination | `.pagination` | `nav` with `ul`/`li`; links compose with `.btn`; `[data-slot="ellipsis"]` and `[data-slot="label"]` parts. | `aria-current="page"` on the active link |
 | Popover | `.popover` | Trigger and `[data-popover]` panel with optional header, title and description. | Placement attributes |
 | Progress | `.progress` | Native `<progress>` with fallback text. | `value`/`max`; omit `value` for indeterminate |
 | Radio | `.radio` | Native `input[type="radio"]`, normally inside `role="radiogroup"`. | — |
 | Separator | `.separator` | `<hr>` or `[role="separator"]`. | `data-orientation="horizontal|vertical"`; `aria-orientation` is also recognized |
+| Sheet | `.sheet` | Native `<dialog>` with `data-side` and a panel containing `header`, `section` and `footer`. | `data-side="inline-start|inline-end"`; `data-size="default|sm|lg"` |
 | Skeleton | `.skeleton` | No required children; the consumer sets dimensions. | — |
 | Spinner | `.spinner` | Empty span; the CSS draws the ring. | `data-size="default|sm|lg"`; `role="status"` plus a label in markup |
 | Switch | `.switch` | Native `input[type="checkbox"]` with `role="switch"` and a label. | `data-size="default|sm"` |
@@ -391,17 +413,20 @@ The public slot vocabulary is shared across components:
 - `data-slot="actions"` — code block.
 - `data-slot="line"`, `data-slot="line-content"` — code block.
 - `data-slot="header"` — popover.
-- `data-slot="shortcut"` — dropdown menu.
-- `data-slot="indicator"` — dropdown menu.
+- `data-slot="shortcut"` — dropdown menu, context menu and menubar.
+- `data-slot="indicator"` — dropdown menu, context menu and menubar.
 - `data-slot="checkbox-group"`, `data-slot="radio-group"` — field.
 - `data-slot="fallback"`, `data-slot="badge"` — avatar.
 - `data-slot="ellipsis"` — breadcrumb and pagination.
 - `data-slot="label"` — pagination previous/next text.
+- `data-slot="handle"` — drawer.
+- `data-slot="title"`, `data-slot="description"` — navigation menu panels.
 
 Semantic parts are equally public where documented: `header`, `section`,
 `footer`, `figure`, `aside`, `pre`, `code`, `details`, `summary`, `nav`, `ol`,
-`ul`, `li`, `progress`, `[role="menu"]`, `[role="tablist"]`, `[role="tab"]`
-and `[role="tabpanel"]`. Do not invent a new `data-slot` name for a part that
+`ul`, `li`, `progress`, `[role="menu"]`, `[role="menubar"]`,
+`[role="menuitem"]`, `[role="tablist"]`, `[role="tab"]` and
+`[role="tabpanel"]`. Do not invent a new `data-slot` name for a part that
 already has a semantic element in the anatomy.
 
 Toggle groups are multi-state: every `.toggle` child owns its own
@@ -413,14 +438,20 @@ Popover panels, dropdown panels and tooltips share placement hooks:
 
 | Attribute | Values | Default | Applies to |
 | --- | --- | --- | --- |
-| `data-side` | `top`, `bottom`, `left`, `right`, `inline-start`, `inline-end` | `bottom` for popover/dropdown, `top` for tooltip | Popover, dropdown and tooltip |
-| `data-align` | `start`, `center`, `end` | `start` | Popover, dropdown and tooltip |
+| `data-side` | `top`, `bottom`, `left`, `right`, `inline-start`, `inline-end`, `block-start`, `block-end` | `bottom` for popover/dropdown/tooltip; required on sheets and drawers | Popover, dropdown, tooltip, sheet, drawer and navigation panels |
+| `data-align` | `start`, `center`, `end` | `start` | Popover, dropdown, tooltip and navigation panels |
 | `data-arrow` | Present or absent | No arrow | Tooltip |
 
 Physical sides (`left`/`right`) and logical sides (`inline-start`/`inline-end`)
 are both supported. `center` alignment uses a translate offset. `data-inset`
 adds leading padding to menu items and headings; `data-rtl-flip` rotates an
 icon 180 degrees in RTL contexts.
+
+Sheets use `inline-start`/`inline-end`; drawers use `block-start`/`block-end`.
+`data-size` on a sheet or drawer sets its width or height. Context menus are
+positioned by the consumer through `--context-x` and `--context-y` on the
+panel. Those coordinates are physical `left`/`top` values even in RTL; this is
+the only physical-inset exception in the registry.
 
 `data-orientation` is component-specific: `horizontal|vertical` on button
 groups, tablists, separators and toggle groups, `horizontal|responsive` on
@@ -444,6 +475,7 @@ public state hooks:
 | Highlighted | `data-highlighted` | Menu items and listbox-like composites. Presence only; no value required. |
 | Current | `aria-current="page"` | Breadcrumb and pagination. `aria-current="step"` is reserved for multi-step flows. |
 | Pressed | `aria-pressed="true"` | Toggle and toggle-group buttons. |
+| Expanded | `aria-expanded="true"` | Menu and navigation triggers; panels use `aria-hidden`. |
 | Open, details | Native `[open]` on `<details>` | Accordion items. |
 | Open, dialog | Native `[open]` | Dialog and alert dialog. |
 | Open, popover | `aria-hidden="false"` | `[data-popover]` panels; the trigger uses `aria-expanded`. |
@@ -481,6 +513,15 @@ Notes:
   selects the indeterminate state through `:indeterminate`.
 - Toggle group `data-variant` and `data-size` apply to children that do not
   declare their own attribute.
+- Menubar, dropdown-menu and context-menu items share the internal `menu`
+  primitive. It styles `[role="menu"]`, the menu item roles, headings,
+  separators, shortcuts and indicators.
+- Hover cards have no open state: CSS shows the panel on `:hover` and
+  `:focus-within`. They are not a substitute for a popover that needs explicit
+  dismissal.
+- Context menus use `aria-hidden` on the panel. The consumer sets
+  `--context-x` and `--context-y` and manages focus; the CSS does not track the
+  pointer.
 
 ## Motion
 
@@ -494,6 +535,9 @@ Notes:
   the underlying shell defaults to `150ms` when a style does not override it.
 - Item hover and state transitions use `100ms`; the skeleton pulses on a `2s`
   loop with `cubic-bezier(0.4, 0, 0.6, 1)`.
+- Menus and navigation panels transition in `100ms`; sheets and drawers use the
+  dialog shell's `150ms` entry. Hover cards open after a `300ms` delay and hide
+  immediately when the pointer leaves.
 - The spinner rotates on a `0.75s` linear loop; progress uses a `1.5s`
   indeterminate sweep.
 - Dialog entry uses `@starting-style` and `allow-discrete`: the backdrop fades,
@@ -524,6 +568,21 @@ progress sweep slow down instead of stopping. This remains a known gap.
 - Avatars need `alt` text on the image and an `aria-hidden` fallback; a
   decorative badge is `aria-hidden`. The consumer hides the image when loading
   fails.
+- Sheets and drawers are native `<dialog>` elements and follow the dialog
+  labelling rules. The drawer handle is decorative unless the consumer makes it
+  a focusable drag control; swipe and drag gestures are consumer JavaScript.
+- Hover-card triggers need `aria-describedby` pointing at the panel. The panel
+  is a non-modal preview; interactive content that must stay open belongs in a
+  popover.
+- Context menus must move focus into the menu, return it on close and support
+  arrow-key navigation; the consumer also owns the right-click handler and the
+  `--context-x`/`--context-y` coordinates.
+- Menubars need roving focus, arrow keys and `aria-expanded` on each submenu
+  trigger. Submenu panels use `[role="menu"]` and its item roles.
+- Navigation menus need an accessible `nav` label, `aria-expanded` and
+  `aria-controls` on panel triggers, and ordinary links inside panels. Keyboard
+  navigation and the mobile layout are consumer JavaScript; there is no
+  built-in mobile fallback.
 - Breadcrumb and pagination need an accessible `nav` label; the current item
   uses `aria-current="page"`. Pagination icon links need an `aria-label`.
 - Progress needs an accessible name through `aria-label` or a `<label>`; keep
@@ -585,13 +644,21 @@ while an experimental item is installed. Promotion to stable requires all
 eight style files, examples, docs, tests and an update to this baseline.
 
 Registry dependencies are hard: installing `dialog` or `alert-dialog` also
-installs `dialog-shell`; installing `dropdown-menu` or `popover` also installs
-`popover-primitive`; installing `toggle-group` also installs `toggle`.
-Optional dependencies are composition hints only and are never installed
-automatically. Notable optional pairs are field with its form controls, button
-group with button/input/popover/dropdown-menu, table with checkbox,
-dropdown-menu with kbd, breadcrumb with dropdown-menu, pagination with button,
-and code block with button for copy and wrap controls.
+installs `dialog-shell`; installing `sheet` or `drawer` also installs
+`dialog-shell`; installing `dropdown-menu`, `context-menu` or `menubar` also
+installs `menu`; installing `popover`, `dropdown-menu`, `hover-card`,
+`menubar` or `navigation-menu` also installs `popover-primitive`; installing
+`toggle-group` also installs `toggle`. Optional dependencies are composition
+hints only and are never installed automatically. Notable optional pairs are
+field with its form controls, button group with
+button/input/popover/dropdown-menu, table with checkbox, dropdown-menu with
+kbd, breadcrumb with dropdown-menu, pagination with button, sheet and drawer
+with button, and code block with button for copy and wrap controls.
+
+The `menu` primitive styles every `[role="menu"]` in the project. It owns the
+shared item, heading, separator, shortcut and indicator rules; `dropdown-menu`,
+`context-menu` and `menubar` add their own trigger, surface and positioning
+behavior.
 
 ### Compatibility contract
 
@@ -606,7 +673,9 @@ The following are public API and require a breaking-change note when changed:
 - token names and their semantic roles;
 - the declared style names and their install targets;
 - the fixed layer order and the meaning of each layer;
-- documented anatomy requirements and optional/required children.
+- documented anatomy requirements and optional/required children;
+- the shared `menu` primitive's `[role="menu"]` styling;
+- the `dialog-shell` side and bottom placement behavior.
 
 Additive changes (a new optional part, a new variant, a new token with a
 fallback) are non-breaking. Visual refinements that preserve anatomy and API
@@ -642,6 +711,14 @@ semantic versioning.
 - Experimental items are published and installable but outside this contract.
   They ship Nova only and are not promoted until all eight style files,
   examples, docs and tests exist.
+- Context menus do not track the pointer. The consumer sets
+  `--context-x`/`--context-y` and manages focus.
+- Drawers ship no swipe or drag behavior; the handle is a visual affordance.
+- Menubars and navigation menus ship no roving focus, arrow-key navigation or
+  mobile layout; those are consumer behavior.
+- Hover cards are CSS-only previews. They cannot be dismissed explicitly and
+  should not wrap interactive content that needs to stay open.
+- The `menu` primitive styles every `[role="menu"]` in the project.
 - There is no `loseta remove` command; removing an experimental item before a
   style switch is a manual file and manifest edit.
 - Accordion animation relies on `::details-content` and `calc-size()`; older

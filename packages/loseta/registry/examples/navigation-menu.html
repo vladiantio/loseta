@@ -1,0 +1,58 @@
+<!-- Default -->
+<div style="display: flex; justify-content: center; min-height: 18rem; padding-top: 1rem">
+  <nav class="navigation-menu" aria-label="Main">
+    <ul>
+      <li>
+        <button type="button" aria-expanded="false" aria-controls="nav-products">
+          Products
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+        </button>
+        <div data-popover data-side="bottom" aria-hidden="true" id="nav-products">
+          <ul>
+            <li>
+              <a href="#">
+                <span data-slot="title">Components</span>
+                <span data-slot="description">Copy-paste CSS components.</span>
+              </a>
+            </li>
+            <li>
+              <a href="#">
+                <span data-slot="title">Styles</span>
+                <span data-slot="description">Eight visual interpretations.</span>
+              </a>
+            </li>
+            <li>
+              <a href="#">
+                <span data-slot="title">CLI</span>
+                <span data-slot="description">Install only what you use.</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </li>
+      <li>
+        <button type="button" aria-expanded="false" aria-controls="nav-resources">
+          Resources
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+        </button>
+        <div data-popover data-side="bottom" aria-hidden="true" id="nav-resources">
+          <ul>
+            <li>
+              <a href="#">
+                <span data-slot="title">Docs</span>
+                <span data-slot="description">Installation and component contracts.</span>
+              </a>
+            </li>
+            <li>
+              <a href="#">
+                <span data-slot="title">GitHub</span>
+                <span data-slot="description">Source and issue tracker.</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </li>
+      <li><a href="#">Docs</a></li>
+    </ul>
+  </nav>
+</div>

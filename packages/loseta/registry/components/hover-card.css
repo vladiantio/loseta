@@ -1,0 +1,18 @@
+/* Hover Card */
+@layer loseta.components {
+  .hover-card {
+    position: relative;
+    display: inline-flex;
+
+    > [data-popover] {
+      visibility: hidden;
+      opacity: 0%;
+    }
+
+    &:hover > [data-popover],
+    &:focus-within > [data-popover] {
+      visibility: visible;
+      opacity: 100%;
+    }
+  }
+}

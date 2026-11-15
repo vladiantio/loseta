@@ -1,5 +1,36 @@
 # Changelog
 
+## 0.6.0 - 2026-11-15
+
+### Added
+
+- Stable `menu` primitive shared by `dropdown-menu`, `context-menu` and
+  `menubar`. It owns the menu item, heading, separator, shortcut and indicator
+  rules in all eight styles.
+- Six experimental components: context-menu, drawer, hover-card, menubar,
+  navigation-menu and sheet. They are Nova-only and install with
+  `--experimental`.
+- `dialog-shell` side and bottom placements for sheets and drawers, driven by
+  `data-side` on the dialog.
+- Docs demo support for multiple menu triggers and pointer-positioned context
+  menus.
+
+### Changed
+
+- `dropdown-menu` now depends on the `menu` primitive. Its public markup is
+  unchanged, but installs add `primitives/menu.css` and the selected style's
+  `primitives/menu.css`.
+- `dialog-shell` now also covers `.sheet` and `.drawer` and recognizes
+  `data-side="inline-start|inline-end|block-start|block-end"`.
+
+### Notes
+
+- Experimental components remain outside the v1 compatibility contract and
+  ship only the Nova style.
+- Sheets and drawers do not ship drag, swipe or focus-trap behavior; context
+  menus do not track the pointer; menubars and navigation menus do not ship
+  roving focus or mobile layouts. Those are consumer JavaScript concerns.
+
 ## 0.5.0 - 2026-11-15
 
 ### Added

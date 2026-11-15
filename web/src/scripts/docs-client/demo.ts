@@ -17,9 +17,16 @@ const closeAllPopovers = (except?: Element): void => {
   document.querySelectorAll("[data-demo] [data-popover]").forEach((popover) => {
     if (popover === except) return;
     popover.setAttribute("aria-hidden", "true");
-    const trigger = popover.closest("[data-demo]")?.querySelector("[data-demo-trigger]");
-    trigger?.setAttribute("aria-expanded", "false");
   });
+  document.querySelectorAll("[data-demo] .context-menu").forEach((menu) => {
+    if (menu === except) return;
+    menu.setAttribute("aria-hidden", "true");
+  });
+  document
+    .querySelectorAll("[data-demo-trigger], [data-demo-menu-trigger]")
+    .forEach((trigger) => {
+      trigger.setAttribute("aria-expanded", "false");
+    });
 };
 
 const onClick = async (event: MouseEvent): Promise<void> => {
@@ -102,10 +109,12 @@ const onClick = async (event: MouseEvent): Promise<void> => {
     return;
   }
 
-  const trigger = target.closest("[data-demo-trigger]");
+  const trigger = target.closest("[data-demo-trigger], [data-demo-menu-trigger]");
   if (trigger) {
     const root = trigger.closest("[data-demo]");
-    const popover = root?.querySelector("[data-popover]");
+    const popover = trigger.hasAttribute("data-demo-menu-trigger")
+      ? trigger.parentElement?.querySelector("[data-popover]")
+      : root?.querySelector("[data-popover]");
     if (popover) {
       const willOpen = popover.getAttribute("aria-hidden") === "true";
       closeAllPopovers(popover);
@@ -145,6 +154,26 @@ const onKeyDown = (event: KeyboardEvent): void => {
   }
 };
 
+const onContextMenu = (event: MouseEvent): void => {
+  const target = event.target;
+  if (!(target instanceof Element)) return;
+  const area = target.closest("[data-demo-context]");
+  if (!area) return;
+  const menu = area.querySelector<HTMLElement>(".context-menu");
+  if (!menu) return;
+
+  event.preventDefault();
+  closeAllPopovers(menu);
+  menu.style.setProperty("--context-x", `${event.clientX}px`);
+  menu.style.setProperty("--context-y", `${event.clientY}px`);
+  menu.setAttribute("aria-hidden", "false");
+  menu
+    .querySelector<HTMLElement>(
+      '[role="menuitem"], [role="menuitemcheckbox"], [role="menuitemradio"]'
+    )
+    ?.focus();
+};
+
 let mounted = false;
 
 /** Demo-only interactions. Registered once; the docs client never re-mounts it. */
@@ -153,4 +182,5 @@ export function mountDemo(): void {
   mounted = true;
   document.addEventListener("click", onClick);
   document.addEventListener("keydown", onKeyDown);
+  document.addEventListener("contextmenu", onContextMenu);
 }

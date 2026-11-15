@@ -47,10 +47,12 @@ button, button-group, card, checkbox, code-block, dialog, dropdown-menu, empty,
 field, input, item, kbd, label, native-select, popover, radio, skeleton,
 switch, table, tabs, textarea and tooltip.
 
-Ten experimental components are published alongside them: accordion,
-aspect-ratio, avatar, breadcrumb, pagination, progress, separator, spinner,
-toggle and toggle-group. They are Nova-only, install with `--experimental` and
-stay outside the v1 compatibility contract until they are promoted.
+Ten experimental components were published in 0.5.0 and six more join them in
+0.6.0: accordion, aspect-ratio, avatar, breadcrumb, context-menu, drawer,
+hover-card, menubar, navigation-menu, pagination, progress, separator, sheet,
+spinner, toggle and toggle-group. They are Nova-only, install with
+`--experimental` and stay outside the v1 compatibility contract until they are
+promoted.
 
 ## Repository
 

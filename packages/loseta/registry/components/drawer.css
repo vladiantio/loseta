@@ -1,0 +1,26 @@
+/* Drawer */
+@layer loseta.components {
+  .drawer {
+    > * {
+      > [data-slot='handle'] {
+        display: block;
+        flex-shrink: 0;
+      }
+
+      > header {
+        display: flex;
+        flex-direction: column;
+      }
+
+      > section {
+        overflow-y: auto;
+      }
+
+      > footer {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+      }
+    }
+  }
+}

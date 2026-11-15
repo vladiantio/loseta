@@ -17,9 +17,14 @@ const groupBy: Record<string, ComponentGroup> = {
   button: "Forms",
   "button-group": "Forms",
   checkbox: "Forms",
+  "context-menu": "Overlays",
+  drawer: "Overlays",
   field: "Forms",
+  "hover-card": "Overlays",
   input: "Forms",
   label: "Forms",
+  menubar: "Navigation",
+  "navigation-menu": "Navigation",
   "native-select": "Forms",
   pagination: "Navigation",
   progress: "Feedback",
@@ -78,6 +83,18 @@ const notesBy: Record<string, string> = {
     "Use native <progress> with value and max. Omit value for the indeterminate state. Keep a text fallback inside the element.",
   separator:
     "Use <hr class=\"separator\"> for a semantic horizontal separator. For vertical use <div role=\"separator\" data-orientation=\"vertical\">; decorative separators use role=\"presentation\" or aria-hidden.",
+  "context-menu":
+    "CSS cannot follow the pointer. The consumer sets --context-x and --context-y on the panel (physical left/top, even in RTL), toggles aria-hidden and manages roving focus. Items use role=\"menu\" and role=\"menuitem\".",
+  drawer:
+    "Native <dialog> with data-side=\"block-end\". CSS only handles presentation; call showModal() and close(). The handle is [data-slot=\"handle\"]; drag gestures are consumer JavaScript. data-size sm/default/lg changes the height.",
+  "hover-card":
+    "CSS-only: opens on hover and focus-within with a 300ms delay. Point the trigger at the panel with aria-describedby. Use popover for interactive content that needs explicit dismissal.",
+  menubar:
+    "role=\"menubar\" with .menubar-item wrappers (role=\"none\"). Each trigger is role=\"menuitem\" with aria-haspopup=\"menu\" and aria-expanded; submenus are [data-popover] panels with role=\"menu\". Roving focus and arrow keys are consumer JavaScript; there is no built-in mobile layout.",
+  "navigation-menu":
+    "nav > ul > li. Triggers use aria-expanded and aria-controls; panels are [data-popover] panels with links and title/description slots. Open/close and keyboard navigation are consumer JavaScript; there is no built-in mobile layout.",
+  sheet:
+    "Native <dialog> with data-side=\"inline-start|inline-end\". CSS only handles presentation; call showModal() and close(). Use header/section/footer inside the panel. data-size sm/default/lg changes the width.",
   spinner:
     "The spinner is a span; add role=\"status\" and a .sr-only label for standalone use. data-size picks sm, default or lg. Motion slows under prefers-reduced-motion.",
   tabs:

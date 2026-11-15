@@ -435,6 +435,103 @@ test("experimental pages expose the banner, install flag and stylesheet", async 
   await expect(page.locator("[data-experimental-css]")).toHaveCount(0);
 });
 
+test("sheet and drawer dialogs open and close", async ({ page }) => {
+  await page.goto("/docs/components/sheet");
+  const sheet = page.locator("#demo-sheet");
+  await page.getByRole("button", { name: "Open sheet" }).click();
+  await expect(sheet).toHaveAttribute("open", "");
+  await expect(sheet.locator("[data-slot='title']")).toBeVisible();
+  await sheet.getByRole("button", { name: "Cancel" }).click();
+  await expect(sheet).not.toHaveAttribute("open", "");
+
+  const left = page.locator("#demo-sheet-left");
+  await page.getByRole("button", { name: "Open left sheet" }).click();
+  await expect(left).toHaveAttribute("open", "");
+  await expect(left.locator("[data-slot='title']")).toBeVisible();
+  await left.getByRole("button", { name: "Close" }).click();
+  await expect(left).not.toHaveAttribute("open", "");
+
+  await page.goto("/docs/components/drawer");
+  const drawer = page.locator("#demo-drawer");
+  await page.getByRole("button", { name: "Open drawer" }).click();
+  await expect(drawer).toHaveAttribute("open", "");
+  await expect(drawer.locator("[data-slot='handle']")).toBeVisible();
+  await drawer.getByRole("button", { name: "Cancel" }).click();
+  await expect(drawer).not.toHaveAttribute("open", "");
+});
+
+test("hover card opens on hover and closes on leave", async ({ page }) => {
+  await page.goto("/docs/components/hover-card");
+  const panel = page.locator("#hover-card-profile");
+
+  await expect(panel).toBeHidden();
+  await page.getByRole("link", { name: "@loseta" }).hover();
+  await expect(panel).toBeVisible();
+
+  await page.mouse.move(0, 0);
+  await expect(panel).toBeHidden();
+});
+
+test("context menu opens at the pointer and closes with Escape", async ({ page }) => {
+  await page.goto("/docs/components/context-menu");
+  const menu = page.locator(".context-menu");
+
+  await expect(menu).toHaveAttribute("aria-hidden", "true");
+  await page.locator("[data-demo-context]").click({ button: "right" });
+  await expect(menu).toHaveAttribute("aria-hidden", "false");
+  await expect(menu).toBeVisible();
+
+  await page.keyboard.press("Escape");
+  await expect(menu).toHaveAttribute("aria-hidden", "true");
+});
+
+test("menubar switches between menus", async ({ page }) => {
+  await page.goto("/docs/components/menubar");
+  const items = page.locator(".menubar-item");
+  const file = items.nth(0).locator("[data-popover]");
+  const edit = items.nth(1).locator("[data-popover]");
+
+  await page.getByRole("menuitem", { name: "File" }).click();
+  await expect(file).toHaveAttribute("aria-hidden", "false");
+  await expect(edit).toHaveAttribute("aria-hidden", "true");
+
+  await page.getByRole("menuitem", { name: "Edit" }).click();
+  await expect(file).toHaveAttribute("aria-hidden", "true");
+  await expect(edit).toHaveAttribute("aria-hidden", "false");
+
+  await page.keyboard.press("Escape");
+  await expect(edit).toHaveAttribute("aria-hidden", "true");
+});
+
+test("navigation menu switches between panels", async ({ page }) => {
+  await page.goto("/docs/components/navigation-menu");
+  const products = page.locator("#nav-products");
+  const resources = page.locator("#nav-resources");
+
+  await page.getByRole("button", { name: /Products/ }).click();
+  await expect(products).toHaveAttribute("aria-hidden", "false");
+  await expect(resources).toHaveAttribute("aria-hidden", "true");
+
+  await page.getByRole("button", { name: /Resources/ }).click();
+  await expect(products).toHaveAttribute("aria-hidden", "true");
+  await expect(resources).toHaveAttribute("aria-hidden", "false");
+
+  await page.keyboard.press("Escape");
+  await expect(resources).toHaveAttribute("aria-hidden", "true");
+});
+
+test("dropdown menu still opens after the menu primitive refactor", async ({ page }) => {
+  await page.goto("/docs/components/dropdown-menu");
+  const panel = page.locator(".dropdown-menu [data-popover]");
+
+  await page.getByRole("button", { name: "Open menu" }).click();
+  await expect(panel).toHaveAttribute("aria-hidden", "false");
+  await expect(page.getByRole("menuitem", { name: "Profile" })).toBeVisible();
+
+  await page.getByRole("heading", { level: 1 }).click();
+  await expect(panel).toHaveAttribute("aria-hidden", "true");
+});
+
 test("component preview reveals cleaned example code", async ({ page }) => {
   await page.goto("/docs/components/dialog");
   const preview = page.locator("[data-component-preview]").first();

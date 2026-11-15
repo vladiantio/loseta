@@ -1,0 +1,35 @@
+/* Navigation Menu */
+@layer loseta.components {
+  .navigation-menu {
+    > ul {
+      margin: 0;
+      display: flex;
+      align-items: center;
+      list-style-type: none;
+      padding: 0;
+    }
+
+    > ul > li {
+      position: relative;
+      display: flex;
+    }
+
+    :is(a, button) {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      white-space: nowrap;
+      outline-style: none;
+
+      @media (forced-colors: active) {
+        outline: 2px solid transparent;
+        outline-offset: 2px;
+      }
+    }
+
+    [data-slot='title'],
+    [data-slot='description'] {
+      display: block;
+    }
+  }
+}

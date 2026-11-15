@@ -147,6 +147,19 @@ for embedded SVG data URIs and the dialog backdrop.
 - Every documented page is exercised in system light/dark in CI; the styles page
   also runs forced light/dark.
 
+#### Color-scheme wiring
+
+- Tokens and scheme classes: `packages/loseta/registry/tokens.css`.
+- Per-style dark values: `packages/loseta/registry/styles/<style>/*.css`.
+- Docs switcher: `web/src/scripts/docs-client/preferences.ts` and `controls.ts`.
+- Pre-paint bootstrap: `web/src/layouts/Layout.astro` duplicates the preference
+  bootstrap in `applyPreferences()`; keep both in sync.
+- Docs-only colors and Shiki: `web/src/styles/docs.css`.
+- Generated bundles: `web/src/styles/loseta.css` and `web/public/styles/*.css`
+  (`pnpm docs:css`).
+- Coverage: `web/tests/docs.spec.ts` (scheme switch, scoped overrides,
+  native-select, four-mode axe matrix and system/forced equivalence).
+
 ### Radius
 
 `--radius` is `0.625rem`. The scale is multiplicative:

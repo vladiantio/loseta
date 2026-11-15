@@ -78,6 +78,8 @@ export function updatePreference<K extends keyof Preferences>(
   return next;
 }
 
+// Keep this mapping in sync with the pre-paint bootstrap in
+// web/src/layouts/Layout.astro.
 export function applyPreferences(
   root: HTMLElement,
   preferences: Preferences = readPreferences()

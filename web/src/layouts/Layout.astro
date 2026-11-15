@@ -44,6 +44,8 @@ const defaultStyle = registry.styles[0]?.name ?? "nova";
     <script is:inline>
       (() => {
         const root = document.documentElement;
+        // Keep this bootstrap in sync with applyPreferences() in
+        // web/src/scripts/docs-client/preferences.ts.
         let scheme = "system";
         let style = "nova";
         let packageManager = "pnpm";

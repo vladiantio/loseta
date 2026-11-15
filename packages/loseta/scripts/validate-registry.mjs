@@ -10,14 +10,22 @@ const registryDir = join(packageRoot, "registry");
 const registryPath = join(registryDir, "registry.json");
 const schemaPath = join(registryDir, "schema.json");
 
+// Rules that apply to every registry file, base or style.
+const forbiddenEverywhere = [
+  { pattern: /!important/g, message: "!important is not allowed" },
+  {
+    pattern: /html\.dark/g,
+    message: "use .dark / .light on any container; html.dark blocks scoped overrides"
+  }
+];
+
+// Rules for base-role files only. Style files own the visual treatment.
 const forbiddenInBase = [
   { pattern: /\[class\*='size-'\]/g, message: "Tailwind size-* sniffing is not allowed" },
   { pattern: /\.border-[bt]\b/g, message: "Tailwind border utilities are not allowed" },
   { pattern: /\.peer\b/g, message: ".peer is a Tailwind dependency" },
   { pattern: /\.active\b/g, message: ".active is replaced by data-highlighted / ARIA state" },
-  { pattern: /!important/g, message: "!important is not allowed" },
   { pattern: /@layer components/g, message: "use loseta.* layers" },
-  { pattern: /html\.dark/g, message: "use light-dark() in the style layer" },
   { pattern: /\[data-state=['"]selected['"]\]/g, message: "use aria-selected" },
   { pattern: /\[data-invalid\]/g, message: "use aria-invalid" },
   { pattern: /\[data-disabled/g, message: "use :disabled or aria-disabled" },
@@ -28,11 +36,17 @@ const forbiddenInBase = [
   { pattern: /\[data-indicator\]/g, message: "use data-slot=\"indicator\"" }
 ];
 
-// Dark values live in the token and style layers. Keep them out of every other
-// base file so the token file remains the single source of light/dark pairs.
+// Dark values live in the token and style layers. Keep light-dark() out of
+// base-role files, and keep the OS media query in the token layer only.
 const forbiddenInBaseColor = [
-  { pattern: /light-dark\(/g, message: "dark values belong in the style layer" },
-  { pattern: /@media \(prefers-color-scheme/g, message: "the OS color scheme belongs in the tokens layer" }
+  { pattern: /light-dark\(/g, message: "dark values belong in the style layer" }
+];
+
+const forbiddenOutsideTokens = [
+  {
+    pattern: /@media \(prefers-color-scheme/g,
+    message: "the OS color scheme belongs in the tokens layer"
+  }
 ];
 
 const errors = [];
@@ -156,6 +170,13 @@ for (const item of registry.items ?? []) {
       fail(`${item.name}: ${file.path} is not wrapped in @layer ${file.layer}`);
     }
 
+    for (const rule of forbiddenEverywhere) {
+      if (rule.pattern.test(css)) {
+        fail(`${item.name}: ${file.path}: ${rule.message}`);
+      }
+      rule.pattern.lastIndex = 0;
+    }
+
     for (const rule of forbiddenInBase) {
       if (file.role === "base" && rule.pattern.test(css)) {
         fail(`${item.name}: ${file.path}: ${rule.message}`);
@@ -164,8 +185,17 @@ for (const item of registry.items ?? []) {
     }
 
     if (file.layer !== "loseta.tokens") {
+      for (const rule of forbiddenOutsideTokens) {
+        if (rule.pattern.test(css)) {
+          fail(`${item.name}: ${file.path}: ${rule.message}`);
+        }
+        rule.pattern.lastIndex = 0;
+      }
+    }
+
+    if (file.role === "base" && file.layer !== "loseta.tokens") {
       for (const rule of forbiddenInBaseColor) {
-        if (file.role === "base" && rule.pattern.test(css)) {
+        if (rule.pattern.test(css)) {
           fail(`${item.name}: ${file.path}: ${rule.message}`);
         }
         rule.pattern.lastIndex = 0;

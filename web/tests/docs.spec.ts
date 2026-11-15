@@ -1,5 +1,5 @@
 import { readFileSync } from "node:fs";
-import { expect, test } from "@playwright/test";
+import { expect, test, type Page } from "@playwright/test";
 import AxeBuilder from "@axe-core/playwright";
 import { components } from "../src/data/components";
 
@@ -29,6 +29,56 @@ const tags = ["wcag2a", "wcag2aa", "wcag21a", "wcag21aa"];
 function blocking(violations: Awaited<ReturnType<AxeBuilder["analyze"]>>["violations"]) {
   return violations.filter(
     (violation) => violation.impact === "serious" || violation.impact === "critical"
+  );
+}
+
+const schemeSelectors = [
+  "body",
+  ".docs-style-specimen .btn",
+  ".docs-style-specimen .btn[data-variant='secondary']",
+  ".docs-style-specimen .btn[data-variant='outline']",
+  ".docs-style-specimen .badge",
+  ".docs-style-specimen .input",
+  ".docs-style-specimen .checkbox",
+  ".docs-style-specimen .card",
+  ".code-block > pre"
+];
+
+const schemeProperties = [
+  "background-color",
+  "color",
+  "border-color",
+  "box-shadow",
+  "background-image"
+];
+
+async function readScheme(
+  page: Page,
+  media: "light" | "dark",
+  classes: string[]
+): Promise<Record<string, string>> {
+  await page.emulateMedia({ colorScheme: media });
+  await page.evaluate((active) => {
+    document.documentElement.classList.toggle("dark", active.includes("dark"));
+    document.documentElement.classList.toggle("light", active.includes("light"));
+  }, classes);
+
+  return page.evaluate(
+    ({ selectors, properties }) => {
+      const values: Record<string, string> = {};
+      for (const selector of selectors) {
+        const element = document.querySelector(selector);
+        if (!element) {
+          throw new Error(`Missing color-scheme probe: ${selector}`);
+        }
+        const style = getComputedStyle(element);
+        for (const property of properties) {
+          values[`${selector} ${property}`] = style.getPropertyValue(property);
+        }
+      }
+      return values;
+    },
+    { selectors: schemeSelectors, properties: schemeProperties }
   );
 }
 
@@ -134,6 +184,17 @@ test("native select chevron follows the color scheme", async ({ page }) => {
   );
 
   expect(forcedLightIcon).toBe(lightIcon);
+
+  await page.emulateMedia({ colorScheme: "light" });
+  await page.evaluate(() => {
+    document.documentElement.classList.remove("light");
+    document.documentElement.classList.add("dark");
+  });
+  const forcedDarkIcon = await chevron.evaluate(
+    (element) => getComputedStyle(element).backgroundImage
+  );
+
+  expect(forcedDarkIcon).toBe(darkIcon);
 });
 
 test("style switch loads the selected stylesheet", async ({ page }) => {
@@ -219,6 +280,42 @@ test("every style loads and passes axe in every color scheme", async ({ page }) 
         `${style} ${mode.name}: ${JSON.stringify(violations, null, 2)}`
       ).toEqual([]);
     }
+  }
+});
+
+test("system and forced color schemes resolve the same values", async ({ page }) => {
+  await page.goto("/docs/styles");
+  await page.addStyleTag({
+    content: "*, *::before, *::after { transition: none !important; animation: none !important; }"
+  });
+  const select = page.locator("[data-style-select]");
+  const link = page.locator("[data-style-link]");
+
+  for (const style of styleNames) {
+    await select.selectOption(style);
+    await expect(link).toHaveAttribute("href", `/styles/${style}.css`);
+    await page.waitForFunction((name) => {
+      return [...document.styleSheets].some(
+        (sheet) => sheet.href && sheet.href.endsWith(`/styles/${name}.css`)
+      );
+    }, style);
+
+    const systemLight = await readScheme(page, "light", []);
+    const forcedLight = await readScheme(page, "dark", ["light"]);
+    expect(forcedLight, `${style}: forced light differs from system light`).toEqual(
+      systemLight
+    );
+
+    const systemDark = await readScheme(page, "dark", []);
+    expect(
+      systemDark["body background-color"],
+      `${style}: dark scheme did not change the page background`
+    ).not.toBe(systemLight["body background-color"]);
+
+    const forcedDark = await readScheme(page, "light", ["dark"]);
+    expect(forcedDark, `${style}: forced dark differs from system dark`).toEqual(
+      systemDark
+    );
   }
 });
 

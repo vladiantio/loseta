@@ -1131,5 +1131,141 @@ Done in 2.8s using pnpm v10.18.0</code></pre>
   <input class="slider" type="range" min="0" max="100" value="50" aria-label="Disabled volume" disabled>
 </div>`
     }
+  ],
+  select: [
+    {
+      title: "Default",
+      html: `<div class="select" data-demo="select">
+  <button type="button" role="combobox" aria-haspopup="listbox" aria-expanded="false" aria-controls="select-fruit-panel" aria-label="Fruit" data-demo-select-trigger>
+    <span data-slot="value" data-placeholder>Select a fruit</span>
+    ${chevronDown}
+  </button>
+  <div data-popover data-side="bottom" aria-hidden="true" id="select-fruit-panel">
+    <div role="listbox" aria-label="Fruit">
+      <div role="option" aria-selected="false" data-demo-option>
+        <span data-slot="text">Apple</span>
+        <span data-slot="indicator" aria-hidden="true">✓</span>
+      </div>
+      <div role="option" aria-selected="false" data-demo-option>
+        <span data-slot="text">Banana</span>
+        <span data-slot="indicator" aria-hidden="true">✓</span>
+      </div>
+      <div role="option" aria-selected="false" data-demo-option>
+        <span data-slot="text">Orange</span>
+        <span data-slot="indicator" aria-hidden="true">✓</span>
+      </div>
+      <div role="option" aria-disabled="true">
+        <span data-slot="text">Pineapple</span>
+      </div>
+    </div>
+  </div>
+</div>`
+    },
+    {
+      title: "Small, selected",
+      html: `<div class="select" data-size="sm" data-demo="select">
+  <button type="button" role="combobox" aria-haspopup="listbox" aria-expanded="false" aria-controls="select-fruit-small-panel" aria-label="Fruit" data-demo-select-trigger>
+    <span data-slot="value">Apple</span>
+    ${chevronDown}
+  </button>
+  <div data-popover data-side="bottom" aria-hidden="true" id="select-fruit-small-panel">
+    <div role="listbox" aria-label="Fruit">
+      <div role="option" aria-selected="true" data-demo-option>
+        <span data-slot="text">Apple</span>
+        <span data-slot="indicator" aria-hidden="true">✓</span>
+      </div>
+      <div role="option" aria-selected="false" data-demo-option>
+        <span data-slot="text">Banana</span>
+        <span data-slot="indicator" aria-hidden="true">✓</span>
+      </div>
+      <div role="option" aria-selected="false" data-demo-option>
+        <span data-slot="text">Orange</span>
+        <span data-slot="indicator" aria-hidden="true">✓</span>
+      </div>
+    </div>
+  </div>
+</div>`
+    }
+  ],
+  combobox: [
+    {
+      title: "Single",
+      html: `<div class="combobox" data-demo="combobox">
+  <input role="combobox" aria-expanded="false" aria-controls="combobox-fruit-panel" aria-autocomplete="list" placeholder="Search fruit..." aria-label="Search fruit" data-demo-combobox-input>
+  <button type="button" class="btn" data-variant="ghost" data-size="icon-xs" data-slot="clear" data-demo-clear aria-label="Clear">×</button>
+  <div data-popover data-side="bottom" aria-hidden="true" id="combobox-fruit-panel">
+    <div role="listbox" aria-label="Fruit">
+      <div role="option" aria-selected="false" data-demo-option><span data-slot="text">Apple</span></div>
+      <div role="option" aria-selected="false" data-demo-option><span data-slot="text">Banana</span></div>
+      <div role="option" aria-selected="false" data-demo-option><span data-slot="text">Orange</span></div>
+      <div role="option" aria-selected="false" data-demo-option><span data-slot="text">Pineapple</span></div>
+      <div data-slot="empty" hidden>No fruit found.</div>
+    </div>
+  </div>
+</div>`
+    },
+    {
+      title: "Multiple",
+      html: `<div class="combobox" data-demo="combobox">
+  <input role="combobox" aria-expanded="false" aria-controls="combobox-tag-panel" aria-autocomplete="list" placeholder="Search tags..." aria-label="Search tags" data-demo-combobox-input>
+  <button type="button" class="btn" data-variant="ghost" data-size="icon-xs" data-slot="clear" data-demo-clear aria-label="Clear">×</button>
+  <div data-popover data-side="bottom" aria-hidden="true" id="combobox-tag-panel">
+    <div role="listbox" aria-label="Tags" aria-multiselectable="true">
+      <div role="option" aria-selected="true" data-demo-option><span data-slot="text">Design</span></div>
+      <div role="option" aria-selected="false" data-demo-option><span data-slot="text">Engineering</span></div>
+      <div role="option" aria-selected="true" data-demo-option><span data-slot="text">Docs</span></div>
+      <div data-slot="empty" hidden>No tags found.</div>
+    </div>
+  </div>
+</div>`
+    }
+  ],
+  command: [
+    {
+      title: "Dialog",
+      html: `<button type="button" class="btn" data-variant="outline" data-open-dialog="demo-command">
+  Open command
+</button>
+
+<dialog class="dialog" id="demo-command" aria-labelledby="command-title" aria-describedby="command-description">
+  <div>
+    <header>
+      <h2 data-slot="title" id="command-title">Command palette</h2>
+      <p data-slot="description" id="command-description">Search for a command to run.</p>
+    </header>
+    <section>
+      <div class="command" data-demo="command">
+        <div class="input-group" role="group" aria-label="Search commands">
+          <span data-slot="addon" data-align="inline-start" aria-hidden="true">${search}</span>
+          <input class="input" type="text" placeholder="Type a command..." aria-label="Search commands" data-demo-command-input autofocus>
+        </div>
+        <div role="listbox" aria-label="Commands">
+          <div role="group" aria-labelledby="command-group-navigation">
+            <div data-slot="label" id="command-group-navigation">Navigation</div>
+            <div role="option" data-demo-option>
+              <span data-slot="text">Go home</span>
+              <span data-slot="shortcut">⌘H</span>
+            </div>
+            <div role="option" data-demo-option>
+              <span data-slot="text">Open settings</span>
+              <span data-slot="shortcut">⌘,</span>
+            </div>
+          </div>
+          <div role="group" aria-labelledby="command-group-actions">
+            <div data-slot="label" id="command-group-actions">Actions</div>
+            <div role="option" data-demo-option>
+              <span data-slot="text">Copy link</span>
+            </div>
+            <div role="option" data-demo-option>
+              <span data-slot="text">Download</span>
+            </div>
+          </div>
+          <div data-slot="empty" hidden>No commands found.</div>
+        </div>
+      </div>
+    </section>
+  </div>
+</dialog>`
+    }
   ]
 };

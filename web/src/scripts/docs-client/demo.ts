@@ -23,10 +23,37 @@ const closeAllPopovers = (except?: Element): void => {
     menu.setAttribute("aria-hidden", "true");
   });
   document
-    .querySelectorAll("[data-demo-trigger], [data-demo-menu-trigger]")
+    .querySelectorAll(
+      "[data-demo-trigger], [data-demo-menu-trigger], [data-demo-select-trigger], [data-demo-combobox-input]"
+    )
     .forEach((trigger) => {
       trigger.setAttribute("aria-expanded", "false");
     });
+};
+
+const optionLabel = (option: Element): string =>
+  option.querySelector("[data-slot='text']")?.textContent?.trim() ?? "";
+
+const filterOptions = (root: Element, query: string): void => {
+  const options = [...root.querySelectorAll<HTMLElement>('[role="option"]')];
+  let visible = 0;
+
+  for (const option of options) {
+    const match = optionLabel(option).toLowerCase().includes(query);
+    option.toggleAttribute("hidden", !match);
+    if (match) visible += 1;
+  }
+
+  root.querySelectorAll<HTMLElement>('[role="group"]').forEach((group) => {
+    const anyVisible = [
+      ...group.querySelectorAll<HTMLElement>('[role="option"]')
+    ].some((option) => !option.hasAttribute("hidden"));
+    group.toggleAttribute("hidden", !anyVisible);
+  });
+
+  root
+    .querySelector<HTMLElement>("[data-slot='empty']")
+    ?.toggleAttribute("hidden", visible > 0);
 };
 
 const onClick = async (event: MouseEvent): Promise<void> => {
@@ -90,7 +117,10 @@ const onClick = async (event: MouseEvent): Promise<void> => {
   const open = target.closest("[data-open-dialog]");
   if (open) {
     const dialog = document.getElementById(open.getAttribute("data-open-dialog") ?? "");
-    if (dialog instanceof HTMLDialogElement) dialog.showModal();
+    if (dialog instanceof HTMLDialogElement) {
+      dialog.showModal();
+      dialog.querySelector<HTMLElement>("[autofocus]")?.focus();
+    }
     return;
   }
 
@@ -106,6 +136,95 @@ const onClick = async (event: MouseEvent): Promise<void> => {
     if (toggle.disabled) return;
     const pressed = toggle.getAttribute("aria-pressed") === "true";
     toggle.setAttribute("aria-pressed", String(!pressed));
+    return;
+  }
+
+  const clear = target.closest("[data-demo-clear]");
+  if (clear) {
+    const root = clear.closest(".combobox");
+    const input = root?.querySelector<HTMLInputElement>("input");
+    root
+      ?.querySelectorAll('[role="option"]')
+      .forEach((option) => option.setAttribute("aria-selected", "false"));
+    root?.querySelector("[data-popover]")?.setAttribute("aria-hidden", "false");
+    if (input) {
+      input.value = "";
+      input.setAttribute("aria-expanded", "true");
+      input.focus();
+    }
+    if (root) filterOptions(root, "");
+    return;
+  }
+
+  const selectTrigger = target.closest("[data-demo-select-trigger]");
+  if (selectTrigger) {
+    const root = selectTrigger.closest(".select");
+    const popover = root?.querySelector("[data-popover]");
+    if (popover) {
+      const willOpen = popover.getAttribute("aria-hidden") === "true";
+      closeAllPopovers(popover);
+      popover.setAttribute("aria-hidden", willOpen ? "false" : "true");
+      selectTrigger.setAttribute("aria-expanded", willOpen ? "true" : "false");
+    }
+    return;
+  }
+
+  const comboboxInput = target.closest("[data-demo-combobox-input]");
+  if (comboboxInput instanceof HTMLInputElement) {
+    const root = comboboxInput.closest(".combobox");
+    const popover = root?.querySelector("[data-popover]");
+    if (popover) {
+      closeAllPopovers(popover);
+      popover.setAttribute("aria-hidden", "false");
+      comboboxInput.setAttribute("aria-expanded", "true");
+    }
+    return;
+  }
+
+  const option = target.closest("[data-demo-option]");
+  if (option) {
+    if (option.getAttribute("aria-disabled") === "true") return;
+    const root = option.closest(".select, .combobox, .command");
+    if (!root) return;
+
+    const listbox = option.closest('[role="listbox"]');
+    const multiple = listbox?.getAttribute("aria-multiselectable") === "true";
+
+    if (multiple) {
+      const selected = option.getAttribute("aria-selected") === "true";
+      option.setAttribute("aria-selected", selected ? "false" : "true");
+    } else {
+      root.querySelectorAll('[role="option"]').forEach((item) => {
+        item.setAttribute("aria-selected", item === option ? "true" : "false");
+      });
+    }
+
+    if (root.classList.contains("select")) {
+      const value = root.querySelector("[data-slot='value']");
+      if (value) {
+        value.textContent = optionLabel(option);
+        value.removeAttribute("data-placeholder");
+      }
+      root.querySelector("[data-popover]")?.setAttribute("aria-hidden", "true");
+      const trigger = root.querySelector<HTMLElement>("[data-demo-select-trigger]");
+      trigger?.setAttribute("aria-expanded", "false");
+      trigger?.focus();
+    } else if (root.classList.contains("combobox")) {
+      const input = root.querySelector<HTMLInputElement>("input");
+      const popover = root.querySelector("[data-popover]");
+      if (input && !multiple) input.value = optionLabel(option);
+      if (!multiple) {
+        popover?.setAttribute("aria-hidden", "true");
+        input?.setAttribute("aria-expanded", "false");
+      }
+      if (input) {
+        input.dataset.suppressOpen = "true";
+        input.focus();
+        delete input.dataset.suppressOpen;
+      }
+    } else if (root.classList.contains("command")) {
+      option.closest("dialog")?.close();
+    }
     return;
   }
 
@@ -140,7 +259,11 @@ const onClick = async (event: MouseEvent): Promise<void> => {
     return;
   }
 
-  if (!target.closest("[data-popover], [data-demo-trigger]")) {
+  if (
+    !target.closest(
+      "[data-popover], [data-demo-trigger], [data-demo-menu-trigger], [data-demo-select-trigger], [data-demo-combobox-input]"
+    )
+  ) {
     closeAllPopovers();
   }
 };
@@ -174,6 +297,32 @@ const onContextMenu = (event: MouseEvent): void => {
     ?.focus();
 };
 
+const onInput = (event: Event): void => {
+  const target = event.target;
+  if (!(target instanceof HTMLInputElement)) return;
+  if (
+    !target.matches("[data-demo-combobox-input], [data-demo-command-input]")
+  ) {
+    return;
+  }
+  const root = target.closest(".combobox, .command");
+  if (root) filterOptions(root, target.value.trim().toLowerCase());
+};
+
+const onFocusIn = (event: FocusEvent): void => {
+  const target = event.target;
+  if (!(target instanceof HTMLInputElement)) return;
+  if (!target.matches("[data-demo-combobox-input]")) return;
+  if (target.dataset.suppressOpen) return;
+  const root = target.closest(".combobox");
+  const popover = root?.querySelector("[data-popover]");
+  if (popover) {
+    closeAllPopovers(popover);
+    popover.setAttribute("aria-hidden", "false");
+    target.setAttribute("aria-expanded", "true");
+  }
+};
+
 let mounted = false;
 
 /** Demo-only interactions. Registered once; the docs client never re-mounts it. */
@@ -183,4 +332,6 @@ export function mountDemo(): void {
   document.addEventListener("click", onClick);
   document.addEventListener("keydown", onKeyDown);
   document.addEventListener("contextmenu", onContextMenu);
+  document.addEventListener("input", onInput);
+  document.addEventListener("focusin", onFocusIn);
 }

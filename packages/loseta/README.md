@@ -38,7 +38,7 @@ registry/
   reset.css              # preflight-style reset
   base.css               # element defaults
   utilities.css          # sr-only
-  primitives/            # shared popover, menu and dialog shells
+  primitives/            # shared popover, listbox, menu and dialog shells
   components/            # structural CSS per component
   styles/                # visual CSS per declared style
   examples/              # example markup used by `add --html`
@@ -85,7 +85,7 @@ The registry is validated for:
 - dependency resolution and cycles,
 - `@layer` wrapping,
 - one complete style file per declared style for every stable component and primitive,
-- exactly one Nova style file for every experimental component,
+- exactly one Nova style file for every experimental component and primitive,
 - valid `styles/<name>/` paths and no unreferenced style files,
 - forbidden Tailwind/legacy patterns,
 - CSS parseability with Lightning CSS.

@@ -1,7 +1,7 @@
 {
   "$schema": "./schema.json",
   "name": "loseta",
-  "version": "0.7.0",
+  "version": "0.8.0",
   "styles": [
     {
       "name": "nova",
@@ -239,6 +239,30 @@
         {
           "path": "styles/rhea/primitives/menu.css",
           "target": "styles/rhea/primitives/menu.css",
+          "role": "style",
+          "layer": "loseta.style"
+        }
+      ]
+    },
+    {
+      "name": "listbox",
+      "type": "primitive",
+      "status": "experimental",
+      "title": "Listbox primitive",
+      "description": "Shared listbox option, group, empty and indicator rules used by select, combobox and command.",
+      "root": [
+        "[role='listbox']"
+      ],
+      "files": [
+        {
+          "path": "primitives/listbox.css",
+          "target": "primitives/listbox.css",
+          "role": "base",
+          "layer": "loseta.components"
+        },
+        {
+          "path": "styles/nova/primitives/listbox.css",
+          "target": "styles/nova/primitives/listbox.css",
           "role": "style",
           "layer": "loseta.style"
         }
@@ -2811,6 +2835,111 @@
       ],
       "examples": [
         "examples/slider.html"
+      ]
+    },
+    {
+      "name": "select",
+      "type": "component",
+      "status": "experimental",
+      "title": "Select",
+      "description": "A custom single-select listbox with a button trigger.",
+      "docs": "/docs/components/select",
+      "root": [
+        ".select"
+      ],
+      "registryDependencies": [
+        "listbox",
+        "popover-primitive"
+      ],
+      "optionalDependencies": [],
+      "files": [
+        {
+          "path": "components/select.css",
+          "target": "components/select.css",
+          "role": "base",
+          "layer": "loseta.components"
+        },
+        {
+          "path": "styles/nova/select.css",
+          "target": "styles/nova/select.css",
+          "role": "style",
+          "layer": "loseta.style"
+        }
+      ],
+      "examples": [
+        "examples/select.html"
+      ]
+    },
+    {
+      "name": "combobox",
+      "type": "component",
+      "status": "experimental",
+      "title": "Combobox",
+      "description": "A text input combined with a listbox of options.",
+      "docs": "/docs/components/combobox",
+      "root": [
+        ".combobox"
+      ],
+      "registryDependencies": [
+        "listbox",
+        "popover-primitive"
+      ],
+      "optionalDependencies": [
+        "button"
+      ],
+      "files": [
+        {
+          "path": "components/combobox.css",
+          "target": "components/combobox.css",
+          "role": "base",
+          "layer": "loseta.components"
+        },
+        {
+          "path": "styles/nova/combobox.css",
+          "target": "styles/nova/combobox.css",
+          "role": "style",
+          "layer": "loseta.style"
+        }
+      ],
+      "examples": [
+        "examples/combobox.html"
+      ]
+    },
+    {
+      "name": "command",
+      "type": "component",
+      "status": "experimental",
+      "title": "Command",
+      "description": "A searchable command list for palettes and dialogs.",
+      "docs": "/docs/components/command",
+      "root": [
+        ".command"
+      ],
+      "registryDependencies": [
+        "listbox",
+        "input-group"
+      ],
+      "optionalDependencies": [
+        "dialog-shell",
+        "popover-primitive",
+        "card"
+      ],
+      "files": [
+        {
+          "path": "components/command.css",
+          "target": "components/command.css",
+          "role": "base",
+          "layer": "loseta.components"
+        },
+        {
+          "path": "styles/nova/command.css",
+          "target": "styles/nova/command.css",
+          "role": "style",
+          "layer": "loseta.style"
+        }
+      ],
+      "examples": [
+        "examples/command.html"
       ]
     }
   ]

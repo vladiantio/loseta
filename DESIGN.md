@@ -8,7 +8,7 @@ It is not an implementation guide. The installed CSS is the reference
 implementation: if this document and the registry disagree,
 [`packages/loseta/registry/tokens.css`](packages/loseta/registry/tokens.css)
 and [`registry.json`](packages/loseta/registry/registry.json) win, and this
-document must be corrected. The baseline covers registry version `0.7.0`.
+document must be corrected. The baseline covers registry version `0.8.0`.
 
 Vocabulary is defined in [`GLOSSARY.md`](GLOSSARY.md).
 
@@ -41,7 +41,7 @@ Vocabulary is defined in [`GLOSSARY.md`](GLOSSARY.md).
 
 ## Scope
 
-The registry contains 25 stable components, 21 experimental components, three
+The registry contains 25 stable components, 24 experimental components, four
 primitives and four foundations:
 
 - **Stable components**: alert, alert-dialog, badge, button, button-group,
@@ -49,12 +49,14 @@ primitives and four foundations:
   kbd, label, native-select, popover, radio, skeleton, switch, table, tabs,
   textarea and tooltip.
 - **Experimental components**: accordion, aspect-ratio, avatar, breadcrumb,
-  collapsible, context-menu, drawer, hover-card, input-group, input-otp,
-  menubar, navigation-menu, pagination, progress, scroll-area, separator,
-  sheet, slider, spinner, toggle and toggle-group. They are installable by
-  name with `loseta add <name> --experimental`, ship exactly one Nova style
-  file and are explicitly outside the v1 compatibility contract.
-- **3 primitives**: `dialog-shell`, `menu` and `popover-primitive`. They are
+  collapsible, combobox, command, context-menu, drawer, hover-card, input-group,
+  input-otp, menubar, navigation-menu, pagination, progress, scroll-area,
+  select, separator, sheet, slider, spinner, toggle and toggle-group. They are
+  installable by name with `loseta add <name> --experimental`, ship exactly one
+  Nova style file and are explicitly outside the v1 compatibility contract.
+- **4 primitives**: `dialog-shell`, `listbox`, `menu` and `popover-primitive`.
+  `listbox` is experimental and Nova-only until `select`, `combobox` and
+  `command` are promoted; the other primitives are stable. Primitives are
   installed automatically as dependencies and are not consumer-facing
   components.
 - **4 foundations**: tokens, reset, base and utilities.
@@ -201,17 +203,20 @@ fixed 4px radius. Code Block uses `--radius-xl`; its `sm` size uses
 - Code Block keeps an explicit monospace stack with `var(--font-mono, …)` so it
   still renders correctly when the reset is not installed.
 - UI text defaults to `--text-sm` (`0.875rem`), with its paired line height.
-  Cards, alerts, items, tables, menus, tabs, code blocks, accordion content,
-  avatar fallbacks, breadcrumb, pagination, hover cards, sheets, drawers and
-  dialog bodies follow it. Menubar and navigation-menu triggers use it too.
+  Cards, alerts, items, tables, menus, listbox options, tabs, code blocks,
+  accordion content, avatar fallbacks, breadcrumb, pagination, hover cards,
+  sheets, drawers, select triggers and command bodies follow it. Menubar and
+  navigation-menu triggers use it too.
 - Inputs and textareas use `--text-base` (`1rem`) below `48rem` and `--text-sm`
-  at and above it.
+  at and above it. Combobox inputs follow the input scale; `sm` select triggers
+  use `--text-xs`.
 - Card, dialog and alert-dialog titles use `--text-base` at their default size
   (the `sm` card uses `--text-sm`); alert, popover, empty and field titles use
   `--text-sm`. `lg` avatar fallbacks and sheet/drawer titles use `--text-base`.
 - Badges, kbd, tooltips, `sm` toggles and `xs` buttons use `--text-xs`; the
-  `sm` button is a deliberate `0.8rem` exception. Menu headings and
-  navigation-menu descriptions also use `--text-xs`.
+  `sm` button is a deliberate `0.8rem` exception. Menu headings, listbox group
+  labels, command shortcuts and navigation-menu descriptions also use
+  `--text-xs`.
 - Input group addons use `--text-sm`; the inner input and textarea controls
   keep the input type scale. OTP inputs use `--text-lg` by default,
   `--text-base` at `sm` and `--text-xl` at `lg`.
@@ -232,8 +237,9 @@ fixed 4px radius. Code Block uses `--radius-xl`; its `sm` size uses
   icon is `1.5rem`. Code Block title icons are `1rem`; its copy and wrap
   controls use the `icon-xs` button size (`0.75rem` icons). Accordion,
   collapsible and pagination icons are `1rem`; input-group addon icons are
-  `1rem`; breadcrumb separators are `0.875rem` and avatar badges use `0.5rem`
-  (`sm` badges hide the icon).
+  `1rem`; select chevrons and listbox indicators are `1rem`; breadcrumb
+  separators are `0.875rem` and avatar badges use `0.5rem` (`sm` badges hide
+  the icon).
 
 ### Spacing
 
@@ -260,11 +266,13 @@ file they own, not by expecting a spacing API.
 | Context menu | `--popover` surface, foreground-at-10% ring and `--shadow-md`. |
 | Hover card | `--popover` surface through the popover primitive. |
 | Input group, OTP | `--input` border, `--ring` focus-within/focus and destructive invalid ring. |
+| Listbox panel | `--popover` surface, foreground-at-10% ring and `--shadow-md`; options use `--accent` for highlight. |
 | Menu | Shared menu primitive: `--popover` surface, foreground-at-10% ring and the style's menu shadow. |
 | Menubar | `--background` bar with a 1px `--border` outline and `--shadow-xs`. |
 | Navigation menu | `--popover` panels through the popover primitive. |
 | Progress | `--primary` at 20% for the track and full `--primary` for the indicator. |
 | Scroll area | Native scrollbars from `--scrollbar-thumb`, `--scrollbar-track` and `--scrollbar-width`. |
+| Select, combobox | `--input` border; `--ring` focus and destructive invalid ring. |
 | Sheet, drawer | `--background` panel, `--border` side edge on sheets and `--shadow-lg`. |
 | Slider | Native track and thumb colored by `accent-color: --primary`. |
 | Toggle | Transparent or outline surface; pressed uses `--accent` / `--accent-foreground`. |
@@ -283,7 +291,7 @@ fields, selects, checkboxes, radios and switches.
 | Invalid | `--destructive` border plus a 3px destructive-at-20% shadow; dark mode uses stronger destructive mixes. A field containing an invalid control turns its text destructive. |
 | Disabled | 50% opacity. Buttons, tabs and menu items also drop pointer events; inputs, textareas and selects use a not-allowed cursor. |
 | Active | Buttons translate down 1px, except triggers with `aria-haspopup`. |
-| Selected | Tabs use a raised background and `--shadow-sm`; line tabs use a 2px foreground indicator. Table rows use `--muted`. |
+| Selected | Tabs use a raised background and `--shadow-sm`; line tabs use a 2px foreground indicator. Table rows use `--muted`. Listbox options use font-weight 500 and a check indicator. |
 | Current | `aria-current="page"` pagination links use an outline border and `--background`; breadcrumb current text uses `--foreground`. |
 | Pressed | `aria-pressed="true"` toggles use `--accent` / `--accent-foreground`. |
 | Open details | Accordion summaries rotate their trailing icon 180 degrees; the open state itself is native. |
@@ -310,6 +318,7 @@ visible.
 | Avatar | `2rem` square | `sm` 1.5rem, `lg` 2.5rem |
 | Accordion summary | No fixed height | `0.625rem` block padding |
 | Collapsible summary | No fixed height | `0.25rem` block padding |
+| Command list | `20rem` maximum height | — |
 | Context menu | `8rem`–`20rem` wide | — |
 | Drawer | `80vh` maximum height | `sm` 50vh, `lg` 90vh |
 | Hover card | `18rem` wide | — |
@@ -319,6 +328,7 @@ visible.
 | Navigation trigger | `2rem` high | — |
 | Progress | `0.5rem` high | — |
 | Scroll area | Consumer-sized | `sm` narrower scrollbar |
+| Select trigger | `2rem` high | `sm` 1.75rem |
 | Sheet | `24rem` wide | `sm` 20rem, `lg` 28rem |
 | Slider | `1.25rem` hit area | `sm` 1rem, `lg` 1.5rem |
 | Separator | `1px` | Vertical: `1px` wide and stretches |
@@ -380,6 +390,8 @@ on an RTL page; its header follows the page direction.
 | Checkbox | `.checkbox` | Native `input[type="checkbox"]`; must not carry `role="switch"`. | — |
 | Code Block | `.code-block` | Optional `header` with `[data-slot="title"]` and `[data-slot="actions"]`; required `pre` containing `code`; optional `footer`; line parts `[data-slot="line"]` wrapping `[data-slot="line-content"]`. | `data-size="default|sm"`; `data-variant="default|destructive"`; `pre` `data-line-numbers`, `data-wrap`, `--line-start`; line `data-variant="added|removed|highlighted"` |
 | Collapsible | `.collapsible` | Native `<details>` with a `<summary>` trigger and content directly after `summary`. | `[open]`; `inert` for disabled items |
+| Combobox | `.combobox` | Input with `role="combobox"` and a `[data-popover]` panel containing `[role="listbox"]`; optional `[data-slot="clear"]`. | Listbox `aria-multiselectable="true"` for multiple; placement attributes on the panel |
+| Command | `.command` | Search field composed with input-group and a `[role="listbox"]` with groups, labels, shortcuts and an empty state. | `[data-slot="shortcut"]`, `[data-slot="empty"]`; no surface |
 | Context menu | `.context-menu` | `[role="menu"]` panel with menu items, headings, separators and shortcuts. | `--context-x`, `--context-y` on the panel; `aria-hidden="true|false"` |
 | Dialog | `.dialog` | Native `<dialog>` containing a panel; panel contains `header`, title, description, `section`, `footer` and a close button or `form[method="dialog"]`. | — |
 | Drawer | `.drawer` | Native `<dialog>` with `data-side` and a panel containing `[data-slot="handle"]`, `header`, `section` and `footer`. | `data-side="block-start|block-end"`; `data-size="default|sm|lg"` |
@@ -401,6 +413,7 @@ on an RTL page; its header follows the page direction.
 | Progress | `.progress` | Native `<progress>` with fallback text. | `value`/`max`; omit `value` for indeterminate |
 | Radio | `.radio` | Native `input[type="radio"]`, normally inside `role="radiogroup"`. | — |
 | Scroll area | `.scroll-area` | Scroll container; the consumer sets dimensions and content. | `data-orientation="horizontal|vertical"`; `data-size="default|sm"` |
+| Select | `.select` | Trigger with `role="combobox"`, `[data-slot="value"]` and a `[data-popover] > [role="listbox"]` panel. | `data-size="default|sm"`; `data-placeholder` on the value |
 | Separator | `.separator` | `<hr>` or `[role="separator"]`. | `data-orientation="horizontal|vertical"`; `aria-orientation` is also recognized |
 | Sheet | `.sheet` | Native `<dialog>` with `data-side` and a panel containing `header`, `section` and `footer`. | `data-side="inline-start|inline-end"`; `data-size="default|sm|lg"` |
 | Skeleton | `.skeleton` | No required children; the consumer sets dimensions. | — |
@@ -432,15 +445,18 @@ The public slot vocabulary is shared across components:
 - `data-slot="actions"` — code block.
 - `data-slot="line"`, `data-slot="line-content"` — code block.
 - `data-slot="header"` — popover.
-- `data-slot="shortcut"` — dropdown menu, context menu and menubar.
-- `data-slot="indicator"` — dropdown menu, context menu and menubar.
+- `data-slot="shortcut"` — dropdown menu, context menu, menubar and command.
+- `data-slot="indicator"` — dropdown menu, context menu, menubar and listbox options.
 - `data-slot="checkbox-group"`, `data-slot="radio-group"` — field.
 - `data-slot="fallback"`, `data-slot="badge"` — avatar.
 - `data-slot="ellipsis"` — breadcrumb and pagination.
-- `data-slot="label"` — pagination previous/next text.
+- `data-slot="label"` — pagination previous/next text and listbox group labels.
 - `data-slot="handle"` — drawer.
 - `data-slot="title"`, `data-slot="description"` — navigation menu panels.
 - `data-slot="addon"` — input group.
+- `data-slot="text"` — select, combobox and command option labels.
+- `data-slot="empty"` — listbox and command empty state.
+- `data-slot="clear"` — combobox clear button.
 
 Semantic parts are equally public where documented: `header`, `section`,
 `footer`, `figure`, `aside`, `pre`, `code`, `details`, `summary`, `nav`, `ol`,
@@ -491,14 +507,14 @@ public state hooks:
 | --- | --- | --- |
 | Invalid | `aria-invalid="true"` | Inputs, textareas, native selects, checkbox, radio, switch, buttons, badges and `.field` (including descendants). |
 | Disabled | Native `:disabled` | Buttons, inputs, textareas, selects, menu items and native controls. |
-| Disabled, non-native | `aria-disabled="true"` | Tabs, menu items and other elements that cannot use `:disabled`. |
-| Selected | `aria-selected="true"` | Tabs and selectable table rows. |
+| Disabled, non-native | `aria-disabled="true"` | Tabs, menu items, listbox options and other elements that cannot use `:disabled`. |
+| Selected | `aria-selected="true"` | Tabs, selectable table rows and listbox options. |
 | Checked, native | `:checked` | Checkbox, radio and switch. |
 | Checked, menu item | `aria-checked="true"` | `menuitemcheckbox` and `menuitemradio`. |
 | Highlighted | `data-highlighted` | Menu items and listbox-like composites. Presence only; no value required. |
 | Current | `aria-current="page"` | Breadcrumb and pagination. `aria-current="step"` is reserved for multi-step flows. |
 | Pressed | `aria-pressed="true"` | Toggle and toggle-group buttons. |
-| Expanded | `aria-expanded="true"` | Menu and navigation triggers; panels use `aria-hidden`. |
+| Expanded | `aria-expanded="true"` | Menu, navigation, select and combobox triggers; panels use `aria-hidden`. |
 | Open, details | Native `[open]` on `<details>` | Accordion items. |
 | Open, dialog | Native `[open]` | Dialog and alert dialog. |
 | Open, popover | `aria-hidden="false"` | `[data-popover]` panels; the trigger uses `aria-expanded`. |
@@ -546,6 +562,13 @@ Notes:
 - Context menus use `aria-hidden` on the panel. The consumer sets
   `--context-x` and `--context-y` and manages focus; the CSS does not track the
   pointer.
+- The internal `listbox` primitive styles `[role="listbox"]`, `[role="option"]`,
+  `[role="group"]`, group labels and the empty state. Consumers set
+  `aria-selected`, `data-highlighted` and `aria-disabled`; the primitive does
+  not filter, select or move focus.
+- Select, combobox and command do not open, close, filter or select by
+  themselves. The consumer owns those behaviors and the `aria-expanded` /
+  `aria-hidden` transitions.
 
 ## Motion
 
@@ -559,9 +582,10 @@ Notes:
   the underlying shell defaults to `150ms` when a style does not override it.
 - Item hover and state transitions use `100ms`; the skeleton pulses on a `2s`
   loop with `cubic-bezier(0.4, 0, 0.6, 1)`.
-- Menus and navigation panels transition in `100ms`; sheets and drawers use the
-  dialog shell's `150ms` entry. Hover cards open after a `300ms` delay and hide
-  immediately when the pointer leaves.
+- Menus, listbox panels and navigation panels transition in `100ms`; select
+  chevrons rotate in `150ms`; sheets and drawers use the dialog shell's
+  `150ms` entry. Hover cards open after a `300ms` delay and hide immediately
+  when the pointer leaves.
 - The spinner rotates on a `0.75s` linear loop; progress uses a `1.5s`
   indeterminate sweep.
 - Dialog entry uses `@starting-style` and `allow-discrete`: the backdrop fades,
@@ -594,6 +618,19 @@ progress sweep slow down instead of stopping. This remains a known gap.
 - Input groups need an accessible name on the group and on the inner control.
   Addons are presentation; clicking an addon to focus the control is consumer
   JavaScript.
+- Select triggers need `aria-haspopup="listbox"`, `aria-expanded` and
+  `aria-controls`; the option list is a `[role="listbox"]`. The consumer owns
+  keyboard navigation, selection, the trigger value and `data-placeholder`.
+- Combobox inputs need a label, role `combobox`, `aria-expanded`,
+  `aria-controls` and `aria-autocomplete="list"`. Multiple lists also set
+  `aria-multiselectable="true"`. Filtering and selection are consumer
+  JavaScript.
+- Commands compose a labelled search field with a `[role="listbox"]`; place
+  them inside a labelled dialog, popover or card. Keyboard navigation and
+  closing on selection are consumer JavaScript.
+- Listbox options need an accessible name. Consumers manage roving focus or
+  `aria-activedescendant`, set `aria-selected` and `data-highlighted`, and mark
+  unavailable options with `aria-disabled="true"`.
 - OTP inputs need an accessible label, `inputmode="numeric"`,
   `autocomplete="one-time-code"`, `maxlength` and optionally `pattern`. CSS
   does not auto-advance or draw per-digit slots.
@@ -682,20 +719,24 @@ eight style files, examples, docs, tests and an update to this baseline.
 Registry dependencies are hard: installing `dialog` or `alert-dialog` also
 installs `dialog-shell`; installing `sheet` or `drawer` also installs
 `dialog-shell`; installing `dropdown-menu`, `context-menu` or `menubar` also
-installs `menu`; installing `popover`, `dropdown-menu`, `hover-card`,
-`menubar` or `navigation-menu` also installs `popover-primitive`; installing
+installs `menu`; installing `select` or `combobox` also installs `listbox` and
+`popover-primitive`; installing `command` also installs `listbox` and
+`input-group`; installing `popover`, `dropdown-menu`, `hover-card`, `menubar`
+or `navigation-menu` also installs `popover-primitive`; installing
 `toggle-group` also installs `toggle`. Optional dependencies are composition
 hints only and are never installed automatically. Notable optional pairs are
 field with its form controls, button group with
 button/input/popover/dropdown-menu, table with checkbox, dropdown-menu with
 kbd, breadcrumb with dropdown-menu, pagination with button, sheet and drawer
-with button, input group with input/textarea/button, and code block with button
+with button, input group with input/textarea/button, combobox with button,
+command with dialog-shell/popover-primitive/card, and code block with button
 for copy and wrap controls.
 
 The `menu` primitive styles every `[role="menu"]` in the project. It owns the
 shared item, heading, separator, shortcut and indicator rules; `dropdown-menu`,
 `context-menu` and `menubar` add their own trigger, surface and positioning
-behavior.
+behavior. The experimental `listbox` primitive does the same for
+`[role="listbox"]` options, groups and empty states.
 
 ### Compatibility contract
 
@@ -767,6 +808,12 @@ semantic versioning.
   JavaScript.
 - Scroll areas use native scrollbars; there are no custom overlay thumb
   elements.
+- The `listbox` primitive is experimental and ships Nova only. Select,
+  combobox and command do not open, filter, select or move focus; those are
+  consumer JavaScript concerns.
+- Command has no surface of its own; place it inside a dialog, popover or card.
+- Multiple combobox selections are not rendered as chips; compose them with
+  badges in consumer markup.
 - Uncurated drafts remain in `packages/loseta/experimental/` and are not
   published.
 - There is no spacing or motion token scale; spacing and durations are

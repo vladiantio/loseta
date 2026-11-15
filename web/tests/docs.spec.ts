@@ -532,6 +532,75 @@ test("dropdown menu still opens after the menu primitive refactor", async ({ pag
   await expect(panel).toHaveAttribute("aria-hidden", "true");
 });
 
+test("select opens, selects an option and updates the trigger", async ({ page }) => {
+  await page.goto("/docs/components/select");
+  const select = page.locator(".select").first();
+  const trigger = select.locator('[role="combobox"]');
+  const panel = select.locator("[data-popover]");
+
+  await trigger.click();
+  await expect(panel).toHaveAttribute("aria-hidden", "false");
+  await select.getByRole("option", { name: "Banana", exact: true }).click();
+  await expect(trigger).toContainText("Banana");
+  await expect(panel).toHaveAttribute("aria-hidden", "true");
+});
+
+test("combobox filters, selects, clears and shows an empty state", async ({ page }) => {
+  await page.goto("/docs/components/combobox");
+  const combobox = page.locator(".combobox").first();
+  const input = combobox.locator("input");
+  const panel = combobox.locator("[data-popover]");
+
+  await input.click();
+  await expect(panel).toHaveAttribute("aria-hidden", "false");
+
+  await input.fill("ban");
+  await expect(combobox.getByRole("option", { name: "Banana", exact: true })).toBeVisible();
+  await expect(combobox.getByRole("option", { name: "Apple", exact: true })).toBeHidden();
+
+  await combobox.getByRole("option", { name: "Banana", exact: true }).click();
+  await expect(input).toHaveValue("Banana");
+  await expect(panel).toHaveAttribute("aria-hidden", "true");
+
+  await combobox.locator("[data-slot='clear']").click();
+  await expect(input).toHaveValue("");
+  await expect(panel).toHaveAttribute("aria-hidden", "false");
+
+  await input.fill("zzz");
+  await expect(combobox.locator("[data-slot='empty']")).toBeVisible();
+
+  const multiple = page.locator(".combobox").nth(1);
+  const multipleInput = multiple.locator("input");
+  await multipleInput.click();
+  await multiple.getByRole("option", { name: "Engineering", exact: true }).click();
+  await expect(
+    multiple.getByRole("option", { name: "Engineering", exact: true })
+  ).toHaveAttribute("aria-selected", "true");
+  await expect(multiple.locator("[data-popover]")).toHaveAttribute("aria-hidden", "false");
+});
+
+test("command filters, shows an empty state and closes on selection", async ({ page }) => {
+  await page.goto("/docs/components/command");
+  const dialog = page.locator("#demo-command");
+  const input = page.getByRole("textbox", { name: "Search commands" });
+
+  await page.getByRole("button", { name: "Open command" }).click();
+  await expect(dialog).toHaveAttribute("open", "");
+  await expect(input).toBeFocused();
+
+  await input.fill("set");
+  await expect(page.getByRole("option", { name: "Open settings" })).toBeVisible();
+  await expect(page.getByRole("option", { name: "Go home" })).toBeHidden();
+  await expect(page.locator(".command [data-slot='empty']")).toBeHidden();
+
+  await input.fill("zzz");
+  await expect(page.locator(".command [data-slot='empty']")).toBeVisible();
+
+  await input.fill("set");
+  await page.getByRole("option", { name: "Open settings" }).click();
+  await expect(dialog).not.toHaveAttribute("open", "");
+});
+
 test("component preview reveals cleaned example code", async ({ page }) => {
   await page.goto("/docs/components/dialog");
   const preview = page.locator("[data-component-preview]").first();

@@ -1,0 +1,44 @@
+<!-- Dialog -->
+<button type="button" class="btn" data-variant="outline">
+  Open command
+</button>
+
+<dialog class="dialog" id="demo-command" aria-labelledby="command-title" aria-describedby="command-description">
+  <div>
+    <header>
+      <h2 data-slot="title" id="command-title">Command palette</h2>
+      <p data-slot="description" id="command-description">Search for a command to run.</p>
+    </header>
+    <section>
+      <div class="command">
+        <div class="input-group" role="group" aria-label="Search commands">
+          <span data-slot="addon" data-align="inline-start" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg></span>
+          <input class="input" type="text" placeholder="Type a command..." aria-label="Search commands" autofocus>
+        </div>
+        <div role="listbox" aria-label="Commands">
+          <div role="group" aria-labelledby="command-group-navigation">
+            <div data-slot="label" id="command-group-navigation">Navigation</div>
+            <div role="option">
+              <span data-slot="text">Go home</span>
+              <span data-slot="shortcut">⌘H</span>
+            </div>
+            <div role="option">
+              <span data-slot="text">Open settings</span>
+              <span data-slot="shortcut">⌘,</span>
+            </div>
+          </div>
+          <div role="group" aria-labelledby="command-group-actions">
+            <div data-slot="label" id="command-group-actions">Actions</div>
+            <div role="option">
+              <span data-slot="text">Copy link</span>
+            </div>
+            <div role="option">
+              <span data-slot="text">Download</span>
+            </div>
+          </div>
+          <div data-slot="empty" hidden>No commands found.</div>
+        </div>
+      </div>
+    </section>
+  </div>
+</dialog>

@@ -18,6 +18,8 @@ const groupBy: Record<string, ComponentGroup> = {
   "button-group": "Forms",
   checkbox: "Forms",
   collapsible: "Disclosure",
+  combobox: "Forms",
+  command: "Overlays",
   "context-menu": "Overlays",
   drawer: "Overlays",
   field: "Forms",
@@ -33,6 +35,7 @@ const groupBy: Record<string, ComponentGroup> = {
   progress: "Feedback",
   radio: "Forms",
   "scroll-area": "Surfaces",
+  select: "Forms",
   separator: "Surfaces",
   slider: "Forms",
   spinner: "Feedback",
@@ -92,6 +95,10 @@ const notesBy: Record<string, string> = {
     "CSS cannot follow the pointer. The consumer sets --context-x and --context-y on the panel (physical left/top, even in RTL), toggles aria-hidden and manages roving focus. Items use role=\"menu\" and role=\"menuitem\".",
   collapsible:
     "Native <details> with <summary> as the trigger and content directly after it. Use [open] and inert; no JavaScript is required. For exclusive groups, use several details with the same name.",
+  combobox:
+    "An input with role=\"combobox\", aria-expanded and aria-controls. The panel is a [data-popover] containing a [role=\"listbox\"]. Add aria-multiselectable=\"true\" for multiple selection. Filtering, selection and keyboard navigation are consumer JavaScript; selected chips are composed with badges.",
+  command:
+    "Content-only: a search field composed with input-group and a listbox of commands. Place it inside a dialog, popover or card. Filtering, keyboard navigation and closing on selection are consumer JavaScript. Shortcuts use [data-slot=\"shortcut\"].",
   drawer:
     "Native <dialog> with data-side=\"block-end\". CSS only handles presentation; call showModal() and close(). The handle is [data-slot=\"handle\"]; drag gestures are consumer JavaScript. data-size sm/default/lg changes the height.",
   "input-group":
@@ -100,6 +107,8 @@ const notesBy: Record<string, string> = {
     "A single native input. Use inputmode=\"numeric\", autocomplete=\"one-time-code\", maxlength and pattern. CSS draws no per-digit slots and does not auto-advance; those need consumer behavior.",
   "scroll-area":
     "Put .scroll-area on the scroll container and size it with your own layout or inline styles. Native scrollbars follow the --scrollbar-* tokens; data-orientation limits the axis and data-size=\"sm\" narrows the scrollbar. A scrollable region needs tabindex=\"0\" and an accessible name.",
+  select:
+    "A button with role=\"combobox\", aria-expanded and aria-controls. The panel is a [data-popover] containing a [role=\"listbox\"]. Single-select only. Open/close, selection and keyboard navigation are consumer JavaScript; update [data-slot=\"value\"] and remove data-placeholder when a value is selected.",
   slider:
     "Native input[type=\"range\"]. accent-color draws the filled track and thumb; a custom thumb needs appearance:none and consumer-managed fill. data-size sm/default/lg changes the hit area.",
   "hover-card":

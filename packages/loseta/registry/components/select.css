@@ -1,0 +1,47 @@
+/* Select */
+@layer loseta.components {
+  .select {
+    position: relative;
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+
+    > button {
+      display: flex;
+      width: 100%;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.5rem;
+      outline-style: none;
+      -webkit-user-select: none;
+      user-select: none;
+
+      @media (forced-colors: active) {
+        outline: 2px solid transparent;
+        outline-offset: 2px;
+      }
+
+      &:disabled {
+        pointer-events: none;
+        opacity: 50%;
+      }
+
+      > svg {
+        pointer-events: none;
+        flex-shrink: 0;
+        transition-property: rotate;
+        transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+        transition-duration: 150ms;
+      }
+
+      &[aria-expanded='true'] > svg {
+        rotate: 180deg;
+      }
+    }
+
+    > [data-popover] {
+      width: 100%;
+      min-width: 8rem;
+    }
+  }
+}

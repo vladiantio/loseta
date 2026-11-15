@@ -114,6 +114,15 @@ _Avoid_: role, region
 A leading or trailing part inside an input group that is not itself a control.
 _Avoid_: prefix, suffix, icon
 
+**Listbox**:
+A composite widget that presents options for selection, expressed with
+`role="listbox"` and `role="option"`.
+_Avoid_: dropdown, picker, menu
+
+**Option**:
+A selectable choice inside a listbox or menu.
+_Avoid_: item, entry
+
 **Variant**:
 A named visual alternative of a component.
 _Avoid_: type, kind, style, modifier

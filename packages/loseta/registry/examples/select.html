@@ -1,0 +1,50 @@
+<!-- Default -->
+<div class="select">
+  <button type="button" role="combobox" aria-haspopup="listbox" aria-expanded="false" aria-controls="select-fruit-panel" aria-label="Fruit">
+    <span data-slot="value" data-placeholder>Select a fruit</span>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+  </button>
+  <div data-popover data-side="bottom" aria-hidden="true" id="select-fruit-panel">
+    <div role="listbox" aria-label="Fruit">
+      <div role="option" aria-selected="false">
+        <span data-slot="text">Apple</span>
+        <span data-slot="indicator" aria-hidden="true">✓</span>
+      </div>
+      <div role="option" aria-selected="false">
+        <span data-slot="text">Banana</span>
+        <span data-slot="indicator" aria-hidden="true">✓</span>
+      </div>
+      <div role="option" aria-selected="false">
+        <span data-slot="text">Orange</span>
+        <span data-slot="indicator" aria-hidden="true">✓</span>
+      </div>
+      <div role="option" aria-disabled="true">
+        <span data-slot="text">Pineapple</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Small, selected -->
+<div class="select" data-size="sm">
+  <button type="button" role="combobox" aria-haspopup="listbox" aria-expanded="false" aria-controls="select-fruit-small-panel" aria-label="Fruit">
+    <span data-slot="value">Apple</span>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+  </button>
+  <div data-popover data-side="bottom" aria-hidden="true" id="select-fruit-small-panel">
+    <div role="listbox" aria-label="Fruit">
+      <div role="option" aria-selected="true">
+        <span data-slot="text">Apple</span>
+        <span data-slot="indicator" aria-hidden="true">✓</span>
+      </div>
+      <div role="option" aria-selected="false">
+        <span data-slot="text">Banana</span>
+        <span data-slot="indicator" aria-hidden="true">✓</span>
+      </div>
+      <div role="option" aria-selected="false">
+        <span data-slot="text">Orange</span>
+        <span data-slot="indicator" aria-hidden="true">✓</span>
+      </div>
+    </div>
+  </div>
+</div>

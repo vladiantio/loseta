@@ -1,5 +1,25 @@
 # Changelog
 
+## 0.8.0 - 2026-11-15
+
+### Added
+
+- Experimental `listbox` primitive shared by `select`, `combobox` and
+  `command`. It styles listboxes, options, groups, labels, empty states and
+  selected indicators for the Nova style.
+- Three experimental components: select, combobox and command. They replace
+  the select, combobox and command drafts.
+- Docs-only selection, filtering, clearing and command-palette behavior. The
+  registry remains CSS-only.
+
+### Notes
+
+- Experimental components remain outside the v1 compatibility contract and
+  ship only the Nova style.
+- Select, combobox and command do not open, filter, select or move focus; those
+  are consumer JavaScript concerns. Command has no surface and is composed
+  inside a dialog, popover or card.
+
 ## 0.7.0 - 2026-11-15
 
 ### Added

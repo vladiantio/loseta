@@ -1,13 +1,13 @@
 import { defineCommand } from "citty";
 import { cancel, confirm, intro, isCancel, log, outro } from "@clack/prompts";
 import { join } from "node:path";
+import { resolveAddNames } from "../add-policy.js";
 import { ConfigError, readConfig } from "../config.js";
 import { readTextIfExists } from "../fs.js";
 import { installItems } from "../install.js";
 import { installedNames, readManifest } from "../manifest.js";
 import {
   findItem,
-  itemMap,
   loadRegistry,
   missingFoundation,
   registryDir,
@@ -32,6 +32,10 @@ export const addCommand = defineCommand({
     noDeps: {
       type: "boolean",
       description: "Do not install registry dependencies"
+    },
+    experimental: {
+      type: "boolean",
+      description: "Add experimental components (Nova only, outside the v1 contract)"
     },
     html: {
       type: "boolean",
@@ -84,33 +88,25 @@ export const addCommand = defineCommand({
       return;
     }
 
-    let names = args._.map(String);
+    const names = args._.map(String);
     if (names.length === 0) {
       intro("loseta add");
       printItems(stableComponents(registry));
+      log.info(
+        "Experimental components are Nova-only. Run `loseta list --experimental` and add them with `--experimental`."
+      );
       outro("Run `loseta add <component...>` or `loseta add all`.");
       return;
     }
 
-    if (names.includes("all")) {
-      names = stableComponents(registry).map((item) => item.name);
-    }
-
-    const map = itemMap(registry);
-    for (const name of names) {
-      const item = map.get(name);
-      if (!item) {
-        log.error(`Unknown item: ${name}. Run \`loseta list\` to see available components.`);
-        process.exitCode = 1;
-        return;
-      }
-      if (item.type !== "component" || item.status !== "stable") {
-        log.error(
-          `${name} is a ${item.type} and cannot be added directly. Dependencies are installed automatically.`
-        );
-        process.exitCode = 1;
-        return;
-      }
+    const selection = resolveAddNames(registry, names, {
+      experimental: Boolean(args.experimental),
+      style: config.style
+    });
+    if ("error" in selection) {
+      log.error(selection.error);
+      process.exitCode = 1;
+      return;
     }
 
     const styleResolution = resolveAddStyle(registry, config, args.style);
@@ -122,7 +118,7 @@ export const addCommand = defineCommand({
 
     let resolved;
     if (args.noDeps) {
-      resolved = names.map((name) => findItem(registry, name));
+      resolved = selection.names.map((name) => findItem(registry, name));
       const missing = resolved
         .flatMap((item) => item.registryDependencies ?? [])
         .filter((dependency) => !installed.has(dependency));
@@ -130,7 +126,16 @@ export const addCommand = defineCommand({
         log.warn(`--no-deps: missing ${[...new Set(missing)].join(", ")}. The component may not work.`);
       }
     } else {
-      resolved = resolveItems(registry, names);
+      resolved = resolveItems(registry, selection.names);
+    }
+
+    const experimentalResolved = resolved
+      .filter((item) => item.status === "experimental")
+      .map((item) => item.name);
+    if (experimentalResolved.length > 0) {
+      log.warn(
+        `Experimental: ${experimentalResolved.join(", ")}. Nova-only and outside the v1 contract.`
+      );
     }
 
     const result = await installItems({

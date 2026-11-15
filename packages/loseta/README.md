@@ -13,17 +13,20 @@ npx loseta add button card field
 | --- | --- |
 | `loseta init` | Create `loseta.json`, install the foundation files and generate `index.css`. |
 | `loseta add <items...>` | Install components and their registry dependencies. |
+| `loseta add <item> --experimental` | Install an experimental component in a Nova project. |
 | `loseta add all` | Install every stable component. |
 | `loseta style <name>` | Switch the visual style of installed components. |
 | `loseta list` | List stable components. |
-| `loseta list --all` | Include primitives and foundation items. |
+| `loseta list --experimental` | Include experimental components. |
+| `loseta list --all` | Include experimental, primitive and foundation items. |
 
-`add` flags: `--overwrite`, `--no-deps`, `--html`, `--style`, `--yes`.
+`add` flags: `--overwrite`, `--no-deps`, `--experimental`, `--html`, `--style`, `--yes`.
 `init` flags: `--css-dir`, `--entrypoint`, `--style`, `--import`, `--yes`.
 
 Re-running `init` resets `.loseta/manifest.json` to the foundation and regenerates
 `index.css`. Component files stay on disk but are no longer tracked; run
-`loseta add all` to restore their manifest entries and imports.
+`loseta add all` to restore stable components. Experimental components must be
+re-added by name with `--experimental`.
 
 ## Registry layout
 
@@ -48,6 +51,10 @@ Each component item contains:
 - optional primitive dependencies,
 - a root selector list,
 - optional composition metadata.
+
+Experimental items contain a base file and exactly one Nova style file. They
+are installable by name with `--experimental`, outside the v1 contract, and are
+promoted only after the other seven style files exist.
 
 `registry.json` declares the available styles under `styles`. The CLI copies
 only the files for the style in `loseta.json`; `loseta style <name>` rewrites
@@ -77,7 +84,8 @@ The registry is validated for:
 - file and example existence,
 - dependency resolution and cycles,
 - `@layer` wrapping,
-- one complete style file per declared style for every component and primitive,
+- one complete style file per declared style for every stable component and primitive,
+- exactly one Nova style file for every experimental component,
 - valid `styles/<name>/` paths and no unreferenced style files,
 - forbidden Tailwind/legacy patterns,
 - CSS parseability with Lightning CSS.

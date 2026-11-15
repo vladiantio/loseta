@@ -1,7 +1,7 @@
 {
   "$schema": "./schema.json",
   "name": "loseta",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "styles": [
     {
       "name": "nova",
@@ -2086,6 +2086,313 @@
       ],
       "examples": [
         "examples/tooltip.html"
+      ]
+    },
+    {
+      "name": "accordion",
+      "type": "component",
+      "status": "experimental",
+      "title": "Accordion",
+      "description": "Displays a vertically stacked set of interactive headings that reveal content.",
+      "docs": "/docs/components/accordion",
+      "root": [
+        ".accordion"
+      ],
+      "registryDependencies": [],
+      "optionalDependencies": [],
+      "files": [
+        {
+          "path": "components/accordion.css",
+          "target": "components/accordion.css",
+          "role": "base",
+          "layer": "loseta.components"
+        },
+        {
+          "path": "styles/nova/accordion.css",
+          "target": "styles/nova/accordion.css",
+          "role": "style",
+          "layer": "loseta.style"
+        }
+      ],
+      "examples": [
+        "examples/accordion.html"
+      ]
+    },
+    {
+      "name": "aspect-ratio",
+      "type": "component",
+      "status": "experimental",
+      "title": "Aspect Ratio",
+      "description": "Constrains media to a preferred aspect ratio.",
+      "docs": "/docs/components/aspect-ratio",
+      "root": [
+        ".aspect-ratio"
+      ],
+      "registryDependencies": [],
+      "optionalDependencies": [],
+      "files": [
+        {
+          "path": "components/aspect-ratio.css",
+          "target": "components/aspect-ratio.css",
+          "role": "base",
+          "layer": "loseta.components"
+        },
+        {
+          "path": "styles/nova/aspect-ratio.css",
+          "target": "styles/nova/aspect-ratio.css",
+          "role": "style",
+          "layer": "loseta.style"
+        }
+      ],
+      "examples": [
+        "examples/aspect-ratio.html"
+      ]
+    },
+    {
+      "name": "avatar",
+      "type": "component",
+      "status": "experimental",
+      "title": "Avatar",
+      "description": "Displays an image or fallback initials representing a user.",
+      "docs": "/docs/components/avatar",
+      "root": [
+        ".avatar",
+        ".avatar-group"
+      ],
+      "registryDependencies": [],
+      "optionalDependencies": [],
+      "files": [
+        {
+          "path": "components/avatar.css",
+          "target": "components/avatar.css",
+          "role": "base",
+          "layer": "loseta.components"
+        },
+        {
+          "path": "styles/nova/avatar.css",
+          "target": "styles/nova/avatar.css",
+          "role": "style",
+          "layer": "loseta.style"
+        }
+      ],
+      "examples": [
+        "examples/avatar.html"
+      ]
+    },
+    {
+      "name": "breadcrumb",
+      "type": "component",
+      "status": "experimental",
+      "title": "Breadcrumb",
+      "description": "Displays the path to the current resource using a hierarchy of links.",
+      "docs": "/docs/components/breadcrumb",
+      "root": [
+        ".breadcrumb"
+      ],
+      "registryDependencies": [],
+      "optionalDependencies": [
+        "dropdown-menu"
+      ],
+      "files": [
+        {
+          "path": "components/breadcrumb.css",
+          "target": "components/breadcrumb.css",
+          "role": "base",
+          "layer": "loseta.components"
+        },
+        {
+          "path": "styles/nova/breadcrumb.css",
+          "target": "styles/nova/breadcrumb.css",
+          "role": "style",
+          "layer": "loseta.style"
+        }
+      ],
+      "examples": [
+        "examples/breadcrumb.html"
+      ]
+    },
+    {
+      "name": "pagination",
+      "type": "component",
+      "status": "experimental",
+      "title": "Pagination",
+      "description": "Displays navigation for paged content.",
+      "docs": "/docs/components/pagination",
+      "root": [
+        ".pagination"
+      ],
+      "registryDependencies": [],
+      "optionalDependencies": [
+        "button"
+      ],
+      "files": [
+        {
+          "path": "components/pagination.css",
+          "target": "components/pagination.css",
+          "role": "base",
+          "layer": "loseta.components"
+        },
+        {
+          "path": "styles/nova/pagination.css",
+          "target": "styles/nova/pagination.css",
+          "role": "style",
+          "layer": "loseta.style"
+        }
+      ],
+      "examples": [
+        "examples/pagination.html"
+      ]
+    },
+    {
+      "name": "progress",
+      "type": "component",
+      "status": "experimental",
+      "title": "Progress",
+      "description": "Displays an indicator showing the completion progress of a task.",
+      "docs": "/docs/components/progress",
+      "root": [
+        ".progress"
+      ],
+      "registryDependencies": [],
+      "optionalDependencies": [],
+      "files": [
+        {
+          "path": "components/progress.css",
+          "target": "components/progress.css",
+          "role": "base",
+          "layer": "loseta.components"
+        },
+        {
+          "path": "styles/nova/progress.css",
+          "target": "styles/nova/progress.css",
+          "role": "style",
+          "layer": "loseta.style"
+        }
+      ],
+      "examples": [
+        "examples/progress.html"
+      ]
+    },
+    {
+      "name": "separator",
+      "type": "component",
+      "status": "experimental",
+      "title": "Separator",
+      "description": "Visually or semantically separates content.",
+      "docs": "/docs/components/separator",
+      "root": [
+        ".separator"
+      ],
+      "registryDependencies": [],
+      "optionalDependencies": [],
+      "files": [
+        {
+          "path": "components/separator.css",
+          "target": "components/separator.css",
+          "role": "base",
+          "layer": "loseta.components"
+        },
+        {
+          "path": "styles/nova/separator.css",
+          "target": "styles/nova/separator.css",
+          "role": "style",
+          "layer": "loseta.style"
+        }
+      ],
+      "examples": [
+        "examples/separator.html"
+      ]
+    },
+    {
+      "name": "spinner",
+      "type": "component",
+      "status": "experimental",
+      "title": "Spinner",
+      "description": "Displays an animated loading indicator.",
+      "docs": "/docs/components/spinner",
+      "root": [
+        ".spinner"
+      ],
+      "registryDependencies": [],
+      "optionalDependencies": [],
+      "files": [
+        {
+          "path": "components/spinner.css",
+          "target": "components/spinner.css",
+          "role": "base",
+          "layer": "loseta.components"
+        },
+        {
+          "path": "styles/nova/spinner.css",
+          "target": "styles/nova/spinner.css",
+          "role": "style",
+          "layer": "loseta.style"
+        }
+      ],
+      "examples": [
+        "examples/spinner.html"
+      ]
+    },
+    {
+      "name": "toggle",
+      "type": "component",
+      "status": "experimental",
+      "title": "Toggle",
+      "description": "Displays a two-state button that can be pressed or unpressed.",
+      "docs": "/docs/components/toggle",
+      "root": [
+        ".toggle"
+      ],
+      "registryDependencies": [],
+      "optionalDependencies": [],
+      "files": [
+        {
+          "path": "components/toggle.css",
+          "target": "components/toggle.css",
+          "role": "base",
+          "layer": "loseta.components"
+        },
+        {
+          "path": "styles/nova/toggle.css",
+          "target": "styles/nova/toggle.css",
+          "role": "style",
+          "layer": "loseta.style"
+        }
+      ],
+      "examples": [
+        "examples/toggle.html"
+      ]
+    },
+    {
+      "name": "toggle-group",
+      "type": "component",
+      "status": "experimental",
+      "title": "Toggle Group",
+      "description": "Groups a set of toggle buttons.",
+      "docs": "/docs/components/toggle-group",
+      "root": [
+        ".toggle-group"
+      ],
+      "registryDependencies": [
+        "toggle"
+      ],
+      "optionalDependencies": [],
+      "files": [
+        {
+          "path": "components/toggle-group.css",
+          "target": "components/toggle-group.css",
+          "role": "base",
+          "layer": "loseta.components"
+        },
+        {
+          "path": "styles/nova/toggle-group.css",
+          "target": "styles/nova/toggle-group.css",
+          "role": "style",
+          "layer": "loseta.style"
+        }
+      ],
+      "examples": [
+        "examples/toggle-group.html"
       ]
     }
   ]

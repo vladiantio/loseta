@@ -1,7 +1,12 @@
 ---
 import Layout from "@/layouts/Layout.astro";
 import InstallCommand from "@/components/InstallCommand.astro";
-import { componentGroups, components, componentsInGroup } from "@/data/components";
+import {
+  componentGroups,
+  experimentalComponents,
+  stableComponents,
+  stableComponentsInGroup
+} from "@/data/components";
 ---
 
 <Layout title="Components" description="Browse the loseta component registry.">
@@ -9,29 +14,51 @@ import { componentGroups, components, componentsInGroup } from "@/data/component
     <p class="docs-eyebrow">Registry</p>
     <h1>Components</h1>
     <p class="docs-lead">
-      {components.length} stable components. Each page includes markup, the public style contract and the
-      files the CLI installs.
+      {stableComponents.length} stable components and {experimentalComponents.length} experimental
+      components. Each page includes markup, the public style contract and the files the CLI
+      installs.
     </p>
     <InstallCommand command="loseta add all" />
 
     {
-      componentGroups.map((group) => {
-        const items = componentsInGroup(group);
-        if (items.length === 0) return null;
-        return (
-          <section>
-            <h2>{group}</h2>
-            <div class="docs-grid">
-              {items.map((component) => (
-                <a class="docs-card" href={`/docs/components/${component.id}`}>
-                  <span class="docs-card-title">{component.title}</span>
-                  <span class="docs-card-description">{component.description}</span>
-                </a>
-              ))}
-            </div>
-          </section>
-        );
-      })
+      componentGroups
+        .filter((group) => stableComponentsInGroup(group).length > 0)
+        .map((group) => {
+          const items = stableComponentsInGroup(group);
+          return (
+            <section>
+              <h2>{group}</h2>
+              <div class="docs-grid">
+                {items.map((component) => (
+                  <a class="docs-card" href={`/docs/components/${component.id}`}>
+                    <span class="docs-card-title">{component.title}</span>
+                    <span class="docs-card-description">{component.description}</span>
+                  </a>
+                ))}
+              </div>
+            </section>
+          );
+        })
+    }
+
+    {
+      experimentalComponents.length > 0 && (
+        <section>
+          <h2>Experimental</h2>
+          <p>
+            Experimental components are outside the v1 compatibility contract and ship
+            only the Nova style. Install them by name with <code>--experimental</code>.
+          </p>
+          <div class="docs-grid">
+            {experimentalComponents.map((component) => (
+              <a class="docs-card" href={`/docs/components/${component.id}`}>
+                <span class="docs-card-title">{component.title}</span>
+                <span class="docs-card-description">{component.description}</span>
+              </a>
+            ))}
+          </div>
+        </section>
+      )
     }
   </div>
 </Layout>

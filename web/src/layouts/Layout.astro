@@ -5,18 +5,24 @@ import { Font } from "astro:assets";
 import { ClientRouter } from "astro:transitions";
 import { MonitorIcon, MoonIcon, SunIcon } from "@lucide/astro";
 import TableOfContents from "@/components/TableOfContents.astro";
-import { componentGroups, componentsInGroup } from "@/data/components";
+import {
+  componentGroups,
+  experimentalComponents,
+  stableComponentsInGroup
+} from "@/data/components";
 import { addHeadingAnchors } from "@/lib/toc";
 import registry from "../../../packages/loseta/registry/registry.json" with { type: "json" };
 
 interface Props {
   title?: string;
   description?: string;
+  experimental?: boolean;
 }
 
 const {
   title = "loseta",
-  description = "Native CSS component scaffolds with the shadcn feel."
+  description = "Native CSS component scaffolds with the shadcn feel.",
+  experimental = false
 } = Astro.props;
 
 const slotHtml = await Astro.slots.render("default");
@@ -43,6 +49,15 @@ const defaultStyle = registry.styles[0]?.name ?? "nova";
     <Font cssVariable="--font-inter" preload />
     <ClientRouter fallback="swap" />
     <link rel="stylesheet" href={`/styles/${defaultStyle}.css`} data-style-link />
+    {
+      experimental && (
+        <link
+          rel="stylesheet"
+          href="/styles/loseta-experimental.css"
+          data-experimental-css
+        />
+      )
+    }
     <script is:inline>
       (() => {
         const root = document.documentElement;
@@ -180,22 +195,46 @@ const defaultStyle = registry.styles[0]?.name ?? "nova";
             >
           </div>
           {
-            componentGroups.map((group) => (
+            componentGroups
+              .filter((group) => stableComponentsInGroup(group).length > 0)
+              .map((group) => (
+                <div class="docs-nav-group">
+                  <span class="docs-nav-title">{group}</span>
+                  {stableComponentsInGroup(group).map((component) => (
+                    <a
+                      class="docs-nav-link"
+                      href={`/docs/components/${component.id}`}
+                      aria-current={
+                        pathname === `/docs/components/${component.id}`
+                          ? "page"
+                          : undefined
+                      }
+                    >
+                      {component.title}
+                    </a>
+                  ))}
+                </div>
+              ))
+          }
+          {
+            experimentalComponents.length > 0 && (
               <div class="docs-nav-group">
-                <span class="docs-nav-title">{group}</span>
-                {componentsInGroup(group).map((component) => (
+                <span class="docs-nav-title">Experimental</span>
+                {experimentalComponents.map((component) => (
                   <a
                     class="docs-nav-link"
                     href={`/docs/components/${component.id}`}
                     aria-current={
-                      pathname === `/docs/components/${component.id}` ? "page" : undefined
+                      pathname === `/docs/components/${component.id}`
+                        ? "page"
+                        : undefined
                     }
                   >
                     {component.title}
                   </a>
                 ))}
               </div>
-            ))
+            )
           }
         </nav>
       </aside>

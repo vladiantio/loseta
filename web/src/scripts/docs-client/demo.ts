@@ -94,6 +94,14 @@ const onClick = async (event: MouseEvent): Promise<void> => {
     return;
   }
 
+  const toggle = target.closest("[data-demo-toggle]");
+  if (toggle instanceof HTMLButtonElement) {
+    if (toggle.disabled) return;
+    const pressed = toggle.getAttribute("aria-pressed") === "true";
+    toggle.setAttribute("aria-pressed", String(!pressed));
+    return;
+  }
+
   const trigger = target.closest("[data-demo-trigger]");
   if (trigger) {
     const root = trigger.closest("[data-demo]");

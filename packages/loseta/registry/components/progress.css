@@ -1,0 +1,13 @@
+/* Progress */
+@layer loseta.components {
+  .progress {
+    display: block;
+    width: 100%;
+    appearance: none;
+    overflow: hidden;
+
+    &::-webkit-progress-bar {
+      appearance: none;
+    }
+  }
+}

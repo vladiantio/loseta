@@ -217,15 +217,27 @@ for (const item of registry.items ?? []) {
     if (!roles.has("base")) {
       fail(`${item.name}: expected a base file`);
     }
-    if (styleFiles.length !== styleNames.size) {
-      fail(
-        `${item.name}: expected ${styleNames.size} style files, found ${styleFiles.length}`
-      );
-    }
-    for (const style of styleNames) {
-      const count = styleFiles.filter((name) => name === style).length;
-      if (count !== 1) {
-        fail(`${item.name}: expected exactly one ${style} style file, found ${count}`);
+
+    if (item.status === "experimental") {
+      // Experimental items are Nova-only until they are promoted to stable.
+      if (styleFiles.length !== 1 || styleFiles[0] !== "nova") {
+        fail(
+          `${item.name}: experimental items ship exactly one nova style file, found ${
+            styleFiles.length > 0 ? styleFiles.join(", ") : "none"
+          }`
+        );
+      }
+    } else {
+      if (styleFiles.length !== styleNames.size) {
+        fail(
+          `${item.name}: expected ${styleNames.size} style files, found ${styleFiles.length}`
+        );
+      }
+      for (const style of styleNames) {
+        const count = styleFiles.filter((name) => name === style).length;
+        if (count !== 1) {
+          fail(`${item.name}: expected exactly one ${style} style file, found ${count}`);
+        }
       }
     }
   }

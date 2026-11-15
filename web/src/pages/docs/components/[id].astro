@@ -16,9 +16,14 @@ interface Props {
 }
 
 const { component } = Astro.props;
+const isExperimental = component.status === "experimental";
 ---
 
-<Layout title={component.title} description={component.description}>
+<Layout
+  title={component.title}
+  description={component.description}
+  experimental={isExperimental}
+>
   <div class="docs-content">
     <p class="docs-eyebrow">Components / {component.group}</p>
     <h1>{component.title}</h1>
@@ -40,7 +45,19 @@ const { component } = Astro.props;
       }
     </div>
 
-    <InstallCommand command={`loseta add ${component.id}`} />
+    {
+      isExperimental && (
+        <div class="docs-callout" role="note">
+          <strong>Experimental.</strong> This component is outside the v1
+          compatibility contract, ships only the Nova style and may change
+          without notice.
+        </div>
+      )
+    }
+
+    <InstallCommand
+      command={`loseta add ${component.id}${isExperimental ? " --experimental" : ""}`}
+    />
 
     {
       component.examples.length > 0 && (
@@ -94,6 +111,16 @@ const { component } = Astro.props;
       <code>primitives/</code>. The generated <code>index.css</code> imports them in the right
       layer order.
     </p>
+
+    {
+      isExperimental && (
+        <p>
+          Experimental items install a single Nova style file and are available only while
+          the project uses the Nova style. Remove their files and manifest entries before
+          switching styles.
+        </p>
+      )
+    }
 
     <p><a class="docs-header-link" href="/docs/components">← Back to components</a></p>
   </div>

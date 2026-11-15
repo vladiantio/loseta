@@ -59,6 +59,20 @@ export function resolveStyleSwitch(
     };
   }
 
+  if (name !== "nova") {
+    const experimental = items
+      .filter((item) => item.status === "experimental")
+      .map((item) => item.name);
+    if (experimental.length > 0) {
+      return {
+        status: "error",
+        message: `Experimental components are Nova-only: ${experimental.join(
+          ", "
+        )}. Delete their files and manifest entries before switching styles, or stay on Nova.`
+      };
+    }
+  }
+
   return {
     status: "switch",
     plan: {

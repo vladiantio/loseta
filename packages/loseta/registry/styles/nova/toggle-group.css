@@ -1,0 +1,48 @@
+/* Toggle Group */
+@layer loseta.style {
+  .toggle-group {
+    gap: 0.25rem;
+
+    &[data-spacing='joined'] {
+      gap: 0;
+
+      > .toggle {
+        border-radius: 0;
+      }
+    }
+  }
+
+  .toggle-group[data-spacing='joined']:not([data-orientation='vertical'])
+    > .toggle:not(:first-child) {
+    border-inline-start-width: 0;
+  }
+
+  .toggle-group[data-spacing='joined'][data-orientation='vertical']
+    > .toggle:not(:first-child) {
+    border-block-start-width: 0;
+  }
+
+  .toggle-group[data-spacing='joined']:not([data-orientation='vertical'])
+    > .toggle:first-child {
+    border-start-start-radius: var(--radius-lg);
+    border-end-start-radius: var(--radius-lg);
+  }
+
+  .toggle-group[data-spacing='joined']:not([data-orientation='vertical'])
+    > .toggle:last-child {
+    border-start-end-radius: var(--radius-lg);
+    border-end-end-radius: var(--radius-lg);
+  }
+
+  .toggle-group[data-spacing='joined'][data-orientation='vertical']
+    > .toggle:first-child {
+    border-start-start-radius: var(--radius-lg);
+    border-start-end-radius: var(--radius-lg);
+  }
+
+  .toggle-group[data-spacing='joined'][data-orientation='vertical']
+    > .toggle:last-child {
+    border-end-start-radius: var(--radius-lg);
+    border-end-end-radius: var(--radius-lg);
+  }
+}

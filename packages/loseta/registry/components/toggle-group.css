@@ -1,0 +1,17 @@
+/* Toggle Group */
+@layer loseta.components {
+  .toggle-group {
+    display: flex;
+    width: fit-content;
+    align-items: center;
+
+    &[data-orientation='vertical'] {
+      flex-direction: column;
+      align-items: stretch;
+    }
+
+    > .toggle {
+      flex-shrink: 0;
+    }
+  }
+}

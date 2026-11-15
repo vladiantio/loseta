@@ -41,7 +41,9 @@ files consumers install.
 - `packages/loseta/src/` — CLI (`init`, `add`, `list`, `style`).
 - `packages/loseta/test/` — CLI tests (`node:test`); keep flag and config
   resolution in testable modules rather than prompt handlers.
-- `packages/loseta/experimental/` — unpublished work outside the v1 contract.
+- `packages/loseta/experimental/` — uncurated, unpublished drafts. Items become
+  installable only after they move into `registry/` and are declared in
+  `registry.json`, even while they remain experimental.
 - `web/` — Astro docs site; it imports the registry CSS directly.
 
 ## Base/style split
@@ -58,38 +60,49 @@ Dark color values and the `.dark` / `.light` contract: see `DESIGN.md`,
 "Light and dark". Nova is the default style; Vega, Maia, Lyra, Mira, Luma,
 Sera and Rhea ship alongside it.
 
+Stable items ship one style file per declared style. Experimental items ship
+exactly one Nova file until they are promoted; the validator enforces both
+rules.
+
 ## Registry workflow
 
 1. Edit the base and/or style file under `packages/loseta/registry/`.
 2. Update the item in `registry.json`: `title`, `description`, `root`, `files`
-   (one style file per declared style), dependencies, `status`, `docs` and
-   `examples` as applicable.
+   (one style file per declared style for stable items, one Nova file for
+   experimental items), dependencies, `status`, `docs` and `examples` as
+   applicable.
 3. Edit example markup in `web/src/data/examples.ts`. Use the demo hooks
-   (`data-demo`, `data-demo-trigger`, `data-open-dialog`, `data-close-dialog`)
-   only for docs behavior; the generator strips them.
+   (`data-demo`, `data-demo-trigger`, `data-demo-toggle`, `data-open-dialog`,
+   `data-close-dialog`) only for docs behavior; the generator strips them.
 4. Run `pnpm registry:examples` to regenerate
    `packages/loseta/registry/examples/` and the `examples` fields.
-5. Run `pnpm test`. For visual or docs changes, run
+5. Run `pnpm test` and `pnpm docs:css`. For visual or docs changes, run
    `pnpm --filter web test:e2e`.
 
 When adding a component, also add its group and any contract note in
-`web/src/data/components.ts`. Keep experimental CSS in
-`packages/loseta/experimental/` until the component has base/style files,
+`web/src/data/components.ts`. Experimental components are published and
+installable with `--experimental`; they stay Nova-only and outside the v1
+contract. To promote one, add the seven remaining style files, change
+`status` to `stable`, and update `DESIGN.md`, tests and examples. Uncurated
+work stays in `packages/loseta/experimental/` until it has base/style files,
 registry metadata, an example and docs coverage.
 
 When adding a style, mirror the `styles/nova/` tree under `styles/<name>/`
 (including `primitives/`), declare it in the registry `styles` list, and add
-its file to every component and primitive item. The validator requires every
-declared style to be complete.
+its file to every stable component and primitive item. The validator requires
+every declared style to be complete for stable items; experimental items stay
+Nova-only until they are promoted.
 
 ## CSS rules
 
 - Wrap every file in its exact layer: `@layer loseta.<layer> { ... }`.
 - State lives in native pseudo-classes and ARIA: `:disabled`, `:checked`,
-  `:focus-visible`, `[open]`, `aria-invalid`, `aria-selected`, `aria-checked`,
+  `:indeterminate`, `:focus-visible`, `[open]`, `inert`, `aria-invalid`,
+  `aria-selected`, `aria-checked`, `aria-pressed`, `aria-current`,
   `aria-disabled`, `aria-expanded`, `aria-hidden`.
-- `data-highlighted` is the only public data-driven state beyond variant, size
-  and placement attributes. Express everything else with the hooks above.
+- `data-highlighted` is the only public data-driven state beyond variant, size,
+  orientation, spacing, fit and placement attributes. Express everything else
+  with the hooks above.
 - Name parts with `data-slot` when no semantic element already carries the
   role; prefer `header`, `section`, `footer`, `figure` and `aside` where the
   anatomy provides them.
@@ -107,6 +120,8 @@ Regenerate these; do not edit them by hand:
   `web/src/data/examples.ts` (`pnpm registry:examples`).
 - `web/src/styles/loseta.css` from the stable registry items
   (`pnpm docs:css`, also run by `pnpm web:dev` and `pnpm web:build`).
+- `web/public/styles/loseta-experimental.css` from the experimental base and
+  Nova style files (`pnpm docs:css`).
 - `web/public/styles/<name>.css` from the stable style files
   (`pnpm docs:css`).
 
@@ -128,8 +143,9 @@ pnpm --filter web test:e2e
 ```
 
 `registry:check` enforces schema conformance, file and example existence,
-dependency resolution and cycles, exact layer wrapping, forbidden patterns and
-CSS parseability. Fix the source rather than bypassing it.
+dependency resolution and cycles, exact layer wrapping, forbidden patterns,
+stable style completeness, the experimental Nova-only rule and CSS
+parseability. Fix the source rather than bypassing it.
 
 Before calling a change done, `pnpm test` must pass and `git status` must show
 only the intended source and regenerated files. Write docs, comments and commit

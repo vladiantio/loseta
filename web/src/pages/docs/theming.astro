@@ -153,12 +153,23 @@ import CodeBlock from "@/components/CodeBlock.astro";
     </p>
     <ul>
       <li><code>data-variant</code> and <code>data-size</code> for visual variants.</li>
-      <li><code>data-slot="title|description|action|header|shortcut|indicator"</code> for parts.</li>
+      <li>
+        <code>data-orientation</code>, <code>data-spacing</code> and <code>data-fit</code>
+        for layout-specific presentation.
+      </li>
+      <li>
+        <code>data-slot="title|description|action|header|shortcut|indicator|fallback|badge|ellipsis|label"</code>
+        for parts.
+      </li>
       <li><code>aria-invalid="true"</code> for invalid controls.</li>
       <li><code>aria-selected="true"</code> for tabs, options and selectable rows.</li>
       <li><code>aria-checked="true"</code> for checkable menu items.</li>
-      <li><code>data-highlighted</code> for the highlighted menu item.</li>
+      <li><code>aria-pressed="true"</code> for toggle buttons.</li>
+      <li><code>aria-current="page"</code> for the active breadcrumb or pagination item.</li>
+      <li><code>data-highlighted</code> for the highlighted menu or listbox item.</li>
       <li><code>:disabled</code> and <code>aria-disabled="true"</code> for disabled states.</li>
+      <li><code>[open]</code> on <code>&lt;details&gt;</code> and <code>inert</code> for accordion state.</li>
+      <li><code>:indeterminate</code> for progress without a value.</li>
     </ul>
 
     <div class="docs-callout">

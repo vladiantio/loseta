@@ -1,0 +1,31 @@
+/* Toggle */
+@layer loseta.components {
+  .toggle {
+    display: inline-flex;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
+    white-space: nowrap;
+    outline-style: none;
+    -webkit-user-select: none;
+    user-select: none;
+    transition-property: all;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 150ms;
+
+    @media (forced-colors: active) {
+      outline: 2px solid transparent;
+      outline-offset: 2px;
+    }
+
+    &:disabled {
+      pointer-events: none;
+      opacity: 50%;
+    }
+
+    > svg {
+      pointer-events: none;
+      flex-shrink: 0;
+    }
+  }
+}

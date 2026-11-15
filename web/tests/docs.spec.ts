@@ -402,6 +402,39 @@ test("code block wrap toggle updates the pre", async ({ page }) => {
   await expect(pre).toHaveAttribute("data-wrap", "");
 });
 
+test("toggle demo flips aria-pressed", async ({ page }) => {
+  await page.goto("/docs/components/toggle");
+  const toggle = page.locator("[data-demo-toggle]").first();
+
+  await expect(toggle).toHaveAttribute("aria-pressed", "false");
+  await toggle.click();
+  await expect(toggle).toHaveAttribute("aria-pressed", "true");
+  await toggle.click();
+  await expect(toggle).toHaveAttribute("aria-pressed", "false");
+});
+
+test("experimental pages expose the banner, install flag and stylesheet", async ({
+  page
+}) => {
+  await page.goto("/docs/components/accordion");
+
+  await expect(page.locator(".docs-callout")).toContainText(
+    "outside the v1 compatibility contract"
+  );
+  await expect(page.locator(".install-command").first()).toContainText(
+    "--experimental"
+  );
+  await expect(page.locator("[data-experimental-css]")).toHaveCount(1);
+  await expect(
+    page
+      .getByRole("navigation", { name: "Documentation" })
+      .getByRole("link", { name: "Accordion", exact: true })
+  ).toBeVisible();
+
+  await page.goto("/docs/components/button");
+  await expect(page.locator("[data-experimental-css]")).toHaveCount(0);
+});
+
 test("component preview reveals cleaned example code", async ({ page }) => {
   await page.goto("/docs/components/dialog");
   const preview = page.locator("[data-component-preview]").first();

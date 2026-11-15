@@ -24,8 +24,10 @@ npx loseta init --style vega  # choose a style (default: nova)
 npx loseta style vega         # switch an installed project
 npx loseta add all            # every stable component
 npx loseta list               # available components
-npx loseta list --all         # include primitives and foundation
+npx loseta list --experimental # include experimental components
+npx loseta list --all         # include experimental, primitives and foundation
 npx loseta add button --html  # print the example markup
+npx loseta add accordion --experimental # add an experimental component
 ```
 
 ## What you get
@@ -44,6 +46,11 @@ The v1 registry includes 25 stable components: alert, alert-dialog, badge,
 button, button-group, card, checkbox, code-block, dialog, dropdown-menu, empty,
 field, input, item, kbd, label, native-select, popover, radio, skeleton,
 switch, table, tabs, textarea and tooltip.
+
+Ten experimental components are published alongside them: accordion,
+aspect-ratio, avatar, breadcrumb, pagination, progress, separator, spinner,
+toggle and toggle-group. They are Nova-only, install with `--experimental` and
+stay outside the v1 compatibility contract until they are promoted.
 
 ## Repository
 

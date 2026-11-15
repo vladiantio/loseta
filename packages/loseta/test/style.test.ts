@@ -113,6 +113,24 @@ test("style switch resolution validates the target and installed items", () => {
   );
 });
 
+test("style switch refuses to abandon experimental components", () => {
+  const registry = loadRegistry();
+  const manifest: Manifest = {
+    version: registry.version,
+    items: [
+      { name: "button", version: registry.version, files: [] },
+      { name: "accordion", version: registry.version, files: [] }
+    ]
+  };
+
+  const resolution = resolveStyleSwitch(registry, manifest, config, "vega");
+  assert.equal(resolution.status, "error");
+  if (resolution.status === "error") {
+    assert.match(resolution.message, /accordion/);
+    assert.match(resolution.message, /Nova-only/);
+  }
+});
+
 test("style switch writes the selected style and keeps the old files", async (t) => {
   const projectRoot = project();
   t.after(() => rmSync(projectRoot, { recursive: true, force: true }));

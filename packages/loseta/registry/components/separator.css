@@ -1,0 +1,12 @@
+/* Separator */
+@layer loseta.components {
+  .separator {
+    flex-shrink: 0;
+    border-style: solid;
+    border-width: 0;
+
+    &:is([data-orientation='vertical'], [aria-orientation='vertical']) {
+      align-self: stretch;
+    }
+  }
+}

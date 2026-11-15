@@ -1,6 +1,7 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
 import {
+  experimentalComponents,
   loadRegistry,
   missingFoundation,
   resolveItems,
@@ -43,6 +44,14 @@ test("resolveItems fails on unknown items", () => {
   const registry = loadRegistry();
 
   assert.throws(() => resolveItems(registry, ["missing"]), /Unknown item: missing/);
+});
+
+test("experimentalComponents returns Nova-only items", () => {
+  const names = experimentalComponents(loadRegistry()).map((item) => item.name);
+
+  assert.ok(names.includes("accordion"));
+  assert.ok(names.includes("toggle-group"));
+  assert.ok(!names.includes("button"));
 });
 
 test("resolveItems fails on dependency cycles", () => {

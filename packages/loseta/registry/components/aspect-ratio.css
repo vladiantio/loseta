@@ -1,0 +1,25 @@
+/* Aspect Ratio */
+@layer loseta.components {
+  .aspect-ratio {
+    position: relative;
+    display: block;
+    inline-size: 100%;
+    aspect-ratio: var(--ratio, 16 / 9);
+    overflow: hidden;
+
+    &[data-fit='cover'] {
+      --fit: cover;
+    }
+
+    &[data-fit='contain'] {
+      --fit: contain;
+    }
+
+    > :is(img, video, iframe, canvas, svg) {
+      display: block;
+      inline-size: 100%;
+      block-size: 100%;
+      object-fit: var(--fit, cover);
+    }
+  }
+}

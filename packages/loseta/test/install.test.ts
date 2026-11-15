@@ -77,6 +77,40 @@ test("installs base and style files, manifest and index", async (t) => {
   assert.ok(index.indexOf("./components/dialog.css") < index.indexOf("./styles/nova/dialog.css"));
 });
 
+test("installs an experimental item with its Nova style", async (t) => {
+  const projectRoot = project();
+  t.after(() => rmSync(projectRoot, { recursive: true, force: true }));
+
+  const registry = loadRegistry();
+  const items = resolve(registry, ["toggle-group"]);
+  assert.deepEqual(
+    items.map((item) => item.name),
+    ["toggle", "toggle-group"]
+  );
+
+  const result = await installItems({
+    projectRoot,
+    config,
+    registry,
+    sourceRoot: registryDir,
+    manifest: emptyManifest(),
+    items,
+    onConflict: () => "keep"
+  });
+
+  assert.ok(result.written.includes("components/toggle.css"));
+  assert.ok(result.written.includes("styles/nova/toggle.css"));
+  assert.ok(result.written.includes("components/toggle-group.css"));
+  assert.ok(result.written.includes("styles/nova/toggle-group.css"));
+  assert.ok(!result.written.some((file) => file.startsWith("styles/vega/")));
+
+  const manifest = readManifest(projectRoot);
+  assert.deepEqual(
+    manifest.items.map((item) => item.name),
+    ["toggle", "toggle-group"]
+  );
+});
+
 test("installs the selected style only", async (t) => {
   const projectRoot = project();
   t.after(() => rmSync(projectRoot, { recursive: true, force: true }));

@@ -1,5 +1,42 @@
 # Changelog
 
+## 0.5.0 - 2026-11-15
+
+### Added
+
+- Experimental registry pipeline: items with `status: "experimental"` are
+  published and installable with `loseta add <name> --experimental`, ship
+  exactly one Nova style file and appear in docs with an Experimental banner and
+  a dedicated stylesheet. `loseta list --experimental` lists them.
+- Ten experimental components: accordion, aspect-ratio, avatar, breadcrumb,
+  pagination, progress, separator, spinner, toggle and toggle-group. Accordion,
+  avatar, breadcrumb and progress replace drafts that lived in
+  `packages/loseta/experimental/`.
+
+### Changed
+
+- `loseta add all` remains stable-only. Passing `--experimental` with only
+  stable names, or with `all`, is an error.
+- `loseta add` rejects experimental items outside a Nova project, and
+  `loseta style` refuses to switch away while an experimental item is
+  installed.
+- `loseta list --all` now includes experimental components in addition to
+  primitives and foundation items.
+- Docs generate `web/public/styles/loseta-experimental.css` from the
+  experimental base and Nova style files; the stylesheet loads only on
+  experimental component pages.
+- `DESIGN.md` and `GLOSSARY.md` document the experimental pipeline, the new
+  state hooks (`aria-current`, `aria-pressed`, `[open]` on `details`,
+  `:indeterminate`, `inert`) and the ten component APIs.
+
+### Notes
+
+- Experimental items are outside the v1 compatibility contract and are
+  Nova-only. Promotion requires all eight style files, examples, docs, tests
+  and a baseline update.
+- There is no `loseta remove` command yet; removing an experimental item before
+  a style switch is a manual file and manifest edit.
+
 ## 0.4.0 - 2026-11-14
 
 ### Added

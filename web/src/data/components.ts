@@ -1,9 +1,19 @@
 import registry from "../../../packages/loseta/registry/registry.json" with { type: "json" };
 import { examples } from "./examples";
 
-export type ComponentGroup = "Forms" | "Surfaces" | "Overlays" | "Disclosure";
+export type ComponentGroup =
+  | "Forms"
+  | "Surfaces"
+  | "Overlays"
+  | "Disclosure"
+  | "Navigation"
+  | "Feedback";
 
 const groupBy: Record<string, ComponentGroup> = {
+  accordion: "Disclosure",
+  "aspect-ratio": "Surfaces",
+  avatar: "Surfaces",
+  breadcrumb: "Navigation",
   button: "Forms",
   "button-group": "Forms",
   checkbox: "Forms",
@@ -11,9 +21,15 @@ const groupBy: Record<string, ComponentGroup> = {
   input: "Forms",
   label: "Forms",
   "native-select": "Forms",
+  pagination: "Navigation",
+  progress: "Feedback",
   radio: "Forms",
+  separator: "Surfaces",
+  spinner: "Feedback",
   switch: "Forms",
   textarea: "Forms",
+  toggle: "Forms",
+  "toggle-group": "Forms",
   alert: "Surfaces",
   badge: "Surfaces",
   card: "Surfaces",
@@ -32,6 +48,14 @@ const groupBy: Record<string, ComponentGroup> = {
 };
 
 const notesBy: Record<string, string> = {
+  accordion:
+    "Uses native <details> and <summary>. Put the content directly after summary; exclusive groups use the native name attribute. Mark disabled items with inert.",
+  "aspect-ratio":
+    "Set --ratio on the root (default 16 / 9). Media children fill the box; data-fit=\"contain\" preserves the whole image.",
+  avatar:
+    "Render the fallback under the image. CSS cannot detect a broken image, so hide the img (or omit it) when loading fails. Use alt text for img and aria-hidden on decorative badges.",
+  breadcrumb:
+    "Use nav[aria-label=\"breadcrumb\"] and an ordered list. Mark the current page with aria-current=\"page\" and separators with aria-hidden=\"true\".",
   button:
     "Use data-variant and data-size for the public variants. aria-invalid and aria-expanded are supported states.",
   "button-group":
@@ -48,8 +72,20 @@ const notesBy: Record<string, string> = {
     "Requires JavaScript for open/close and keyboard navigation. Toggle aria-hidden on [data-popover] and aria-expanded on the trigger.",
   popover:
     "Requires JavaScript for open/close. Toggle aria-hidden on [data-popover] and aria-expanded on the trigger.",
+  pagination:
+    "Use nav[aria-label=\"pagination\"] and .btn links. The current page uses aria-current=\"page\"; the ellipsis is decorative. Button is optional composition, not a hard dependency.",
+  progress:
+    "Use native <progress> with value and max. Omit value for the indeterminate state. Keep a text fallback inside the element.",
+  separator:
+    "Use <hr class=\"separator\"> for a semantic horizontal separator. For vertical use <div role=\"separator\" data-orientation=\"vertical\">; decorative separators use role=\"presentation\" or aria-hidden.",
+  spinner:
+    "The spinner is a span; add role=\"status\" and a .sr-only label for standalone use. data-size picks sm, default or lg. Motion slows under prefers-reduced-motion.",
   tabs:
     "Requires JavaScript to switch aria-selected and the hidden attribute. CSS styles the visual states.",
+  toggle:
+    "Use a button with aria-pressed=\"true|false\". CSS styles aria-pressed, not a data-state alias. data-variant and data-size are optional.",
+  "toggle-group":
+    "Wrap toggles in role=\"group\" with an accessible label. Each toggle carries its own aria-pressed. Single-choice selection belongs to a radio group; data-spacing=\"joined\" merges the edges.",
   tooltip:
     "CSS-only: visible on hover and focus-visible. Use data-arrow for the pointer arrow and data-side/data-align to place it. Keep an aria-label or aria-describedby for screen readers.",
   field: "Use aria-invalid=\"true\" on the control and role=\"alert\" for error messages.",
@@ -90,7 +126,11 @@ export interface ComponentDoc {
 }
 
 export const components: ComponentDoc[] = registry.items
-  .filter((item) => item.type === "component" && item.status === "stable")
+  .filter(
+    (item) =>
+      item.type === "component" &&
+      (item.status === "stable" || item.status === "experimental")
+  )
   .map((item) => ({
     id: item.name,
     title: item.title,
@@ -105,11 +145,21 @@ export const components: ComponentDoc[] = registry.items
   }))
   .sort((a, b) => a.title.localeCompare(b.title));
 
+export const stableComponents = components.filter(
+  (component) => component.status === "stable"
+);
+
+export const experimentalComponents = components.filter(
+  (component) => component.status === "experimental"
+);
+
 export const componentGroups: ComponentGroup[] = [
   "Forms",
   "Surfaces",
   "Overlays",
-  "Disclosure"
+  "Disclosure",
+  "Navigation",
+  "Feedback"
 ];
 
 export function getComponent(id: string): ComponentDoc | undefined {
@@ -118,4 +168,8 @@ export function getComponent(id: string): ComponentDoc | undefined {
 
 export function componentsInGroup(group: ComponentGroup): ComponentDoc[] {
   return components.filter((component) => component.group === group);
+}
+
+export function stableComponentsInGroup(group: ComponentGroup): ComponentDoc[] {
+  return stableComponents.filter((component) => component.group === group);
 }

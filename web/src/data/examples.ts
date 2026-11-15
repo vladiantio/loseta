@@ -8,6 +8,15 @@ const search = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill
 const shield = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 13c0 5-3.5 7.5-7.7 8.9a1 1 0 0 1-.6 0C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.2-2.7a1 1 0 0 1 1.6 0C14.5 3.8 17 5 19 5a1 1 0 0 1 1 1z"/></svg>`;
 const copy = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>`;
 const wrap = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" x2="21" y1="6" y2="6"/><path d="M3 12h15a3 3 0 1 1 0 6h-4"/><polyline points="16 16 14 18 16 20"/><line x1="3" x2="10" y1="18" y2="18"/></svg>`;
+const chevronDown = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>`;
+const chevronLeft = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg>`;
+const chevronRight = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>`;
+const moreHorizontal = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/></svg>`;
+const alignLeft = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="21" x2="3" y1="6" y2="6"/><line x1="15" x2="3" y1="12" y2="12"/><line x1="17" x2="3" y1="18" y2="18"/></svg>`;
+const alignCenter = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="21" x2="3" y1="6" y2="6"/><line x1="17" x2="7" y1="12" y2="12"/><line x1="19" x2="5" y1="18" y2="18"/></svg>`;
+const alignRight = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="21" x2="3" y1="6" y2="6"/><line x1="21" x2="9" y1="12" y2="12"/><line x1="21" x2="7" y1="18" y2="18"/></svg>`;
+const avatarImage = `data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%23cbd5e1'/%3E%3Ccircle cx='32' cy='24' r='11' fill='%23475569'/%3E%3Cpath d='M10 64c0-12 10-22 22-22s22 10 22 22z' fill='%23475569'/%3E%3C/svg%3E`;
+const ratioImage = `data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 160 90'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop stop-color='%2394a3b8'/%3E%3Cstop offset='1' stop-color='%23e2e8f0'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='160' height='90' fill='url(%23g)'/%3E%3Ctext x='80' y='49' text-anchor='middle' font-family='sans-serif' font-size='12' fill='%23334155'%3E16:9%3C/text%3E%3C/svg%3E`;
 
 export const examples: Record<string, Example[]> = {
   alert: [
@@ -525,6 +534,264 @@ Done in 2.8s using pnpm v10.18.0</code></pre>
       html: `<button type="button" class="btn tooltip" data-tooltip="Add to library" data-arrow>
   Add to library
 </button>`
+    }
+  ],
+  accordion: [
+    {
+      title: "Default",
+      html: `<div class="accordion">
+  <details open>
+    <summary>
+      Is it accessible?
+      ${chevronDown}
+    </summary>
+    <div>
+      <p>Yes. It uses native details and summary elements.</p>
+    </div>
+  </details>
+  <details>
+    <summary>
+      Can I style it?
+      ${chevronDown}
+    </summary>
+    <div>
+      <p>Yes. The base file owns the anatomy and the Nova style owns the surface.</p>
+    </div>
+  </details>
+</div>`
+    },
+    {
+      title: "Exclusive",
+      html: `<div class="accordion">
+  <details name="demo-accordion" open>
+    <summary>
+      Shipping
+      ${chevronDown}
+    </summary>
+    <div>
+      <p>Orders placed before 14:00 ship the same day.</p>
+    </div>
+  </details>
+  <details name="demo-accordion">
+    <summary>
+      Returns
+      ${chevronDown}
+    </summary>
+    <div>
+      <p>Returns are accepted within 30 days of delivery.</p>
+    </div>
+  </details>
+</div>`
+    },
+    {
+      title: "Disabled",
+      html: `<div class="accordion">
+  <details inert>
+    <summary>
+      Archived section
+      ${chevronDown}
+    </summary>
+    <div>
+      <p>This section cannot be opened.</p>
+    </div>
+  </details>
+</div>`
+    }
+  ],
+  "aspect-ratio": [
+    {
+      title: "16 / 9",
+      html: `<div class="aspect-ratio" style="--ratio: 16 / 9">
+  <img src="${ratioImage}" alt="A 16 by 9 media placeholder" />
+</div>`
+    },
+    {
+      title: "Square, contain",
+      html: `<div class="aspect-ratio" style="--ratio: 1 / 1; max-width: 16rem" data-fit="contain">
+  <img src="${ratioImage}" alt="A wide media placeholder inside a square frame" />
+</div>`
+    }
+  ],
+  avatar: [
+    {
+      title: "Sizes",
+      html: `<div style="display: flex; align-items: center; gap: 0.75rem">
+  <span class="avatar" data-size="sm"><span data-slot="fallback">SM</span></span>
+  <span class="avatar"><span data-slot="fallback">AV</span></span>
+  <span class="avatar" data-size="lg"><span data-slot="fallback">LG</span></span>
+</div>`
+    },
+    {
+      title: "Image and badge",
+      html: `<span class="avatar" data-size="lg">
+  <img src="${avatarImage}" alt="Ada Lovelace" />
+  <span data-slot="fallback" aria-hidden="true">AL</span>
+  <span data-slot="badge" aria-hidden="true"></span>
+</span>`
+    },
+    {
+      title: "Group",
+      html: `<div class="avatar-group">
+  <span class="avatar"><span data-slot="fallback">AL</span></span>
+  <span class="avatar"><span data-slot="fallback">GR</span></span>
+  <span class="avatar"><span data-slot="fallback">TS</span></span>
+  <span class="avatar"><span data-slot="fallback">+3</span></span>
+</div>`
+    }
+  ],
+  breadcrumb: [
+    {
+      title: "Default",
+      html: `<nav class="breadcrumb" aria-label="breadcrumb">
+  <ol>
+    <li><a href="#">Home</a></li>
+    <li role="presentation" aria-hidden="true">${chevronRight}</li>
+    <li><a href="#">Components</a></li>
+    <li role="presentation" aria-hidden="true">${chevronRight}</li>
+    <li><span aria-current="page">Breadcrumb</span></li>
+  </ol>
+</nav>`
+    },
+    {
+      title: "Collapsed",
+      html: `<nav class="breadcrumb" aria-label="breadcrumb">
+  <ol>
+    <li><a href="#">Home</a></li>
+    <li role="presentation" aria-hidden="true">${chevronRight}</li>
+    <li><span data-slot="ellipsis" aria-hidden="true">${moreHorizontal}</span></li>
+    <li role="presentation" aria-hidden="true">${chevronRight}</li>
+    <li><a href="#">Components</a></li>
+    <li role="presentation" aria-hidden="true">${chevronRight}</li>
+    <li><span aria-current="page">Breadcrumb</span></li>
+  </ol>
+</nav>`
+    }
+  ],
+  pagination: [
+    {
+      title: "Default",
+      html: `<nav class="pagination" aria-label="pagination">
+  <ul>
+    <li>
+      <a class="btn" data-variant="ghost" data-size="icon" href="#" aria-label="Go to previous page">${chevronLeft}</a>
+    </li>
+    <li><a class="btn" data-variant="ghost" href="#" aria-current="page">1</a></li>
+    <li><a class="btn" data-variant="ghost" href="#">2</a></li>
+    <li><a class="btn" data-variant="ghost" href="#">3</a></li>
+    <li>
+      <a class="btn" data-variant="ghost" data-size="icon" href="#" aria-label="Go to next page">${chevronRight}</a>
+    </li>
+  </ul>
+</nav>`
+    },
+    {
+      title: "With ellipsis",
+      html: `<nav class="pagination" aria-label="pagination">
+  <ul>
+    <li>
+      <a class="btn" data-variant="ghost" href="#" aria-label="Go to previous page">
+        ${chevronLeft}
+        <span data-slot="label" aria-hidden="true">Previous</span>
+      </a>
+    </li>
+    <li><a class="btn" data-variant="ghost" href="#">1</a></li>
+    <li><a class="btn" data-variant="ghost" href="#">2</a></li>
+    <li><a class="btn" data-variant="ghost" href="#">3</a></li>
+    <li><span data-slot="ellipsis" aria-hidden="true">${moreHorizontal}</span></li>
+    <li><a class="btn" data-variant="ghost" href="#">8</a></li>
+    <li><a class="btn" data-variant="ghost" href="#">9</a></li>
+    <li><a class="btn" data-variant="ghost" href="#" aria-current="page">10</a></li>
+    <li>
+      <a class="btn" data-variant="ghost" href="#" aria-label="Go to next page">
+        <span data-slot="label" aria-hidden="true">Next</span>
+        ${chevronRight}
+      </a>
+    </li>
+  </ul>
+</nav>`
+    }
+  ],
+  progress: [
+    {
+      title: "Determinate",
+      html: `<progress class="progress" value="60" max="100" aria-label="Upload progress">60%</progress>`
+    },
+    {
+      title: "Indeterminate",
+      html: `<progress class="progress" max="100" aria-label="Loading">Loading…</progress>`
+    }
+  ],
+  separator: [
+    {
+      title: "Horizontal",
+      html: `<div style="display: grid; gap: 0.75rem">
+  <p>loseta components</p>
+  <hr class="separator" />
+  <p>Native CSS with copy-paste distribution.</p>
+</div>`
+    },
+    {
+      title: "Vertical",
+      html: `<div style="display: flex; align-items: center; gap: 1rem; height: 1.5rem">
+  <span>Blog</span>
+  <div class="separator" role="separator" aria-orientation="vertical" data-orientation="vertical"></div>
+  <span>Docs</span>
+  <div class="separator" role="separator" aria-orientation="vertical" data-orientation="vertical"></div>
+  <span>Source</span>
+</div>`
+    }
+  ],
+  spinner: [
+    {
+      title: "Sizes",
+      html: `<div style="display: flex; align-items: center; gap: 1rem">
+  <span class="spinner" data-size="sm" role="status"><span class="sr-only">Loading</span></span>
+  <span class="spinner" role="status"><span class="sr-only">Loading</span></span>
+  <span class="spinner" data-size="lg" role="status"><span class="sr-only">Loading</span></span>
+</div>`
+    },
+    {
+      title: "With a label",
+      html: `<div style="display: flex; align-items: center; gap: 0.5rem">
+  <span class="spinner" data-size="sm" aria-hidden="true"></span>
+  <span>Loading results…</span>
+</div>`
+    }
+  ],
+  toggle: [
+    {
+      title: "Variants",
+      html: `<div style="display: flex; flex-wrap: wrap; gap: 0.5rem">
+  <button type="button" class="toggle" aria-pressed="false" data-demo-toggle>Bold</button>
+  <button type="button" class="toggle" data-variant="outline" aria-pressed="true" data-demo-toggle>Italic</button>
+  <button type="button" class="toggle" data-variant="outline" aria-pressed="false" disabled>Underline</button>
+</div>`
+    },
+    {
+      title: "Sizes",
+      html: `<div style="display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem">
+  <button type="button" class="toggle" data-size="sm" aria-pressed="false" data-demo-toggle>Small</button>
+  <button type="button" class="toggle" aria-pressed="false" data-demo-toggle>Default</button>
+  <button type="button" class="toggle" data-size="lg" aria-pressed="false" data-demo-toggle>Large</button>
+</div>`
+    }
+  ],
+  "toggle-group": [
+    {
+      title: "Joined",
+      html: `<div class="toggle-group" role="group" aria-label="Text alignment" data-spacing="joined">
+  <button type="button" class="toggle" aria-pressed="true" data-demo-toggle aria-label="Align left">${alignLeft}</button>
+  <button type="button" class="toggle" aria-pressed="false" data-demo-toggle aria-label="Align center">${alignCenter}</button>
+  <button type="button" class="toggle" aria-pressed="false" data-demo-toggle aria-label="Align right">${alignRight}</button>
+</div>`
+    },
+    {
+      title: "Vertical outline",
+      html: `<div class="toggle-group" role="group" aria-label="View density" data-orientation="vertical" data-variant="outline" data-size="sm">
+  <button type="button" class="toggle" aria-pressed="true" data-demo-toggle>Compact</button>
+  <button type="button" class="toggle" aria-pressed="false" data-demo-toggle>Default</button>
+  <button type="button" class="toggle" aria-pressed="false" data-demo-toggle>Comfortable</button>
+</div>`
     }
   ]
 };

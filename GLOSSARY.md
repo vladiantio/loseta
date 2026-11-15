@@ -123,8 +123,18 @@ The documented set of platform states and ARIA attributes through which a compon
 _Avoid_: state API, props
 
 **Highlighted**:
-The transient highlight on the item a menu is about to activate through keyboard or pointer.
+The transient highlight on the item a menu or listbox-like composite is about
+to activate through keyboard or pointer.
 _Avoid_: active, hovered, focused
+
+**Pressed**:
+The on state of a toggle button, expressed with `aria-pressed`.
+_Avoid_: active, checked, selected, on
+
+**Current**:
+The active destination in a navigation hierarchy, expressed with
+`aria-current`.
+_Avoid_: active, selected, open
 
 **Selected**:
 A persistent choice in a selection widget.
@@ -145,7 +155,9 @@ Covered by the public compatibility contract, documented and included when insta
 _Avoid_: production-ready, GA
 
 **Experimental**:
-Available for exploration but outside the v1 compatibility contract and not published.
+Available for exploration and installable by name with `--experimental`, but
+outside the v1 compatibility contract. Experimental items ship Nova only and
+must not be used where stable guarantees are required.
 _Avoid_: beta, preview, draft
 
 ## Documentation

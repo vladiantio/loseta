@@ -1,0 +1,49 @@
+/* Pagination */
+@layer loseta.components {
+  .pagination {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+
+    > ul {
+      margin: 0;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      list-style-type: none;
+      padding: 0;
+    }
+
+    > ul > li {
+      display: flex;
+    }
+
+    > ul > li > :is(a, button) {
+      outline-style: none;
+
+      @media (forced-colors: active) {
+        outline: 2px solid transparent;
+        outline-offset: 2px;
+      }
+    }
+
+    [data-slot='ellipsis'] {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      -webkit-user-select: none;
+      user-select: none;
+    }
+
+    svg {
+      pointer-events: none;
+      flex-shrink: 0;
+    }
+
+    [data-rtl-flip] {
+      &:where(:dir(rtl), [dir='rtl'], [dir='rtl'] *) {
+        rotate: 180deg;
+      }
+    }
+  }
+}

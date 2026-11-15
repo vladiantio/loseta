@@ -107,3 +107,10 @@ export function installableItems(registry: Registry): RegistryItem[] {
     .filter((item) => item.type === "component" || item.type === "primitive")
     .sort((a, b) => a.name.localeCompare(b.name));
 }
+
+/** Experimental component items, alphabetically sorted. */
+export function experimentalComponents(registry: Registry): RegistryItem[] {
+  return registry.items
+    .filter((item) => item.type === "component" && item.status === "experimental")
+    .sort((a, b) => a.name.localeCompare(b.name));
+}

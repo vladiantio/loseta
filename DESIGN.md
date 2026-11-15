@@ -8,7 +8,7 @@ It is not an implementation guide. The installed CSS is the reference
 implementation: if this document and the registry disagree,
 [`packages/loseta/registry/tokens.css`](packages/loseta/registry/tokens.css)
 and [`registry.json`](packages/loseta/registry/registry.json) win, and this
-document must be corrected. The baseline covers registry version `0.4.0`.
+document must be corrected. The baseline covers registry version `0.5.0`.
 
 Vocabulary is defined in [`GLOSSARY.md`](GLOSSARY.md).
 
@@ -41,19 +41,25 @@ Vocabulary is defined in [`GLOSSARY.md`](GLOSSARY.md).
 
 ## Scope
 
-The v1 registry contains 31 stable items:
+The registry contains 25 stable components, 10 experimental components, two
+primitives and four foundations:
 
-- **25 components**: alert, alert-dialog, badge, button, button-group, card,
-  checkbox, code-block, dialog, dropdown-menu, empty, field, input, item, kbd,
-  label, native-select, popover, radio, skeleton, switch, table, tabs, textarea
-  and tooltip.
+- **Stable components**: alert, alert-dialog, badge, button, button-group,
+  card, checkbox, code-block, dialog, dropdown-menu, empty, field, input, item,
+  kbd, label, native-select, popover, radio, skeleton, switch, table, tabs,
+  textarea and tooltip.
+- **Experimental components**: accordion, aspect-ratio, avatar, breadcrumb,
+  pagination, progress, separator, spinner, toggle and toggle-group. They are
+  installable by name with `loseta add <name> --experimental`, ship exactly one
+  Nova style file and are explicitly outside the v1 compatibility contract.
 - **2 primitives**: `dialog-shell` and `popover-primitive`. They are installed
   automatically as dependencies and are not consumer-facing components.
 - **4 foundations**: tokens, reset, base and utilities.
 
-Experimental CSS lives in `packages/loseta/experimental/`. It is neither
-published nor covered by this baseline. The one shipped utility is
-`.sr-only`.
+Uncurated drafts live in `packages/loseta/experimental/`. They are neither
+published nor covered by this baseline. Promotion of an experimental item to
+stable requires all eight style files, examples, docs, tests and an entry in
+this document. The one shipped utility is `.sr-only`.
 
 ## Styles
 
@@ -66,6 +72,9 @@ requires markup changes.
 `loseta.json` selects one style per project. `loseta init --style` chooses it,
 `loseta style <name>` switches it, and the CLI copies only the style files for
 the selected style. A style-only change does not rewrite base files.
+Experimental items are Nova-only: `loseta add` rejects them outside a Nova
+project, and `loseta style` refuses to switch away while any experimental item
+is installed.
 
 The browser fidelity target is Chrome/Edge 125+, Safari 26+ and Firefox 147+.
 Older engines may render a reduced experience where they lack `:has()`,
@@ -188,14 +197,15 @@ fixed 4px radius. Code Block uses `--radius-xl`; its `sm` size uses
 - Code Block keeps an explicit monospace stack with `var(--font-mono, …)` so it
   still renders correctly when the reset is not installed.
 - UI text defaults to `--text-sm` (`0.875rem`), with its paired line height.
-  Cards, alerts, items, tables, menus, tabs, code blocks and dialog bodies
-  follow it.
+  Cards, alerts, items, tables, menus, tabs, code blocks, accordion content,
+  avatar fallbacks, breadcrumb, pagination and dialog bodies follow it.
 - Inputs and textareas use `--text-base` (`1rem`) below `48rem` and `--text-sm`
   at and above it.
 - Card, dialog and alert-dialog titles use `--text-base` at their default size
   (the `sm` card uses `--text-sm`); alert, popover, empty and field titles use
-  `--text-sm`. Badges, kbd, tooltips and `xs` buttons use `--text-xs`; the `sm`
-  button is a deliberate `0.8rem` exception.
+  `--text-sm`. `lg` avatar fallbacks use `--text-base`.
+- Badges, kbd, tooltips, `sm` toggles and `xs` buttons use `--text-xs`; the
+  `sm` button is a deliberate `0.8rem` exception.
 - Line heights are paired tokens (`--text-*--line-height`) or explicit unitless
   values where the component needs a tighter title or description rhythm. Code
   Block uses `1.6` for code lines.
@@ -211,7 +221,9 @@ fixed 4px radius. Code Block uses `--radius-xl`; its `sm` size uses
   fallback is `1rem`; button sizes override it to `0.75rem` (`xs`) or
   `0.875rem` (`sm`). Kbd and badge icons are `0.75rem`; the alert-dialog figure
   icon is `1.5rem`. Code Block title icons are `1rem`; its copy and wrap
-  controls use the `icon-xs` button size (`0.75rem` icons).
+  controls use the `icon-xs` button size (`0.75rem` icons). Accordion chevrons
+  and pagination icons are `1rem`; breadcrumb separators are `0.875rem` and
+  avatar badges use `0.5rem` (`sm` badges hide the icon).
 
 ### Spacing
 
@@ -233,6 +245,11 @@ file they own, not by expecting a spacing API.
 | Muted region | `--muted` at 50% for footers, table footers and subdued rows; `--muted` for skeletons and kbd. |
 | Dialog backdrop | Black at 10% plus a 4px backdrop blur. |
 | Empty | Dashed `--border` outline, no fill. |
+| Accordion | Bottom `--border` divider between items; summary hover underline. |
+| Avatar | `--muted` fallback, `--primary` badge and a 1px `--border` ring. |
+| Progress | `--primary` at 20% for the track and full `--primary` for the indicator. |
+| Toggle | Transparent or outline surface; pressed uses `--accent` / `--accent-foreground`. |
+| Pagination | Current page uses `--background` with a `--border` outline; links compose with button. |
 
 Borders: use `--border` for separators, alerts and outline variants; cards use
 a box-shadow ring instead of a border. Use `--input` for the border of text
@@ -248,6 +265,10 @@ fields, selects, checkboxes, radios and switches.
 | Disabled | 50% opacity. Buttons, tabs and menu items also drop pointer events; inputs, textareas and selects use a not-allowed cursor. |
 | Active | Buttons translate down 1px, except triggers with `aria-haspopup`. |
 | Selected | Tabs use a raised background and `--shadow-sm`; line tabs use a 2px foreground indicator. Table rows use `--muted`. |
+| Current | `aria-current="page"` pagination links use an outline border and `--background`; breadcrumb current text uses `--foreground`. |
+| Pressed | `aria-pressed="true"` toggles use `--accent` / `--accent-foreground`. |
+| Open details | Accordion summaries rotate their trailing icon 180 degrees; the open state itself is native. |
+| Indeterminate | Progress uses a moving primary gradient over a 20% primary track. |
 | Highlighted | Menu items use `--accent` / `--accent-foreground`; destructive items use a destructive tint. |
 | Expanded | Secondary, outline and ghost buttons keep their open-state fill via `aria-expanded="true"`. |
 
@@ -267,6 +288,13 @@ visible.
 | Checkbox, radio | `1rem` square | — |
 | Switch | `32 × 18.4px` | `sm`: `24 × 14px` |
 | Badge | `1.25rem` high | — |
+| Avatar | `2rem` square | `sm` 1.5rem, `lg` 2.5rem |
+| Accordion summary | No fixed height | `0.625rem` block padding |
+| Progress | `0.5rem` high | — |
+| Separator | `1px` | Vertical: `1px` wide and stretches |
+| Spinner | `1rem` square | `sm` 0.75rem, `lg` 1.5rem |
+| Toggle | `2rem` high, `2rem` minimum width | `sm` 1.75rem, `lg` 2.25rem |
+| Pagination | Links use the button default (`2rem`) | Icon links use `data-size="icon"` |
 | Tablist | `2rem` high | Vertical tablists use content height |
 | Kbd | `1.25rem` high, `1.25rem` minimum width | — |
 | Code Block | No fixed height; the `pre` scrolls | `sm`: `--text-xs`, `0.75rem` padding and `--radius-lg` |
@@ -309,9 +337,13 @@ on an RTL page; its header follows the page direction.
 
 | Component | Root classes | Anatomy | Public modifiers |
 | --- | --- | --- | --- |
+| Accordion | `.accordion` | Container of native `<details>` with `<summary>` triggers and content directly after `summary`. | Exclusive groups use the native `name` attribute; disabled items use `inert` |
 | Alert | `.alert` | Direct SVG icon; title (`h2`–`h6`, `strong` or `[data-slot="title"]`); description (`[data-slot="description"]` or `section`); action (`footer`). | `data-variant="destructive"`; default by omission |
 | Alert dialog | `.alert-dialog` | Native `<dialog>` containing a panel; panel contains `header` (optional `figure`), title, description, `section` and `footer`. | `data-size="sm"` on the dialog or panel; default by omission |
+| Aspect ratio | `.aspect-ratio` | A single media child (`img`, `video`, `iframe`, `canvas` or `svg`). | `--ratio` local property (default `16 / 9`); `data-fit="cover|contain"` |
+| Avatar | `.avatar`, `.avatar-group` | Real `img`, `[data-slot="fallback"]` layer and optional `[data-slot="badge"]`; `.avatar-group` overlaps avatars. | `data-size="default|sm|lg"` |
 | Badge | `.badge` | Text and optional SVG. | `data-variant="primary|secondary|outline|destructive|ghost|link"` |
+| Breadcrumb | `.breadcrumb` | `nav` with `ol`/`li`, links and a current `span`; separators are `li[aria-hidden="true"]`; `[data-slot="ellipsis"]` for collapsed paths. | `aria-current="page"` on the current item |
 | Button | `.btn` | Text and optional SVG; `data-icon="inline-start|inline-end"` marks inline icons for padding. | `data-variant="default|primary|secondary|outline|destructive|ghost|link"`; `data-size="default|xs|sm|lg|icon|icon-xs|icon-sm|icon-lg"` |
 | Button group | `.btn-group` | Buttons, inputs, dropdown/popover wrappers, `span`/`label`/`output` and `hr[role="separator"]`. | `data-orientation="horizontal|vertical"` |
 | Card | `.card` | `header` with title/description/action, `section`, `footer`, optional leading/trailing image. | `data-size="default|sm"`; `data-separator="bottom"` on the header |
@@ -326,13 +358,19 @@ on an RTL page; its header follows the page direction.
 | Kbd | `.kbd` | Inline shortcut text or SVG. | — |
 | Label | `.label` | Native `<label>`; also supported as a direct label inside `.field`. | — |
 | Native select | `.native-select` | Native `<select>`. | `data-size="sm"`; default by omission |
+| Pagination | `.pagination` | `nav` with `ul`/`li`; links compose with `.btn`; `[data-slot="ellipsis"]` and `[data-slot="label"]` parts. | `aria-current="page"` on the active link |
 | Popover | `.popover` | Trigger and `[data-popover]` panel with optional header, title and description. | Placement attributes |
+| Progress | `.progress` | Native `<progress>` with fallback text. | `value`/`max`; omit `value` for indeterminate |
 | Radio | `.radio` | Native `input[type="radio"]`, normally inside `role="radiogroup"`. | — |
+| Separator | `.separator` | `<hr>` or `[role="separator"]`. | `data-orientation="horizontal|vertical"`; `aria-orientation` is also recognized |
 | Skeleton | `.skeleton` | No required children; the consumer sets dimensions. | — |
+| Spinner | `.spinner` | Empty span; the CSS draws the ring. | `data-size="default|sm|lg"`; `role="status"` plus a label in markup |
 | Switch | `.switch` | Native `input[type="checkbox"]` with `role="switch"` and a label. | `data-size="default|sm"` |
 | Table | `.table-container`, `.table` | `caption`, `thead`, `tbody`, `tfoot`, `tr`, `th`, `td`; checkbox cells use `role="checkbox"`. | Row `aria-selected="true"` |
 | Tabs | `.tabs` | `[role="tablist"]`, `[role="tab"]`, `[role="tabpanel"]`. | Tablist `data-variant="default|line"`; `aria-orientation="horizontal|vertical"` |
 | Textarea | `.textarea` | Native `<textarea>`. | — |
+| Toggle | `.toggle` | Native `<button type="button">`; text and optional SVG. | `aria-pressed="true|false"`; `data-variant="default|outline"`; `data-size="default|sm|lg"` |
+| Toggle group | `.toggle-group` | `role="group"` container of `.toggle` children. | `data-orientation="horizontal|vertical"`; `data-spacing="default|joined"`; group `data-variant`/`data-size` apply to children without their own |
 | Tooltip | `.tooltip[data-tooltip]` | Pseudo-element content from `data-tooltip`; optional arrow. | `data-side`, `data-align`, `data-arrow` |
 
 On buttons, `default` and `primary` are aliases; omitting `data-variant` is
@@ -356,11 +394,18 @@ The public slot vocabulary is shared across components:
 - `data-slot="shortcut"` — dropdown menu.
 - `data-slot="indicator"` — dropdown menu.
 - `data-slot="checkbox-group"`, `data-slot="radio-group"` — field.
+- `data-slot="fallback"`, `data-slot="badge"` — avatar.
+- `data-slot="ellipsis"` — breadcrumb and pagination.
+- `data-slot="label"` — pagination previous/next text.
 
 Semantic parts are equally public where documented: `header`, `section`,
-`footer`, `figure`, `aside`, `pre`, `code`, `[role="menu"]`, `[role="tablist"]`,
-`[role="tab"]` and `[role="tabpanel"]`. Do not invent a new `data-slot` name for
-a part that already has a semantic element in the anatomy.
+`footer`, `figure`, `aside`, `pre`, `code`, `details`, `summary`, `nav`, `ol`,
+`ul`, `li`, `progress`, `[role="menu"]`, `[role="tablist"]`, `[role="tab"]`
+and `[role="tabpanel"]`. Do not invent a new `data-slot` name for a part that
+already has a semantic element in the anatomy.
+
+Toggle groups are multi-state: every `.toggle` child owns its own
+`aria-pressed`. A single-choice control uses a radio group, not a toggle group.
 
 ### Placement attributes
 
@@ -378,8 +423,10 @@ adds leading padding to menu items and headings; `data-rtl-flip` rotates an
 icon 180 degrees in RTL contexts.
 
 `data-orientation` is component-specific: `horizontal|vertical` on button
-groups and tablists, `horizontal|responsive` on fields. Do not assume one
-value set applies everywhere.
+groups, tablists, separators and toggle groups, `horizontal|responsive` on
+fields. Do not assume one value set applies everywhere. `data-spacing` applies
+only to toggle groups (`default|joined`), and `data-fit` applies only to aspect
+ratios (`cover|contain`).
 
 ## State contract
 
@@ -394,16 +441,23 @@ public state hooks:
 | Selected | `aria-selected="true"` | Tabs and selectable table rows. |
 | Checked, native | `:checked` | Checkbox, radio and switch. |
 | Checked, menu item | `aria-checked="true"` | `menuitemcheckbox` and `menuitemradio`. |
-| Highlighted | `data-highlighted` | Menu items. Presence only; no value required. |
+| Highlighted | `data-highlighted` | Menu items and listbox-like composites. Presence only; no value required. |
+| Current | `aria-current="page"` | Breadcrumb and pagination. `aria-current="step"` is reserved for multi-step flows. |
+| Pressed | `aria-pressed="true"` | Toggle and toggle-group buttons. |
+| Open, details | Native `[open]` on `<details>` | Accordion items. |
 | Open, dialog | Native `[open]` | Dialog and alert dialog. |
 | Open, popover | `aria-hidden="false"` | `[data-popover]` panels; the trigger uses `aria-expanded`. |
+| Indeterminate | Native `:indeterminate` | Progress without a value. |
+| Range value | Native `value` and `max` | Progress; no ARIA override. |
+| Disabled, inert | `inert` | Accordion items. |
 | Focus | `:focus-visible` | All focusable controls. |
 
 The state contract is deliberately small. Do **not** use `.active`,
 `data-active`, `data-invalid`, `data-disabled`, `data-selected`,
-`data-state="selected"` or similar class/data aliases. Beyond variant, size and
-placement attributes, `data-highlighted` is the only public data-driven state;
-any other state must be expressible with a native pseudo-class or ARIA.
+`data-state="selected"` or similar class/data aliases. Beyond variant, size,
+orientation, spacing, fit and placement attributes, `data-highlighted` is the
+only public data-driven state; any other state must be expressible with a
+native pseudo-class or ARIA.
 
 Notes:
 
@@ -420,16 +474,28 @@ Notes:
 - Code Block's `data-line-numbers`, `data-wrap` and line `data-variant` are
   presentation modifiers, not states. `--line-start` on the `pre` is a local
   customization property, not a global token.
+- Accordion disabled items use `inert`, not `aria-disabled`: only `inert`
+  prevents the native `details` toggle from the keyboard.
+- Toggle state is `aria-pressed`; the CSS has no `data-state="on"` alias.
+- Progress state comes from the native `<progress>` value. Omitting `value`
+  selects the indeterminate state through `:indeterminate`.
+- Toggle group `data-variant` and `data-size` apply to children that do not
+  declare their own attribute.
 
 ## Motion
 
 - Standard easing is `cubic-bezier(0.4, 0, 0.2, 1)`.
 - Controls, hover states, tabs, table rows and tooltips transition in `150ms`.
+- Accordion content transitions `block-size` and opacity in `150ms` where
+  `::details-content` and `calc-size()` are supported; the open state itself is
+  native and works without either feature.
 - Code Block's floating actions fade in `150ms` on hover and focus-within.
 - Overlays (popover, dropdown, dialog, alert dialog) transition in `100ms`;
   the underlying shell defaults to `150ms` when a style does not override it.
 - Item hover and state transitions use `100ms`; the skeleton pulses on a `2s`
   loop with `cubic-bezier(0.4, 0, 0.6, 1)`.
+- The spinner rotates on a `0.75s` linear loop; progress uses a `1.5s`
+  indeterminate sweep.
 - Dialog entry uses `@starting-style` and `allow-discrete`: the backdrop fades,
   the panel moves from 95% to 100% scale with opacity.
 - Popovers scale from 95% and move `0.5rem` from their placement side. Menus
@@ -437,21 +503,39 @@ Notes:
 - Tooltips fade with `visibility` on hover and focus; their `0.5rem` placement
   offsets are static. Their pseudo-element is currently held at 95% scale, so
   the tooltip does not scale in (see Known gaps).
-- Motion is primarily opacity, scale and translate. There are no springs,
-  bounces or attention-seeking loops beyond the skeleton.
+- Motion is primarily opacity, scale, translate and rotate. There are no
+  springs or bounces.
 
-v1 has no `prefers-reduced-motion` guard. This is a known gap, not an
-intentional exclusion.
+Most motion still has no `prefers-reduced-motion` guard; the spinner and the
+progress sweep slow down instead of stopping. This remains a known gap.
 
 ## Accessibility
 
 - Native elements are preferred: `<button>`, `<input>`, `<select>`,
-  `<textarea>`, `<dialog>` and `<table>`. ARIA roles are used for composite
-  widgets that have no native equivalent (`tablist`, `tab`, `menu`,
-  `menuitem`, `radiogroup`).
+  `<textarea>`, `<dialog>`, `<details>`, `<summary>`, `<progress>` and
+  `<table>`. ARIA roles are used for composite widgets that have no native
+  equivalent (`tablist`, `tab`, `menu`, `menuitem`, `radiogroup`, `group`).
 - Every interactive component must be operable by keyboard and expose its
   state through the contract above. loseta provides styling only; the
   consumer provides behavior.
+- Accordion items must keep the trigger as the `<summary>`; disabled items use
+  `inert`, which removes them and their content from the tab order. Exclusive
+  groups use the native `name` attribute.
+- Avatars need `alt` text on the image and an `aria-hidden` fallback; a
+  decorative badge is `aria-hidden`. The consumer hides the image when loading
+  fails.
+- Breadcrumb and pagination need an accessible `nav` label; the current item
+  uses `aria-current="page"`. Pagination icon links need an `aria-label`.
+- Progress needs an accessible name through `aria-label` or a `<label>`; keep
+  the text fallback inside the element. Do not add ARIA value overrides to the
+  native element.
+- Separators are semantic through `<hr>` or `role="separator"`; decorative
+  rules use `role="presentation"` or `aria-hidden="true"`.
+- Spinners that stand alone use `role="status"` and a visually hidden label;
+  a spinner next to visible loading text is `aria-hidden`.
+- Toggle and toggle-group buttons use `aria-pressed`. A toggle group needs a
+  group label and supports multiple pressed buttons; single-choice selection
+  belongs to a radio group.
 - Dialogs must be labelled with `aria-labelledby` and, when the description is
   present, `aria-describedby`. Use `showModal()` and `close()`.
 - Tabs must maintain `aria-selected`, `hidden` on inactive panels and roving
@@ -493,13 +577,21 @@ The CLI writes these under the configured CSS directory (default
 `index.css` with the fixed layer declaration and imports. `loseta.json` holds
 the CSS directory, entrypoint and style. The default style is Nova.
 
+Experimental items are published and installable, but they ship exactly one
+`styles/nova/` file and stay outside the compatibility contract.
+`loseta add <name> --experimental` requires a Nova project, `loseta add all`
+installs stable components only, and `loseta style` refuses to switch away
+while an experimental item is installed. Promotion to stable requires all
+eight style files, examples, docs, tests and an update to this baseline.
+
 Registry dependencies are hard: installing `dialog` or `alert-dialog` also
 installs `dialog-shell`; installing `dropdown-menu` or `popover` also installs
-`popover-primitive`. Optional dependencies are composition hints only and are
-never installed automatically. Notable optional pairs are field with its form
-controls, button group with button/input/popover/dropdown-menu, table with
-checkbox, dropdown-menu with kbd, and code block with button for copy and wrap
-controls.
+`popover-primitive`; installing `toggle-group` also installs `toggle`.
+Optional dependencies are composition hints only and are never installed
+automatically. Notable optional pairs are field with its form controls, button
+group with button/input/popover/dropdown-menu, table with checkbox,
+dropdown-menu with kbd, breadcrumb with dropdown-menu, pagination with button,
+and code block with button for copy and wrap controls.
 
 ### Compatibility contract
 
@@ -519,6 +611,9 @@ The following are public API and require a breaking-change note when changed:
 Additive changes (a new optional part, a new variant, a new token with a
 fallback) are non-breaking. Visual refinements that preserve anatomy and API
 are normal style work, but they must keep contrast and focus visibility.
+Experimental items are explicitly outside this contract until they are
+promoted; their root classes, anatomy and state hooks may change in any
+release.
 
 Because distribution is copy-paste, installed files do not update
 automatically. Consumers receive changes only by installing or re-adding
@@ -531,19 +626,28 @@ semantic versioning.
 
 ## Known gaps
 
-- No `prefers-reduced-motion` guard.
+- Most motion has no `prefers-reduced-motion` guard. The spinner rotation and
+  the progress sweep slow down instead of stopping.
 - Tooltip entry only fades; the pseudo-element remains at 95% scale instead of
   animating to 100%.
 - Nova, Vega, Maia, Lyra, Mira, Luma, Sera and Rhea are the only shipped
   styles; style-specific visual regression snapshots are not part of CI.
-- No JavaScript behavior is shipped. Dialogs, popovers, dropdown menus, tabs
-  and Code Block copy/wrap controls require consumer code.
+- No JavaScript behavior is shipped. Dialogs, popovers, dropdown menus, tabs,
+  toggle buttons and Code Block copy/wrap controls require consumer code.
 - Code Block does not ship syntax highlighting, ANSI rendering, streaming or a
   Show More interaction; syntax highlighting stays in the consumer's
   highlighter and line numbers/diff/highlights require explicit line markup.
 - No visual regression snapshots. CI covers axe and functional docs behavior,
   not pixel diffs, forced-colors rendering or RTL layouts.
-- Experimental items are outside this contract and are not published.
+- Experimental items are published and installable but outside this contract.
+  They ship Nova only and are not promoted until all eight style files,
+  examples, docs and tests exist.
+- There is no `loseta remove` command; removing an experimental item before a
+  style switch is a manual file and manifest edit.
+- Accordion animation relies on `::details-content` and `calc-size()`; older
+  engines in the support window open and close instantly.
+- Uncurated drafts remain in `packages/loseta/experimental/` and are not
+  published.
 - There is no spacing or motion token scale; spacing and durations are
   component-level values.
 - The button group retains composition hooks for an experimental `.select`;

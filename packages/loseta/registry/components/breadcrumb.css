@@ -27,17 +27,25 @@
       }
     }
 
-    a {
-      border-radius: var(--radius-sm);
+    :is(a, button) {
       outline-style: none;
 
-      &:focus-visible {
-        box-shadow: 0 0 0 3px color-mix(in oklab, var(--ring) 50%, transparent);
+      @media (forced-colors: active) {
+        outline: 2px solid transparent;
+        outline-offset: 2px;
       }
     }
 
     [aria-current='page'] {
       cursor: default;
+    }
+
+    [data-slot='ellipsis'] {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      -webkit-user-select: none;
+      user-select: none;
     }
 
     [data-rtl-flip] {

@@ -22,7 +22,10 @@ const lines = [
   ""
 ];
 
-writeFileSync(join(repoRoot, "web", "src", "styles", "loseta.css"), lines.join("\n"));
+writeFileSync(
+  join(repoRoot, "web", "src", "styles", "loseta.css"),
+  `${lines.join("\n").trimEnd()}\n`
+);
 
 const publicStyles = join(repoRoot, "web", "public", "styles");
 rmSync(publicStyles, { recursive: true, force: true });
@@ -49,7 +52,7 @@ const experimentalLines = [
 ];
 writeFileSync(
   join(publicStyles, "loseta-experimental.css"),
-  experimentalLines.join("\n")
+  `${experimentalLines.join("\n").trimEnd()}\n`
 );
 
 for (const style of registry.styles) {
@@ -66,7 +69,10 @@ for (const style of registry.styles) {
     ),
     ""
   ];
-  writeFileSync(join(publicStyles, `${style.name}.css`), styleLines.join("\n"));
+  writeFileSync(
+    join(publicStyles, `${style.name}.css`),
+    `${styleLines.join("\n").trimEnd()}\n`
+  );
 }
 
 console.log(

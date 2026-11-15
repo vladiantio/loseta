@@ -37,13 +37,11 @@ import CodeBlock from "@/components/CodeBlock.astro";
     <p>To install every stable component:</p>
     <InstallCommand command="loseta add all" />
     <div class="docs-callout">
-      <strong>Experimental components.</strong> Experimental components ship
-      outside the v1 contract with only the Nova style. List them with
-      <code>loseta list --experimental</code> and install one by name with
-      <code>--experimental</code>. They require a Nova project, and
+      <strong>Experimental items.</strong> No experimental components ship in
+      this release. The <code>--experimental</code> flag and the Nova-only rule
+      remain for future items; they require a Nova project, and
       <code>loseta style</code> refuses to switch away while one is installed.
     </div>
-    <InstallCommand command="loseta add bubble --experimental" />
 
     <h2>3. Import the generated entrypoint</h2>
     <p>
@@ -76,8 +74,7 @@ src/styles/loseta/
 pnpm dlx loseta init --style vega  # start with the Vega style
 pnpm dlx loseta add button card    # add components
 pnpm dlx loseta add all            # add every stable component
-pnpm dlx loseta list --experimental # list experimental components
-pnpm dlx loseta add bubble --experimental # add an experimental component
+pnpm dlx loseta list --experimental # experimental items, when present
 pnpm dlx loseta style vega         # switch an installed project
 pnpm dlx loseta list               # list components
 pnpm dlx loseta list --all         # include experimental, primitives and foundation

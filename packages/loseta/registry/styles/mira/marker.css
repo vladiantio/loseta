@@ -1,0 +1,35 @@
+/* Marker */
+@layer loseta.style {
+  .marker {
+    color: var(--muted-foreground);
+    font-size: var(--text-xs);
+    line-height: var(--text-xs--line-height);
+
+    > [data-slot='icon'] > svg {
+      width: 0.875rem;
+      height: 0.875rem;
+    }
+
+    > [data-slot='content'] {
+      :is(a) {
+        text-decoration-line: underline;
+        text-underline-offset: 3px;
+      }
+
+      :is(a):hover {
+        color: var(--foreground);
+      }
+    }
+
+    &[data-variant='separator'] {
+      &::before,
+      &::after {
+        background-color: var(--border);
+      }
+    }
+
+    &[data-variant='border'] {
+      border-block-end-color: var(--border);
+    }
+  }
+}

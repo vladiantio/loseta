@@ -48,8 +48,12 @@ export const listCommand = defineCommand({
     printItems(stable);
 
     if (includeExperimental) {
-      console.log(`\n${pc.bold("Experimental (Nova only)")}`);
-      printItems(experimental);
+      if (experimental.length === 0) {
+        console.log(`\n${pc.dim("No experimental components.")}`);
+      } else {
+        console.log(`\n${pc.bold("Experimental (Nova only)")}`);
+        printItems(experimental);
+      }
     } else if (experimental.length > 0) {
       console.log(
         `\n${pc.dim(

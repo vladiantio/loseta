@@ -1,0 +1,39 @@
+/* Message */
+@layer loseta.style {
+  .message {
+    gap: 0.5rem;
+    font-size: var(--text-sm);
+    line-height: var(--text-sm--line-height);
+
+    > [data-slot='content'] {
+      gap: 0.625rem;
+    }
+
+    [data-slot='header'],
+    [data-slot='footer'] {
+      padding-inline: 0.75rem;
+      color: var(--muted-foreground);
+      font-size: var(--text-xs);
+      line-height: var(--text-xs--line-height);
+      font-weight: 500;
+    }
+
+    &:has(.bubble[data-variant='ghost']) [data-slot='header'],
+    &:has(.bubble[data-variant='ghost']) [data-slot='footer'] {
+      padding-inline: 0;
+    }
+
+    > [data-slot='avatar'] {
+      min-width: 2.25rem;
+      overflow: hidden;
+      border-radius: 0;
+      background-color: var(--muted);
+    }
+
+    > [data-slot='avatar'] > :is(img, svg) {
+      width: 2.25rem;
+      height: 2.25rem;
+      object-fit: cover;
+    }
+  }
+}

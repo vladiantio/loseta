@@ -135,7 +135,7 @@ Dependency notes:
 - [x] `0.12.0` — navigation and disclosure.
 - [x] `0.13.0` — overlays and menus.
 - [x] `0.14.0` — listbox, pickers and data.
-- [ ] `0.15.0` — conversation.
+- [x] `0.15.0` — conversation.
 
 ## Per-item workflow
 

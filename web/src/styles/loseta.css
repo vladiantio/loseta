@@ -64,3 +64,10 @@
 @import "../../../packages/loseta/registry/components/resizable.css";
 @import "../../../packages/loseta/registry/components/sidebar.css";
 @import "../../../packages/loseta/registry/components/toast.css";
+@import "../../../packages/loseta/registry/components/attachment.css";
+@import "../../../packages/loseta/registry/components/bubble.css";
+@import "../../../packages/loseta/registry/components/marker.css";
+@import "../../../packages/loseta/registry/components/message.css";
+@import "../../../packages/loseta/registry/components/message-scroller.css";
+@import "../../../packages/loseta/registry/components/questionnaire.css";
+@import "../../../packages/loseta/registry/components/trace.css";

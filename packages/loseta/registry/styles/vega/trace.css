@@ -1,0 +1,85 @@
+/* Trace */
+@layer loseta.style {
+  .trace {
+    border-block-end-style: solid;
+    border-block-end-width: 1px;
+    border-block-end-color: var(--border);
+
+    > summary {
+      padding-block: 0.625rem;
+      color: var(--muted-foreground);
+      font-size: var(--text-sm);
+      line-height: var(--text-sm--line-height);
+      transition-property: color;
+      transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+      transition-duration: 150ms;
+
+      &:hover {
+        color: var(--foreground);
+      }
+
+      &:focus-visible {
+        border-radius: var(--radius-sm);
+        box-shadow: 0 0 0 3px color-mix(in oklab, var(--ring) 50%, transparent);
+      }
+
+      &::after {
+        border-color: currentColor;
+      }
+
+      > [data-slot='icon'] > svg {
+        width: 1rem;
+        height: 1rem;
+      }
+
+      > [data-slot='title'] {
+        color: var(--foreground);
+      }
+
+      > [data-slot='status'] {
+        border-radius: var(--radius-full);
+        background-color: var(--muted);
+        padding-inline: 0.375rem;
+        padding-block: 0.125rem;
+        color: var(--foreground);
+        font-size: var(--text-xs);
+        line-height: var(--text-xs--line-height);
+      }
+
+      > [data-slot='status'][data-variant='error'] {
+        background-color: light-dark(
+          color-mix(in oklab, var(--destructive) 10%, transparent),
+          color-mix(in oklab, var(--destructive) 20%, transparent)
+        );
+        color: var(--destructive);
+      }
+
+      > [data-slot='status'][data-variant='success'] {
+        background-color: color-mix(in oklab, var(--primary) 10%, transparent);
+        color: var(--foreground);
+      }
+    }
+
+    > [data-slot='body'] {
+      padding-block-end: 0.5rem;
+      padding-inline-start: 1.5rem;
+      color: var(--muted-foreground);
+      font-size: var(--text-sm);
+      line-height: var(--text-sm--line-height);
+    }
+
+    [data-slot='source'] {
+      color: var(--foreground);
+      text-decoration-line: underline;
+      text-underline-offset: 3px;
+    }
+
+    [data-slot='source']:hover {
+      color: var(--primary);
+    }
+
+    .trace {
+      border-block-end-color: color-mix(in oklab, var(--border) 70%, transparent);
+    }
+  }
+}

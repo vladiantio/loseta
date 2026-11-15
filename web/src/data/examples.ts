@@ -1492,7 +1492,7 @@ Done in 2.8s using pnpm v10.18.0</code></pre>
     </nav>
   </section>
   <footer>
-    <span>v0.14.0</span>
+    <span>v0.15.0</span>
   </footer>
 </aside>`
     }
@@ -1784,7 +1784,7 @@ Done in 2.8s using pnpm v10.18.0</code></pre>
       <div class="message" data-align="start">
         <div data-slot="avatar"><span class="avatar" data-size="sm"><span data-slot="fallback">CN</span></span></div>
         <div data-slot="content">
-          <div class="bubble" data-variant="muted"><div data-slot="content">Yes. The experimental bundle imports the base and Nova files.</div></div>
+          <div class="bubble" data-variant="muted"><div data-slot="content">Yes. The main stylesheet includes the base and Nova files.</div></div>
         </div>
       </div>
       <div class="message" data-align="end">

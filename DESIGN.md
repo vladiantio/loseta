@@ -8,7 +8,7 @@ It is not an implementation guide. The installed CSS is the reference
 implementation: if this document and the registry disagree,
 [`packages/loseta/registry/tokens.css`](packages/loseta/registry/tokens.css)
 and [`registry.json`](packages/loseta/registry/registry.json) win, and this
-document must be corrected. The baseline covers registry version `0.14.0`.
+document must be corrected. The baseline covers registry version `0.15.0`.
 
 Vocabulary is defined in [`GLOSSARY.md`](GLOSSARY.md). Style implementation
 guidance lives in [`STYLE-GUIDE.md`](STYLE-GUIDE.md).
@@ -42,17 +42,25 @@ guidance lives in [`STYLE-GUIDE.md`](STYLE-GUIDE.md).
 
 ## Scope
 
-The registry contains 55 stable components, 7 experimental components, four
-primitives and four foundations:
+The registry contains 62 stable components, four primitives and four
+foundations:
 
-- **Stable components**: accordion, alert, alert-dialog, aspect-ratio, avatar, badge, breadcrumb, button, button-group, calendar, card, carousel, chart, checkbox, code-block, collapsible, combobox, command, context-menu, dialog, drawer, dropdown-menu, empty, field, hover-card, input, input-group, input-otp, item, kbd, label, menubar, native-select, navigation-menu, pagination, popover, progress, radio, resizable, scroll-area, select, separator, sheet, sidebar, skeleton, slider, spinner, switch, table, tabs, textarea, toast, toggle, toggle-group and tooltip.
-- **Experimental components**: attachment, bubble, marker, message, message-scroller, questionnaire and trace. They are installable by name
-  with `loseta add <name> --experimental`, ship exactly one Nova style file and
-  are explicitly outside the v1 compatibility contract.
+- **Stable components**: accordion, alert, alert-dialog, aspect-ratio,
+  attachment, avatar, badge, breadcrumb, bubble, button, button-group, calendar,
+  card, carousel, chart, checkbox, code-block, collapsible, combobox, command,
+  context-menu, dialog, drawer, dropdown-menu, empty, field, hover-card, input,
+  input-group, input-otp, item, kbd, label, marker, menubar, message,
+  message-scroller, native-select, navigation-menu, pagination, popover,
+  progress, questionnaire, radio, resizable, scroll-area, select, separator,
+  sheet, sidebar, skeleton, slider, spinner, switch, table, tabs, textarea,
+  toast, toggle, toggle-group, tooltip and trace.
 - **4 primitives**: `dialog-shell`, `listbox`, `menu` and `popover-primitive`.
   All four are stable. Primitives are installed automatically as dependencies
   and are not consumer-facing components.
 - **4 foundations**: tokens, reset, base and utilities.
+
+No experimental components ship in this release. The experimental pipeline
+remains for future items.
 
 Uncurated drafts live in `packages/loseta/experimental/`. They are neither
 published nor covered by this baseline. Promotion of an experimental item to

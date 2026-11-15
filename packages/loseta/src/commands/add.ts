@@ -7,6 +7,7 @@ import { readTextIfExists } from "../fs.js";
 import { installItems } from "../install.js";
 import { installedNames, readManifest } from "../manifest.js";
 import {
+  experimentalComponents,
   findItem,
   loadRegistry,
   missingFoundation,
@@ -92,9 +93,11 @@ export const addCommand = defineCommand({
     if (names.length === 0) {
       intro("loseta add");
       printItems(stableComponents(registry));
-      log.info(
-        "Experimental components are Nova-only. Run `loseta list --experimental` and add them with `--experimental`."
-      );
+      if (experimentalComponents(registry).length > 0) {
+        log.info(
+          "Experimental components are Nova-only. Run `loseta list --experimental` and add them with `--experimental`."
+        );
+      }
       outro("Run `loseta add <component...>` or `loseta add all`.");
       return;
     }

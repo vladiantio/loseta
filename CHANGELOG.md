@@ -1,5 +1,21 @@
 # Changelog
 
+## 0.15.0 - 2026-11-15
+
+### Changed
+
+- Promoted `attachment`, `bubble`, `marker`, `message`, `message-scroller`,
+  `questionnaire` and `trace` to stable. They now ship all eight styles and are
+  covered by the v1 contract.
+- All 62 registry components are stable. The experimental pipeline, CLI flag
+  and Nova-only rule remain for future items.
+
+### Notes
+
+- The registry now has 62 stable components and no experimental components.
+- `loseta add all` installs every component.
+- Docs recipes, Direction and Sonner notes remain documentation-only.
+
 ## 0.14.0 - 2026-11-15
 
 ### Changed

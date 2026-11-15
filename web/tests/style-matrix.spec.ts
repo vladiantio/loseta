@@ -342,6 +342,111 @@ const cases: StyleCase[] = [
       sera: "24px",
       rhea: "16px"
     }
+  },
+  {
+    id: "attachment",
+    selector: ".docs-preview .attachment",
+    property: "border-top-left-radius",
+    values: {
+      nova: "14px",
+      vega: "14px",
+      maia: "18px",
+      lyra: "0px",
+      mira: "10px",
+      luma: "26px",
+      sera: "0px",
+      rhea: "18px"
+    }
+  },
+  {
+    id: "bubble",
+    selector: ".docs-preview .bubble [data-slot='content']",
+    property: "border-top-left-radius",
+    values: {
+      nova: "14px",
+      vega: "14px",
+      maia: "18px",
+      lyra: "0px",
+      mira: "10px",
+      luma: "26px",
+      sera: "0px",
+      rhea: "24px"
+    }
+  },
+  {
+    id: "marker",
+    selector: ".docs-preview .marker",
+    property: "font-size",
+    values: {
+      nova: "14px",
+      vega: "14px",
+      maia: "14px",
+      lyra: "12px",
+      mira: "12px",
+      luma: "14px",
+      sera: "14px",
+      rhea: "14px"
+    }
+  },
+  {
+    id: "message",
+    selector: ".docs-preview .message [data-slot='avatar']",
+    property: "min-width",
+    values: {
+      nova: "32px",
+      vega: "32px",
+      maia: "36px",
+      lyra: "32px",
+      mira: "28px",
+      luma: "36px",
+      sera: "36px",
+      rhea: "32px"
+    }
+  },
+  {
+    id: "message-scroller",
+    selector: ".docs-preview .message-scroller [data-slot='jump']",
+    property: "width",
+    values: {
+      nova: "32px",
+      vega: "36px",
+      maia: "36px",
+      lyra: "32px",
+      mira: "28px",
+      luma: "36px",
+      sera: "40px",
+      rhea: "32px"
+    }
+  },
+  {
+    id: "questionnaire",
+    selector: ".docs-preview .questionnaire progress",
+    property: "height",
+    values: {
+      nova: "6px",
+      vega: "6px",
+      maia: "8px",
+      lyra: "4px",
+      mira: "4px",
+      luma: "8px",
+      sera: "8px",
+      rhea: "6px"
+    }
+  },
+  {
+    id: "trace",
+    selector: ".docs-preview .trace summary",
+    property: "padding-top",
+    values: {
+      nova: "8px",
+      vega: "10px",
+      maia: "10px",
+      lyra: "6px",
+      mira: "6px",
+      luma: "10px",
+      sera: "10px",
+      rhea: "8px"
+    }
   }
 ];
 

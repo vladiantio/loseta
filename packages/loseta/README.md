@@ -54,7 +54,8 @@ Each component item contains:
 
 Experimental items contain a base file and exactly one Nova style file. They
 are installable by name with `--experimental`, outside the v1 contract, and are
-promoted only after the other seven style files exist.
+promoted only after the other seven style files exist. No experimental
+components ship in this release; the pipeline remains for future items.
 
 `registry.json` declares the available styles under `styles`. The CLI copies
 only the files for the style in `loseta.json`; `loseta style <name>` rewrites

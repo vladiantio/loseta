@@ -1,0 +1,141 @@
+/* Questionnaire */
+@layer loseta.style {
+  .questionnaire {
+    > [data-slot='progress'] {
+      color: var(--muted-foreground);
+      font-size: var(--text-xs);
+      line-height: var(--text-xs--line-height);
+
+      > progress {
+        block-size: 0.25rem;
+        border-radius: 0;
+        background-color: color-mix(in oklab, var(--primary) 20%, transparent);
+
+        &::-webkit-progress-bar {
+          border-radius: inherit;
+          background-color: transparent;
+        }
+
+        &::-webkit-progress-value {
+          border-radius: inherit;
+          background-color: var(--primary);
+        }
+
+        &::-moz-progress-bar {
+          border-radius: inherit;
+          background-color: var(--primary);
+        }
+      }
+    }
+
+    [data-slot='item'] {
+      > legend {
+        font-size: var(--text-lg);
+        line-height: var(--text-lg--line-height);
+        font-weight: 600;
+        text-wrap: balance;
+      }
+
+      > [data-slot='description'] {
+        margin: 0;
+        color: var(--muted-foreground);
+        font-size: var(--text-sm);
+        line-height: var(--text-sm--line-height);
+      }
+    }
+
+    .questionnaire-choice {
+      border-color: var(--border);
+      border-radius: 0;
+      background-color: var(--background);
+      padding: 0.5rem;
+      transition-property: color, background-color, border-color, box-shadow;
+      transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+      transition-duration: 150ms;
+
+      &:hover {
+        background-color: color-mix(in oklab, var(--muted) 50%, var(--background));
+      }
+
+      &:has(input:checked) {
+        border-color: var(--ring);
+        background-color: color-mix(in oklab, var(--primary) 5%, var(--background));
+
+        [data-slot='description'] {
+          color: var(--foreground);
+        }
+      }
+
+      &:focus-within {
+        border-color: var(--ring);
+        box-shadow: 0 0 0 3px color-mix(in oklab, var(--ring) 50%, transparent);
+      }
+
+      > input {
+        width: 1rem;
+        height: 1rem;
+        accent-color: var(--primary);
+      }
+
+      [data-slot='label'] {
+        font-size: var(--text-sm);
+        line-height: var(--text-sm--line-height);
+        font-weight: 500;
+      }
+
+      [data-slot='description'] {
+        color: var(--muted-foreground);
+        font-size: var(--text-sm);
+        line-height: var(--text-sm--line-height);
+      }
+    }
+
+    > [data-slot='item'] > [data-slot='description'] {
+      font-size: var(--text-sm);
+      line-height: var(--text-sm--line-height);
+    }
+
+    [data-slot='input'] {
+      border-style: solid;
+      border-width: 1px;
+      border-color: var(--input);
+      border-radius: 0;
+      background-color: transparent;
+      padding-inline: 0.5rem;
+      padding-block: 0.375rem;
+      color: var(--foreground);
+      font-size: var(--text-sm);
+      line-height: var(--text-sm--line-height);
+      outline-style: none;
+
+      &::placeholder {
+        color: var(--muted-foreground);
+      }
+
+      &:focus-visible {
+        border-color: var(--ring);
+        box-shadow: 0 0 0 3px color-mix(in oklab, var(--ring) 50%, transparent);
+      }
+
+      &[aria-invalid='true'] {
+        border-color: var(--destructive);
+        box-shadow: 0 0 0 3px
+          color-mix(in oklab, var(--destructive) 20%, transparent);
+      }
+    }
+
+    [data-slot='actions'] {
+      border-block-start-style: solid;
+      border-block-start-width: 1px;
+      border-block-start-color: var(--border);
+      padding-block-start: 0.75rem;
+    }
+
+    [data-slot='error'] {
+      color: var(--destructive);
+      font-size: var(--text-sm);
+      line-height: var(--text-sm--line-height);
+      font-weight: 500;
+    }
+  }
+}

@@ -1,7 +1,7 @@
 {
   "$schema": "./schema.json",
   "name": "loseta",
-  "version": "0.14.0",
+  "version": "0.15.0",
   "styles": [
     {
       "name": "nova",
@@ -4438,7 +4438,7 @@
     {
       "name": "attachment",
       "type": "component",
-      "status": "experimental",
+      "status": "stable",
       "title": "Attachment",
       "description": "A file or media card with upload and error states.",
       "docs": "/docs/components/attachment",
@@ -4462,6 +4462,48 @@
           "target": "styles/nova/attachment.css",
           "role": "style",
           "layer": "loseta.style"
+        },
+        {
+          "path": "styles/vega/attachment.css",
+          "target": "styles/vega/attachment.css",
+          "role": "style",
+          "layer": "loseta.style"
+        },
+        {
+          "path": "styles/maia/attachment.css",
+          "target": "styles/maia/attachment.css",
+          "role": "style",
+          "layer": "loseta.style"
+        },
+        {
+          "path": "styles/lyra/attachment.css",
+          "target": "styles/lyra/attachment.css",
+          "role": "style",
+          "layer": "loseta.style"
+        },
+        {
+          "path": "styles/mira/attachment.css",
+          "target": "styles/mira/attachment.css",
+          "role": "style",
+          "layer": "loseta.style"
+        },
+        {
+          "path": "styles/luma/attachment.css",
+          "target": "styles/luma/attachment.css",
+          "role": "style",
+          "layer": "loseta.style"
+        },
+        {
+          "path": "styles/sera/attachment.css",
+          "target": "styles/sera/attachment.css",
+          "role": "style",
+          "layer": "loseta.style"
+        },
+        {
+          "path": "styles/rhea/attachment.css",
+          "target": "styles/rhea/attachment.css",
+          "role": "style",
+          "layer": "loseta.style"
         }
       ],
       "examples": [
@@ -4471,7 +4513,7 @@
     {
       "name": "bubble",
       "type": "component",
-      "status": "experimental",
+      "status": "stable",
       "title": "Bubble",
       "description": "The message surface with variants and reaction chips.",
       "docs": "/docs/components/bubble",
@@ -4493,6 +4535,48 @@
           "target": "styles/nova/bubble.css",
           "role": "style",
           "layer": "loseta.style"
+        },
+        {
+          "path": "styles/vega/bubble.css",
+          "target": "styles/vega/bubble.css",
+          "role": "style",
+          "layer": "loseta.style"
+        },
+        {
+          "path": "styles/maia/bubble.css",
+          "target": "styles/maia/bubble.css",
+          "role": "style",
+          "layer": "loseta.style"
+        },
+        {
+          "path": "styles/lyra/bubble.css",
+          "target": "styles/lyra/bubble.css",
+          "role": "style",
+          "layer": "loseta.style"
+        },
+        {
+          "path": "styles/mira/bubble.css",
+          "target": "styles/mira/bubble.css",
+          "role": "style",
+          "layer": "loseta.style"
+        },
+        {
+          "path": "styles/luma/bubble.css",
+          "target": "styles/luma/bubble.css",
+          "role": "style",
+          "layer": "loseta.style"
+        },
+        {
+          "path": "styles/sera/bubble.css",
+          "target": "styles/sera/bubble.css",
+          "role": "style",
+          "layer": "loseta.style"
+        },
+        {
+          "path": "styles/rhea/bubble.css",
+          "target": "styles/rhea/bubble.css",
+          "role": "style",
+          "layer": "loseta.style"
         }
       ],
       "examples": [
@@ -4502,7 +4586,7 @@
     {
       "name": "marker",
       "type": "component",
-      "status": "experimental",
+      "status": "stable",
       "title": "Marker",
       "description": "An inline note, status or divider between conversation turns.",
       "docs": "/docs/components/marker",
@@ -4523,6 +4607,48 @@
           "target": "styles/nova/marker.css",
           "role": "style",
           "layer": "loseta.style"
+        },
+        {
+          "path": "styles/vega/marker.css",
+          "target": "styles/vega/marker.css",
+          "role": "style",
+          "layer": "loseta.style"
+        },
+        {
+          "path": "styles/maia/marker.css",
+          "target": "styles/maia/marker.css",
+          "role": "style",
+          "layer": "loseta.style"
+        },
+        {
+          "path": "styles/lyra/marker.css",
+          "target": "styles/lyra/marker.css",
+          "role": "style",
+          "layer": "loseta.style"
+        },
+        {
+          "path": "styles/mira/marker.css",
+          "target": "styles/mira/marker.css",
+          "role": "style",
+          "layer": "loseta.style"
+        },
+        {
+          "path": "styles/luma/marker.css",
+          "target": "styles/luma/marker.css",
+          "role": "style",
+          "layer": "loseta.style"
+        },
+        {
+          "path": "styles/sera/marker.css",
+          "target": "styles/sera/marker.css",
+          "role": "style",
+          "layer": "loseta.style"
+        },
+        {
+          "path": "styles/rhea/marker.css",
+          "target": "styles/rhea/marker.css",
+          "role": "style",
+          "layer": "loseta.style"
         }
       ],
       "examples": [
@@ -4532,7 +4658,7 @@
     {
       "name": "message",
       "type": "component",
-      "status": "experimental",
+      "status": "stable",
       "title": "Message",
       "description": "A conversation row with avatar, header, content and footer.",
       "docs": "/docs/components/message",
@@ -4557,6 +4683,48 @@
           "target": "styles/nova/message.css",
           "role": "style",
           "layer": "loseta.style"
+        },
+        {
+          "path": "styles/vega/message.css",
+          "target": "styles/vega/message.css",
+          "role": "style",
+          "layer": "loseta.style"
+        },
+        {
+          "path": "styles/maia/message.css",
+          "target": "styles/maia/message.css",
+          "role": "style",
+          "layer": "loseta.style"
+        },
+        {
+          "path": "styles/lyra/message.css",
+          "target": "styles/lyra/message.css",
+          "role": "style",
+          "layer": "loseta.style"
+        },
+        {
+          "path": "styles/mira/message.css",
+          "target": "styles/mira/message.css",
+          "role": "style",
+          "layer": "loseta.style"
+        },
+        {
+          "path": "styles/luma/message.css",
+          "target": "styles/luma/message.css",
+          "role": "style",
+          "layer": "loseta.style"
+        },
+        {
+          "path": "styles/sera/message.css",
+          "target": "styles/sera/message.css",
+          "role": "style",
+          "layer": "loseta.style"
+        },
+        {
+          "path": "styles/rhea/message.css",
+          "target": "styles/rhea/message.css",
+          "role": "style",
+          "layer": "loseta.style"
         }
       ],
       "examples": [
@@ -4566,7 +4734,7 @@
     {
       "name": "message-scroller",
       "type": "component",
-      "status": "experimental",
+      "status": "stable",
       "title": "Message Scroller",
       "description": "A scroll container for conversations with a jump-to-latest button.",
       "docs": "/docs/components/message-scroller",
@@ -4590,6 +4758,48 @@
           "target": "styles/nova/message-scroller.css",
           "role": "style",
           "layer": "loseta.style"
+        },
+        {
+          "path": "styles/vega/message-scroller.css",
+          "target": "styles/vega/message-scroller.css",
+          "role": "style",
+          "layer": "loseta.style"
+        },
+        {
+          "path": "styles/maia/message-scroller.css",
+          "target": "styles/maia/message-scroller.css",
+          "role": "style",
+          "layer": "loseta.style"
+        },
+        {
+          "path": "styles/lyra/message-scroller.css",
+          "target": "styles/lyra/message-scroller.css",
+          "role": "style",
+          "layer": "loseta.style"
+        },
+        {
+          "path": "styles/mira/message-scroller.css",
+          "target": "styles/mira/message-scroller.css",
+          "role": "style",
+          "layer": "loseta.style"
+        },
+        {
+          "path": "styles/luma/message-scroller.css",
+          "target": "styles/luma/message-scroller.css",
+          "role": "style",
+          "layer": "loseta.style"
+        },
+        {
+          "path": "styles/sera/message-scroller.css",
+          "target": "styles/sera/message-scroller.css",
+          "role": "style",
+          "layer": "loseta.style"
+        },
+        {
+          "path": "styles/rhea/message-scroller.css",
+          "target": "styles/rhea/message-scroller.css",
+          "role": "style",
+          "layer": "loseta.style"
         }
       ],
       "examples": [
@@ -4599,7 +4809,7 @@
     {
       "name": "questionnaire",
       "type": "component",
-      "status": "experimental",
+      "status": "stable",
       "title": "Questionnaire",
       "description": "A multi-step form with native choices, progress and navigation.",
       "docs": "/docs/components/questionnaire",
@@ -4622,6 +4832,48 @@
           "target": "styles/nova/questionnaire.css",
           "role": "style",
           "layer": "loseta.style"
+        },
+        {
+          "path": "styles/vega/questionnaire.css",
+          "target": "styles/vega/questionnaire.css",
+          "role": "style",
+          "layer": "loseta.style"
+        },
+        {
+          "path": "styles/maia/questionnaire.css",
+          "target": "styles/maia/questionnaire.css",
+          "role": "style",
+          "layer": "loseta.style"
+        },
+        {
+          "path": "styles/lyra/questionnaire.css",
+          "target": "styles/lyra/questionnaire.css",
+          "role": "style",
+          "layer": "loseta.style"
+        },
+        {
+          "path": "styles/mira/questionnaire.css",
+          "target": "styles/mira/questionnaire.css",
+          "role": "style",
+          "layer": "loseta.style"
+        },
+        {
+          "path": "styles/luma/questionnaire.css",
+          "target": "styles/luma/questionnaire.css",
+          "role": "style",
+          "layer": "loseta.style"
+        },
+        {
+          "path": "styles/sera/questionnaire.css",
+          "target": "styles/sera/questionnaire.css",
+          "role": "style",
+          "layer": "loseta.style"
+        },
+        {
+          "path": "styles/rhea/questionnaire.css",
+          "target": "styles/rhea/questionnaire.css",
+          "role": "style",
+          "layer": "loseta.style"
         }
       ],
       "examples": [
@@ -4631,7 +4883,7 @@
     {
       "name": "trace",
       "type": "component",
-      "status": "experimental",
+      "status": "stable",
       "title": "Trace",
       "description": "A native disclosure for agent steps, tool calls and sources.",
       "docs": "/docs/components/trace",
@@ -4653,6 +4905,48 @@
         {
           "path": "styles/nova/trace.css",
           "target": "styles/nova/trace.css",
+          "role": "style",
+          "layer": "loseta.style"
+        },
+        {
+          "path": "styles/vega/trace.css",
+          "target": "styles/vega/trace.css",
+          "role": "style",
+          "layer": "loseta.style"
+        },
+        {
+          "path": "styles/maia/trace.css",
+          "target": "styles/maia/trace.css",
+          "role": "style",
+          "layer": "loseta.style"
+        },
+        {
+          "path": "styles/lyra/trace.css",
+          "target": "styles/lyra/trace.css",
+          "role": "style",
+          "layer": "loseta.style"
+        },
+        {
+          "path": "styles/mira/trace.css",
+          "target": "styles/mira/trace.css",
+          "role": "style",
+          "layer": "loseta.style"
+        },
+        {
+          "path": "styles/luma/trace.css",
+          "target": "styles/luma/trace.css",
+          "role": "style",
+          "layer": "loseta.style"
+        },
+        {
+          "path": "styles/sera/trace.css",
+          "target": "styles/sera/trace.css",
+          "role": "style",
+          "layer": "loseta.style"
+        },
+        {
+          "path": "styles/rhea/trace.css",
+          "target": "styles/rhea/trace.css",
           "role": "style",
           "layer": "loseta.style"
         }

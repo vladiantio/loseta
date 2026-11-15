@@ -1,6 +1,13 @@
 # Changelog
 
-## Unreleased
+## 0.4.0 - 2026-11-14
+
+### Added
+
+- `loseta init` prompts for the style with a selector that lists every registry
+  style with its title and description. An explicit `--style` or a stored style
+  is validated before prompting; an unknown stored style falls back to `nova`
+  with a warning.
 
 ### Changed
 

@@ -19,6 +19,8 @@ files consumers install.
   release. A version is released only after the Publish workflow succeeds and
   `npm view loseta version` reports it; a version bump, changelog entry, tag,
   GitHub release or merged PR is preparation.
+- `STYLE-GUIDE.md` — read before writing or reviewing a style file. It defines
+  the per-style geometry, role recipes and reference components.
 
 ## Non-negotiables
 

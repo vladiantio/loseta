@@ -49,6 +49,9 @@ const forbiddenOutsideTokens = [
   }
 ];
 
+// Stable style files must be differentiated before the item is promoted.
+const promotionScaffold = /\/\*\s*loseta:promotion-scaffold\s*\*\//;
+
 const errors = [];
 
 function fail(message) {
@@ -148,6 +151,12 @@ for (const item of registry.items ?? []) {
 
     roles.add(file.role);
     const css = readFileSync(absolute, "utf8");
+
+    if (file.role === "style" && item.status === "stable" && promotionScaffold.test(css)) {
+      fail(
+        `${item.name}: ${file.path}: remove the promotion scaffold before promoting`
+      );
+    }
 
     if (file.role === "style") {
       const match = /^styles\/([^/]+)\//.exec(file.path);

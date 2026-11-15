@@ -8,6 +8,7 @@
     "preview": "astro preview",
     "check": "astro check",
     "test:e2e": "pnpm build && playwright test",
+    "styles:review": "node scripts/style-review.mjs",
     "astro": "astro"
   },
   "dependencies": {

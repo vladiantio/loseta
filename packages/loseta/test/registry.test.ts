@@ -8,6 +8,7 @@ import {
   stableFoundation
 } from "../src/registry.js";
 import type { Registry } from "../src/types.js";
+import { fixtureRegistry } from "./fixtures.js";
 
 test("stableFoundation returns the four stable foundation items", () => {
   const names = stableFoundation(loadRegistry()).map((item) => item.name);
@@ -46,12 +47,38 @@ test("resolveItems fails on unknown items", () => {
   assert.throws(() => resolveItems(registry, ["missing"]), /Unknown item: missing/);
 });
 
-test("experimentalComponents returns Nova-only items", () => {
-  const names = experimentalComponents(loadRegistry()).map((item) => item.name);
+test("experimentalComponents returns experimental items with one Nova style", () => {
+  const items = experimentalComponents(fixtureRegistry);
 
-  assert.ok(names.includes("accordion"));
-  assert.ok(names.includes("toggle-group"));
-  assert.ok(!names.includes("button"));
+  assert.deepEqual(items.map((item) => item.name), ["beta"]);
+  for (const item of items) {
+    assert.equal(item.status, "experimental");
+    const styles = item.files
+      .filter((file) => file.role === "style")
+      .map((file) => file.path);
+    assert.deepEqual(styles, ["styles/nova/beta.css"]);
+  }
+});
+
+test("every stable component and primitive has one style file per style", () => {
+  const registry = loadRegistry();
+  const styles = registry.styles.map((style) => style.name).sort();
+
+  for (const item of registry.items) {
+    if (
+      (item.type !== "component" && item.type !== "primitive") ||
+      item.status !== "stable"
+    ) {
+      continue;
+    }
+    const styleFiles = item.files
+      .filter((file) => file.role === "style")
+      .map((file) => /^styles\/([^/]+)\//.exec(file.path)?.[1])
+      .filter((style): style is string => Boolean(style))
+      .sort();
+
+    assert.deepEqual(styleFiles, styles, item.name);
+  }
 });
 
 test("resolveItems fails on dependency cycles", () => {

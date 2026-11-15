@@ -17,6 +17,7 @@ import { loadRegistry, registryDir, resolveItems } from "../src/registry.js";
 import { resolveAddStyle } from "../src/style-selection.js";
 import { applyStyleSwitch, resolveStyleSwitch } from "../src/style-switch.js";
 import type { LosetaConfig, Manifest } from "../src/types.js";
+import { fixtureManifest, fixtureRegistry } from "./fixtures.js";
 
 const packageRoot = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const tsxBin = join(
@@ -114,19 +115,17 @@ test("style switch resolution validates the target and installed items", () => {
 });
 
 test("style switch refuses to abandon experimental components", () => {
-  const registry = loadRegistry();
-  const manifest: Manifest = {
-    version: registry.version,
-    items: [
-      { name: "button", version: registry.version, files: [] },
-      { name: "accordion", version: registry.version, files: [] }
-    ]
-  };
+  const manifest = fixtureManifest(fixtureRegistry, ["alpha", "beta"]);
 
-  const resolution = resolveStyleSwitch(registry, manifest, config, "vega");
+  const resolution = resolveStyleSwitch(
+    fixtureRegistry,
+    manifest,
+    config,
+    "vega"
+  );
   assert.equal(resolution.status, "error");
   if (resolution.status === "error") {
-    assert.match(resolution.message, /accordion/);
+    assert.match(resolution.message, /beta/);
     assert.match(resolution.message, /Nova-only/);
   }
 });

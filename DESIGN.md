@@ -10,7 +10,8 @@ implementation: if this document and the registry disagree,
 and [`registry.json`](packages/loseta/registry/registry.json) win, and this
 document must be corrected. The baseline covers registry version `0.10.0`.
 
-Vocabulary is defined in [`GLOSSARY.md`](GLOSSARY.md).
+Vocabulary is defined in [`GLOSSARY.md`](GLOSSARY.md). Style implementation
+guidance lives in [`STYLE-GUIDE.md`](STYLE-GUIDE.md).
 
 ## Principles
 

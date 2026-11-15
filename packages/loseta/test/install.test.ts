@@ -5,7 +5,7 @@ import { join } from "node:path";
 import { test } from "node:test";
 import { hashFile } from "../src/fs.js";
 import { installItems } from "../src/install.js";
-import { loadRegistry, registryDir, resolveItems } from "../src/registry.js";
+import { loadRegistry, registryDir, resolveItems, experimentalComponents } from "../src/registry.js";
 import type { LosetaConfig, Manifest, Registry } from "../src/types.js";
 
 const config: LosetaConfig = { cssDir: "styles/loseta", style: "nova" };
@@ -77,17 +77,18 @@ test("installs base and style files, manifest and index", async (t) => {
   assert.ok(index.indexOf("./components/dialog.css") < index.indexOf("./styles/nova/dialog.css"));
 });
 
-test("installs an experimental item with its Nova style", async (t) => {
+test("installs an experimental component with its Nova style", async (t) => {
+  const registry = loadRegistry();
+  const experimental = experimentalComponents(registry)[0];
+  if (!experimental) {
+    t.skip("no experimental components in the registry");
+    return;
+  }
+
   const projectRoot = project();
   t.after(() => rmSync(projectRoot, { recursive: true, force: true }));
 
-  const registry = loadRegistry();
-  const items = resolve(registry, ["toggle-group"]);
-  assert.deepEqual(
-    items.map((item) => item.name),
-    ["toggle", "toggle-group"]
-  );
-
+  const items = resolve(registry, [experimental.name]);
   const result = await installItems({
     projectRoot,
     config,
@@ -98,17 +99,12 @@ test("installs an experimental item with its Nova style", async (t) => {
     onConflict: () => "keep"
   });
 
-  assert.ok(result.written.includes("components/toggle.css"));
-  assert.ok(result.written.includes("styles/nova/toggle.css"));
-  assert.ok(result.written.includes("components/toggle-group.css"));
-  assert.ok(result.written.includes("styles/nova/toggle-group.css"));
+  assert.ok(result.written.includes(`components/${experimental.name}.css`));
+  assert.ok(result.written.includes(`styles/nova/${experimental.name}.css`));
   assert.ok(!result.written.some((file) => file.startsWith("styles/vega/")));
 
   const manifest = readManifest(projectRoot);
-  assert.deepEqual(
-    manifest.items.map((item) => item.name),
-    ["toggle", "toggle-group"]
-  );
+  assert.ok(manifest.items.some((item) => item.name === experimental.name));
 });
 
 test("installs the selected style only", async (t) => {

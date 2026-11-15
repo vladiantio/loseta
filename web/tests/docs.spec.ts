@@ -1,7 +1,7 @@
 import { readFileSync } from "node:fs";
 import { expect, test, type Page } from "@playwright/test";
 import AxeBuilder from "@axe-core/playwright";
-import { components } from "../src/data/components";
+import { components, experimentalComponents } from "../src/data/components";
 
 const registry = JSON.parse(
   readFileSync(
@@ -421,7 +421,13 @@ test("toggle demo flips aria-pressed", async ({ page }) => {
 test("experimental pages expose the banner, install flag and stylesheet", async ({
   page
 }) => {
-  await page.goto("/docs/components/accordion");
+  const experimental = experimentalComponents[0];
+  if (!experimental) {
+    test.skip();
+    return;
+  }
+
+  await page.goto(`/docs/components/${experimental.id}`);
 
   await expect(page.locator(".docs-callout")).toContainText(
     "outside the v1 compatibility contract"
@@ -433,7 +439,7 @@ test("experimental pages expose the banner, install flag and stylesheet", async 
   await expect(
     page
       .getByRole("navigation", { name: "Documentation" })
-      .getByRole("link", { name: "Accordion", exact: true })
+      .getByRole("link", { name: experimental.title, exact: true })
   ).toBeVisible();
 
   await page.goto("/docs/components/button");

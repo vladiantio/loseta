@@ -1,0 +1,19 @@
+/* Context Menu */
+@layer loseta.style {
+  .context-menu {
+    min-width: 8rem;
+    max-width: 20rem;
+    border-radius: var(--radius-md);
+    background-color: var(--popover);
+    padding: 0.25rem;
+    color: var(--popover-foreground);
+    box-shadow: 0 0 0 1px color-mix(in oklab, var(--foreground) 10%, transparent), var(--shadow-md);
+    transition-property: opacity;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 150ms;
+
+    :is([role='menuitem'], [role='menuitemcheckbox'], [role='menuitemradio']) {
+      white-space: nowrap;
+    }
+  }
+}

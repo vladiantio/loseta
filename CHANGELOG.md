@@ -1,5 +1,25 @@
 # Changelog
 
+## 0.13.0 - 2026-11-15
+
+### Changed
+
+- Promoted `context-menu`, `drawer`, `hover-card`, `menubar`,
+  `navigation-menu`, `sheet` and `toast` to stable. They now ship all eight
+  styles and are covered by the v1 contract.
+
+### Fixed
+
+- Sheet and drawer titles and descriptions now use the intended type scale.
+  The selectors skipped the `header` wrapper, so those parts rendered at
+  browser defaults.
+
+### Notes
+
+- The registry now has 48 stable components and 14 experimental components.
+- The seven promoted components install without `--experimental` in every
+  style, and `loseta add all` includes them.
+
 ## 0.12.0 - 2026-11-15
 
 ### Changed

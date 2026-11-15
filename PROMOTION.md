@@ -133,7 +133,7 @@ Dependency notes:
 - [x] Phase 0 — promotion infrastructure.
 - [x] `0.11.0` — aspect-ratio, avatar, progress, separator, spinner, toggle and toggle-group.
 - [x] `0.12.0` — navigation and disclosure.
-- [ ] `0.13.0` — overlays and menus.
+- [x] `0.13.0` — overlays and menus.
 - [ ] `0.14.0` — listbox, pickers and data.
 - [ ] `0.15.0` — conversation.
 

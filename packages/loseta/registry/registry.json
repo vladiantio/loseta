@@ -1,7 +1,7 @@
 {
   "$schema": "./schema.json",
   "name": "loseta",
-  "version": "0.12.0",
+  "version": "0.13.0",
   "styles": [
     {
       "name": "nova",
@@ -2909,7 +2909,7 @@
     {
       "name": "context-menu",
       "type": "component",
-      "status": "experimental",
+      "status": "stable",
       "title": "Context Menu",
       "description": "Displays a menu at the pointer position.",
       "docs": "/docs/components/context-menu",
@@ -2932,6 +2932,48 @@
           "target": "styles/nova/context-menu.css",
           "role": "style",
           "layer": "loseta.style"
+        },
+        {
+          "path": "styles/vega/context-menu.css",
+          "target": "styles/vega/context-menu.css",
+          "role": "style",
+          "layer": "loseta.style"
+        },
+        {
+          "path": "styles/maia/context-menu.css",
+          "target": "styles/maia/context-menu.css",
+          "role": "style",
+          "layer": "loseta.style"
+        },
+        {
+          "path": "styles/lyra/context-menu.css",
+          "target": "styles/lyra/context-menu.css",
+          "role": "style",
+          "layer": "loseta.style"
+        },
+        {
+          "path": "styles/mira/context-menu.css",
+          "target": "styles/mira/context-menu.css",
+          "role": "style",
+          "layer": "loseta.style"
+        },
+        {
+          "path": "styles/luma/context-menu.css",
+          "target": "styles/luma/context-menu.css",
+          "role": "style",
+          "layer": "loseta.style"
+        },
+        {
+          "path": "styles/sera/context-menu.css",
+          "target": "styles/sera/context-menu.css",
+          "role": "style",
+          "layer": "loseta.style"
+        },
+        {
+          "path": "styles/rhea/context-menu.css",
+          "target": "styles/rhea/context-menu.css",
+          "role": "style",
+          "layer": "loseta.style"
         }
       ],
       "examples": [
@@ -2941,7 +2983,7 @@
     {
       "name": "drawer",
       "type": "component",
-      "status": "experimental",
+      "status": "stable",
       "title": "Drawer",
       "description": "A bottom sheet built on the dialog shell.",
       "docs": "/docs/components/drawer",
@@ -2966,6 +3008,48 @@
           "target": "styles/nova/drawer.css",
           "role": "style",
           "layer": "loseta.style"
+        },
+        {
+          "path": "styles/vega/drawer.css",
+          "target": "styles/vega/drawer.css",
+          "role": "style",
+          "layer": "loseta.style"
+        },
+        {
+          "path": "styles/maia/drawer.css",
+          "target": "styles/maia/drawer.css",
+          "role": "style",
+          "layer": "loseta.style"
+        },
+        {
+          "path": "styles/lyra/drawer.css",
+          "target": "styles/lyra/drawer.css",
+          "role": "style",
+          "layer": "loseta.style"
+        },
+        {
+          "path": "styles/mira/drawer.css",
+          "target": "styles/mira/drawer.css",
+          "role": "style",
+          "layer": "loseta.style"
+        },
+        {
+          "path": "styles/luma/drawer.css",
+          "target": "styles/luma/drawer.css",
+          "role": "style",
+          "layer": "loseta.style"
+        },
+        {
+          "path": "styles/sera/drawer.css",
+          "target": "styles/sera/drawer.css",
+          "role": "style",
+          "layer": "loseta.style"
+        },
+        {
+          "path": "styles/rhea/drawer.css",
+          "target": "styles/rhea/drawer.css",
+          "role": "style",
+          "layer": "loseta.style"
         }
       ],
       "examples": [
@@ -2975,7 +3059,7 @@
     {
       "name": "hover-card",
       "type": "component",
-      "status": "experimental",
+      "status": "stable",
       "title": "Hover Card",
       "description": "Shows a preview of content when a trigger is hovered or focused.",
       "docs": "/docs/components/hover-card",
@@ -2998,6 +3082,48 @@
           "target": "styles/nova/hover-card.css",
           "role": "style",
           "layer": "loseta.style"
+        },
+        {
+          "path": "styles/vega/hover-card.css",
+          "target": "styles/vega/hover-card.css",
+          "role": "style",
+          "layer": "loseta.style"
+        },
+        {
+          "path": "styles/maia/hover-card.css",
+          "target": "styles/maia/hover-card.css",
+          "role": "style",
+          "layer": "loseta.style"
+        },
+        {
+          "path": "styles/lyra/hover-card.css",
+          "target": "styles/lyra/hover-card.css",
+          "role": "style",
+          "layer": "loseta.style"
+        },
+        {
+          "path": "styles/mira/hover-card.css",
+          "target": "styles/mira/hover-card.css",
+          "role": "style",
+          "layer": "loseta.style"
+        },
+        {
+          "path": "styles/luma/hover-card.css",
+          "target": "styles/luma/hover-card.css",
+          "role": "style",
+          "layer": "loseta.style"
+        },
+        {
+          "path": "styles/sera/hover-card.css",
+          "target": "styles/sera/hover-card.css",
+          "role": "style",
+          "layer": "loseta.style"
+        },
+        {
+          "path": "styles/rhea/hover-card.css",
+          "target": "styles/rhea/hover-card.css",
+          "role": "style",
+          "layer": "loseta.style"
         }
       ],
       "examples": [
@@ -3007,7 +3133,7 @@
     {
       "name": "menubar",
       "type": "component",
-      "status": "experimental",
+      "status": "stable",
       "title": "Menubar",
       "description": "Displays a horizontal bar of menus.",
       "docs": "/docs/components/menubar",
@@ -3031,6 +3157,48 @@
           "target": "styles/nova/menubar.css",
           "role": "style",
           "layer": "loseta.style"
+        },
+        {
+          "path": "styles/vega/menubar.css",
+          "target": "styles/vega/menubar.css",
+          "role": "style",
+          "layer": "loseta.style"
+        },
+        {
+          "path": "styles/maia/menubar.css",
+          "target": "styles/maia/menubar.css",
+          "role": "style",
+          "layer": "loseta.style"
+        },
+        {
+          "path": "styles/lyra/menubar.css",
+          "target": "styles/lyra/menubar.css",
+          "role": "style",
+          "layer": "loseta.style"
+        },
+        {
+          "path": "styles/mira/menubar.css",
+          "target": "styles/mira/menubar.css",
+          "role": "style",
+          "layer": "loseta.style"
+        },
+        {
+          "path": "styles/luma/menubar.css",
+          "target": "styles/luma/menubar.css",
+          "role": "style",
+          "layer": "loseta.style"
+        },
+        {
+          "path": "styles/sera/menubar.css",
+          "target": "styles/sera/menubar.css",
+          "role": "style",
+          "layer": "loseta.style"
+        },
+        {
+          "path": "styles/rhea/menubar.css",
+          "target": "styles/rhea/menubar.css",
+          "role": "style",
+          "layer": "loseta.style"
         }
       ],
       "examples": [
@@ -3040,7 +3208,7 @@
     {
       "name": "navigation-menu",
       "type": "component",
-      "status": "experimental",
+      "status": "stable",
       "title": "Navigation Menu",
       "description": "Displays site navigation with popover panels.",
       "docs": "/docs/components/navigation-menu",
@@ -3063,6 +3231,48 @@
           "target": "styles/nova/navigation-menu.css",
           "role": "style",
           "layer": "loseta.style"
+        },
+        {
+          "path": "styles/vega/navigation-menu.css",
+          "target": "styles/vega/navigation-menu.css",
+          "role": "style",
+          "layer": "loseta.style"
+        },
+        {
+          "path": "styles/maia/navigation-menu.css",
+          "target": "styles/maia/navigation-menu.css",
+          "role": "style",
+          "layer": "loseta.style"
+        },
+        {
+          "path": "styles/lyra/navigation-menu.css",
+          "target": "styles/lyra/navigation-menu.css",
+          "role": "style",
+          "layer": "loseta.style"
+        },
+        {
+          "path": "styles/mira/navigation-menu.css",
+          "target": "styles/mira/navigation-menu.css",
+          "role": "style",
+          "layer": "loseta.style"
+        },
+        {
+          "path": "styles/luma/navigation-menu.css",
+          "target": "styles/luma/navigation-menu.css",
+          "role": "style",
+          "layer": "loseta.style"
+        },
+        {
+          "path": "styles/sera/navigation-menu.css",
+          "target": "styles/sera/navigation-menu.css",
+          "role": "style",
+          "layer": "loseta.style"
+        },
+        {
+          "path": "styles/rhea/navigation-menu.css",
+          "target": "styles/rhea/navigation-menu.css",
+          "role": "style",
+          "layer": "loseta.style"
         }
       ],
       "examples": [
@@ -3072,7 +3282,7 @@
     {
       "name": "sheet",
       "type": "component",
-      "status": "experimental",
+      "status": "stable",
       "title": "Sheet",
       "description": "Extends the dialog shell to the side of the screen.",
       "docs": "/docs/components/sheet",
@@ -3095,6 +3305,48 @@
         {
           "path": "styles/nova/sheet.css",
           "target": "styles/nova/sheet.css",
+          "role": "style",
+          "layer": "loseta.style"
+        },
+        {
+          "path": "styles/vega/sheet.css",
+          "target": "styles/vega/sheet.css",
+          "role": "style",
+          "layer": "loseta.style"
+        },
+        {
+          "path": "styles/maia/sheet.css",
+          "target": "styles/maia/sheet.css",
+          "role": "style",
+          "layer": "loseta.style"
+        },
+        {
+          "path": "styles/lyra/sheet.css",
+          "target": "styles/lyra/sheet.css",
+          "role": "style",
+          "layer": "loseta.style"
+        },
+        {
+          "path": "styles/mira/sheet.css",
+          "target": "styles/mira/sheet.css",
+          "role": "style",
+          "layer": "loseta.style"
+        },
+        {
+          "path": "styles/luma/sheet.css",
+          "target": "styles/luma/sheet.css",
+          "role": "style",
+          "layer": "loseta.style"
+        },
+        {
+          "path": "styles/sera/sheet.css",
+          "target": "styles/sera/sheet.css",
+          "role": "style",
+          "layer": "loseta.style"
+        },
+        {
+          "path": "styles/rhea/sheet.css",
+          "target": "styles/rhea/sheet.css",
           "role": "style",
           "layer": "loseta.style"
         }
@@ -3775,7 +4027,7 @@
     {
       "name": "toast",
       "type": "component",
-      "status": "experimental",
+      "status": "stable",
       "title": "Toast",
       "description": "A fixed stack of transient notifications.",
       "docs": "/docs/components/toast",
@@ -3797,6 +4049,48 @@
         {
           "path": "styles/nova/toast.css",
           "target": "styles/nova/toast.css",
+          "role": "style",
+          "layer": "loseta.style"
+        },
+        {
+          "path": "styles/vega/toast.css",
+          "target": "styles/vega/toast.css",
+          "role": "style",
+          "layer": "loseta.style"
+        },
+        {
+          "path": "styles/maia/toast.css",
+          "target": "styles/maia/toast.css",
+          "role": "style",
+          "layer": "loseta.style"
+        },
+        {
+          "path": "styles/lyra/toast.css",
+          "target": "styles/lyra/toast.css",
+          "role": "style",
+          "layer": "loseta.style"
+        },
+        {
+          "path": "styles/mira/toast.css",
+          "target": "styles/mira/toast.css",
+          "role": "style",
+          "layer": "loseta.style"
+        },
+        {
+          "path": "styles/luma/toast.css",
+          "target": "styles/luma/toast.css",
+          "role": "style",
+          "layer": "loseta.style"
+        },
+        {
+          "path": "styles/sera/toast.css",
+          "target": "styles/sera/toast.css",
+          "role": "style",
+          "layer": "loseta.style"
+        },
+        {
+          "path": "styles/rhea/toast.css",
+          "target": "styles/rhea/toast.css",
           "role": "style",
           "layer": "loseta.style"
         }

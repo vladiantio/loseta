@@ -207,6 +207,51 @@ const cases: StyleCase[] = [
       sera: "28px",
       rhea: "20px"
     }
+  },
+  {
+    id: "menubar",
+    selector: ".docs-preview .menubar [role='menuitem']",
+    property: "height",
+    values: {
+      nova: "28px",
+      vega: "32px",
+      maia: "32px",
+      lyra: "28px",
+      mira: "24px",
+      luma: "32px",
+      sera: "36px",
+      rhea: "28px"
+    }
+  },
+  {
+    id: "navigation-menu",
+    selector: ".docs-preview .navigation-menu > ul > li > :is(a, button)",
+    property: "height",
+    values: {
+      nova: "32px",
+      vega: "36px",
+      maia: "36px",
+      lyra: "32px",
+      mira: "28px",
+      luma: "36px",
+      sera: "40px",
+      rhea: "32px"
+    }
+  },
+  {
+    id: "toast",
+    selector: ".docs-preview .toast",
+    property: "border-top-left-radius",
+    values: {
+      nova: "10px",
+      vega: "8px",
+      maia: "18px",
+      lyra: "0px",
+      mira: "10px",
+      luma: "22px",
+      sera: "0px",
+      rhea: "18px"
+    }
   }
 ];
 

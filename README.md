@@ -42,11 +42,11 @@ npx loseta add calendar --experimental # add an experimental component
   data-attribute contract; the docs use a small demo-only script to keep the
   examples interactive.
 
-The v1 registry includes 41 stable components: accordion, alert, alert-dialog, aspect-ratio, avatar, badge, breadcrumb, button, button-group, card, checkbox, code-block, collapsible, dialog, dropdown-menu, empty, field, input, input-group, input-otp, item, kbd, label, native-select, pagination, popover, progress, radio, scroll-area, separator, sidebar, skeleton, slider, spinner, switch, table, tabs, textarea, toggle, toggle-group and tooltip.
+The v1 registry includes 48 stable components: accordion, alert, alert-dialog, aspect-ratio, avatar, badge, breadcrumb, button, button-group, card, checkbox, code-block, collapsible, context-menu, dialog, drawer, dropdown-menu, empty, field, hover-card, input, input-group, input-otp, item, kbd, label, menubar, native-select, navigation-menu, pagination, popover, progress, radio, scroll-area, separator, sheet, sidebar, skeleton, slider, spinner, switch, table, tabs, textarea, toast, toggle, toggle-group and tooltip.
 
-Twenty-one experimental components ship alongside them: attachment, bubble, calendar, carousel, chart, combobox, command, context-menu, drawer, hover-card, marker, menubar, message, message-scroller, navigation-menu, questionnaire, resizable, select, sheet, toast and trace. They
-are Nova-only, install with `--experimental` and stay outside the v1
-compatibility contract until they are promoted.
+Fourteen experimental components ship alongside them: attachment, bubble, calendar, carousel, chart, combobox, command, marker, message, message-scroller, questionnaire, resizable, select and trace. They are
+Nova-only, install with `--experimental` and stay outside the v1 compatibility
+contract until they are promoted.
 
 ## Repository
 

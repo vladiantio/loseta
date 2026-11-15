@@ -1,0 +1,60 @@
+/* Drawer */
+@layer loseta.style {
+  .drawer {
+    --drawer-height: 80vh;
+
+    &[data-size='sm'] {
+      --drawer-height: 50vh;
+    }
+
+    &[data-size='lg'] {
+      --drawer-height: 90vh;
+    }
+
+    > * {
+      gap: 1.5rem;
+      border-start-start-radius: min(var(--radius-4xl), 24px);
+      border-start-end-radius: min(var(--radius-4xl), 24px);
+      background-color: var(--background);
+      padding: 1.5rem;
+      color: var(--foreground);
+      box-shadow: var(--shadow-xl);
+    }
+
+    &[data-side='block-start'] > * {
+      border-start-start-radius: 0;
+      border-start-end-radius: 0;
+      border-end-start-radius: min(var(--radius-4xl), 24px);
+      border-end-end-radius: min(var(--radius-4xl), 24px);
+    }
+
+    > * > [data-slot='handle'] {
+      width: 2.5rem;
+      height: 0.25rem;
+      margin-inline: auto;
+      border-radius: var(--radius-2xl);
+      background-color: var(--muted);
+      cursor: grab;
+    }
+
+    > * > header {
+      gap: 0.5rem;
+    }
+
+    > * > header > [data-slot='title'] {
+      font-size: var(--text-base);
+      line-height: 1;
+      font-weight: 500;
+    }
+
+    > * > header > [data-slot='description'] {
+      font-size: var(--text-sm);
+      line-height: var(--text-sm--line-height);
+      color: var(--muted-foreground);
+    }
+
+    > * > footer {
+      gap: 0.5rem;
+    }
+  }
+}

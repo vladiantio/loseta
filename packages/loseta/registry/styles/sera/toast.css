@@ -1,0 +1,64 @@
+/* Toast */
+@layer loseta.style {
+  .toast {
+    border-style: solid;
+    border-width: 1px;
+    border-color: var(--border);
+    border-radius: 0;
+    background-color: var(--popover);
+    padding: 1rem 1.5rem;
+    color: var(--popover-foreground);
+    box-shadow: var(--shadow-md);
+    font-size: var(--text-sm);
+    line-height: var(--text-sm--line-height);
+
+    [data-slot='title'] {
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    [data-slot='description'] {
+      color: var(--muted-foreground);
+    }
+
+    [data-slot='close'] {
+      width: 1.75rem;
+      height: 1.75rem;
+      border-radius: 0;
+      color: var(--muted-foreground);
+
+      &:hover {
+        background-color: var(--muted);
+        color: var(--foreground);
+      }
+
+      &:focus-visible {
+        box-shadow: 0 0 0 3px color-mix(in oklab, var(--ring) 50%, transparent);
+      }
+    }
+
+    &[data-variant='destructive'] {
+      border-color: light-dark(
+        color-mix(in oklab, var(--destructive) 40%, transparent),
+        color-mix(in oklab, var(--destructive) 50%, transparent)
+      );
+      background-color: light-dark(
+        color-mix(in oklab, var(--destructive) 10%, transparent),
+        color-mix(in oklab, var(--destructive) 20%, transparent)
+      );
+      color: var(--destructive);
+
+      [data-slot='description'] {
+        color: light-dark(
+          color-mix(in oklab, var(--destructive) 80%, var(--foreground)),
+          var(--destructive)
+        );
+      }
+
+      [data-slot='close'] {
+        color: var(--destructive);
+      }
+    }
+  }
+}

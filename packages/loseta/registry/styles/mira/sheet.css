@@ -1,0 +1,54 @@
+/* Sheet */
+@layer loseta.style {
+  .sheet {
+    --sheet-width: 24rem;
+
+    &[data-size='sm'] {
+      --sheet-width: 20rem;
+    }
+
+    &[data-size='lg'] {
+      --sheet-width: 28rem;
+    }
+
+    > * {
+      gap: 1rem;
+      background-color: var(--background);
+      padding: 1rem;
+      color: var(--foreground);
+      box-shadow: var(--shadow-lg);
+    }
+
+    &[data-side='inline-start'] > * {
+      border-inline-end-style: solid;
+      border-inline-end-width: 1px;
+      border-inline-end-color: var(--border);
+    }
+
+    &[data-side='inline-end'] > * {
+      border-inline-start-style: solid;
+      border-inline-start-width: 1px;
+      border-inline-start-color: var(--border);
+    }
+
+    > * > header {
+      gap: 0.5rem;
+    }
+
+    > * > header > [data-slot='title'] {
+      font-size: var(--text-base);
+      line-height: 1;
+      font-weight: 500;
+    }
+
+    > * > header > [data-slot='description'] {
+      font-size: var(--text-sm);
+      line-height: var(--text-sm--line-height);
+      color: var(--muted-foreground);
+    }
+
+    > * > footer {
+      gap: 0.5rem;
+    }
+  }
+}

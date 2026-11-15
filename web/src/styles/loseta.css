@@ -43,9 +43,16 @@
 @import "../../../packages/loseta/registry/components/spinner.css";
 @import "../../../packages/loseta/registry/components/toggle.css";
 @import "../../../packages/loseta/registry/components/toggle-group.css";
+@import "../../../packages/loseta/registry/components/context-menu.css";
+@import "../../../packages/loseta/registry/components/drawer.css";
+@import "../../../packages/loseta/registry/components/hover-card.css";
+@import "../../../packages/loseta/registry/components/menubar.css";
+@import "../../../packages/loseta/registry/components/navigation-menu.css";
+@import "../../../packages/loseta/registry/components/sheet.css";
 @import "../../../packages/loseta/registry/components/collapsible.css";
 @import "../../../packages/loseta/registry/components/input-group.css";
 @import "../../../packages/loseta/registry/components/input-otp.css";
 @import "../../../packages/loseta/registry/components/scroll-area.css";
 @import "../../../packages/loseta/registry/components/slider.css";
 @import "../../../packages/loseta/registry/components/sidebar.css";
+@import "../../../packages/loseta/registry/components/toast.css";

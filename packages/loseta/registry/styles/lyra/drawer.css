@@ -1,0 +1,60 @@
+/* Drawer */
+@layer loseta.style {
+  .drawer {
+    --drawer-height: 80vh;
+
+    &[data-size='sm'] {
+      --drawer-height: 50vh;
+    }
+
+    &[data-size='lg'] {
+      --drawer-height: 90vh;
+    }
+
+    > * {
+      gap: 1rem;
+      border-start-start-radius: 0;
+      border-start-end-radius: 0;
+      background-color: var(--background);
+      padding: 1rem;
+      color: var(--foreground);
+      box-shadow: var(--shadow-lg);
+    }
+
+    &[data-side='block-start'] > * {
+      border-start-start-radius: 0;
+      border-start-end-radius: 0;
+      border-end-start-radius: 0;
+      border-end-end-radius: 0;
+    }
+
+    > * > [data-slot='handle'] {
+      width: 2.5rem;
+      height: 0.25rem;
+      margin-inline: auto;
+      border-radius: 0;
+      background-color: var(--muted);
+      cursor: grab;
+    }
+
+    > * > header {
+      gap: 0.5rem;
+    }
+
+    > * > header > [data-slot='title'] {
+      font-size: var(--text-base);
+      line-height: 1;
+      font-weight: 500;
+    }
+
+    > * > header > [data-slot='description'] {
+      font-size: var(--text-sm);
+      line-height: var(--text-sm--line-height);
+      color: var(--muted-foreground);
+    }
+
+    > * > footer {
+      gap: 0.5rem;
+    }
+  }
+}

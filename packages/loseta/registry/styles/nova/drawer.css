@@ -41,13 +41,13 @@
       gap: 0.5rem;
     }
 
-    > * > [data-slot='title'] {
+    > * > header > [data-slot='title'] {
       font-size: var(--text-base);
       line-height: 1;
       font-weight: 500;
     }
 
-    > * > [data-slot='description'] {
+    > * > header > [data-slot='description'] {
       font-size: var(--text-sm);
       line-height: var(--text-sm--line-height);
       color: var(--muted-foreground);

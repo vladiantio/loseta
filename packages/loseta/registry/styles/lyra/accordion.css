@@ -1,0 +1,59 @@
+/* Accordion */
+@layer loseta.style {
+  .accordion > details {
+    &:not(:last-child) {
+      border-bottom-style: solid;
+      border-bottom-width: 1px;
+      border-bottom-color: var(--border);
+    }
+
+    &::details-content {
+      opacity: 0%;
+      transition-property: block-size, opacity;
+      transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+      transition-duration: 150ms;
+      transition-behavior: allow-discrete;
+    }
+
+    &[open]::details-content {
+      opacity: 100%;
+    }
+
+    > summary {
+      border-style: solid;
+      border-width: 1px;
+      border-color: transparent;
+      border-radius: 0;
+      padding-block: 0.5rem;
+      text-align: start;
+      font-size: var(--text-xs);
+      line-height: var(--text-xs--line-height);
+      font-weight: 500;
+      transition-property: border-color, box-shadow, text-decoration-color;
+      transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+      transition-duration: 150ms;
+
+      &:hover {
+        text-decoration-line: underline;
+      }
+
+      &:focus-visible {
+        border-color: var(--ring);
+        box-shadow: 0 0 0 3px color-mix(in oklab, var(--ring) 50%, transparent);
+      }
+
+      > svg:last-child {
+        margin-inline-start: auto;
+        width: 1rem;
+        height: 1rem;
+        color: var(--muted-foreground);
+      }
+    }
+
+    > :not(summary) {
+      padding-block-end: 0.5rem;
+      font-size: var(--text-xs);
+      line-height: var(--text-xs--line-height);
+    }
+  }
+}

@@ -1,0 +1,15 @@
+/* Slider */
+@layer loseta.style {
+  .slider {
+    accent-color: var(--primary);
+    block-size: 1rem;
+
+    &[data-size='sm'] {
+      block-size: 0.75rem;
+    }
+
+    &[data-size='lg'] {
+      block-size: 1.25rem;
+    }
+  }
+}

@@ -1,5 +1,19 @@
 # Changelog
 
+## 0.12.0 - 2026-11-15
+
+### Changed
+
+- Promoted `accordion`, `breadcrumb`, `collapsible`, `input-group`,
+  `input-otp`, `pagination`, `scroll-area`, `sidebar` and `slider` to stable.
+  They now ship all eight styles and are covered by the v1 contract.
+
+### Notes
+
+- The registry now has 41 stable components and 21 experimental components.
+- The nine promoted components install without `--experimental` in every
+  style, and `loseta add all` includes them.
+
 ## 0.11.0 - 2026-11-15
 
 ### Changed

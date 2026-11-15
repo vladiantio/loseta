@@ -1492,7 +1492,7 @@ Done in 2.8s using pnpm v10.18.0</code></pre>
     </nav>
   </section>
   <footer>
-    <span>v0.11.0</span>
+    <span>v0.12.0</span>
   </footer>
 </aside>`
     }

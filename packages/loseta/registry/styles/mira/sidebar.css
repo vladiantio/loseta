@@ -1,0 +1,98 @@
+/* Sidebar */
+@layer loseta.style {
+  .sidebar {
+    border-inline-end-style: solid;
+    border-inline-end-width: 1px;
+    border-inline-end-color: var(--sidebar-border);
+    background-color: var(--sidebar);
+    color: var(--sidebar-foreground);
+
+    > header,
+    > footer {
+      min-height: 3rem;
+      padding-inline: 0.5rem;
+    }
+
+    > header {
+      border-block-end-style: solid;
+      border-block-end-width: 1px;
+      border-block-end-color: var(--sidebar-border);
+    }
+
+    > footer {
+      border-block-start-style: solid;
+      border-block-start-width: 1px;
+      border-block-start-color: var(--sidebar-border);
+      font-size: var(--text-xs);
+      line-height: var(--text-xs--line-height);
+      color: var(--muted-foreground);
+    }
+
+    > section {
+      padding: 0.375rem;
+    }
+
+    [data-slot='brand'] {
+      font-size: var(--text-sm);
+      line-height: var(--text-sm--line-height);
+      font-weight: 600;
+    }
+
+    nav a {
+      height: 1.75rem;
+      border-radius: var(--radius-md);
+      padding-inline: 0.375rem;
+      font-size: var(--text-sm);
+      line-height: var(--text-sm--line-height);
+      transition-property: color, background-color, box-shadow;
+      transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+      transition-duration: 150ms;
+
+      &:hover {
+        background-color: var(--sidebar-accent);
+        color: var(--sidebar-accent-foreground);
+      }
+
+      &[aria-current='page'] {
+        background-color: var(--sidebar-accent);
+        color: var(--sidebar-accent-foreground);
+        font-weight: 500;
+      }
+
+      &:focus-visible {
+        box-shadow: 0 0 0 3px color-mix(in oklab, var(--sidebar-ring) 50%, transparent);
+      }
+    }
+
+    .collapsible > summary {
+      height: 1.75rem;
+      border-width: 0;
+      border-radius: var(--radius-md);
+      padding-inline: 0.375rem;
+      padding-block: 0;
+      font-size: var(--text-sm);
+      line-height: var(--text-sm--line-height);
+
+      &:hover {
+        background-color: var(--sidebar-accent);
+        color: var(--sidebar-accent-foreground);
+        text-decoration-line: none;
+      }
+
+      &:focus-visible {
+        border-color: transparent;
+        box-shadow: 0 0 0 3px color-mix(in oklab, var(--sidebar-ring) 50%, transparent);
+      }
+    }
+
+    .collapsible > :not(summary) {
+      padding-block-start: 0.25rem;
+      font-size: var(--text-sm);
+      line-height: var(--text-sm--line-height);
+    }
+
+    nav ul ul {
+      padding-inline-start: 0.5rem;
+    }
+  }
+}

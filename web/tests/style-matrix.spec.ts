@@ -117,6 +117,96 @@ const cases: StyleCase[] = [
       sera: "10px",
       rhea: "8px"
     }
+  },
+  {
+    id: "accordion",
+    selector: ".docs-preview .accordion summary",
+    property: "padding-top",
+    values: {
+      nova: "10px",
+      vega: "12px",
+      maia: "12px",
+      lyra: "8px",
+      mira: "8px",
+      luma: "12px",
+      sera: "14px",
+      rhea: "10px"
+    }
+  },
+  {
+    id: "breadcrumb",
+    selector: ".docs-preview .breadcrumb > ol",
+    property: "font-size",
+    values: {
+      nova: "14px",
+      vega: "14px",
+      maia: "14px",
+      lyra: "12px",
+      mira: "12px",
+      luma: "14px",
+      sera: "14px",
+      rhea: "14px"
+    }
+  },
+  {
+    id: "input-group",
+    selector: ".docs-preview .input-group",
+    property: "min-height",
+    values: {
+      nova: "32px",
+      vega: "36px",
+      maia: "36px",
+      lyra: "32px",
+      mira: "28px",
+      luma: "36px",
+      sera: "40px",
+      rhea: "32px"
+    }
+  },
+  {
+    id: "input-otp",
+    selector: ".docs-preview .input-otp",
+    property: "height",
+    values: {
+      nova: "40px",
+      vega: "44px",
+      maia: "44px",
+      lyra: "40px",
+      mira: "36px",
+      luma: "44px",
+      sera: "48px",
+      rhea: "40px"
+    }
+  },
+  {
+    id: "sidebar",
+    selector: ".docs-preview .sidebar nav a",
+    property: "height",
+    values: {
+      nova: "32px",
+      vega: "36px",
+      maia: "36px",
+      lyra: "32px",
+      mira: "28px",
+      luma: "36px",
+      sera: "40px",
+      rhea: "32px"
+    }
+  },
+  {
+    id: "slider",
+    selector: ".docs-preview .slider",
+    property: "height",
+    values: {
+      nova: "20px",
+      vega: "24px",
+      maia: "24px",
+      lyra: "16px",
+      mira: "16px",
+      luma: "24px",
+      sera: "28px",
+      rhea: "20px"
+    }
   }
 ];
 

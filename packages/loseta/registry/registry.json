@@ -1,7 +1,7 @@
 {
   "$schema": "./schema.json",
   "name": "loseta",
-  "version": "0.11.0",
+  "version": "0.12.0",
   "styles": [
     {
       "name": "nova",
@@ -2182,7 +2182,7 @@
     {
       "name": "accordion",
       "type": "component",
-      "status": "experimental",
+      "status": "stable",
       "title": "Accordion",
       "description": "Displays a vertically stacked set of interactive headings that reveal content.",
       "docs": "/docs/components/accordion",
@@ -2201,6 +2201,48 @@
         {
           "path": "styles/nova/accordion.css",
           "target": "styles/nova/accordion.css",
+          "role": "style",
+          "layer": "loseta.style"
+        },
+        {
+          "path": "styles/vega/accordion.css",
+          "target": "styles/vega/accordion.css",
+          "role": "style",
+          "layer": "loseta.style"
+        },
+        {
+          "path": "styles/maia/accordion.css",
+          "target": "styles/maia/accordion.css",
+          "role": "style",
+          "layer": "loseta.style"
+        },
+        {
+          "path": "styles/lyra/accordion.css",
+          "target": "styles/lyra/accordion.css",
+          "role": "style",
+          "layer": "loseta.style"
+        },
+        {
+          "path": "styles/mira/accordion.css",
+          "target": "styles/mira/accordion.css",
+          "role": "style",
+          "layer": "loseta.style"
+        },
+        {
+          "path": "styles/luma/accordion.css",
+          "target": "styles/luma/accordion.css",
+          "role": "style",
+          "layer": "loseta.style"
+        },
+        {
+          "path": "styles/sera/accordion.css",
+          "target": "styles/sera/accordion.css",
+          "role": "style",
+          "layer": "loseta.style"
+        },
+        {
+          "path": "styles/rhea/accordion.css",
+          "target": "styles/rhea/accordion.css",
           "role": "style",
           "layer": "loseta.style"
         }
@@ -2357,7 +2399,7 @@
     {
       "name": "breadcrumb",
       "type": "component",
-      "status": "experimental",
+      "status": "stable",
       "title": "Breadcrumb",
       "description": "Displays the path to the current resource using a hierarchy of links.",
       "docs": "/docs/components/breadcrumb",
@@ -2380,6 +2422,48 @@
           "target": "styles/nova/breadcrumb.css",
           "role": "style",
           "layer": "loseta.style"
+        },
+        {
+          "path": "styles/vega/breadcrumb.css",
+          "target": "styles/vega/breadcrumb.css",
+          "role": "style",
+          "layer": "loseta.style"
+        },
+        {
+          "path": "styles/maia/breadcrumb.css",
+          "target": "styles/maia/breadcrumb.css",
+          "role": "style",
+          "layer": "loseta.style"
+        },
+        {
+          "path": "styles/lyra/breadcrumb.css",
+          "target": "styles/lyra/breadcrumb.css",
+          "role": "style",
+          "layer": "loseta.style"
+        },
+        {
+          "path": "styles/mira/breadcrumb.css",
+          "target": "styles/mira/breadcrumb.css",
+          "role": "style",
+          "layer": "loseta.style"
+        },
+        {
+          "path": "styles/luma/breadcrumb.css",
+          "target": "styles/luma/breadcrumb.css",
+          "role": "style",
+          "layer": "loseta.style"
+        },
+        {
+          "path": "styles/sera/breadcrumb.css",
+          "target": "styles/sera/breadcrumb.css",
+          "role": "style",
+          "layer": "loseta.style"
+        },
+        {
+          "path": "styles/rhea/breadcrumb.css",
+          "target": "styles/rhea/breadcrumb.css",
+          "role": "style",
+          "layer": "loseta.style"
         }
       ],
       "examples": [
@@ -2389,7 +2473,7 @@
     {
       "name": "pagination",
       "type": "component",
-      "status": "experimental",
+      "status": "stable",
       "title": "Pagination",
       "description": "Displays navigation for paged content.",
       "docs": "/docs/components/pagination",
@@ -2410,6 +2494,48 @@
         {
           "path": "styles/nova/pagination.css",
           "target": "styles/nova/pagination.css",
+          "role": "style",
+          "layer": "loseta.style"
+        },
+        {
+          "path": "styles/vega/pagination.css",
+          "target": "styles/vega/pagination.css",
+          "role": "style",
+          "layer": "loseta.style"
+        },
+        {
+          "path": "styles/maia/pagination.css",
+          "target": "styles/maia/pagination.css",
+          "role": "style",
+          "layer": "loseta.style"
+        },
+        {
+          "path": "styles/lyra/pagination.css",
+          "target": "styles/lyra/pagination.css",
+          "role": "style",
+          "layer": "loseta.style"
+        },
+        {
+          "path": "styles/mira/pagination.css",
+          "target": "styles/mira/pagination.css",
+          "role": "style",
+          "layer": "loseta.style"
+        },
+        {
+          "path": "styles/luma/pagination.css",
+          "target": "styles/luma/pagination.css",
+          "role": "style",
+          "layer": "loseta.style"
+        },
+        {
+          "path": "styles/sera/pagination.css",
+          "target": "styles/sera/pagination.css",
+          "role": "style",
+          "layer": "loseta.style"
+        },
+        {
+          "path": "styles/rhea/pagination.css",
+          "target": "styles/rhea/pagination.css",
           "role": "style",
           "layer": "loseta.style"
         }
@@ -2980,7 +3106,7 @@
     {
       "name": "collapsible",
       "type": "component",
-      "status": "experimental",
+      "status": "stable",
       "title": "Collapsible",
       "description": "A native disclosure that reveals or hides content.",
       "docs": "/docs/components/collapsible",
@@ -3001,6 +3127,48 @@
           "target": "styles/nova/collapsible.css",
           "role": "style",
           "layer": "loseta.style"
+        },
+        {
+          "path": "styles/vega/collapsible.css",
+          "target": "styles/vega/collapsible.css",
+          "role": "style",
+          "layer": "loseta.style"
+        },
+        {
+          "path": "styles/maia/collapsible.css",
+          "target": "styles/maia/collapsible.css",
+          "role": "style",
+          "layer": "loseta.style"
+        },
+        {
+          "path": "styles/lyra/collapsible.css",
+          "target": "styles/lyra/collapsible.css",
+          "role": "style",
+          "layer": "loseta.style"
+        },
+        {
+          "path": "styles/mira/collapsible.css",
+          "target": "styles/mira/collapsible.css",
+          "role": "style",
+          "layer": "loseta.style"
+        },
+        {
+          "path": "styles/luma/collapsible.css",
+          "target": "styles/luma/collapsible.css",
+          "role": "style",
+          "layer": "loseta.style"
+        },
+        {
+          "path": "styles/sera/collapsible.css",
+          "target": "styles/sera/collapsible.css",
+          "role": "style",
+          "layer": "loseta.style"
+        },
+        {
+          "path": "styles/rhea/collapsible.css",
+          "target": "styles/rhea/collapsible.css",
+          "role": "style",
+          "layer": "loseta.style"
         }
       ],
       "examples": [
@@ -3010,7 +3178,7 @@
     {
       "name": "input-group",
       "type": "component",
-      "status": "experimental",
+      "status": "stable",
       "title": "Input Group",
       "description": "Composes inputs, textareas and addons into one control surface.",
       "docs": "/docs/components/input-group",
@@ -3035,6 +3203,48 @@
           "target": "styles/nova/input-group.css",
           "role": "style",
           "layer": "loseta.style"
+        },
+        {
+          "path": "styles/vega/input-group.css",
+          "target": "styles/vega/input-group.css",
+          "role": "style",
+          "layer": "loseta.style"
+        },
+        {
+          "path": "styles/maia/input-group.css",
+          "target": "styles/maia/input-group.css",
+          "role": "style",
+          "layer": "loseta.style"
+        },
+        {
+          "path": "styles/lyra/input-group.css",
+          "target": "styles/lyra/input-group.css",
+          "role": "style",
+          "layer": "loseta.style"
+        },
+        {
+          "path": "styles/mira/input-group.css",
+          "target": "styles/mira/input-group.css",
+          "role": "style",
+          "layer": "loseta.style"
+        },
+        {
+          "path": "styles/luma/input-group.css",
+          "target": "styles/luma/input-group.css",
+          "role": "style",
+          "layer": "loseta.style"
+        },
+        {
+          "path": "styles/sera/input-group.css",
+          "target": "styles/sera/input-group.css",
+          "role": "style",
+          "layer": "loseta.style"
+        },
+        {
+          "path": "styles/rhea/input-group.css",
+          "target": "styles/rhea/input-group.css",
+          "role": "style",
+          "layer": "loseta.style"
         }
       ],
       "examples": [
@@ -3044,7 +3254,7 @@
     {
       "name": "input-otp",
       "type": "component",
-      "status": "experimental",
+      "status": "stable",
       "title": "Input OTP",
       "description": "A single native input for one-time codes.",
       "docs": "/docs/components/input-otp",
@@ -3065,6 +3275,48 @@
           "target": "styles/nova/input-otp.css",
           "role": "style",
           "layer": "loseta.style"
+        },
+        {
+          "path": "styles/vega/input-otp.css",
+          "target": "styles/vega/input-otp.css",
+          "role": "style",
+          "layer": "loseta.style"
+        },
+        {
+          "path": "styles/maia/input-otp.css",
+          "target": "styles/maia/input-otp.css",
+          "role": "style",
+          "layer": "loseta.style"
+        },
+        {
+          "path": "styles/lyra/input-otp.css",
+          "target": "styles/lyra/input-otp.css",
+          "role": "style",
+          "layer": "loseta.style"
+        },
+        {
+          "path": "styles/mira/input-otp.css",
+          "target": "styles/mira/input-otp.css",
+          "role": "style",
+          "layer": "loseta.style"
+        },
+        {
+          "path": "styles/luma/input-otp.css",
+          "target": "styles/luma/input-otp.css",
+          "role": "style",
+          "layer": "loseta.style"
+        },
+        {
+          "path": "styles/sera/input-otp.css",
+          "target": "styles/sera/input-otp.css",
+          "role": "style",
+          "layer": "loseta.style"
+        },
+        {
+          "path": "styles/rhea/input-otp.css",
+          "target": "styles/rhea/input-otp.css",
+          "role": "style",
+          "layer": "loseta.style"
         }
       ],
       "examples": [
@@ -3074,7 +3326,7 @@
     {
       "name": "scroll-area",
       "type": "component",
-      "status": "experimental",
+      "status": "stable",
       "title": "Scroll Area",
       "description": "A scroll container with native styled scrollbars.",
       "docs": "/docs/components/scroll-area",
@@ -3095,6 +3347,48 @@
           "target": "styles/nova/scroll-area.css",
           "role": "style",
           "layer": "loseta.style"
+        },
+        {
+          "path": "styles/vega/scroll-area.css",
+          "target": "styles/vega/scroll-area.css",
+          "role": "style",
+          "layer": "loseta.style"
+        },
+        {
+          "path": "styles/maia/scroll-area.css",
+          "target": "styles/maia/scroll-area.css",
+          "role": "style",
+          "layer": "loseta.style"
+        },
+        {
+          "path": "styles/lyra/scroll-area.css",
+          "target": "styles/lyra/scroll-area.css",
+          "role": "style",
+          "layer": "loseta.style"
+        },
+        {
+          "path": "styles/mira/scroll-area.css",
+          "target": "styles/mira/scroll-area.css",
+          "role": "style",
+          "layer": "loseta.style"
+        },
+        {
+          "path": "styles/luma/scroll-area.css",
+          "target": "styles/luma/scroll-area.css",
+          "role": "style",
+          "layer": "loseta.style"
+        },
+        {
+          "path": "styles/sera/scroll-area.css",
+          "target": "styles/sera/scroll-area.css",
+          "role": "style",
+          "layer": "loseta.style"
+        },
+        {
+          "path": "styles/rhea/scroll-area.css",
+          "target": "styles/rhea/scroll-area.css",
+          "role": "style",
+          "layer": "loseta.style"
         }
       ],
       "examples": [
@@ -3104,7 +3398,7 @@
     {
       "name": "slider",
       "type": "component",
-      "status": "experimental",
+      "status": "stable",
       "title": "Slider",
       "description": "A native range input for selecting a value from a range.",
       "docs": "/docs/components/slider",
@@ -3123,6 +3417,48 @@
         {
           "path": "styles/nova/slider.css",
           "target": "styles/nova/slider.css",
+          "role": "style",
+          "layer": "loseta.style"
+        },
+        {
+          "path": "styles/vega/slider.css",
+          "target": "styles/vega/slider.css",
+          "role": "style",
+          "layer": "loseta.style"
+        },
+        {
+          "path": "styles/maia/slider.css",
+          "target": "styles/maia/slider.css",
+          "role": "style",
+          "layer": "loseta.style"
+        },
+        {
+          "path": "styles/lyra/slider.css",
+          "target": "styles/lyra/slider.css",
+          "role": "style",
+          "layer": "loseta.style"
+        },
+        {
+          "path": "styles/mira/slider.css",
+          "target": "styles/mira/slider.css",
+          "role": "style",
+          "layer": "loseta.style"
+        },
+        {
+          "path": "styles/luma/slider.css",
+          "target": "styles/luma/slider.css",
+          "role": "style",
+          "layer": "loseta.style"
+        },
+        {
+          "path": "styles/sera/slider.css",
+          "target": "styles/sera/slider.css",
+          "role": "style",
+          "layer": "loseta.style"
+        },
+        {
+          "path": "styles/rhea/slider.css",
+          "target": "styles/rhea/slider.css",
           "role": "style",
           "layer": "loseta.style"
         }
@@ -3363,7 +3699,7 @@
     {
       "name": "sidebar",
       "type": "component",
-      "status": "experimental",
+      "status": "stable",
       "title": "Sidebar",
       "description": "A composed sidebar shell for navigation and footer content.",
       "docs": "/docs/components/sidebar",
@@ -3386,6 +3722,48 @@
         {
           "path": "styles/nova/sidebar.css",
           "target": "styles/nova/sidebar.css",
+          "role": "style",
+          "layer": "loseta.style"
+        },
+        {
+          "path": "styles/vega/sidebar.css",
+          "target": "styles/vega/sidebar.css",
+          "role": "style",
+          "layer": "loseta.style"
+        },
+        {
+          "path": "styles/maia/sidebar.css",
+          "target": "styles/maia/sidebar.css",
+          "role": "style",
+          "layer": "loseta.style"
+        },
+        {
+          "path": "styles/lyra/sidebar.css",
+          "target": "styles/lyra/sidebar.css",
+          "role": "style",
+          "layer": "loseta.style"
+        },
+        {
+          "path": "styles/mira/sidebar.css",
+          "target": "styles/mira/sidebar.css",
+          "role": "style",
+          "layer": "loseta.style"
+        },
+        {
+          "path": "styles/luma/sidebar.css",
+          "target": "styles/luma/sidebar.css",
+          "role": "style",
+          "layer": "loseta.style"
+        },
+        {
+          "path": "styles/sera/sidebar.css",
+          "target": "styles/sera/sidebar.css",
+          "role": "style",
+          "layer": "loseta.style"
+        },
+        {
+          "path": "styles/rhea/sidebar.css",
+          "target": "styles/rhea/sidebar.css",
           "role": "style",
           "layer": "loseta.style"
         }

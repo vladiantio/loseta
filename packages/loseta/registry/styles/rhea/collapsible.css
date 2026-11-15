@@ -1,0 +1,50 @@
+/* Collapsible */
+@layer loseta.style {
+  .collapsible {
+    > summary {
+      gap: 0.5rem;
+      border-style: solid;
+      border-width: 1px;
+      border-color: transparent;
+      border-radius: var(--radius-2xl);
+      padding-block: 0.375rem;
+      text-align: start;
+      font-size: var(--text-sm);
+      line-height: var(--text-sm--line-height);
+      font-weight: 500;
+      transition-property: border-color, box-shadow;
+      transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+      transition-duration: 150ms;
+
+      &:focus-visible {
+        border-color: var(--ring);
+        box-shadow: 0 0 0 3px color-mix(in oklab, var(--ring) 50%, transparent);
+      }
+
+      > svg:last-child {
+        margin-inline-start: auto;
+        width: 1rem;
+        height: 1rem;
+        color: var(--muted-foreground);
+      }
+    }
+
+    > :not(summary) {
+      padding-block-start: 0.5rem;
+      font-size: var(--text-sm);
+      line-height: var(--text-sm--line-height);
+    }
+
+    &::details-content {
+      opacity: 0%;
+      transition-property: block-size, opacity;
+      transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+      transition-duration: 150ms;
+      transition-behavior: allow-discrete;
+    }
+
+    &[open]::details-content {
+      opacity: 100%;
+    }
+  }
+}

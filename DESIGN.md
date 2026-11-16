@@ -423,7 +423,7 @@ on an RTL page; its header follows the page direction.
 | Breadcrumb | `.breadcrumb` | `nav` with `ol`/`li`, links and a current `span`; separators are `li[aria-hidden="true"]`; `[data-slot="ellipsis"]` for collapsed paths. | `aria-current="page"` on the current item |
 | Bubble | `.bubble`, `.bubble-group` | `[data-slot="content"]` surface and optional `[data-slot="reactions"]` containing `[data-slot="reaction"]` buttons. | `data-variant="default|secondary|muted|tinted|outline|ghost|destructive"`; `data-align="start|end"`; reaction `aria-pressed` |
 | Button | `.btn` | Text and optional SVG; `data-icon="inline-start|inline-end"` marks inline icons for padding. | `data-variant="default|primary|secondary|outline|destructive|ghost|link"`; `data-size="default|xs|sm|lg|icon|icon-xs|icon-sm|icon-lg"` |
-| Button group | `.btn-group` | Buttons, inputs, dropdown/popover wrappers, `span`/`label`/`output` and `hr[role="separator"]`. | `data-orientation="horizontal|vertical"` |
+| Button group | `.btn-group` | Buttons, inputs, dropdown/popover/select wrappers, `span`/`label`/`output` and `hr[role="separator"]`. | `data-orientation="horizontal|vertical"` (horizontal by default) |
 | Calendar | `.calendar` | Header with `[data-slot="title"]` and nav buttons; native `<table role="grid">` with column headers and `td[role="gridcell"]` day cells. | Cell `aria-selected`; day `aria-current="date"` and `aria-disabled` |
 | Card | `.card` | `header` with title/description/action, `section`, `footer`, optional leading/trailing image. | `data-size="default|sm"`; `data-separator="bottom"` on the header |
 | Carousel | `.carousel` | `.carousel-viewport`, `.carousel-track`, `.carousel-item` slides, `.carousel-controls`, `.carousel-button` and `.carousel-indicator`. | `data-orientation="horizontal|vertical"`; indicator `aria-current` |
@@ -840,9 +840,9 @@ or `navigation-menu` also installs `popover-primitive`; installing
 `toggle-group` also installs `toggle`; installing `sidebar` also installs
 `collapsible`. Optional dependencies are composition hints only and are never
 installed automatically. Notable optional pairs are field with its form
-controls, button group with button/input/popover/dropdown-menu, table with
-checkbox, dropdown-menu with kbd, breadcrumb with dropdown-menu, pagination
-with button, sheet and drawer with button, input group with
+controls, button group with button/input/select/popover/dropdown-menu, table
+with checkbox, dropdown-menu with kbd, breadcrumb with dropdown-menu,
+pagination with button, sheet and drawer with button, input group with
 input/textarea/button, combobox with button, command with
 dialog-shell/popover-primitive/card, carousel and chart with card, sidebar with
 sheet, toast with button, and code block with button for copy and wrap controls.

@@ -581,6 +581,22 @@ test("select opens, selects an option and updates the trigger", async ({ page })
   await expect(panel).toHaveAttribute("aria-hidden", "true");
 });
 
+test("button group keeps a nested picker above the preview chrome", async ({ page }) => {
+  await page.goto("/docs/components/button-group");
+  const example = page
+    .locator("section.example")
+    .filter({ has: page.locator(".example-title", { hasText: "Select" }) });
+  const select = example.locator(".select");
+  const trigger = select.locator('[role="combobox"]');
+  const panel = select.locator("[data-popover]");
+
+  await trigger.click();
+  await expect(panel).toHaveAttribute("aria-hidden", "false");
+  await select.getByRole("option", { name: "Euro", exact: true }).click();
+  await expect(trigger).toContainText("€");
+  await expect(panel).toHaveAttribute("aria-hidden", "true");
+});
+
 test("combobox filters, selects, clears and shows an empty state", async ({ page }) => {
   await page.goto("/docs/components/combobox");
   const combobox = page.locator(".combobox:has(#combobox-fruit-panel)");

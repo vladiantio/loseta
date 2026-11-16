@@ -761,32 +761,20 @@
         border-start-end-radius: 0;
         border-end-end-radius: 0;
       }
-
-      > :last-child,
-      > :is(.dropdown-menu, .popover, .select):last-child > button {
-        border-start-end-radius: 0;
-        border-end-end-radius: 0;
-      }
     }
 
     &[data-orientation='vertical'] {
       > :not(:first-child),
       > :is(.dropdown-menu, .popover, .select):not(:first-child) > button {
-        border-top-left-radius: 0;
-        border-top-right-radius: 0;
-        border-top-width: 0;
+        border-start-start-radius: 0;
+        border-start-end-radius: 0;
+        border-block-start-width: 0;
       }
 
       > :not(:last-child),
       > :is(.dropdown-menu, .popover, .select):not(:last-child) > button {
-        border-bottom-right-radius: 0;
-        border-bottom-left-radius: 0;
-      }
-
-      > :last-child,
-      > :is(.dropdown-menu, .popover, .select):last-child > button {
-        border-bottom-right-radius: 0;
-        border-bottom-left-radius: 0;
+        border-end-end-radius: 0;
+        border-end-start-radius: 0;
       }
     }
 

@@ -22,6 +22,9 @@ const globe = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill=
 const info = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>`;
 const circleAlert = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="12" x2="12" y1="8" y2="12"/><line x1="12" x2="12.01" y1="16" y2="16"/></svg>`;
 const arrowDown = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14"/><path d="m19 12-7 7-7-7"/></svg>`;
+const plus = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="M12 5v14"/></svg>`;
+const minus = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/></svg>`;
+const bot = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" data-icon="inline-start"><path d="M12 8V4H8"/><rect width="16" height="12" x="4" y="8" rx="2"/><path d="M2 14h2"/><path d="M20 14h2"/><path d="M15 13v2"/><path d="M9 13v2"/></svg>`;
 const ratioImage = `data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 160 90'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop stop-color='%2394a3b8'/%3E%3Cstop offset='1' stop-color='%23e2e8f0'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='160' height='90' fill='url(%23g)'/%3E%3Ctext x='80' y='49' text-anchor='middle' font-family='sans-serif' font-size='12' fill='%23334155'%3E16:9%3C/text%3E%3C/svg%3E`;
 
 export const examples: Record<string, Example[]> = {
@@ -141,24 +144,154 @@ export const examples: Record<string, Example[]> = {
     {
       title: "Default",
       html: `<div class="btn-group" role="group" aria-label="History">
-  <button class="btn" data-variant="outline">Undo</button>
-  <button class="btn" data-variant="outline">Redo</button>
+  <button type="button" class="btn" data-variant="outline">Undo</button>
+  <button type="button" class="btn" data-variant="outline">Redo</button>
 </div>`
     },
     {
-      title: "Horizontal",
-      html: `<div class="btn-group" role="group" aria-label="Button group" data-orientation="horizontal">
-  <button class="btn" data-variant="outline">Left</button>
-  <button class="btn" data-variant="outline">Center</button>
-  <button class="btn" data-variant="outline">Right</button>
+      title: "Orientation",
+      html: `<div style="display: flex; align-items: flex-start; gap: 1rem">
+  <div class="btn-group" role="group" aria-label="Zoom">
+    <button type="button" class="btn" data-variant="outline" data-size="icon" aria-label="Zoom out">${minus}</button>
+    <button type="button" class="btn" data-variant="outline" data-size="icon" aria-label="Zoom in">${plus}</button>
+  </div>
+  <div class="btn-group" role="group" aria-label="Volume" data-orientation="vertical">
+    <button type="button" class="btn" data-variant="outline" data-size="icon" aria-label="Volume up">${plus}</button>
+    <button type="button" class="btn" data-variant="outline" data-size="icon" aria-label="Volume down">${minus}</button>
+  </div>
 </div>`
     },
     {
-      title: "Vertical",
-      html: `<div class="btn-group" role="group" aria-label="Vertical button group" data-orientation="vertical">
-  <button class="btn" data-variant="outline">Top</button>
-  <button class="btn" data-variant="outline">Middle</button>
-  <button class="btn" data-variant="outline">Bottom</button>
+      title: "Sizes",
+      html: `<div style="display: flex; flex-direction: column; align-items: flex-start; gap: 0.5rem">
+  <div class="btn-group" role="group" aria-label="Small actions">
+    <button type="button" class="btn" data-variant="outline" data-size="sm">Small</button>
+    <button type="button" class="btn" data-variant="outline" data-size="sm">Button</button>
+    <button type="button" class="btn" data-variant="outline" data-size="icon-sm" aria-label="Add">${plus}</button>
+  </div>
+  <div class="btn-group" role="group" aria-label="Default actions">
+    <button type="button" class="btn" data-variant="outline">Default</button>
+    <button type="button" class="btn" data-variant="outline">Button</button>
+    <button type="button" class="btn" data-variant="outline" data-size="icon" aria-label="Add">${plus}</button>
+  </div>
+  <div class="btn-group" role="group" aria-label="Large actions">
+    <button type="button" class="btn" data-variant="outline" data-size="lg">Large</button>
+    <button type="button" class="btn" data-variant="outline" data-size="lg">Button</button>
+    <button type="button" class="btn" data-variant="outline" data-size="icon-lg" aria-label="Add">${plus}</button>
+  </div>
+</div>`
+    },
+    {
+      title: "Text",
+      html: `<div class="btn-group" role="group" aria-label="Project URL">
+  <label class="label" for="demo-button-group-url">https://</label>
+  <input class="input" id="demo-button-group-url" type="text" placeholder="example.com">
+  <button type="button" class="btn" data-variant="outline">Copy</button>
+</div>`
+    },
+    {
+      title: "Separator",
+      html: `<div class="btn-group" role="group" aria-label="Clipboard">
+  <button type="button" class="btn" data-variant="secondary">Copy</button>
+  <hr role="separator" aria-orientation="vertical">
+  <button type="button" class="btn" data-variant="secondary">Paste</button>
+</div>`
+    },
+    {
+      title: "Split",
+      html: `<div class="btn-group" role="group" aria-label="New project">
+  <button type="button" class="btn" data-variant="secondary">New project</button>
+  <hr role="separator" aria-orientation="vertical">
+  <button type="button" class="btn" data-variant="secondary" data-size="icon" aria-label="New project options">${chevronDown}</button>
+</div>`
+    },
+    {
+      title: "Input",
+      html: `<div class="btn-group" role="group" aria-label="Search">
+  <input class="input" type="search" placeholder="Search components..." aria-label="Search components">
+  <button type="button" class="btn" data-variant="outline" data-size="icon" aria-label="Search">${search}</button>
+</div>`
+    },
+    {
+      title: "Dropdown menu",
+      html: `<div class="btn-group" role="group" aria-label="Conversation actions">
+  <button type="button" class="btn" data-variant="outline">Follow</button>
+  <div class="dropdown-menu" data-demo="dropdown">
+    <button type="button" class="btn" data-variant="outline" data-size="icon" data-demo-trigger aria-haspopup="menu" aria-expanded="false" aria-label="More conversation actions">${chevronDown}</button>
+    <div data-popover data-side="bottom" data-align="end" aria-hidden="true" style="width: 11rem">
+      <div role="menu">
+        <button type="button" role="menuitem">Mute conversation</button>
+        <button type="button" role="menuitem">Mark as read</button>
+        <button type="button" role="menuitem">Report conversation</button>
+        <div role="separator"></div>
+        <button type="button" role="menuitem" data-variant="destructive">Delete conversation</button>
+      </div>
+    </div>
+  </div>
+</div>`
+    },
+    {
+      title: "Popover",
+      html: `<div class="btn-group" role="group" aria-label="Copilot">
+  <button type="button" class="btn" data-variant="outline">${bot}Copilot</button>
+  <div class="popover" data-demo="popover">
+    <button type="button" class="btn" data-variant="outline" data-size="icon" data-demo-trigger aria-expanded="false" aria-label="Start a new task">${chevronDown}</button>
+    <div data-popover data-side="bottom" data-align="end" aria-hidden="true">
+      <header>
+        <h3 data-slot="title">Start a new task</h3>
+        <p data-slot="description">Describe your task in natural language.</p>
+      </header>
+      <div class="field">
+        <label class="label" for="demo-button-group-task">Task</label>
+        <textarea class="textarea" id="demo-button-group-task" placeholder="I need to..."></textarea>
+      </div>
+    </div>
+  </div>
+</div>`
+    },
+    {
+      title: "Select",
+      html: `<div class="btn-group" role="group" aria-label="Send amount">
+  <div class="btn-group" role="group" aria-label="Amount">
+    <div class="select" data-demo="select">
+      <button type="button" role="combobox" aria-haspopup="listbox" aria-expanded="false" aria-controls="demo-button-group-currency" aria-label="Currency" data-demo-select-trigger>
+        <span data-slot="value">$</span>
+        ${chevronDown}
+      </button>
+      <div data-popover data-side="bottom" aria-hidden="true" id="demo-button-group-currency">
+        <div role="listbox" aria-label="Currency">
+          <div role="option" aria-selected="true" aria-label="US Dollar" data-demo-option>
+            <span data-slot="text">$</span>
+            <span data-slot="indicator" aria-hidden="true">✓</span>
+          </div>
+          <div role="option" aria-selected="false" aria-label="Euro" data-demo-option>
+            <span data-slot="text">€</span>
+            <span data-slot="indicator" aria-hidden="true">✓</span>
+          </div>
+          <div role="option" aria-selected="false" aria-label="British Pound" data-demo-option>
+            <span data-slot="text">£</span>
+            <span data-slot="indicator" aria-hidden="true">✓</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <input class="input" type="text" inputmode="decimal" placeholder="10.00" aria-label="Amount">
+  </div>
+  <div class="btn-group" role="group" aria-label="Send">
+    <button type="button" class="btn" data-variant="outline" data-size="icon" aria-label="Send">${arrowRight}</button>
+  </div>
+</div>`
+    },
+    {
+      title: "Nested",
+      html: `<div class="btn-group" role="group" aria-label="Message composer">
+  <div class="btn-group" role="group" aria-label="Attachments">
+    <button type="button" class="btn" data-variant="outline" data-size="icon" aria-label="Add attachment">${plus}</button>
+  </div>
+  <div class="btn-group" role="group" aria-label="Message">
+    <input class="input" type="text" placeholder="Send a message..." aria-label="Message">
+    <button type="button" class="btn" data-variant="outline" data-size="icon" aria-label="Send message">${arrowRight}</button>
+  </div>
 </div>`
     }
   ],

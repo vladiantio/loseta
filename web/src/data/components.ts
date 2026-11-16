@@ -90,7 +90,7 @@ const notesBy: Record<string, string> = {
   button:
     "Use data-variant and data-size for the public variants. aria-invalid and aria-expanded are supported states.",
   "button-group":
-    "Composition is semantic: the CSS does not require .btn, but the examples use it so the group looks like buttons.",
+    "Use role=\"group\" with an aria-label on the root. data-orientation=\"horizontal|vertical\" controls the layout; horizontal is the default. Compose buttons, inputs, dropdown-menu, popover or select wrappers, span/label/output text and hr[role=\"separator\"]. Use a toggle-group when the buttons toggle state instead of performing actions.",
   card: "Use data-slot=\"title\", \"description\" and \"action\" for parts. data-separator=\"bottom\" adds a header divider.",
   "code-block":
     "Use [data-slot=\"actions\"] for copy and wrap controls; it floats when it is a direct child of the root. Add data-line-numbers to the pre; line numbers need explicit [data-slot=\"line\"] elements. Set style=\"--line-start: 42\" to change the first number and data-wrap to wrap long lines. Copy and wrap behavior is consumer JavaScript; the pre is dir=\"ltr\" and focusable. Syntax highlighting is not included; put token spans inside [data-slot=\"line-content\"]. Use footer for controls below the code; Show More needs your own JavaScript.",

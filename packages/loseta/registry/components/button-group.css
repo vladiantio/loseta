@@ -6,13 +6,25 @@
     width: fit-content;
     align-items: stretch;
 
-    &:has(> :is(.dropdown-menu, .popover, .select) > [data-popover][aria-hidden='false']) {
+    /* A panel can live inside a nested group, so every group in the chain is
+       lifted above sibling content while a popover is open. */
+    &:has([data-popover][aria-hidden='false']) {
       position: relative;
       z-index: 50;
     }
-    
+
     > .input {
       flex: 1;
+    }
+
+    /* A picker keeps its content width inside a group instead of filling it,
+       so neighbouring inputs and buttons get the available space. */
+    > .select {
+      width: auto;
+
+      > [role='combobox'] {
+        width: auto;
+      }
     }
 
     > *:focus-visible,
@@ -23,14 +35,14 @@
 
     > hr[role='separator'] {
       position: relative;
-      margin-inline: 0;
-      margin-block: 1px;
-      height: auto;
-      width: 1px;
       flex-shrink: 0;
       align-self: stretch;
+      inline-size: 1px;
+      block-size: auto;
+      margin-inline: 0;
+      margin-block: 1px;
       border-style: solid;
-      border-width: 0px;
+      border-width: 0;
     }
 
     &:not([data-orientation='vertical']) {
@@ -39,35 +51,38 @@
         border-start-start-radius: 0;
         border-end-start-radius: 0;
         border-inline-start-style: solid;
-        border-inline-start-width: 0px;
+        border-inline-start-width: 0;
       }
+
       > *:not(:last-child),
       > :is(.dropdown-menu, .popover, .select):not(:last-child) > button {
         border-start-end-radius: 0;
         border-end-end-radius: 0;
       }
-    }  
+    }
+
     &[data-orientation='vertical'] {
       flex-direction: column;
 
       > hr[role='separator'] {
+        block-size: 1px;
+        inline-size: auto;
         margin-inline: 1px;
         margin-block: 0;
-        height: 1px;
-        width: auto;
       }
-      
+
       > *:not(:first-child),
       > :is(.dropdown-menu, .popover, .select):not(:first-child) > button {
-        border-top-left-radius: 0;
-        border-top-right-radius: 0;
-        border-top-style: solid;
-        border-top-width: 0px;
+        border-start-start-radius: 0;
+        border-start-end-radius: 0;
+        border-block-start-style: solid;
+        border-block-start-width: 0;
       }
+
       > *:not(:last-child),
       > :is(.dropdown-menu, .popover, .select):not(:last-child) > button {
-        border-bottom-right-radius: 0;
-        border-bottom-left-radius: 0;
+        border-end-start-radius: 0;
+        border-end-end-radius: 0;
       }
     }
 

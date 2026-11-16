@@ -680,6 +680,7 @@
       "optionalDependencies": [
         "button",
         "input",
+        "select",
         "popover",
         "dropdown-menu"
       ],

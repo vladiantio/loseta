@@ -1382,7 +1382,7 @@
     &::file-selector-button {
       height: 1.5rem;
       font-size: var(--text-xs);
-      line-height: var(--text-sm--line-height);
+      line-height: var(--text-xs--line-height);
       font-weight: 500;
     }
 
@@ -1411,7 +1411,7 @@
 
     @media (width >= 48rem) {
       font-size: var(--text-xs);
-      line-height: var(--text-sm--line-height);
+      line-height: var(--text-xs--line-height);
     }
 
   }

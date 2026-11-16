@@ -489,6 +489,72 @@ test("switch demo keeps the thumb inside a 44px pointer target", async ({
   expect(metrics.target.height).toBeGreaterThanOrEqual(24);
 });
 
+test("input demo keeps the control type scale, selection and file button", async ({
+  page
+}) => {
+  await page.emulateMedia({ colorScheme: "light" });
+  await page.goto("/docs/components/input");
+  const input = page.locator(".docs-preview .input").first();
+  const file = page.locator(".docs-preview input[type='file']");
+
+  const control = await input.evaluate((element) => {
+    const style = getComputedStyle(element);
+    const selection = getComputedStyle(element, "::selection");
+    return {
+      height: style.height,
+      fontSize: style.fontSize,
+      paddingInline: style.paddingInline,
+      selectionBackground: selection.backgroundColor,
+      selectionColor: selection.color
+    };
+  });
+
+  const fileButton = await file.evaluate((element) => {
+    const style = getComputedStyle(element, "::file-selector-button");
+    return {
+      height: style.height,
+      borderWidth: style.borderWidth,
+      backgroundColor: style.backgroundColor
+    };
+  });
+
+  expect(control).toEqual({
+    height: "32px",
+    fontSize: "14px",
+    paddingInline: "10px",
+    selectionBackground: "oklch(0.205 0 0)",
+    selectionColor: "oklch(0.985 0 0)"
+  });
+  expect(fileButton).toEqual({
+    height: "24px",
+    borderWidth: "0px",
+    backgroundColor: "rgba(0, 0, 0, 0)"
+  });
+});
+
+test("input file button follows the Mira type scale", async ({ page }) => {
+  await page.goto("/docs/components/input");
+  const file = page.locator(".docs-preview input[type='file']");
+
+  await page.locator("[data-style-select]").selectOption("mira");
+  await expect(page.locator("[data-style-link]")).toHaveAttribute(
+    "href",
+    "/styles/mira.css"
+  );
+  await page.waitForFunction(() => {
+    return [...document.styleSheets].some(
+      (sheet) => sheet.href && sheet.href.endsWith("/styles/mira.css")
+    );
+  });
+
+  const fileButton = await file.evaluate((element) => {
+    const style = getComputedStyle(element, "::file-selector-button");
+    return { fontSize: style.fontSize, lineHeight: style.lineHeight };
+  });
+
+  expect(fileButton).toEqual({ fontSize: "12px", lineHeight: "16px" });
+});
+
 test("accordion and collapsible animate their content on close", async ({ page }) => {
   for (const [slug, selector] of [
     ["accordion", ".accordion details"],

@@ -689,14 +689,94 @@ Done in 2.8s using pnpm v10.18.0</code></pre>
   input: [
     {
       title: "Default",
-      html: `<input class="input" type="email" placeholder="you@example.com">`
+      html: `<input class="input" type="email" placeholder="you@example.com" aria-label="Email">`
+    },
+    {
+      title: "Field",
+      html: `<div class="field" style="max-width: 24rem">
+  <label class="label" for="demo-input-field">Username</label>
+  <input class="input" id="demo-input-field" placeholder="Enter your username">
+  <p>Choose a unique username for your account.</p>
+</div>`
+    },
+    {
+      title: "Disabled",
+      html: `<div class="field" style="max-width: 24rem">
+  <label class="label" for="demo-input-disabled">Email</label>
+  <input class="input" id="demo-input-disabled" type="email" value="ada@example.com" disabled>
+  <p>This field is currently disabled.</p>
+</div>`
     },
     {
       title: "Invalid",
-      html: `<div class="field">
+      html: `<div class="field" style="max-width: 24rem">
   <label class="label" for="demo-input-invalid">Username</label>
-  <input class="input" id="demo-input-invalid" aria-invalid="true" value="invalid name">
-  <p role="alert">Username may only contain letters and numbers.</p>
+  <input class="input" id="demo-input-invalid" aria-invalid="true" aria-describedby="demo-input-invalid-error" value="invalid name">
+  <p id="demo-input-invalid-error" role="alert">Username may only contain letters and numbers.</p>
+</div>`
+    },
+    {
+      title: "File",
+      html: `<div class="field" style="max-width: 24rem">
+  <label class="label" for="demo-input-file">Picture</label>
+  <input class="input" id="demo-input-file" type="file" accept="image/*">
+  <p>Select a picture to upload.</p>
+</div>`
+    },
+    {
+      title: "Required",
+      html: `<div class="field" style="max-width: 24rem">
+  <label class="label" for="demo-input-required">Required field <span aria-hidden="true" style="color: var(--destructive)">*</span></label>
+  <input class="input" id="demo-input-required" placeholder="This field is required" required>
+  <p>This field must be filled out.</p>
+</div>`
+    },
+    {
+      title: "Grid",
+      html: `<div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; max-width: 30rem">
+  <div class="field">
+    <label class="label" for="demo-input-first-name">First name</label>
+    <input class="input" id="demo-input-first-name" placeholder="Jordan">
+  </div>
+  <div class="field">
+    <label class="label" for="demo-input-last-name">Last name</label>
+    <input class="input" id="demo-input-last-name" placeholder="Lee">
+  </div>
+</div>`
+    },
+    {
+      title: "Inline",
+      html: `<div class="field" data-orientation="horizontal" style="max-width: 24rem">
+  <input class="input" type="search" placeholder="Search..." aria-label="Search" style="flex: 1">
+  <button type="button" class="btn">Search</button>
+</div>`
+    },
+    {
+      title: "Badge",
+      html: `<div class="field" style="max-width: 24rem">
+  <label class="label" for="demo-input-badge" style="width: 100%">
+    Webhook URL
+    <span class="badge" data-variant="secondary" style="margin-inline-start: auto">Beta</span>
+  </label>
+  <input class="input" id="demo-input-badge" type="url" placeholder="https://api.example.com/webhook">
+</div>`
+    },
+    {
+      title: "Input group",
+      html: `<div style="display: flex; flex-direction: column; gap: 0.5rem; max-width: 24rem">
+  <label class="label" for="demo-input-group-website">Website URL</label>
+  <div class="input-group" role="group" aria-label="Website URL">
+    <span data-slot="addon" data-align="inline-start" aria-hidden="true">https://</span>
+    <input class="input" id="demo-input-group-website" type="url" placeholder="example.com">
+  </div>
+</div>`
+    },
+    {
+      title: "Right-to-left",
+      html: `<div class="field" dir="rtl" lang="ar" style="max-width: 24rem">
+  <label class="label" for="demo-input-rtl-api-key">مفتاح API</label>
+  <input class="input" id="demo-input-rtl-api-key" type="password" placeholder="sk-..." dir="rtl">
+  <p>مفتاح API الخاص بك مشفر ومخزن بأمان.</p>
 </div>`
     }
   ],

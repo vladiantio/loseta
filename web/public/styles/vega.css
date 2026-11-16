@@ -1381,6 +1381,11 @@
     transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
     transition-duration: 150ms;
 
+    &::selection {
+      background-color: var(--primary);
+      color: var(--primary-foreground);
+    }
+
     &::file-selector-button {
       height: 1.75rem;
       font-size: var(--text-sm);

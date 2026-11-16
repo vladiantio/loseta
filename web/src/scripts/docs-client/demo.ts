@@ -13,9 +13,55 @@ const announce = (message: string): void => {
   });
 };
 
+const popoverTrigger = (popover: Element): HTMLElement | null => {
+  const root = popover.closest("[data-demo]");
+  return (
+    root?.querySelector<HTMLElement>(
+      "[data-demo-trigger], [data-demo-menu-trigger]"
+    ) ?? null
+  );
+};
+
+const restorePopoverFocus = (popover: Element): void => {
+  if (popover.getAttribute("role") !== "dialog") return;
+  if (
+    !(popover instanceof HTMLElement) ||
+    !popover.contains(document.activeElement)
+  ) {
+    return;
+  }
+  popoverTrigger(popover)?.focus();
+};
+
+const focusPopover = (popover: Element): void => {
+  if (popover.getAttribute("role") !== "dialog") return;
+  if (!(popover instanceof HTMLElement)) return;
+
+  const target =
+    popover.querySelector<HTMLElement>(
+      "input, select, textarea, button, a[href], [tabindex]:not([tabindex='-1'])"
+    ) ?? popover;
+
+  const focus = (): void => {
+    if (popover.getAttribute("aria-hidden") !== "false") return;
+    const active = document.activeElement;
+    if (active !== document.body && active !== popoverTrigger(popover)) return;
+    target.focus();
+  };
+
+  const duration = Number.parseFloat(getComputedStyle(popover).transitionDuration);
+  if (Number.isFinite(duration) && duration > 0) {
+    // visibility is discrete in the panel transition, so focus after it flips.
+    setTimeout(focus, duration * 1000);
+  } else {
+    setTimeout(focus, 0);
+  }
+};
+
 const closeAllPopovers = (except?: Element): void => {
   document.querySelectorAll("[data-demo] [data-popover]").forEach((popover) => {
     if (popover === except) return;
+    restorePopoverFocus(popover);
     popover.setAttribute("aria-hidden", "true");
   });
   document.querySelectorAll("[data-demo] .context-menu").forEach((menu) => {
@@ -381,9 +427,11 @@ const onClick = async (event: MouseEvent): Promise<void> => {
       : root?.querySelector("[data-popover]");
     if (popover) {
       const willOpen = popover.getAttribute("aria-hidden") === "true";
+      if (!willOpen) restorePopoverFocus(popover);
       closeAllPopovers(popover);
       popover.setAttribute("aria-hidden", willOpen ? "false" : "true");
       trigger.setAttribute("aria-expanded", willOpen ? "true" : "false");
+      if (willOpen) focusPopover(popover);
     }
     return;
   }

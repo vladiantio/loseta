@@ -804,7 +804,9 @@ progress sweep slow down instead of stopping. This remains a known gap.
   `aria-checked`.
 - Popovers must maintain `aria-expanded` and `aria-controls` on the trigger and
   `aria-hidden` on the panel. The panel uses `role="dialog"` and is named with
-  `aria-labelledby` (and `aria-describedby` when it has a description).
+  `aria-labelledby` (and `aria-describedby` when it has a description). Make
+  the panel focusable with `tabindex="-1"`, move focus to the panel or its
+  first control on open, and restore focus to the trigger on close.
 - Tooltips must have an accessible name or description on the trigger; the
   visual bubble is generated from `data-tooltip` and is not a substitute for
   `aria-label` or `aria-describedby`.

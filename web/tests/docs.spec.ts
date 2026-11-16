@@ -1010,15 +1010,24 @@ test("popover examples toggle, align and mirror placement", async ({ page }) => 
 
   await expect(panel).toHaveAttribute("aria-hidden", "true");
   await expect(panel).toHaveAttribute("role", "dialog");
+  await expect(panel).toHaveAttribute("tabindex", "-1");
   await trigger.click();
   await expect(panel).toHaveAttribute("aria-hidden", "false");
   await expect(trigger).toHaveAttribute("aria-expanded", "true");
   await expect(trigger).toHaveAttribute("aria-controls", "demo-popover-default-panel");
   await expect(panel).toHaveAccessibleName("Dimensions");
+  await expect
+    .poll(() => panel.evaluate((element) => element.contains(document.activeElement)))
+    .toBe(true);
+
+  const openAxe = await new AxeBuilder({ page }).withTags(tags).analyze();
+  const openViolations = blocking(openAxe.violations);
+  expect(openViolations, JSON.stringify(openViolations, null, 2)).toEqual([]);
 
   await page.keyboard.press("Escape");
   await expect(panel).toHaveAttribute("aria-hidden", "true");
   await expect(trigger).toHaveAttribute("aria-expanded", "false");
+  await expect(trigger).toBeFocused();
 
   const alignments = page
     .locator("section.example")
@@ -1028,6 +1037,11 @@ test("popover examples toggle, align and mirror placement", async ({ page }) => 
   await expect(centerPanel).toHaveCSS("translate", "-50% -8px");
   await centerTrigger.click();
   await expect(centerPanel).toHaveCSS("opacity", "1");
+  await expect
+    .poll(() =>
+      centerPanel.evaluate((element) => element === document.activeElement)
+    )
+    .toBe(true);
 
   const triggerBox = await centerTrigger.boundingBox();
   const panelBox = await centerPanel.boundingBox();

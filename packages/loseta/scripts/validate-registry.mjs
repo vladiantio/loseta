@@ -135,6 +135,143 @@ function walk(dir, base = "") {
   return files;
 }
 
+const idRefAttributes = [
+  "for",
+  "aria-controls",
+  "aria-labelledby",
+  "aria-describedby",
+  "aria-owns",
+  "aria-activedescendant",
+  "headers",
+  "list",
+  "form"
+];
+
+function normalizeCssValue(value) {
+  return value.replace(/\s+/g, " ").trim();
+}
+
+function firstDeclaration(css, property) {
+  const match = new RegExp(`${property}:\\s*([^;]+);`).exec(css);
+  return match ? normalizeCssValue(match[1]) : null;
+}
+
+function overlayRecipe(css) {
+  return {
+    radius: firstDeclaration(css, "border-radius"),
+    shadow: firstDeclaration(css, "box-shadow")
+  };
+}
+
+function validateExampleMarkup(itemName, examplePath, html) {
+  const ids = new Set();
+  const duplicates = new Set();
+
+  for (const match of html.matchAll(/(?:^|\s)id="([^"]+)"/g)) {
+    if (ids.has(match[1])) duplicates.add(match[1]);
+    ids.add(match[1]);
+  }
+
+  for (const id of duplicates) {
+    fail(`${itemName}: ${examplePath}: duplicate id "${id}"`);
+  }
+
+  for (const attribute of idRefAttributes) {
+    const pattern = new RegExp(`(?:^|\\s)${attribute}="([^"]+)"`, "g");
+    for (const match of html.matchAll(pattern)) {
+      for (const ref of match[1].split(/\s+/)) {
+        if (ref && !ids.has(ref)) {
+          fail(
+            `${itemName}: ${examplePath}: ${attribute}="${ref}" has no matching id`
+          );
+        }
+      }
+    }
+  }
+}
+
+function validatePopoverContracts(itemName, examplePath, html) {
+  const chunks = html.split('<div class="popover"').slice(1);
+
+  chunks.forEach((chunk, index) => {
+    const panel = /<[a-z][^>]*\bdata-popover\b[^>]*>/i.exec(chunk)?.[0];
+    if (!panel) return;
+
+    const suffix = `${itemName}: ${examplePath}: popover ${index + 1}`;
+    const beforePanel = chunk.slice(0, chunk.indexOf(panel));
+    const trigger =
+      /<[a-z][^>]*\baria-controls="[^"]+"[^>]*>/i.exec(beforePanel)?.[0] ??
+      /<[a-z][^>]*\baria-haspopup="dialog"[^>]*>/i.exec(beforePanel)?.[0] ??
+      /<button\b[^>]*>/i.exec(beforePanel)?.[0];
+    const panelId = /(?:^|\s)id="([^"]+)"/.exec(panel)?.[1];
+
+    if (!panelId) fail(`${suffix}: panel needs an id`);
+    if (!/\brole="dialog"/.test(panel)) {
+      fail(`${suffix}: panel needs role="dialog"`);
+    }
+    if (!/\btabindex="-1"/.test(panel)) {
+      fail(`${suffix}: panel needs tabindex="-1"`);
+    }
+    if (!/\baria-labelledby="[^"]+"/.test(panel)) {
+      fail(`${suffix}: panel needs aria-labelledby`);
+    }
+    if (!/\baria-hidden="true"/.test(panel)) {
+      fail(`${suffix}: panel needs aria-hidden="true" when closed`);
+    }
+
+    if (!trigger) {
+      fail(`${suffix}: missing trigger`);
+      return;
+    }
+    if (!/\baria-haspopup="dialog"/.test(trigger)) {
+      fail(`${suffix}: trigger needs aria-haspopup="dialog"`);
+    }
+    if (!/\baria-expanded="false"/.test(trigger)) {
+      fail(`${suffix}: trigger needs aria-expanded="false" when closed`);
+    }
+
+    const controls = /\baria-controls="([^"]+)"/.exec(trigger)?.[1];
+    if (!controls || !panelId || !controls.split(/\s+/).includes(panelId)) {
+      fail(`${suffix}: trigger aria-controls must reference the panel id`);
+    }
+  });
+}
+
+function validateOverlayRecipes() {
+  const candidates = [
+    "primitives/listbox.css",
+    "primitives/popover.css",
+    "context-menu.css"
+  ];
+
+  for (const style of styleNames) {
+    const menuPath = join(stylesRoot, style, "primitives/menu.css");
+    if (!existsSync(menuPath)) continue;
+
+    const menu = overlayRecipe(readFileSync(menuPath, "utf8"));
+    if (!menu.radius || !menu.shadow) continue;
+
+    for (const relative of candidates) {
+      const path = join(stylesRoot, style, relative);
+      if (!existsSync(path)) continue;
+
+      const recipe = overlayRecipe(readFileSync(path, "utf8"));
+      if (recipe.radius && recipe.radius !== menu.radius) {
+        fail(
+          `style ${style}: ${relative}: border-radius ${recipe.radius} does not match the menu primitive ${menu.radius}`
+        );
+      }
+      if (recipe.shadow && recipe.shadow !== menu.shadow) {
+        fail(
+          `style ${style}: ${relative}: box-shadow does not match the menu primitive`
+        );
+      }
+    }
+  }
+}
+
+validateOverlayRecipes();
+
 for (const item of registry.items ?? []) {
   for (const dependency of item.registryDependencies ?? []) {
     if (!items.has(dependency)) {
@@ -273,8 +410,16 @@ for (const item of registry.items ?? []) {
   }
 
   for (const example of item.examples ?? []) {
-    if (!existsSync(join(registryDir, example))) {
+    const examplePath = join(registryDir, example);
+    if (!existsSync(examplePath)) {
       fail(`${item.name}: example not found: ${example}`);
+      continue;
+    }
+
+    const html = readFileSync(examplePath, "utf8");
+    validateExampleMarkup(item.name, example, html);
+    if (item.name === "popover") {
+      validatePopoverContracts(item.name, example, html);
     }
   }
 }

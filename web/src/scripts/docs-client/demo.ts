@@ -123,6 +123,14 @@ const refreshMessageScrollers = (): void => {
     .forEach(updateMessageScroller);
 };
 
+const refreshIndeterminateCheckboxes = (): void => {
+  document
+    .querySelectorAll<HTMLInputElement>("[data-demo-indeterminate]")
+    .forEach((input) => {
+      input.indeterminate = true;
+    });
+};
+
 const onClick = async (event: MouseEvent): Promise<void> => {
   const target = event.target;
   if (!(target instanceof Element)) return;
@@ -479,6 +487,10 @@ export function mountDemo(): void {
   document.addEventListener("input", onInput);
   document.addEventListener("focusin", onFocusIn);
   document.addEventListener("scroll", onScroll, true);
-  document.addEventListener("astro:page-load", refreshMessageScrollers);
+  document.addEventListener("astro:page-load", () => {
+    refreshMessageScrollers();
+    refreshIndeterminateCheckboxes();
+  });
   refreshMessageScrollers();
+  refreshIndeterminateCheckboxes();
 }

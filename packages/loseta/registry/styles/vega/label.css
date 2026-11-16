@@ -36,6 +36,10 @@
         color-mix(in oklab, var(--primary) 5%, transparent),
         color-mix(in oklab, var(--primary) 10%, transparent)
       );
+
+      p:not([role='alert']) {
+        color: var(--foreground);
+      }
     }
 
     &:has(:focus-visible) {

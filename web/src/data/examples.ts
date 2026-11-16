@@ -371,12 +371,121 @@ export const examples: Record<string, Example[]> = {
   checkbox: [
     {
       title: "Default",
+      html: `<div class="field" data-orientation="horizontal">
+  <input class="checkbox" type="checkbox" id="demo-checkbox" checked>
+  <label class="label" for="demo-checkbox">Accept terms and conditions</label>
+</div>`
+    },
+    {
+      title: "With description",
+      html: `<div class="field" data-orientation="horizontal">
+  <input class="checkbox" type="checkbox" id="demo-checkbox-description" checked>
+  <section>
+    <label class="label" for="demo-checkbox-description">Accept terms and conditions</label>
+    <p>By clicking this checkbox, you agree to the terms and conditions.</p>
+  </section>
+</div>`
+    },
+    {
+      title: "Disabled",
       html: `<div class="field">
-  <label class="label" for="demo-checkbox">
-    <input class="checkbox" type="checkbox" id="demo-checkbox" checked>
-    Accept terms and conditions
+  <label class="label" for="demo-checkbox-disabled">
+    <input class="checkbox" type="checkbox" id="demo-checkbox-disabled" disabled>
+    Enable notifications
   </label>
-  <p>You agree to our Terms of Service and Privacy Policy.</p>
+</div>`
+    },
+    {
+      title: "Invalid",
+      html: `<div class="field" data-orientation="horizontal" aria-invalid="true">
+  <input class="checkbox" type="checkbox" id="demo-checkbox-invalid" aria-invalid="true">
+  <section>
+    <label class="label" for="demo-checkbox-invalid">Accept terms and conditions</label>
+    <p role="alert">You must accept the terms and conditions to continue.</p>
+  </section>
+</div>`
+    },
+    {
+      title: "Group",
+      html: `<fieldset class="fieldset">
+  <legend data-variant="label">Show these items on the desktop:</legend>
+  <p>Select the items you want to show on the desktop.</p>
+  <div role="group" data-slot="checkbox-group" aria-label="Items shown on the desktop">
+    <div class="field" data-orientation="horizontal">
+      <input class="checkbox" type="checkbox" id="demo-checkbox-hard-disks" name="desktop-items" value="hard-disks" checked>
+      <label class="label" for="demo-checkbox-hard-disks">Hard disks</label>
+    </div>
+    <div class="field" data-orientation="horizontal">
+      <input class="checkbox" type="checkbox" id="demo-checkbox-external-disks" name="desktop-items" value="external-disks">
+      <label class="label" for="demo-checkbox-external-disks">External disks</label>
+    </div>
+    <div class="field" data-orientation="horizontal">
+      <input class="checkbox" type="checkbox" id="demo-checkbox-cds" name="desktop-items" value="cds" checked>
+      <label class="label" for="demo-checkbox-cds">CDs, DVDs, and iPods</label>
+    </div>
+    <div class="field" data-orientation="horizontal">
+      <input class="checkbox" type="checkbox" id="demo-checkbox-servers" name="desktop-items" value="servers">
+      <label class="label" for="demo-checkbox-servers">Connected servers</label>
+    </div>
+  </div>
+</fieldset>`
+    },
+    {
+      title: "With title",
+      html: `<div class="field" style="max-width: 28rem">
+  <label class="label" for="demo-checkbox-notifications">
+    <div class="field" data-orientation="horizontal">
+      <input class="checkbox" type="checkbox" id="demo-checkbox-notifications" checked>
+      <section>
+        <h3>Enable notifications</h3>
+        <p>You can enable or disable notifications at any time.</p>
+      </section>
+    </div>
+  </label>
+</div>`
+    },
+    {
+      title: "In table",
+      html: `<div class="table-container">
+  <table class="table">
+    <caption>Team members and their roles.</caption>
+    <thead>
+      <tr>
+        <th>
+          <input class="checkbox" type="checkbox" role="checkbox" aria-label="Select all rows" data-demo-indeterminate>
+        </th>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Role</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr aria-selected="true">
+        <td><input class="checkbox" type="checkbox" role="checkbox" aria-label="Select Sarah Chen" checked></td>
+        <td>Sarah Chen</td>
+        <td>sarah.chen@example.com</td>
+        <td>Admin</td>
+      </tr>
+      <tr aria-selected="true">
+        <td><input class="checkbox" type="checkbox" role="checkbox" aria-label="Select Marcus Rodriguez" checked></td>
+        <td>Marcus Rodriguez</td>
+        <td>marcus.rodriguez@example.com</td>
+        <td>User</td>
+      </tr>
+      <tr>
+        <td><input class="checkbox" type="checkbox" role="checkbox" aria-label="Select Priya Patel"></td>
+        <td>Priya Patel</td>
+        <td>priya.patel@example.com</td>
+        <td>User</td>
+      </tr>
+      <tr>
+        <td><input class="checkbox" type="checkbox" role="checkbox" aria-label="Select David Kim"></td>
+        <td>David Kim</td>
+        <td>david.kim@example.com</td>
+        <td>Editor</td>
+      </tr>
+    </tbody>
+  </table>
 </div>`
     }
   ],

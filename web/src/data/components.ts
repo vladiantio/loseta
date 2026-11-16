@@ -94,7 +94,8 @@ const notesBy: Record<string, string> = {
   card: "Use data-slot=\"title\", \"description\" and \"action\" for parts. data-separator=\"bottom\" adds a header divider.",
   "code-block":
     "Use [data-slot=\"actions\"] for copy and wrap controls; it floats when it is a direct child of the root. Add data-line-numbers to the pre; line numbers need explicit [data-slot=\"line\"] elements. Set style=\"--line-start: 42\" to change the first number and data-wrap to wrap long lines. Copy and wrap behavior is consumer JavaScript; the pre is dir=\"ltr\" and focusable. Syntax highlighting is not included; put token spans inside [data-slot=\"line-content\"]. Use footer for controls below the code; Show More needs your own JavaScript.",
-  checkbox: "The .checkbox class is required. Use native checked/disabled and aria-invalid=\"true\".",
+  checkbox:
+    "The .checkbox class is required. Use native checked/disabled and aria-invalid=\"true\"; set the indeterminate property from JavaScript. Groups compose with .fieldset, a legend and [data-slot=\"checkbox-group\"].",
   dialog:
     "Uses native <dialog>. CSS only handles presentation; call showModal() and close() from your JavaScript.",
   "alert-dialog":
@@ -177,7 +178,7 @@ const notesBy: Record<string, string> = {
   questionnaire:
     "A sequence of fieldset steps. Use aria-current=\"step\" on the active item and hidden on inactive ones, a native progress with an accessible name, and native radios, checkboxes and inputs for answers. Step changes, validation and completion are consumer JavaScript.",
   radio: "Use .radio and a role=\"radiogroup\" container.",
-  label: "Use .label or a native <label> inside .field.",
+  label: "Use .label or a native <label> inside .field. A label wrapping a .field becomes a selectable card.",
   empty: "Uses header/figure/section/footer structure.",
   item: "Uses figure/section/aside/header/footer structure.",
   kbd: "Use .kbd inside menus, tooltips or shortcut hints.",

@@ -919,6 +919,12 @@
     width: 0.875rem;
     height: 0.875rem;
   }
+
+  .checkbox:not([role='switch']):indeterminate::after {
+    width: 0.5rem;
+    height: 2px;
+    border-radius: var(--radius-full);
+  }
 }
 /* Code Block */
 @layer loseta.style {
@@ -1601,6 +1607,10 @@
         color-mix(in oklab, var(--primary) 5%, transparent),
         color-mix(in oklab, var(--primary) 10%, transparent)
       );
+
+      p:not([role='alert']) {
+        color: var(--foreground);
+      }
     }
 
     &:has(:focus-visible) {

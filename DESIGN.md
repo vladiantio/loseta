@@ -314,11 +314,11 @@ fields, selects, checkboxes, radios and switches.
 | Invalid | `--destructive` border plus a 3px destructive-at-20% shadow; dark mode uses stronger destructive mixes. A field containing an invalid control turns its text destructive. |
 | Disabled | 50% opacity. Buttons, tabs and menu items also drop pointer events; inputs, textareas and selects use a not-allowed cursor. |
 | Active | Buttons translate down 1px, except triggers with `aria-haspopup`. |
-| Selected | Tabs use a raised background and `--shadow-sm`; line tabs use a 2px foreground indicator. Table rows use `--muted`. Listbox options use font-weight 500 and a check indicator. |
+| Selected | Tabs use a raised background and `--shadow-sm`; line tabs use a 2px foreground indicator. Table rows use `--muted`. Listbox options use font-weight 500 and a check indicator. Selectable label cards use a primary border and tint, and their descriptions rise to `--foreground`. |
 | Current | `aria-current="page"` pagination links use an outline border and `--background`; breadcrumb current text uses `--foreground`. |
 | Pressed | `aria-pressed="true"` toggles use `--accent` / `--accent-foreground`. |
 | Open details | Accordion summaries rotate their trailing icon 180 degrees; the open state itself is native. |
-| Indeterminate | Progress uses a moving primary gradient over a 20% primary track. |
+| Indeterminate | Progress uses a moving primary gradient over a 20% primary track. Checkbox draws a current-color dash. |
 | Highlighted | Menu items use `--accent` / `--accent-foreground`; destructive items use a destructive tint. |
 | Expanded | Secondary, outline and ghost buttons keep their open-state fill via `aria-expanded="true"`. |
 
@@ -428,7 +428,7 @@ on an RTL page; its header follows the page direction.
 | Card | `.card` | `header` with title/description/action, `section`, `footer`, optional leading/trailing image. | `data-size="default|sm"`; `data-separator="bottom"` on the header |
 | Carousel | `.carousel` | `.carousel-viewport`, `.carousel-track`, `.carousel-item` slides, `.carousel-controls`, `.carousel-button` and `.carousel-indicator`. | `data-orientation="horizontal|vertical"`; indicator `aria-current` |
 | Chart | `.chart` | `[data-slot="plot"]`, legend with `[data-slot="legend-item"]`/`[data-slot="swatch"]` and `[data-slot="tooltip"]`. | `data-series="1"`–`"5"` |
-| Checkbox | `.checkbox` | Native `input[type="checkbox"]`; must not carry `role="switch"`. | — |
+| Checkbox | `.checkbox` | Native `input[type="checkbox"]`; must not carry `role="switch"`. Checked draws a check; indeterminate draws a dash. | — |
 | Code Block | `.code-block` | Optional `header` with `[data-slot="title"]` and `[data-slot="actions"]`; required `pre` containing `code`; optional `footer`; line parts `[data-slot="line"]` wrapping `[data-slot="line-content"]`. | `data-size="default|sm"`; `data-variant="default|destructive"`; `pre` `data-line-numbers`, `data-wrap`, `--line-start`; line `data-variant="added|removed|highlighted"` |
 | Collapsible | `.collapsible` | Native `<details>` with a `<summary>` trigger and content directly after `summary`. | `[open]`; `inert` for disabled items |
 | Combobox | `.combobox` | Input with `role="combobox"` and a `[data-popover]` panel containing `[role="listbox"]`; optional `[data-slot="clear"]`. | Listbox `aria-multiselectable="true"` for multiple; placement attributes on the panel |
@@ -445,7 +445,7 @@ on an RTL page; its header follows the page direction.
 | Input OTP | `.input-otp` | Native `<input>` with `inputmode="numeric"`, `autocomplete="one-time-code"`, `maxlength` and `pattern`. | `data-size="default|sm|lg"` |
 | Item | `.item`, `.item-group` | `figure`, `section`, `aside`, `header`, `footer`; item groups accept `hr` separators. | Item `data-variant="default|outline|muted"`; `data-size="default|sm|xs"` |
 | Kbd | `.kbd` | Inline shortcut text or SVG. | — |
-| Label | `.label` | Native `<label>`; also supported as a direct label inside `.field`. | — |
+| Label | `.label` | Native `<label>`; also supported as a direct label inside `.field`. A label wrapping a `.field` becomes a selectable card. | — |
 | Marker | `.marker` | `[data-slot="icon"]` and `[data-slot="content"]`. | `data-variant="default|separator|border"` |
 | Menubar | `.menubar`, `.menubar-item` | `role="menubar"`, `role="none"` item wrappers, `role="menuitem"` triggers with `aria-haspopup`/`aria-expanded`, and `[data-popover]` submenus with `role="menu"`. | Placement attributes on submenu panels |
 | Message | `.message`, `.message-group` | Row with `[data-slot="avatar"]` and `[data-slot="content"]` containing header, bubble and footer slots. | `data-align="start|end"` |
@@ -577,7 +577,7 @@ public state hooks:
 | Open, details | Native `[open]` on `<details>` | Accordion items. |
 | Open, dialog | Native `[open]` | Dialog and alert dialog. |
 | Open, popover | `aria-hidden="false"` | `[data-popover]` panels; the trigger uses `aria-expanded`. |
-| Indeterminate | Native `:indeterminate` | Progress without a value. |
+| Indeterminate | Native `:indeterminate` | Progress without a value; a checkbox whose `indeterminate` property is set from JavaScript. |
 | Range value | Native `value` and `max` | Progress; no ARIA override. |
 | Disabled, inert | `inert` | Accordion items. |
 | Focus | `:focus-visible` | All focusable controls. |

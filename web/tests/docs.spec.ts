@@ -418,6 +418,24 @@ test("toggle demo flips aria-pressed", async ({ page }) => {
   await expect(toggle).toHaveAttribute("aria-pressed", "false");
 });
 
+test("checkbox demo marks the table select-all control indeterminate", async ({
+  page
+}) => {
+  await page.goto("/docs/components/checkbox");
+  const checkbox = page.locator("[data-demo-indeterminate]");
+
+  await expect(checkbox).toHaveJSProperty("indeterminate", true);
+  const indicator = await checkbox.evaluate((element) => {
+    const style = getComputedStyle(element, "::after");
+    return {
+      width: style.width,
+      height: style.height,
+      mask: style.maskImage
+    };
+  });
+  expect(indicator).toEqual({ width: "8px", height: "2px", mask: "none" });
+});
+
 test("accordion and collapsible animate their content on close", async ({ page }) => {
   for (const [slug, selector] of [
     ["accordion", ".accordion details"],

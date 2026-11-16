@@ -2608,7 +2608,9 @@
         ".progress"
       ],
       "registryDependencies": [],
-      "optionalDependencies": [],
+      "optionalDependencies": [
+        "field"
+      ],
       "files": [
         {
           "path": "components/progress.css",

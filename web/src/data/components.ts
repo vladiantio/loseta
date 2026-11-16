@@ -107,7 +107,7 @@ const notesBy: Record<string, string> = {
   pagination:
     "Use nav[aria-label=\"pagination\"] and .btn links. The current page uses aria-current=\"page\"; the ellipsis is decorative. Button is optional composition, not a hard dependency.",
   progress:
-    "Use native <progress> with value and max. Omit value for the indeterminate state. Keep a text fallback inside the element.",
+    "Use native <progress> with value and max. Omit value for the indeterminate state and keep a text fallback inside the element. Compose the visible label and value with .field, .label and an output; the accessible name comes from a native <label> or aria-label. The indeterminate sweep reverses in right-to-left containers, and forced-colors mode uses Canvas, CanvasText and Highlight.",
   separator:
     "Use <hr class=\"separator\"> for a semantic horizontal separator. For vertical use <div role=\"separator\" data-orientation=\"vertical\">; decorative separators use role=\"presentation\" or aria-hidden.",
   "context-menu":

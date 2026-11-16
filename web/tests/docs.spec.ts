@@ -1195,6 +1195,31 @@ test("questionnaire navigates between fieldset steps", async ({ page }) => {
   await expect(steps.first()).toBeVisible();
 });
 
+test("progress mirrors its indeterminate sweep in right-to-left", async ({ page }) => {
+  await page.goto("/docs/components/progress");
+  const rtl = page
+    .locator("section.example")
+    .filter({ has: page.locator(".example-title", { hasText: /^Right-to-left$/ }) });
+  const sweep = rtl.locator(".progress").nth(1);
+
+  await expect(sweep).toHaveCSS("animation-direction", "reverse");
+});
+
+test("progress keeps a visible system-color track in forced-colors mode", async ({
+  page
+}) => {
+  await page.goto("/docs/components/progress");
+  await page.emulateMedia({ forcedColors: "active" });
+  const bar = page.locator(".docs-preview .progress").first();
+
+  await expect(bar).toHaveCSS("outline-width", "1px");
+  await expect(bar).toHaveCSS("outline-style", "solid");
+  const background = await bar.evaluate(
+    (element) => getComputedStyle(element).backgroundColor
+  );
+  expect(background).not.toBe("rgba(0, 0, 0, 0)");
+});
+
 test("message scroller jumps to the latest message", async ({ page }) => {
   await page.goto("/docs/components/message-scroller");
   const scroller = page.locator(".message-scroller");

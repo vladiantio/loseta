@@ -326,7 +326,8 @@ fields, selects, checkboxes, radios and switches.
 
 Forced-colors mode: focusable controls that suppress the native outline draw a
 transparent 2px outline with a 2px offset so the system focus indicator remains
-visible.
+visible. Progress uses a `Canvas` track with a `CanvasText` outline and a
+`Highlight` indicator, including the indeterminate sweep.
 
 ## Layout and sizing
 
@@ -351,7 +352,7 @@ visible.
 | Input OTP | `2.5rem` high | `sm` 2rem, `lg` 3rem |
 | Menubar trigger | `1.75rem` high | — |
 | Navigation trigger | `2rem` high | — |
-| Progress | `0.5rem` high | — |
+| Progress | `0.25rem` high | — |
 | Resizable | Consumer-sized | Panels use `--panel-size` |
 | Scroll area | Consumer-sized | `sm` narrower scrollbar |
 | Select trigger | `2rem` high | `sm` 1.75rem |
@@ -676,7 +677,7 @@ Notes:
   `150ms` entry. Hover cards open after a `300ms` delay and hide immediately
   when the pointer leaves.
 - The spinner rotates on a `0.75s` linear loop; progress uses a `1.5s`
-  indeterminate sweep.
+  indeterminate sweep that follows the inline direction.
 - Dialog entry uses `@starting-style` and `allow-discrete`: the backdrop fades,
   the panel moves from 95% to 100% scale with opacity.
 - Popovers scale from 95% and move `0.5rem` from their placement side. Menus

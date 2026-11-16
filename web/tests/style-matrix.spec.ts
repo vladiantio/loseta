@@ -138,13 +138,13 @@ const cases: StyleCase[] = [
     selector: ".docs-preview .progress",
     property: "height",
     values: {
-      nova: "8px",
-      vega: "8px",
-      maia: "8px",
-      lyra: "6px",
-      mira: "6px",
-      luma: "8px",
-      sera: "10px",
+      nova: "4px",
+      vega: "6px",
+      maia: "12px",
+      lyra: "4px",
+      mira: "4px",
+      luma: "12px",
+      sera: "2px",
       rhea: "8px"
     }
   },

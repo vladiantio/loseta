@@ -48,9 +48,34 @@
       }
     }
 
+    &:dir(rtl):indeterminate {
+      animation-direction: reverse;
+    }
+
     @media (prefers-reduced-motion: reduce) {
       &:indeterminate {
         animation-duration: 3s;
+      }
+    }
+
+    /* Keep the system-color track and sweep visible in forced-colors mode. */
+    @media (forced-colors: active) {
+      forced-color-adjust: none;
+      outline: 1px solid CanvasText;
+      background-color: Canvas;
+
+      &::-webkit-progress-value,
+      &::-moz-progress-bar {
+        background-color: Highlight;
+      }
+
+      &:indeterminate {
+        background-image: linear-gradient(
+          90deg,
+          transparent,
+          Highlight,
+          transparent
+        );
       }
     }
   }

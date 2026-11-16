@@ -1,14 +1,68 @@
 <!-- Default -->
-<div style="display: grid; gap: 0.5rem; width: 100%; max-width: 20rem">
-  <div style="display: flex; justify-content: space-between; font-size: 0.875rem">
-    <span>Uploading report.pdf</span>
-    <span>60%</span>
+<div class="field" style="max-width: 20rem">
+  <div style="display: flex; align-items: baseline; justify-content: space-between; gap: 1rem">
+    <label class="label" for="demo-progress-upload">Uploading report.pdf</label>
+    <output for="demo-progress-upload" style="color: var(--muted-foreground); font-size: 0.875rem; font-variant-numeric: tabular-nums">60%</output>
   </div>
-  <progress class="progress" value="60" max="100" aria-label="Upload progress">60%</progress>
+  <progress class="progress" id="demo-progress-upload" value="60" max="100">60%</progress>
 </div>
 
-<!-- Determinate -->
-<progress class="progress" value="60" max="100" aria-label="Upload progress">60%</progress>
+<!-- Values -->
+<div style="display: grid; gap: 0.75rem; width: 100%; max-width: 20rem">
+  <progress class="progress" value="0" max="100" aria-label="0% complete">0%</progress>
+  <progress class="progress" value="25" max="100" aria-label="25% complete">25%</progress>
+  <progress class="progress" value="50" max="100" aria-label="50% complete">50%</progress>
+  <progress class="progress" value="75" max="100" aria-label="75% complete">75%</progress>
+  <progress class="progress" value="100" max="100" aria-label="100% complete">100%</progress>
+</div>
 
 <!-- Indeterminate -->
-<progress class="progress" max="100" aria-label="Loading">Loading…</progress>
+<div class="field" style="max-width: 20rem">
+  <div style="display: flex; align-items: baseline; justify-content: space-between; gap: 1rem">
+    <label class="label" for="demo-progress-loading">Saving changes</label>
+    <span style="color: var(--muted-foreground); font-size: 0.875rem">Please wait…</span>
+  </div>
+  <progress class="progress" id="demo-progress-loading">Saving changes…</progress>
+</div>
+
+<!-- File uploads -->
+<ul style="display: grid; gap: 1rem; width: 100%; max-width: 22rem; margin: 0; padding: 0; list-style: none">
+  <li class="field">
+    <div style="display: flex; align-items: baseline; justify-content: space-between; gap: 1rem">
+      <label class="label" for="demo-progress-document">document.pdf</label>
+      <span aria-hidden="true" style="color: var(--muted-foreground); font-size: 0.875rem; font-variant-numeric: tabular-nums">45%</span>
+    </div>
+    <progress class="progress" id="demo-progress-document" value="45" max="100">45%</progress>
+  </li>
+  <li class="field">
+    <div style="display: flex; align-items: baseline; justify-content: space-between; gap: 1rem">
+      <label class="label" for="demo-progress-presentation">presentation.pptx</label>
+      <span aria-hidden="true" style="color: var(--muted-foreground); font-size: 0.875rem; font-variant-numeric: tabular-nums">78%</span>
+    </div>
+    <progress class="progress" id="demo-progress-presentation" value="78" max="100">78%</progress>
+  </li>
+  <li class="field">
+    <div style="display: flex; align-items: baseline; justify-content: space-between; gap: 1rem">
+      <label class="label" for="demo-progress-spreadsheet">spreadsheet.xlsx</label>
+      <span aria-hidden="true" style="color: var(--muted-foreground); font-size: 0.875rem; font-variant-numeric: tabular-nums">12%</span>
+    </div>
+    <progress class="progress" id="demo-progress-spreadsheet" value="12" max="100">12%</progress>
+  </li>
+  <li class="field">
+    <div style="display: flex; align-items: baseline; justify-content: space-between; gap: 1rem">
+      <label class="label" for="demo-progress-image">image.jpg</label>
+      <span aria-hidden="true" style="color: var(--muted-foreground); font-size: 0.875rem; font-variant-numeric: tabular-nums">100%</span>
+    </div>
+    <progress class="progress" id="demo-progress-image" value="100" max="100">100%</progress>
+  </li>
+</ul>
+
+<!-- Right-to-left -->
+<div class="field" dir="rtl" lang="ar" style="max-width: 20rem">
+  <div style="display: flex; align-items: baseline; justify-content: space-between; gap: 1rem">
+    <label class="label" for="demo-progress-rtl">جارٍ رفع التقرير</label>
+    <output for="demo-progress-rtl" style="color: var(--muted-foreground); font-size: 0.875rem; font-variant-numeric: tabular-nums">٦٠٪</output>
+  </div>
+  <progress class="progress" id="demo-progress-rtl" value="60" max="100">٦٠٪</progress>
+  <progress class="progress" aria-label="جارٍ فحص الملفات">جارٍ فحص الملفات…</progress>
+</div>

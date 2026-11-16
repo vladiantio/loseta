@@ -22,6 +22,10 @@ files consumers install.
 - `STYLE-GUIDE.md` — read before writing or reviewing a style file. It defines
   the per-style geometry, role recipes and reference components.
 
+CodeGraph covers the CLI, docs site and tests (TypeScript and Astro). Registry
+CSS and the design docs (`DESIGN.md`, `STYLE-GUIDE.md`) are found with `grep`
+and `read`.
+
 ## Non-negotiables
 
 - Native CSS only: no Tailwind, CSS-in-JS, preprocessor or framework
@@ -145,9 +149,20 @@ pnpm --filter web test:e2e
 ```
 
 `registry:check` enforces schema conformance, file and example existence,
-dependency resolution and cycles, exact layer wrapping, forbidden patterns,
-stable style completeness, the experimental Nova-only rule and CSS
-parseability. Fix the source rather than bypassing it.
+dependency resolution and cycles, exact layer wrapping, forbidden patterns
+(including physical left/right spacing and borders in style files), stable
+style completeness, the experimental Nova-only rule and CSS parseability. Fix
+the source rather than bypassing it.
+
+For visual work, keep `pnpm --filter web preview --port 4323 --ignore-lock`
+running and call `pnpm --filter web run styles:review <item> --scheme both`. It
+screenshots the first preview of each item in every style and color scheme and
+writes contact sheets to `/tmp/loseta-style-review`.
+
+Review `git diff` before the full suite. To iterate, build once
+(`pnpm --filter web build`) and run
+`pnpm --filter web exec playwright test -g <name>`; `pnpm --filter web test:e2e`
+builds the site itself, so run it once, after the diff is final.
 
 Before calling a change done, `pnpm test` must pass and `git status` must show
 only the intended source and regenerated files. Write docs, comments and commit

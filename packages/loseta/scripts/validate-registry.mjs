@@ -36,6 +36,16 @@ const forbiddenInBase = [
   { pattern: /\[data-indicator\]/g, message: "use data-slot=\"indicator\"" }
 ];
 
+// Spacing and borders in the style layer follow the inline axis, so icon
+// padding and dividers mirror on RTL pages.
+const forbiddenInStyle = [
+  {
+    pattern: /(?:padding|margin|border)-(?:left|right)\b/g,
+    message:
+      "use logical properties (padding-inline-start/-end, margin-inline-start/-end, border-inline-start/-end)"
+  }
+];
+
 // Dark values live in the token and style layers. Keep light-dark() out of
 // base-role files, and keep the OS media query in the token layer only.
 const forbiddenInBaseColor = [
@@ -188,6 +198,13 @@ for (const item of registry.items ?? []) {
 
     for (const rule of forbiddenInBase) {
       if (file.role === "base" && rule.pattern.test(css)) {
+        fail(`${item.name}: ${file.path}: ${rule.message}`);
+      }
+      rule.pattern.lastIndex = 0;
+    }
+
+    for (const rule of forbiddenInStyle) {
+      if (file.role === "style" && rule.pattern.test(css)) {
         fail(`${item.name}: ${file.path}: ${rule.message}`);
       }
       rule.pattern.lastIndex = 0;

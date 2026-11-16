@@ -2398,7 +2398,50 @@
     }
   }
 
-  .avatar-group > .avatar {
+  .avatar-group > [data-slot='count'] {
+    width: 2rem;
+    height: 2rem;
+    border-style: solid;
+    border-width: 1px;
+    border-color: var(--border);
+    border-radius: 0;
+    background-color: var(--muted);
+    color: light-dark(var(--foreground), var(--muted-foreground));
+    font-size: var(--text-sm);
+    line-height: var(--text-sm--line-height);
+    font-weight: 600;
+
+    > svg {
+      width: 1rem;
+      height: 1rem;
+    }
+  }
+
+  .avatar-group:has(> .avatar[data-size='sm']) > [data-slot='count'] {
+    width: 1.5rem;
+    height: 1.5rem;
+    font-size: var(--text-xs);
+    line-height: var(--text-xs--line-height);
+
+    > svg {
+      width: 0.75rem;
+      height: 0.75rem;
+    }
+  }
+
+  .avatar-group:has(> .avatar[data-size='lg']) > [data-slot='count'] {
+    width: 2.5rem;
+    height: 2.5rem;
+    font-size: var(--text-base);
+    line-height: var(--text-base--line-height);
+
+    > svg {
+      width: 1.25rem;
+      height: 1.25rem;
+    }
+  }
+
+  .avatar-group > :is(.avatar, [data-slot='count']) {
     box-shadow: 0 0 0 2px var(--background);
   }
 }

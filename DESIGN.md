@@ -206,10 +206,10 @@ fixed 4px radius. Code Block uses `--radius-xl`; its `sm` size uses
   still renders correctly when the reset is not installed.
 - UI text defaults to `--text-sm` (`0.875rem`), with its paired line height.
   Cards, alerts, items, tables, menus, listbox options, tabs, code blocks,
-  accordion content, avatar fallbacks, breadcrumb, pagination, hover cards,
-  sheets, drawers, select triggers, sidebar links, toast items, command
-  bodies, message rows, bubbles, markers and trace rows follow it. Menubar and
-  navigation-menu triggers use it too.
+  accordion content, avatar fallbacks and group counts, breadcrumb, pagination,
+  hover cards, sheets, drawers, select triggers, sidebar links, toast items,
+  command bodies, message rows, bubbles, markers and trace rows follow it.
+  Menubar and navigation-menu triggers use it too.
 - Conversation metadata uses `--text-xs`: message headers and footers,
   attachment descriptions, trace status pills and reaction counts. Attachment
   titles and content follow the row size. Questionnaire legends use
@@ -220,7 +220,8 @@ fixed 4px radius. Code Block uses `--radius-xl`; its `sm` size uses
   use `--text-xs`.
 - Card, dialog and alert-dialog titles use `--text-base` at their default size
   (the `sm` card uses `--text-sm`); alert, popover, empty and field titles use
-  `--text-sm`. `lg` avatar fallbacks and sheet/drawer titles use `--text-base`.
+  `--text-sm`. `lg` avatar fallbacks and group counts, plus sheet/drawer
+  titles, use `--text-base`.
 - Badges, kbd, tooltips, `sm` toggles and `xs` buttons use `--text-xs`; the
   `sm` button is a deliberate `0.8rem` exception. Menu headings, listbox group
   labels, command shortcuts, chart legends and tooltips, navigation-menu
@@ -247,8 +248,9 @@ fixed 4px radius. Code Block uses `--radius-xl`; its `sm` size uses
   collapsible and pagination icons are `1rem`; input-group addon icons are
   `1rem`; select chevrons, listbox indicators, calendar navigation and carousel
   controls are `1rem`; breadcrumb separators are `0.875rem` and avatar badges
-  use `0.5rem` (`sm` badges hide the icon). Toast close buttons use the
-  `icon-xs` size.
+  use `0.5rem` (`sm` badges hide the icon). Avatar group count icons are `1rem`;
+  `sm` counts use `0.75rem` and `lg` counts use `1.25rem`. Toast close buttons
+  use the `icon-xs` size.
 
 ### Spacing
 
@@ -279,7 +281,7 @@ file they own, not by expecting a spacing API.
 | Message scroller | `--background` surface with a `--border` outline; the jump button uses the background and a `--shadow-md`. |
 | Questionnaire | Choice cards use the `--border` outline and a primary tint when checked; the progress track uses primary at 20%. |
 | Trace | Bottom `--border` divider per row; body text is muted; status pills use `--muted`, destructive or primary tints. |
-| Avatar | `--muted` fallback, `--primary` badge and a 1px `--border` ring. |
+| Avatar | `--muted` fallback and group count, `--primary` badge and a 1px `--border` ring. |
 | Calendar | Selected day uses `--primary` / `--primary-foreground`; today uses an inset `--ring`. |
 | Carousel | Controls use `--border`; active indicators use `--primary`. |
 | Chart | Legend swatches use `--chart-*`; tooltips use the popover surface. |
@@ -418,7 +420,7 @@ on an RTL page; its header follows the page direction.
 | Alert dialog | `.alert-dialog` | Native `<dialog>` containing a panel; panel contains `header` (optional `figure`), title, description, `section` and `footer`. | `data-size="sm"` on the dialog or panel; default by omission |
 | Aspect ratio | `.aspect-ratio` | A single media child (`img`, `video`, `iframe`, `canvas` or `svg`). | `--ratio` local property (default `16 / 9`); `data-fit="cover|contain"` |
 | Attachment | `.attachment` | `[data-slot="media"]`, `[data-slot="content"]` with title/description and `[data-slot="actions"]`; optional `[data-slot="trigger"]` overlay. | `data-size="default|sm|xs"`; `data-orientation="horizontal|vertical"`; `aria-busy="true"` on the root |
-| Avatar | `.avatar`, `.avatar-group` | Real `img`, `[data-slot="fallback"]` layer and optional `[data-slot="badge"]`; `.avatar-group` overlaps avatars. | `data-size="default|sm|lg"` |
+| Avatar | `.avatar`, `.avatar-group` | Real `img`, `[data-slot="fallback"]` layer and optional `[data-slot="badge"]`; `.avatar-group` overlaps avatars and may end with `[data-slot="count"]`, which follows the group size. | `data-size="default|sm|lg"` |
 | Badge | `.badge` | Text and optional SVG. | `data-variant="primary|secondary|outline|destructive|ghost|link"` |
 | Breadcrumb | `.breadcrumb` | `nav` with `ol`/`li`, links and a current `span`; separators are `li[aria-hidden="true"]`; `[data-slot="ellipsis"]` for collapsed paths. | `aria-current="page"` on the current item |
 | Bubble | `.bubble`, `.bubble-group` | `[data-slot="content"]` surface and optional `[data-slot="reactions"]` containing `[data-slot="reaction"]` buttons. | `data-variant="default|secondary|muted|tinted|outline|ghost|destructive"`; `data-align="start|end"`; reaction `aria-pressed` |
@@ -497,7 +499,7 @@ The public slot vocabulary is shared across components:
 - `data-slot="shortcut"` — dropdown menu, context menu, menubar and command.
 - `data-slot="indicator"` — dropdown menu, context menu, menubar and listbox options.
 - `data-slot="checkbox-group"`, `data-slot="radio-group"` — field.
-- `data-slot="fallback"`, `data-slot="badge"` — avatar.
+- `data-slot="fallback"`, `data-slot="badge"`, `data-slot="count"` — avatar.
 - `data-slot="ellipsis"` — breadcrumb and pagination.
 - `data-slot="label"` — pagination previous/next text and listbox group labels.
 - `data-slot="handle"` — drawer and resizable.
@@ -759,7 +761,8 @@ progress sweep slow down instead of stopping. This remains a known gap.
   markup. The native focus ring is not suppressed.
 - Avatars need `alt` text on the image and an `aria-hidden` fallback; a
   decorative badge is `aria-hidden`. The consumer hides the image when loading
-  fails.
+  fails. Avatar groups use `role="group"` with an accessible name. A count with
+  a visual icon needs adjacent screen-reader text or an explicit label.
 - Sheets and drawers are native `<dialog>` elements and follow the dialog
   labelling rules. The drawer handle is decorative unless the consumer makes it
   a focusable drag control; swipe and drag gestures are consumer JavaScript.

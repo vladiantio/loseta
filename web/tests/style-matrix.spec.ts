@@ -119,6 +119,21 @@ const cases: StyleCase[] = [
     }
   },
   {
+    id: "avatar",
+    selector: ".docs-preview .avatar-group [data-slot='count']",
+    property: "font-size",
+    values: {
+      nova: "14px",
+      vega: "14px",
+      maia: "14px",
+      lyra: "12px",
+      mira: "12px",
+      luma: "14px",
+      sera: "14px",
+      rhea: "14px"
+    }
+  },
+  {
     id: "progress",
     selector: ".docs-preview .progress",
     property: "height",

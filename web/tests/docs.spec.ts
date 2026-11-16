@@ -741,6 +741,42 @@ test("empty draws its dashed outline and scopes media spacing", async ({ page })
   expect(figureBox!.width / figureBox!.height).toBeCloseTo(16 / 9, 1);
 });
 
+test("avatar groups overlap and size their count with the group", async ({
+  page
+}) => {
+  await page.goto("/docs/components/avatar");
+
+  const group = page
+    .locator("section.example")
+    .filter({ has: page.locator(".example-title", { hasText: /^Group$/ }) })
+    .locator(".avatar-group");
+  await expect(group.locator(".avatar").first()).toHaveCSS(
+    "margin-right",
+    "-8px"
+  );
+
+  const groupCount = page
+    .locator("section.example")
+    .filter({
+      has: page.locator(".example-title", { hasText: /^Group count$/ })
+    })
+    .locator("[data-slot='count']");
+  await expect(groupCount).toHaveCSS("width", "32px");
+  await expect(groupCount).toHaveCSS("height", "32px");
+  await expect(groupCount).toHaveCSS("border-top-width", "1px");
+
+  const rtl = page
+    .locator("section.example")
+    .filter({
+      has: page.locator(".example-title", { hasText: /^Right-to-left$/ })
+    });
+  await expect(rtl.locator("[data-slot='count']")).toHaveCSS("width", "40px");
+  await expect(rtl.locator(".avatar [data-slot='badge']")).toHaveCSS(
+    "left",
+    "0px"
+  );
+});
+
 test("accordion and collapsible animate their content on close", async ({ page }) => {
   for (const [slug, selector] of [
     ["accordion", ".accordion details"],

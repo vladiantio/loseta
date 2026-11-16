@@ -82,7 +82,7 @@ const notesBy: Record<string, string> = {
   "aspect-ratio":
     "Set --ratio on the root (default 16 / 9). Media children fill the box; data-fit=\"contain\" preserves the whole image.",
   avatar:
-    "Render the fallback under the image. CSS cannot detect a broken image, so hide the img (or omit it) when loading fails. Use alt text for img and aria-hidden on decorative badges.",
+    "Render the fallback under the image. CSS cannot detect a broken image, so hide the img (or omit it) when loading fails. Use alt text for img and aria-hidden on fallback initials and decorative badges. Give .avatar-group role=\"group\" and an accessible name; [data-slot=\"count\"] follows the group size and needs sr-only text when its visual is an icon.",
   breadcrumb:
     "Use nav[aria-label=\"breadcrumb\"] and an ordered list. Mark the current page with aria-current=\"page\" and separators with aria-hidden=\"true\".",
   bubble:

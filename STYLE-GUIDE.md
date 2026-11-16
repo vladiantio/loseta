@@ -150,6 +150,14 @@ Use for badges, status pills, reaction chips and keyboard hints.
 - Color: follow the reference badge and the semantic surface recipe; do not
   introduce a new palette.
 
+### Avatar
+
+Avatar group counts reuse the avatar radius, muted surface, fallback text color
+and border ring. Their type follows the fallback scale: `sm` uses `--text-xs`,
+default uses `--text-sm` and `lg` uses `--text-base`; Mira and Lyra keep their
+compact fallback sizes. Count icons are `0.75rem` at `sm`, `1rem` by default and
+`1.25rem` at `lg`.
+
 ### Conversation
 
 Use for `attachment`, `bubble`, `marker`, `message`, `message-scroller`,

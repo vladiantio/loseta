@@ -1794,6 +1794,9 @@
       transparent,
       color-mix(in oklab, var(--input) 30%, transparent)
     );
+    transition-property: color, background-color, border-color, outline-color, text-decoration-color, fill, stroke;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 150ms;
 
     &:checked {
       border-color: var(--primary);
@@ -1825,7 +1828,6 @@
   .radio:checked::before {
     width: 0.5rem;
     height: 0.5rem;
-    background-color: var(--primary-foreground);
   }
 }
 /* Skeleton */

@@ -8,18 +8,33 @@
     border-width: 1px;
     outline-style: none;
 
+    @media (forced-colors: active) {
+      outline: 2px solid transparent;
+      outline-offset: 2px;
+    }
+
+    &::after {
+      position: absolute;
+      inset: calc(-0.25rem - 1px);
+      content: '';
+    }
+
     &:disabled {
       cursor: not-allowed;
       opacity: 50%;
     }
 
-    &:checked:before {
+    &:checked::before {
       position: absolute;
-      top: 50%;
-      left: 50%;
-      translate: -50% -50%;
+      inset: 0;
+      margin: auto;
       border-radius: var(--radius-full);
+      background-color: currentcolor;
       content: '';
+
+      @media (forced-colors: active) {
+        background-color: CanvasText;
+      }
     }
   }
 }

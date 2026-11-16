@@ -456,7 +456,7 @@ on an RTL page; its header follows the page direction.
 | Popover | `.popover` | Trigger and `[data-popover]` panel with optional header, title and description. | Placement attributes |
 | Progress | `.progress` | Native `<progress>` with fallback text. | `value`/`max`; omit `value` for indeterminate |
 | Questionnaire | `.questionnaire` | `[data-slot="progress"]`, fieldset steps with legends, `[data-slot="choices"]`, native inputs and `[data-slot="actions"]`. | `aria-current="step"` on the active step; `hidden` on inactive steps; native radio/checkbox/input |
-| Radio | `.radio` | Native `input[type="radio"]`, normally inside `role="radiogroup"`. | — |
+| Radio | `.radio` | Native `input[type="radio"]`, normally inside `role="radiogroup"`. Compose rows with `.field` and a label, and group them with `[data-slot="radio-group"]` inside a `.fieldset`. | — |
 | Resizable | `.resizable` | `.resizable-panel` panes and `[data-slot="handle"]` separators. | `data-orientation="horizontal|vertical"`; panel `--panel-size`; handle `aria-valuenow/min/max` |
 | Scroll area | `.scroll-area` | Scroll container; the consumer sets dimensions and content. | `data-orientation="horizontal|vertical"`; `data-size="default|sm"` |
 | Select | `.select` | Trigger with `role="combobox"`, `[data-slot="value"]` and a `[data-popover] > [role="listbox"]` panel. | `data-size="default|sm"`; `data-placeholder` on the value |

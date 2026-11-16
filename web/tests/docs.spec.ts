@@ -436,6 +436,32 @@ test("checkbox demo marks the table select-all control indeterminate", async ({
   expect(indicator).toEqual({ width: "8px", height: "2px", mask: "none" });
 });
 
+test("radio demo centers the checked indicator and keeps a 24px target", async ({
+  page
+}) => {
+  await page.goto("/docs/components/radio");
+  const radio = page.locator(".radio").first();
+
+  const metrics = await radio.evaluate((element) => {
+    const dot = getComputedStyle(element, "::before");
+    const target = getComputedStyle(element, "::after");
+    return {
+      dot: {
+        width: dot.width,
+        height: dot.height,
+        inset: dot.inset,
+        margin: dot.margin
+      },
+      target: { width: target.width, height: target.height }
+    };
+  });
+
+  expect(metrics).toEqual({
+    dot: { width: "8px", height: "8px", inset: "0px", margin: "3px" },
+    target: { width: "24px", height: "24px" }
+  });
+});
+
 test("accordion and collapsible animate their content on close", async ({ page }) => {
   for (const [slug, selector] of [
     ["accordion", ".accordion details"],

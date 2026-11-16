@@ -177,7 +177,8 @@ const notesBy: Record<string, string> = {
   switch: "Use input type=\"checkbox\" role=\"switch\" together with the .switch class.",
   questionnaire:
     "A sequence of fieldset steps. Use aria-current=\"step\" on the active item and hidden on inactive ones, a native progress with an accessible name, and native radios, checkboxes and inputs for answers. Step changes, validation and completion are consumer JavaScript.",
-  radio: "Use .radio and a role=\"radiogroup\" container.",
+  radio:
+    "The .radio class is required. Use native checked/disabled and aria-invalid=\"true\". Compose rows with .field[data-orientation=\"horizontal\"] and a label; group them with role=\"radiogroup\", using [data-slot=\"radio-group\"] inside a .fieldset.",
   label: "Use .label or a native <label> inside .field. A label wrapping a .field becomes a selectable card.",
   empty: "Uses header/figure/section/footer structure.",
   item: "Uses figure/section/aside/header/footer structure.",

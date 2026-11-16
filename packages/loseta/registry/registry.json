@@ -605,7 +605,9 @@
         ".btn"
       ],
       "registryDependencies": [],
-      "optionalDependencies": [],
+      "optionalDependencies": [
+        "spinner"
+      ],
       "files": [
         {
           "path": "components/button.css",

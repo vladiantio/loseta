@@ -3,8 +3,8 @@ export interface Example {
   html: string;
 }
 
-const arrowRight = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>`;
-const search = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>`;
+const arrowRight = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>`;
+const search = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>`;
 const shield = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 13c0 5-3.5 7.5-7.7 8.9a1 1 0 0 1-.6 0C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.2-2.7a1 1 0 0 1 1.6 0C14.5 3.8 17 5 19 5a1 1 0 0 1 1 1z"/></svg>`;
 const copy = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>`;
 const wrap = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" x2="21" y1="6" y2="6"/><path d="M3 12h15a3 3 0 1 1 0 6h-4"/><polyline points="16 16 14 18 16 20"/><line x1="3" x2="10" y1="18" y2="18"/></svg>`;
@@ -25,6 +25,8 @@ const arrowDown = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" f
 const plus = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="M12 5v14"/></svg>`;
 const minus = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/></svg>`;
 const bot = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" data-icon="inline-start"><path d="M12 8V4H8"/><rect width="16" height="12" x="4" y="8" rx="2"/><path d="M2 14h2"/><path d="M20 14h2"/><path d="M15 13v2"/><path d="M9 13v2"/></svg>`;
+const branch = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" data-icon="inline-start"><line x1="6" x2="6" y1="3" y2="15"/><circle cx="18" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><path d="M18 9a9 9 0 0 1-9 9"/></svg>`;
+const fork = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" data-icon="inline-start"><circle cx="12" cy="18" r="3"/><circle cx="6" cy="6" r="3"/><circle cx="18" cy="6" r="3"/><path d="M18 9v2c0 .6-.4 1-1 1H7c-.6 0-1-.4-1-1V9"/><path d="M12 12v3"/></svg>`;
 const ratioImage = `data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 160 90'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop stop-color='%2394a3b8'/%3E%3Cstop offset='1' stop-color='%23e2e8f0'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='160' height='90' fill='url(%23g)'/%3E%3Ctext x='80' y='49' text-anchor='middle' font-family='sans-serif' font-size='12' fill='%23334155'%3E16:9%3C/text%3E%3C/svg%3E`;
 
 export const examples: Record<string, Example[]> = {
@@ -113,30 +115,79 @@ export const examples: Record<string, Example[]> = {
   button: [
     {
       title: "Default",
-      html: `<button class="btn">Button</button>`
+      html: `<button type="button" class="btn">Button</button>`
     },
     {
       title: "Variants",
       html: `<div style="display: flex; flex-wrap: wrap; gap: 0.5rem">
-  <button class="btn">Default</button>
-  <button class="btn" data-variant="secondary">Secondary</button>
-  <button class="btn" data-variant="outline">Outline</button>
-  <button class="btn" data-variant="ghost">Ghost</button>
-  <button class="btn" data-variant="link">Link</button>
-  <button class="btn" data-variant="destructive">Destructive</button>
+  <button type="button" class="btn">Default</button>
+  <button type="button" class="btn" data-variant="secondary">Secondary</button>
+  <button type="button" class="btn" data-variant="outline">Outline</button>
+  <button type="button" class="btn" data-variant="ghost">Ghost</button>
+  <button type="button" class="btn" data-variant="link">Link</button>
+  <button type="button" class="btn" data-variant="destructive">Destructive</button>
 </div>`
     },
     {
-      title: "Sizes and icons",
+      title: "Sizes",
       html: `<div style="display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem">
-  <button class="btn" data-size="xs">Extra small</button>
-  <button class="btn" data-size="sm">Small</button>
-  <button class="btn">Default</button>
-  <button class="btn" data-size="lg">Large</button>
-  <button class="btn" data-size="icon" aria-label="Next">${arrowRight}</button>
-  <button class="btn" data-size="icon-sm" aria-label="Next">${arrowRight}</button>
-  <button class="btn" data-size="icon-lg" aria-label="Next">${arrowRight}</button>
-  <button class="btn"><svg data-icon="inline-start" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>Icon and text</button>
+  <button type="button" class="btn" data-size="xs">Extra small</button>
+  <button type="button" class="btn" data-size="sm">Small</button>
+  <button type="button" class="btn">Default</button>
+  <button type="button" class="btn" data-size="lg">Large</button>
+</div>`
+    },
+    {
+      title: "Icon buttons",
+      html: `<div style="display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem">
+  <button type="button" class="btn" data-size="icon-xs" aria-label="Add">${plus}</button>
+  <button type="button" class="btn" data-size="icon-sm" aria-label="Search">${search}</button>
+  <button type="button" class="btn" data-size="icon" aria-label="Next">${arrowRight}</button>
+  <button type="button" class="btn" data-size="icon-lg" aria-label="More options">${chevronDown}</button>
+</div>`
+    },
+    {
+      title: "With icons",
+      html: `<div style="display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem">
+  <button type="button" class="btn">${branch}New branch</button>
+  <button type="button" class="btn" data-variant="outline">${fork}Fork</button>
+  <button type="button" class="btn" data-variant="ghost">Continue<svg data-icon="inline-end" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></button>
+</div>`
+    },
+    {
+      title: "Rounded",
+      html: `<div style="display: flex; flex-wrap: wrap; gap: 0.5rem">
+  <button type="button" class="btn" style="border-radius: var(--radius-full)">Get started</button>
+  <button type="button" class="btn" data-variant="outline" style="border-radius: var(--radius-full)">Documentation</button>
+</div>`
+    },
+    {
+      title: "Loading",
+      html: `<div style="display: flex; flex-wrap: wrap; gap: 0.5rem">
+  <button type="button" class="btn" aria-busy="true"><span class="spinner" data-icon="inline-start" aria-hidden="true"></span>Generating</button>
+  <button type="button" class="btn" data-variant="outline" aria-busy="true"><span class="spinner" data-icon="inline-start" aria-hidden="true"></span>Downloading</button>
+</div>`
+    },
+    {
+      title: "Disabled and invalid",
+      html: `<div style="display: flex; flex-wrap: wrap; gap: 0.5rem">
+  <button type="button" class="btn" disabled>Disabled</button>
+  <button type="button" class="btn" data-variant="outline" disabled>Disabled</button>
+  <button type="button" class="btn" aria-invalid="true">Invalid</button>
+</div>`
+    },
+    {
+      title: "As link",
+      html: `<div style="display: flex; flex-wrap: wrap; gap: 0.5rem">
+  <a class="btn" href="#">Login</a>
+  <a class="btn" data-variant="outline" href="#">Read the docs</a>
+</div>`
+    },
+    {
+      title: "Right-to-left",
+      html: `<div dir="rtl" style="display: flex; flex-wrap: wrap; gap: 0.5rem">
+  <button type="button" class="btn">${branch}New branch</button>
+  <button type="button" class="btn" data-variant="outline">${fork}Fork</button>
 </div>`
     }
   ],

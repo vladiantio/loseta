@@ -6,12 +6,18 @@
     align-items: center;
     justify-content: center;
     white-space: nowrap;
+    text-decoration-line: none;
     transition-property: all;
     transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
     transition-duration: 150ms;
     outline-style: none;
     -webkit-user-select: none;
     user-select: none;
+
+    @media (forced-colors: active) {
+      outline: 2px solid transparent;
+      outline-offset: 2px;
+    }
 
     &:disabled {
       pointer-events: none;

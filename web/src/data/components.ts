@@ -88,7 +88,7 @@ const notesBy: Record<string, string> = {
   bubble:
     "Variants default, secondary, muted, tinted, outline, ghost and destructive. [data-slot=\"content\"] may be a div, a or button. Reactions use [data-slot=\"reactions\"] with [data-slot=\"reaction\"] buttons and aria-pressed. data-align=\"end\" aligns a standalone bubble.",
   button:
-    "Use data-variant and data-size for the public variants. aria-invalid and aria-expanded are supported states.",
+    "Use data-variant and data-size for the public variants. Mark inline icons with data-icon=\"inline-start|inline-end\"; icon-only buttons need an accessible label. aria-invalid and aria-expanded are supported states. Apply .btn to an <a> for link actions without adding role=\"button\".",
   "button-group":
     "Use role=\"group\" with an aria-label on the root. data-orientation=\"horizontal|vertical\" controls the layout; horizontal is the default. Compose buttons, inputs, dropdown-menu, popover or select wrappers, span/label/output text and hr[role=\"separator\"]. Use a toggle-group when the buttons toggle state instead of performing actions.",
   card: "Use data-slot=\"title\", \"description\" and \"action\" for parts. data-separator=\"bottom\" adds a header divider.",

@@ -561,11 +561,11 @@
       padding-inline: 1.5rem;
 
       &:has(*:is([data-icon='inline-end'])) {
-        padding-right: 0.5rem;
+        padding-inline-end: 0.5rem;
       }
 
       &:has(*:is([data-icon='inline-start'])) {
-        padding-left: 0.5rem;
+        padding-inline-start: 0.5rem;
       }
     }
 
@@ -580,11 +580,11 @@
       line-height: var(--text-xs--line-height);
 
       &:has(*:is([data-icon='inline-end'])) {
-        padding-right: 0.375rem;
+        padding-inline-end: 0.375rem;
       }
 
       &:has(*:is([data-icon='inline-start'])) {
-        padding-left: 0.375rem;
+        padding-inline-start: 0.375rem;
       }
     }
 
@@ -599,11 +599,11 @@
       line-height: var(--text-xs--line-height);
 
       &:has(*:is([data-icon='inline-end'])) {
-        padding-right: 0.375rem;
+        padding-inline-end: 0.375rem;
       }
 
       &:has(*:is([data-icon='inline-start'])) {
-        padding-left: 0.375rem;
+        padding-inline-start: 0.375rem;
       }
     }
 
@@ -613,11 +613,11 @@
       padding-inline: 2rem;
 
       &:has(*:is([data-icon='inline-end'])) {
-        padding-right: 0.5rem;
+        padding-inline-end: 0.5rem;
       }
 
       &:has(*:is([data-icon='inline-start'])) {
-        padding-left: 0.5rem;
+        padding-inline-start: 0.5rem;
       }
     }
 

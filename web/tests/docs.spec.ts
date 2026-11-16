@@ -471,6 +471,28 @@ test("experimental pages expose the banner, install flag and stylesheet", async 
   await expect(page.locator("[data-experimental-css]")).toHaveCount(0);
 });
 
+test("button keeps icon padding logical in RTL", async ({ page }) => {
+  await page.goto("/docs/components/button");
+  const example = page
+    .locator("section.example")
+    .filter({ has: page.locator(".example-title", { hasText: "Right-to-left" }) });
+  const button = example.locator(".btn").first();
+
+  await expect(button).toHaveCSS("padding-right", "8px");
+  await expect(button).toHaveCSS("padding-left", "10px");
+});
+
+test("button styles link actions without the button role", async ({ page }) => {
+  await page.goto("/docs/components/button");
+  const example = page
+    .locator("section.example")
+    .filter({ has: page.locator(".example-title", { hasText: "As link" }) });
+  const link = example.getByRole("link", { name: "Login", exact: true });
+
+  await expect(link).toHaveCSS("text-decoration-line", "none");
+  await expect(example.getByRole("button", { name: "Login", exact: true })).toHaveCount(0);
+});
+
 test("sheet and drawer dialogs open and close", async ({ page }) => {
   await page.goto("/docs/components/sheet");
   const sheet = page.locator("#demo-sheet");

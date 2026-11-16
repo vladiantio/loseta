@@ -98,6 +98,22 @@ for (const item of registry.items ?? []) {
   items.set(item.name, item);
 }
 
+// Component root classes map back to the item a consumer would install.
+// Primitive and foundation roots are excluded: they are implementation
+// details, not composition dependencies.
+const componentRoots = new Map();
+for (const item of registry.items ?? []) {
+  if (item.type !== "component") continue;
+  for (const root of item.root ?? []) {
+    if (!root.startsWith(".")) continue;
+    const className = root.slice(1);
+    if (!componentRoots.has(className)) {
+      componentRoots.set(className, new Set());
+    }
+    componentRoots.get(className).add(item.name);
+  }
+}
+
 const stylesRoot = join(registryDir, "styles");
 const styleNames = new Set();
 for (const style of registry.styles ?? []) {
@@ -187,6 +203,35 @@ function validateExampleMarkup(itemName, examplePath, html) {
         }
       }
     }
+  }
+}
+
+function validateExampleComposition(item, examplePath, html) {
+  const classes = new Set();
+  for (const match of html.matchAll(/(?:^|\s)class="([^"]+)"/g)) {
+    for (const name of match[1].split(/\s+/)) {
+      if (name) classes.add(name);
+    }
+  }
+
+  const declared = new Set([
+    ...(item.optionalDependencies ?? []),
+    ...(item.registryDependencies ?? [])
+  ]);
+  const missing = new Set();
+  for (const name of classes) {
+    for (const dependency of componentRoots.get(name) ?? []) {
+      if (dependency === item.name) continue;
+      if (!declared.has(dependency)) {
+        missing.add(dependency);
+      }
+    }
+  }
+
+  if (missing.size > 0) {
+    fail(
+      `${item.name}: ${examplePath}: undeclared optional dependencies: ${[...missing].sort().join(", ")}`
+    );
   }
 }
 
@@ -284,6 +329,11 @@ for (const item of registry.items ?? []) {
   for (const dependency of item.optionalDependencies ?? []) {
     if (!items.has(dependency)) {
       fail(`${item.name}: missing optional dependency ${dependency}`);
+    }
+    if ((item.registryDependencies ?? []).includes(dependency)) {
+      fail(
+        `${item.name}: ${dependency} cannot be both a registry dependency and an optional dependency`
+      );
     }
   }
 
@@ -418,6 +468,7 @@ for (const item of registry.items ?? []) {
 
     const html = readFileSync(examplePath, "utf8");
     validateExampleMarkup(item.name, example, html);
+    validateExampleComposition(item, example, html);
     if (item.name === "popover") {
       validatePopoverContracts(item.name, example, html);
     }

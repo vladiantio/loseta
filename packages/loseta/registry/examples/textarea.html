@@ -1,6 +1,36 @@
 <!-- Default -->
-<div class="field">
-  <label class="label" for="demo-textarea">Message</label>
-  <textarea class="textarea" id="demo-textarea" placeholder="Type your message here."></textarea>
+<textarea class="textarea" placeholder="Type your message here." aria-label="Message"></textarea>
+
+<!-- Field -->
+<div class="field" style="max-width: 24rem">
+  <label class="label" for="demo-textarea-field">Message</label>
+  <textarea class="textarea" id="demo-textarea-field" placeholder="Type your message here."></textarea>
   <p>Your message will be copied to the support team.</p>
+</div>
+
+<!-- Disabled -->
+<div class="field" style="max-width: 24rem">
+  <label class="label" for="demo-textarea-disabled">Message</label>
+  <textarea class="textarea" id="demo-textarea-disabled" placeholder="Type your message here." disabled></textarea>
+  <p>This field is currently disabled.</p>
+</div>
+
+<!-- Invalid -->
+<div class="field" style="max-width: 24rem">
+  <label class="label" for="demo-textarea-invalid">Message</label>
+  <textarea class="textarea" id="demo-textarea-invalid" placeholder="Type your message here." aria-invalid="true" aria-describedby="demo-textarea-invalid-error"></textarea>
+  <p id="demo-textarea-invalid-error" role="alert">Please enter a valid message.</p>
+</div>
+
+<!-- Button -->
+<div class="field" style="max-width: 24rem">
+  <textarea class="textarea" placeholder="Type your message here." aria-label="Message"></textarea>
+  <button type="button" class="btn">Send message</button>
+</div>
+
+<!-- Right-to-left -->
+<div class="field" dir="rtl" lang="ar" style="max-width: 24rem">
+  <label class="label" for="demo-textarea-rtl">التعليقات</label>
+  <textarea class="textarea" id="demo-textarea-rtl" placeholder="تعليقاتك تساعدنا على التحسين..." dir="rtl"></textarea>
+  <p>شاركنا أفكارك حول خدمتنا.</p>
 </div>

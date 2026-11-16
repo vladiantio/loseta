@@ -5,7 +5,13 @@
     field-sizing: content;
     min-height: 4rem;
     width: 100%;
+    min-width: 0;
     outline-style: none;
+
+    @media (forced-colors: active) {
+      outline: 2px solid transparent;
+      outline-offset: 2px;
+    }
 
     &::placeholder {
       color: var(--muted-foreground);

@@ -2194,6 +2194,11 @@
     transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
     transition-duration: 150ms;
 
+    &::selection {
+      background-color: var(--primary);
+      color: var(--primary-foreground);
+    }
+
     &:focus-visible {
       border-color: var(--ring);
       box-shadow: 0 0 0 3px color-mix(in oklab, var(--ring) 50%, transparent);

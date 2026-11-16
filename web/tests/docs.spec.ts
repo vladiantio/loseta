@@ -555,6 +555,79 @@ test("input file button follows the Mira type scale", async ({ page }) => {
   expect(fileButton).toEqual({ fontSize: "12px", lineHeight: "16px" });
 });
 
+test("textarea demo keeps the control type scale, selection and growth", async ({
+  page
+}) => {
+  await page.emulateMedia({ colorScheme: "light" });
+  await page.goto("/docs/components/textarea");
+  const textarea = page.locator(".docs-preview .textarea").first();
+
+  const control = await textarea.evaluate((element) => {
+    const style = getComputedStyle(element);
+    const selection = getComputedStyle(element, "::selection");
+    return {
+      minHeight: style.minHeight,
+      fontSize: style.fontSize,
+      paddingInline: style.paddingInline,
+      resize: style.resize,
+      fieldSizing: style.getPropertyValue("field-sizing"),
+      selectionBackground: selection.backgroundColor,
+      selectionColor: selection.color
+    };
+  });
+
+  expect(control).toEqual({
+    minHeight: "64px",
+    fontSize: "14px",
+    paddingInline: "10px",
+    resize: "vertical",
+    fieldSizing: "content",
+    selectionBackground: "oklch(0.205 0 0)",
+    selectionColor: "oklch(0.985 0 0)"
+  });
+
+  const initialHeight = await textarea.evaluate(
+    (element) => element.getBoundingClientRect().height
+  );
+  await textarea.fill("Line one\nLine two\nLine three\nLine four\nLine five");
+  const grownHeight = await textarea.evaluate(
+    (element) => element.getBoundingClientRect().height
+  );
+
+  expect(grownHeight).toBeGreaterThan(initialHeight);
+});
+
+test("textarea follows the Mira type scale", async ({ page }) => {
+  await page.goto("/docs/components/textarea");
+  const textarea = page.locator(".docs-preview .textarea").first();
+
+  await page.locator("[data-style-select]").selectOption("mira");
+  await expect(page.locator("[data-style-link]")).toHaveAttribute(
+    "href",
+    "/styles/mira.css"
+  );
+  await page.waitForFunction(() => {
+    return [...document.styleSheets].some(
+      (sheet) => sheet.href && sheet.href.endsWith("/styles/mira.css")
+    );
+  });
+
+  const control = await textarea.evaluate((element) => {
+    const style = getComputedStyle(element);
+    return {
+      fontSize: style.fontSize,
+      lineHeight: style.lineHeight,
+      paddingInline: style.paddingInline
+    };
+  });
+
+  expect(control).toEqual({
+    fontSize: "12px",
+    lineHeight: "16px",
+    paddingInline: "8px"
+  });
+});
+
 test("accordion and collapsible animate their content on close", async ({ page }) => {
   for (const [slug, selector] of [
     ["accordion", ".accordion details"],

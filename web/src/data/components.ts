@@ -166,7 +166,8 @@ const notesBy: Record<string, string> = {
   table: "Use aria-selected=\"true\" on selectable rows.",
   input:
     "Pair every input with a label; a placeholder is not a label. Use native required and disabled states, aria-invalid=\"true\" for the invalid state and type=\"file\" for uploads; the native file-selector button is styled. Compose labels and descriptions with .field.",
-  textarea: "Use aria-invalid=\"true\" for the invalid state.",
+  textarea:
+    "Pair every textarea with a label; a placeholder is not a label. Use native required and disabled states and aria-invalid=\"true\" for the invalid state. Compose labels and descriptions with .field. The control grows with its content and resizes vertically by default.",
   toast:
     "Wrap toasts in .toaster for fixed positioning. Items use role=\"status\" or role=\"alert\"; timing and dismissal are consumer JavaScript. Sonner is a compatibility note, not a registry item; keep the toast markup and add Sonner in consumer code when you need its queue.",
   message:

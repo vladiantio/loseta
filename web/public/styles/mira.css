@@ -2174,9 +2174,8 @@
 
     @media (width >= 48rem) {
       font-size: var(--text-xs);
-      line-height: var(--text-sm--line-height);
+      line-height: var(--text-xs--line-height);
     }
-
   }
 }
 /* Tooltip */

@@ -1172,10 +1172,45 @@ Done in 2.8s using pnpm v10.18.0</code></pre>
   textarea: [
     {
       title: "Default",
-      html: `<div class="field">
-  <label class="label" for="demo-textarea">Message</label>
-  <textarea class="textarea" id="demo-textarea" placeholder="Type your message here."></textarea>
+      html: `<textarea class="textarea" placeholder="Type your message here." aria-label="Message"></textarea>`
+    },
+    {
+      title: "Field",
+      html: `<div class="field" style="max-width: 24rem">
+  <label class="label" for="demo-textarea-field">Message</label>
+  <textarea class="textarea" id="demo-textarea-field" placeholder="Type your message here."></textarea>
   <p>Your message will be copied to the support team.</p>
+</div>`
+    },
+    {
+      title: "Disabled",
+      html: `<div class="field" style="max-width: 24rem">
+  <label class="label" for="demo-textarea-disabled">Message</label>
+  <textarea class="textarea" id="demo-textarea-disabled" placeholder="Type your message here." disabled></textarea>
+  <p>This field is currently disabled.</p>
+</div>`
+    },
+    {
+      title: "Invalid",
+      html: `<div class="field" style="max-width: 24rem">
+  <label class="label" for="demo-textarea-invalid">Message</label>
+  <textarea class="textarea" id="demo-textarea-invalid" placeholder="Type your message here." aria-invalid="true" aria-describedby="demo-textarea-invalid-error"></textarea>
+  <p id="demo-textarea-invalid-error" role="alert">Please enter a valid message.</p>
+</div>`
+    },
+    {
+      title: "Button",
+      html: `<div class="field" style="max-width: 24rem">
+  <textarea class="textarea" placeholder="Type your message here." aria-label="Message"></textarea>
+  <button type="button" class="btn">Send message</button>
+</div>`
+    },
+    {
+      title: "Right-to-left",
+      html: `<div class="field" dir="rtl" lang="ar" style="max-width: 24rem">
+  <label class="label" for="demo-textarea-rtl">التعليقات</label>
+  <textarea class="textarea" id="demo-textarea-rtl" placeholder="تعليقاتك تساعدنا على التحسين..." dir="rtl"></textarea>
+  <p>شاركنا أفكارك حول خدمتنا.</p>
 </div>`
     }
   ],

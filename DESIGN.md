@@ -466,7 +466,7 @@ on an RTL page; its header follows the page direction.
 | Sheet | `.sheet` | Native `<dialog>` with `data-side` and a panel containing `header`, `section` and `footer`. | `data-side="inline-start|inline-end"`; `data-size="default|sm|lg"` |
 | Sidebar | `.sidebar` | `<aside>` with `header`, `section` and `footer`; nav lists and collapsible groups. | `aria-current="page"` on links; `data-slot="brand"` |
 | Skeleton | `.skeleton` | No required children; the consumer sets dimensions. | — |
-| Slider | `.slider` | Native `<input type="range">`. | `data-size="default|sm|lg"` |
+| Slider | `.slider` | Native `<input type="range">`; horizontal, one thumb. | `data-size="default|sm|lg"` |
 | Spinner | `.spinner` | Empty span; the CSS draws the ring. | `data-size="default|sm|lg"`; `role="status"` plus a label in markup |
 | Switch | `.switch` | Native `input[type="checkbox"]` with `role="switch"` and a label. | `data-size="default|sm"` |
 | Table | `.table-container`, `.table` | `caption`, `thead`, `tbody`, `tfoot`, `tr`, `th`, `td`; checkbox cells use a native `input[type="checkbox"]` or `role="checkbox"`. | Row `aria-selected="true"`; a row containing `aria-expanded="true"` stays highlighted |

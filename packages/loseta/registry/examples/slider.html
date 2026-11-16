@@ -1,9 +1,56 @@
 <!-- Default -->
 <input class="slider" type="range" min="0" max="100" value="60" aria-label="Volume">
 
-<!-- Sizes and disabled -->
-<div style="display: grid; gap: 0.75rem">
-  <input class="slider" data-size="sm" type="range" min="0" max="100" value="30" aria-label="Small volume">
-  <input class="slider" data-size="lg" type="range" min="0" max="100" value="70" aria-label="Large volume">
-  <input class="slider" type="range" min="0" max="100" value="50" aria-label="Disabled volume" disabled>
+<!-- With label and value -->
+<div class="field" style="max-width: 24rem">
+  <div style="display: flex; align-items: baseline; justify-content: space-between; gap: 1rem">
+    <label class="label" for="demo-slider-temperature">Temperature</label>
+    <output for="demo-slider-temperature" style="color: var(--muted-foreground); font-variant-numeric: tabular-nums">21°C</output>
+  </div>
+  <input class="slider" type="range" id="demo-slider-temperature" min="0" max="40" value="21">
+  <p>Set the target temperature for this room.</p>
+</div>
+
+<!-- Step interval -->
+<div class="field" style="max-width: 24rem">
+  <label class="label" for="demo-slider-step">Opacity</label>
+  <input class="slider" type="range" id="demo-slider-step" min="0" max="100" step="10" value="40">
+  <p>Changes in increments of 10.</p>
+</div>
+
+<!-- With icons -->
+<div style="display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; gap: 0.75rem; inline-size: 100%; max-width: 24rem; color: var(--muted-foreground)">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="inline-size: 1rem; block-size: 1rem"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
+  <input class="slider" type="range" min="0" max="100" value="60" aria-label="Volume">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="inline-size: 1rem; block-size: 1rem"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg>
+</div>
+
+<!-- Sizes -->
+<div style="display: grid; gap: 0.75rem; inline-size: 100%; max-width: 24rem">
+  <div class="field">
+    <label class="label" for="demo-slider-sm">Small</label>
+    <input class="slider" data-size="sm" type="range" id="demo-slider-sm" min="0" max="100" value="30">
+  </div>
+  <div class="field">
+    <label class="label" for="demo-slider-default">Default</label>
+    <input class="slider" type="range" id="demo-slider-default" min="0" max="100" value="60">
+  </div>
+  <div class="field">
+    <label class="label" for="demo-slider-lg">Large</label>
+    <input class="slider" data-size="lg" type="range" id="demo-slider-lg" min="0" max="100" value="70">
+  </div>
+</div>
+
+<!-- Disabled -->
+<div class="field" style="max-width: 24rem">
+  <label class="label" for="demo-slider-disabled">Volume</label>
+  <input class="slider" type="range" id="demo-slider-disabled" min="0" max="100" value="50" disabled>
+  <p>Disabled sliders keep their value but cannot be changed.</p>
+</div>
+
+<!-- Right-to-left -->
+<div class="field" dir="rtl" lang="ar" style="max-width: 24rem">
+  <label class="label" for="demo-slider-rtl">مستوى الصوت</label>
+  <input class="slider" type="range" id="demo-slider-rtl" min="0" max="100" value="60">
+  <p>يمتلئ المسار من اليمين إلى اليسار.</p>
 </div>

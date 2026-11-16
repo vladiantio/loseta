@@ -489,6 +489,32 @@ test("switch demo keeps the thumb inside a 44px pointer target", async ({
   expect(metrics.target.height).toBeGreaterThanOrEqual(24);
 });
 
+test("slider examples name every control and style the disabled state", async ({
+  page
+}) => {
+  await page.goto("/docs/components/slider");
+  const sliders = page.locator(".docs-preview .slider");
+  const count = await sliders.count();
+
+  expect(count).toBeGreaterThanOrEqual(7);
+  for (let index = 0; index < count; index += 1) {
+    const name = await sliders.nth(index).evaluate((element) => {
+      const control = element as HTMLInputElement;
+      return (
+        control.labels?.[0]?.textContent?.trim() ??
+        control.getAttribute("aria-label") ??
+        ""
+      );
+    });
+    expect(name).not.toBe("");
+  }
+
+  const disabled = page.locator("#demo-slider-disabled");
+  await expect(disabled).toBeDisabled();
+  await expect(disabled).toHaveCSS("opacity", "0.5");
+  await expect(disabled).toHaveCSS("cursor", "not-allowed");
+});
+
 test("input demo keeps the control type scale, selection and file button", async ({
   page
 }) => {

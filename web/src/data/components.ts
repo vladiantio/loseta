@@ -139,7 +139,7 @@ const notesBy: Record<string, string> = {
   sidebar:
     "Composition, not a stateful widget. Use an aside with header/section/footer; active links use aria-current=\"page\"; groups use collapsible; the mobile composition uses sheet.",
   slider:
-    "Native input[type=\"range\"]. accent-color draws the filled track and thumb; a custom thumb needs appearance:none and consumer-managed fill. data-size sm/default/lg changes the hit area.",
+    "Native input[type=\"range\"]. Pair it with a label or aria-label; accent-color draws the filled track and thumb, and data-size sm/default/lg changes the hit area. The control is horizontal and has one thumb, so vertical, range and multiple-thumb sliders need a custom control. A visible value readout is consumer JavaScript; set aria-valuetext when the displayed value carries a unit.",
   "hover-card":
     "CSS-only: opens on hover and focus-within with a 300ms delay. Point the trigger at the panel with aria-describedby. Use popover for interactive content that needs explicit dismissal.",
   marker:

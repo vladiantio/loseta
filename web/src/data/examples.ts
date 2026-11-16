@@ -29,6 +29,8 @@ const folderCode = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" 
 const bell = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10.268 21a2 2 0 0 0 3.464 0"/><path d="M3.262 15.326A1 1 0 0 0 4 17h16a1 1 0 0 0 .74-1.673C19.41 13.956 18 12.499 18 8A6 6 0 0 0 6 8c0 4.499-1.411 5.956-2.738 7.326"/></svg>`;
 const refresh = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" data-icon="inline-start"><path d="M21 12a9 9 0 0 0-9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/><path d="M3 12a9 9 0 0 0 9 9 9.75 9.75 0 0 0 6.74-2.74L21 16"/><path d="M16 16h5v5"/></svg>`;
 const minus = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/></svg>`;
+const volumeLow = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="inline-size: 1rem; block-size: 1rem"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>`;
+const volumeHigh = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="inline-size: 1rem; block-size: 1rem"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg>`;
 const bot = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" data-icon="inline-start"><path d="M12 8V4H8"/><rect width="16" height="12" x="4" y="8" rx="2"/><path d="M2 14h2"/><path d="M20 14h2"/><path d="M15 13v2"/><path d="M9 13v2"/></svg>`;
 const branch = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" data-icon="inline-start"><line x1="6" x2="6" y1="3" y2="15"/><circle cx="18" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><path d="M18 9a9 9 0 0 1-9 9"/></svg>`;
 const fork = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" data-icon="inline-start"><circle cx="12" cy="18" r="3"/><circle cx="6" cy="6" r="3"/><circle cx="18" cy="6" r="3"/><path d="M18 9v2c0 .6-.4 1-1 1H7c-.6 0-1-.4-1-1V9"/><path d="M12 12v3"/></svg>`;
@@ -2580,11 +2582,63 @@ Done in 2.8s using pnpm v10.18.0</code></pre>
       html: `<input class="slider" type="range" min="0" max="100" value="60" aria-label="Volume">`
     },
     {
-      title: "Sizes and disabled",
-      html: `<div style="display: grid; gap: 0.75rem">
-  <input class="slider" data-size="sm" type="range" min="0" max="100" value="30" aria-label="Small volume">
-  <input class="slider" data-size="lg" type="range" min="0" max="100" value="70" aria-label="Large volume">
-  <input class="slider" type="range" min="0" max="100" value="50" aria-label="Disabled volume" disabled>
+      title: "With label and value",
+      html: `<div class="field" style="max-width: 24rem">
+  <div style="display: flex; align-items: baseline; justify-content: space-between; gap: 1rem">
+    <label class="label" for="demo-slider-temperature">Temperature</label>
+    <output for="demo-slider-temperature" style="color: var(--muted-foreground); font-variant-numeric: tabular-nums">21°C</output>
+  </div>
+  <input class="slider" type="range" id="demo-slider-temperature" min="0" max="40" value="21">
+  <p>Set the target temperature for this room.</p>
+</div>`
+    },
+    {
+      title: "Step interval",
+      html: `<div class="field" style="max-width: 24rem">
+  <label class="label" for="demo-slider-step">Opacity</label>
+  <input class="slider" type="range" id="demo-slider-step" min="0" max="100" step="10" value="40">
+  <p>Changes in increments of 10.</p>
+</div>`
+    },
+    {
+      title: "With icons",
+      html: `<div style="display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; gap: 0.75rem; inline-size: 100%; max-width: 24rem; color: var(--muted-foreground)">
+  ${volumeLow}
+  <input class="slider" type="range" min="0" max="100" value="60" aria-label="Volume">
+  ${volumeHigh}
+</div>`
+    },
+    {
+      title: "Sizes",
+      html: `<div style="display: grid; gap: 0.75rem; inline-size: 100%; max-width: 24rem">
+  <div class="field">
+    <label class="label" for="demo-slider-sm">Small</label>
+    <input class="slider" data-size="sm" type="range" id="demo-slider-sm" min="0" max="100" value="30">
+  </div>
+  <div class="field">
+    <label class="label" for="demo-slider-default">Default</label>
+    <input class="slider" type="range" id="demo-slider-default" min="0" max="100" value="60">
+  </div>
+  <div class="field">
+    <label class="label" for="demo-slider-lg">Large</label>
+    <input class="slider" data-size="lg" type="range" id="demo-slider-lg" min="0" max="100" value="70">
+  </div>
+</div>`
+    },
+    {
+      title: "Disabled",
+      html: `<div class="field" style="max-width: 24rem">
+  <label class="label" for="demo-slider-disabled">Volume</label>
+  <input class="slider" type="range" id="demo-slider-disabled" min="0" max="100" value="50" disabled>
+  <p>Disabled sliders keep their value but cannot be changed.</p>
+</div>`
+    },
+    {
+      title: "Right-to-left",
+      html: `<div class="field" dir="rtl" lang="ar" style="max-width: 24rem">
+  <label class="label" for="demo-slider-rtl">مستوى الصوت</label>
+  <input class="slider" type="range" id="demo-slider-rtl" min="0" max="100" value="60">
+  <p>يمتلئ المسار من اليمين إلى اليسار.</p>
 </div>`
     }
   ],

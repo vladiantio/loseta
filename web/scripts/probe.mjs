@@ -37,7 +37,8 @@ Options:
                        with \`el\`; evaluation times out after 10s.
   --shot <file>        Screenshot the selected target (default: first example preview)
   --shot-el <selector> Screenshot this element instead of the default preview;
-                       scope it to the selected example when --example is set
+                       scoped to the selected example with --example, and
+                       inside #probe-root with --html
   --page               Screenshot the whole .docs-content instead of one preview;
                        combine with --example to evaluate on that example
   --out <dir>          --all-examples output directory (default /tmp/loseta-probe)
@@ -235,7 +236,7 @@ try {
     const markup = readFileSync(htmlFile, "utf8");
     await page.evaluate((content) => {
       const main = document.querySelector(".docs-content");
-      if (!main) throw new Error("probe: no .docs-content on this page");
+      if (!main) throw new Error("no .docs-content on this page");
       const wrapper = document.createElement("div");
       wrapper.id = "probe-root";
       wrapper.innerHTML = content;
@@ -278,7 +279,14 @@ try {
 
   async function screenshot(locator, file) {
     if ((await locator.count()) === 0) {
-      throw new Error("probe: no element to screenshot");
+      const scope = htmlFile
+        ? " inside #probe-root"
+        : exampleIndex !== -1
+          ? ` in example "${titles[exampleIndex]}"`
+          : "";
+      throw new Error(
+        `no element to screenshot${shotEl ? ` for --shot-el ${shotEl}${scope}` : ""}`
+      );
     }
     mkdirSync(dirname(resolve(file)), { recursive: true });
     await locator.scrollIntoViewIfNeeded();

@@ -4,6 +4,9 @@ loseta is a copy-paste registry of native CSS components with a documented
 markup contract. The registry is the product; the docs site renders the same
 files consumers install.
 
+For "component examples and fixes" requests, start with `EXAMPLES.md`; it is
+the runbook for the workflow, tests and upstream paths.
+
 ## Read first
 
 - `GLOSSARY.md` — read when naming a concept, writing docs or choosing an
@@ -152,17 +155,21 @@ pnpm web:dev             # docs at http://localhost:4321
 pnpm --filter web test:e2e
 ```
 
-Run gates through `pnpm gate:test`, `pnpm gate:registry` and `pnpm gate:e2e`
-when you want a trimmed tail: the wrapper prints the last 40 lines and exits
-with the command's status. Never pipe a gate into `tail` or `head`.
+`pnpm test` runs the default gate through `scripts/gate.mjs`: it prints the
+last 40 lines and exits with the command's status; `pnpm test:raw` prints the
+full output. `pnpm gate:test` is an alias; `pnpm gate:registry` and
+`pnpm gate:e2e` wrap the other gates. Never
+pipe a gate into `tail` or `head`; the shell environment runs bash with
+`pipefail`, so a pipeline already reports its first failing stage.
 
 `registry:check` enforces schema conformance, file and example existence,
 dependency resolution and cycles, exact layer wrapping, forbidden patterns
 (including physical left/right spacing and borders in style files), stable
 style completeness, the experimental Nova-only rule and CSS parseability. It
 also checks example ID and ARIA-reference integrity, the popover dialog
-contract and the shared overlay recipe. Fix the source rather than bypassing
-it.
+contract, the shared overlay recipe and that every component root used by an
+example is declared in `optionalDependencies`. Fix the source rather than
+bypassing it.
 
 For visual work, use Astro's preview lifecycle instead of keeping a server by
 hand: `pnpm --filter web astro preview status`,
@@ -175,7 +182,9 @@ free port while scripts keep hitting 4323.
 `pnpm --filter web run probe <item>` screenshots the first example preview.
 Select one case with `--example "<title>"`, `--style`, `--scheme`, `--width` or
 `--html <fixture>`; inspect it with `--eval "<js>"` (binds `el` to the example
-root) and `--page` for the whole page. `--all-examples` covers every preview.
+root) and `--page` for the whole page. `--shot-el` captures one element; it is
+scoped to the selected example with `--example` and inside `#probe-root` with
+`--html`. `--all-examples` covers every preview.
 For a contact sheet across styles, use
 `pnpm --filter web run styles:review <item> --scheme both`.
 

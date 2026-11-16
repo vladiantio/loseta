@@ -35,7 +35,8 @@ reference for this checklist.
 4. Update the evidence around the examples:
    - `notesBy` with the composition contract;
    - the `DESIGN.md` row when a class, attribute or part changed;
-   - `optionalDependencies` for every item a new example composes.
+   - `optionalDependencies` for every item a new example composes;
+     `registry:check` fails when one is missing.
 5. Review visually (see below).
 6. Add a `docs.spec.ts` test for every behavior you fixed. Assert a relation
    for container-driven sizes (`width > 448`), never the docs column width:
@@ -44,8 +45,10 @@ reference for this checklist.
    the contract (for example the field row gap).
 8. Run `pnpm test`, then one build plus the focused suite:
    `pnpm --filter web build` and
-   `pnpm --filter web exec playwright test -g "<item>"`. Run
-   `pnpm --filter web test:e2e` once, when the diff is final.
+   `pnpm --filter web exec playwright test -g "<item>"`. After changing example
+   colors or surfaces, run the page axe case before the full suite:
+   `pnpm --filter web exec playwright test -g "axe: /docs/components/<item>"`.
+   Run `pnpm --filter web test:e2e` once, when the diff is final.
 9. `git status` must show only source and regenerated files. Commit with
    `feat(registry): expand <item> examples and fix details`.
 
@@ -59,6 +62,8 @@ Start the preview once:
   `pnpm --filter web run probe <item> --example "<title>" --eval "getComputedStyle(el.querySelector('.field')).rowGap"`.
   `--style`, `--scheme dark`, `--width`, `--html <fixture>`, `--shot <file>` and
   `--all-examples` cover the rest. `el` is the `section.example` root.
+  `--shot-el` is resolved inside the selected example, or inside `#probe-root`
+  with `--html`.
 - Open overlays: `--eval "{ el.querySelector('[data-demo-trigger]').click(); }"`
   with `--shot-el ".component-preview"` captures the panel over the code area;
   the default `--shot` captures `.docs-preview` only. `--all-examples` applies
@@ -78,5 +83,6 @@ source, fetch it from `shadcn-ui/ui` on `main`:
 
 - component source: `apps/v4/registry/bases/base/ui/<item>.tsx`
 - docs example markup: `apps/v4/examples/base/<item>-<example>.tsx`
+- style recipe: `apps/v4/registry/styles/style-<style>.css` (the `cn-<item>` block)
 
 `https://ui.shadcn.com/r/styles/base/<item>.json` is a 404; do not start there.

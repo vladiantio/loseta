@@ -628,6 +628,91 @@ test("textarea follows the Mira type scale", async ({ page }) => {
   });
 });
 
+test("field sets fill their container and responsive rows follow it", async ({
+  page
+}) => {
+  await page.goto("/docs/components/field");
+  const example = page
+    .locator("section.example")
+    .filter({ has: page.locator(".example-title", { hasText: "Responsive layout" }) });
+  const fieldset = example.locator("fieldset.fieldset");
+  const row = example.locator(".field[data-orientation='responsive']").first();
+  const initialWidth = await fieldset.evaluate(
+    (element) => element.getBoundingClientRect().width
+  );
+
+  expect(initialWidth).toBeGreaterThan(448);
+  await expect(row).toHaveCSS("flex-direction", "row");
+
+  await fieldset.evaluate((element) => {
+    (element as HTMLElement).style.maxWidth = "20rem";
+  });
+
+  await expect(fieldset).toHaveCSS("width", "320px");
+  await expect(row).toHaveCSS("flex-direction", "column");
+});
+
+test("field separator centers a bare hr behind its content", async ({ page }) => {
+  await page.goto("/docs/components/field");
+  const separator = page
+    .locator("section.example")
+    .filter({ has: page.locator(".example-title", { hasText: "Field group" }) })
+    .locator(".field-separator");
+
+  const geometry = await separator.evaluate((element) => {
+    const hr = element.querySelector("hr");
+    if (!(hr instanceof HTMLElement)) throw new Error("missing separator hr");
+    const box = element.getBoundingClientRect();
+    const line = hr.getBoundingClientRect();
+    return {
+      position: getComputedStyle(hr).position,
+      centerOffset: line.top + line.height / 2 - (box.top + box.height / 2)
+    };
+  });
+
+  expect(geometry.position).toBe("absolute");
+  expect(Math.abs(geometry.centerOffset)).toBeLessThanOrEqual(1);
+  await expect(separator.locator("span")).toHaveText("Or");
+});
+
+test("field invalid state colors the block and lists every error", async ({
+  page
+}) => {
+  await page.emulateMedia({ colorScheme: "light" });
+  await page.goto("/docs/components/field");
+  const example = page
+    .locator("section.example")
+    .filter({ has: page.locator(".example-title", { hasText: "Validation and errors" }) });
+  const field = example.locator(".field");
+  const vertical = page
+    .locator("section.example")
+    .filter({ has: page.locator(".example-title", { hasText: "Vertical" }) })
+    .locator(".field");
+
+  const colors = await field.evaluate((element) => {
+    const alert = element.querySelector("[role='alert']");
+    const input = element.querySelector("input");
+    return {
+      block: getComputedStyle(element).color,
+      alert: alert instanceof HTMLElement ? getComputedStyle(alert).color : null,
+      inputBorder:
+        input instanceof HTMLElement ? getComputedStyle(input).borderTopColor : null
+    };
+  });
+  const normalColor = await vertical.evaluate(
+    (element) => getComputedStyle(element).color
+  );
+
+  expect(colors.block).not.toBe(normalColor);
+  expect(colors.alert).toBe(colors.block);
+  expect(colors.inputBorder).toBe(colors.block);
+
+  const list = field.locator("[role='alert'] ul");
+  await expect(list).toHaveCSS("list-style-type", "disc");
+  await expect(list).toHaveCSS("margin-left", "16px");
+  await expect(list).toHaveCSS("row-gap", "4px");
+});
+
 test("accordion and collapsible animate their content on close", async ({ page }) => {
   for (const [slug, selector] of [
     ["accordion", ".accordion details"],

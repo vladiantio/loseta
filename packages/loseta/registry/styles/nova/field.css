@@ -102,7 +102,7 @@
       margin-bottom: -0.5rem;
     }
 
-    > hr[role='separator'] {
+    > hr {
       border-color: var(--border);
     }
   }

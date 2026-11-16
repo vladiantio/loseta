@@ -1208,7 +1208,9 @@
         "native-select",
         "checkbox",
         "radio",
-        "switch"
+        "switch",
+        "slider",
+        "separator"
       ],
       "files": [
         {

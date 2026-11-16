@@ -89,6 +89,21 @@ const cases: StyleCase[] = [
     }
   },
   {
+    id: "field",
+    selector: ".docs-preview .field",
+    property: "row-gap",
+    values: {
+      nova: "8px",
+      vega: "12px",
+      maia: "12px",
+      lyra: "8px",
+      mira: "12px",
+      luma: "12px",
+      sera: "12px",
+      rhea: "12px"
+    }
+  },
+  {
     id: "avatar",
     selector: ".docs-preview .avatar[data-size='sm'] [data-slot='fallback']",
     property: "font-size",

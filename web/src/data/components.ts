@@ -162,7 +162,8 @@ const notesBy: Record<string, string> = {
     "A native details disclosure. Put the line in summary with data-slot icon, title and status, and the detail in data-slot body. Use data-variant=\"error\" or \"success\" on status; aria-busy=\"true\" marks a running step. Nested traces compose inside the body.",
   tooltip:
     "CSS-only: visible on hover and focus-visible. Use data-arrow for the pointer arrow and data-side/data-align to place it. Keep an aria-label or aria-describedby for screen readers.",
-  field: "Use aria-invalid=\"true\" on the control and role=\"alert\" for error messages.",
+  field:
+    "Compose one control per .field: label, control, optional p description and a [role=\"alert\"] error. Mark the control aria-invalid=\"true\" to turn the whole field destructive. Use <fieldset class=\"fieldset\"> with a <legend> for related controls and data-slot=\"checkbox-group|radio-group\" for checkbox and radio rows; a label wrapping a .field becomes a selectable card. data-orientation=\"horizontal\" aligns a row and \"responsive\" switches inside a group container at 28rem. Divide sections with .field-separator and an hr.",
   table: "Use aria-selected=\"true\" on selectable rows.",
   input:
     "Pair every input with a label; a placeholder is not a label. Use native required and disabled states, aria-invalid=\"true\" for the invalid state and type=\"file\" for uploads; the native file-selector button is styled. Compose labels and descriptions with .field.",

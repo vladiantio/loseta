@@ -21,6 +21,7 @@ files consumers install.
   GitHub release or merged PR is preparation.
 - `STYLE-GUIDE.md` — read before writing or reviewing a style file. It defines
   the per-style geometry, role recipes and reference components.
+- `EXAMPLES.md` — read when adding or expanding a component's examples.
 
 CodeGraph covers the CLI, docs site and tests (TypeScript and Astro). Registry
 CSS and the design docs (`DESIGN.md`, `STYLE-GUIDE.md`) are found with `grep`
@@ -50,7 +51,10 @@ and `read`.
 - `packages/loseta/experimental/` — uncurated, unpublished drafts. Items become
   installable only after they move into `registry/` and are declared in
   `registry.json`, even while they remain experimental.
-- `web/` — Astro docs site; it imports the registry CSS directly.
+- `web/` — Astro docs site; it imports the registry CSS directly. Component
+  pages are one dynamic route (`web/src/pages/docs/components/[id].astro`);
+  per-item copy lives in `web/src/data/components.ts` and example markup in
+  `web/src/data/examples.ts`.
 
 ## Base/style split
 
@@ -154,10 +158,20 @@ dependency resolution and cycles, exact layer wrapping, forbidden patterns
 style completeness, the experimental Nova-only rule and CSS parseability. Fix
 the source rather than bypassing it.
 
-For visual work, keep `pnpm --filter web preview --port 4323 --ignore-lock`
-running and call `pnpm --filter web run styles:review <item> --scheme both`. It
-screenshots the first preview of each item in every style and color scheme and
-writes contact sheets to `/tmp/loseta-style-review`.
+For visual work, use Astro's preview lifecycle instead of keeping a server by
+hand: `pnpm --filter web astro preview status`,
+`pnpm --filter web astro preview --port 4323 --background`,
+`pnpm --filter web astro preview logs --follow` and
+`pnpm --filter web astro preview stop`. `--ignore-lock` belongs only in
+Playwright's `webServer`; from a shell it starts a second server on the next
+free port while scripts keep hitting 4323.
+
+`pnpm --filter web run probe <item>` screenshots the first example preview.
+Select one case with `--example "<title>"`, `--style`, `--scheme`, `--width` or
+`--html <fixture>`; inspect it with `--eval "<js>"` (binds `el` to the example
+root) and `--page` for the whole page. `--all-examples` covers every preview.
+For a contact sheet across styles, use
+`pnpm --filter web run styles:review <item> --scheme both`.
 
 Review `git diff` before the full suite. To iterate, build once
 (`pnpm --filter web build`) and run

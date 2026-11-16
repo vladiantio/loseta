@@ -240,22 +240,14 @@
 
     > svg {
       grid-row: span 2 / span 2;
-      translate: 0 0.125rem;
-      color: currentcolor;
-    }
-
-    > svg {
       width: var(--icon-size, 1rem);
       height: var(--icon-size, 1rem);
+      translate: 0 0.125rem;
     }
 
     &[data-variant='destructive'] {
       background-color: var(--card);
       color: var(--destructive);
-
-      > svg {
-        color: currentcolor;
-      }
     }
 
     > :is(h2, h3, h4, h5, h6, strong, [data-slot='title']),
@@ -275,10 +267,6 @@
 
       @media (width >= 48rem) {
         text-wrap: pretty;
-      }
-
-      & p:not(:last-child) {
-        margin-bottom: 1rem;
       }
     }
 
@@ -301,10 +289,6 @@
 
       @media (width >= 48rem) {
         text-wrap: pretty;
-      }
-
-      & p:not(:last-child) {
-        margin-bottom: 1rem;
       }
     }
 

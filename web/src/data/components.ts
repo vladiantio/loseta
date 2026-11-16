@@ -189,7 +189,8 @@ const notesBy: Record<string, string> = {
   item: "Uses figure/section/aside/header/footer structure.",
   kbd: "Use .kbd inside menus, tooltips or shortcut hints.",
   skeleton: "Set width and height inline or with your own layout classes.",
-  alert: "Use role=\"alert\" for dynamic messages."
+  alert:
+    "Add role=\"alert\" for messages that appear after load. Mark a decorative direct SVG icon aria-hidden=\"true\". The title accepts h2–h6, strong or [data-slot=\"title\"]; the description is a section or [data-slot=\"description\"], and footer holds the action. Custom colors come from overriding --card, --border and --muted-foreground.",
 };
 
 export interface ComponentDoc {

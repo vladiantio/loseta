@@ -21,6 +21,8 @@ const terminal = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fi
 const globe = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>`;
 const info = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>`;
 const circleAlert = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="12" x2="12" y1="8" y2="12"/><line x1="12" x2="12.01" y1="16" y2="16"/></svg>`;
+const circleCheck = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21.801 10A10 10 0 1 1 17 3.335"/><path d="m9 11 3 3L22 4"/></svg>`;
+const triangleAlert = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg>`;
 const arrowDown = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14"/><path d="m19 12-7 7-7-7"/></svg>`;
 const plus = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="M12 5v14"/></svg>`;
 const plusInline = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" data-icon="inline-start"><path d="M5 12h14"/><path d="M12 5v14"/></svg>`;
@@ -42,19 +44,70 @@ export const examples: Record<string, Example[]> = {
     {
       title: "Default",
       html: `<div class="alert" role="alert">
+  ${circleCheck}
   <h3 data-slot="title">Heads up!</h3>
   <section>
-    <p>You can add components to your app using the CLI.</p>
+    <p>You can add components and dependencies to your app using the CLI.</p>
   </section>
 </div>`
     },
     {
       title: "Destructive",
       html: `<div class="alert" data-variant="destructive" role="alert">
-  <h3 data-slot="title">Session expired</h3>
+  ${circleAlert}
+  <h3 data-slot="title">Payment failed</h3>
   <section>
-    <p>Please log in again to continue.</p>
+    <p>Your payment could not be processed. Please check your payment method and try again.</p>
   </section>
+</div>`
+    },
+    {
+      title: "Action",
+      html: `<div class="alert" role="alert">
+  <h3 data-slot="title">Dark mode is now available</h3>
+  <p data-slot="description">Enable it under your profile settings to get started.</p>
+  <footer>
+    <button type="button" class="btn" data-size="xs">Enable</button>
+  </footer>
+</div>`
+    },
+    {
+      title: "Description container",
+      html: `<div class="alert" role="alert">
+  <h3 data-slot="title">Using the CLI</h3>
+  <div data-slot="description">
+    <p>Add components and dependencies with the CLI.</p>
+    <p>Then customize the alert with your own tokens.</p>
+  </div>
+</div>`
+    },
+    {
+      title: "Custom colors",
+      html: `<div class="alert" role="alert" style="--card: color-mix(in oklab, var(--chart-4) 10%, var(--background)); --border: color-mix(in oklab, var(--chart-4) 40%, var(--background)); --muted-foreground: color-mix(in oklab, var(--chart-4) 35%, var(--foreground))">
+  ${triangleAlert}
+  <h3 data-slot="title">Your subscription will expire in 3 days.</h3>
+  <section>
+    <p>Renew now to avoid service interruption or upgrade to a paid plan to continue using the service.</p>
+  </section>
+</div>`
+    },
+    {
+      title: "Right-to-left",
+      html: `<div dir="rtl" lang="ar" style="display: grid; gap: 1rem">
+  <div class="alert" role="alert">
+    ${circleCheck}
+    <h3 data-slot="title">تم الدفع بنجاح</h3>
+    <section>
+      <p>تمت معالجة دفعتك البالغة 29.99 دولارًا. تم إرسال إيصال إلى عنوان بريدك الإلكتروني.</p>
+    </section>
+  </div>
+  <div class="alert" role="alert">
+    ${info}
+    <h3 data-slot="title">ميزة جديدة متاحة</h3>
+    <section>
+      <p>لقد أضفنا دعم الوضع الداكن. يمكنك تفعيله في إعدادات حسابك.</p>
+    </section>
+  </div>
 </div>`
     }
   ],

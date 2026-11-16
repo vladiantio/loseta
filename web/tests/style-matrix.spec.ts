@@ -315,6 +315,21 @@ const cases: StyleCase[] = [
     }
   },
   {
+    id: "alert",
+    selector: ".docs-preview .alert",
+    property: "padding-top",
+    values: {
+      nova: "8px",
+      vega: "12px",
+      maia: "12px",
+      lyra: "8px",
+      mira: "6px",
+      luma: "12px",
+      sera: "12px",
+      rhea: "12px"
+    }
+  },
+  {
     id: "select",
     selector: ".docs-preview .select > button",
     property: "height",

@@ -736,6 +736,9 @@ progress sweep slow down instead of stopping. This remains a known gap.
   JavaScript.
 - Sidebar navigation needs a `nav` label and `aria-current="page"` on the active
   link. Mobile composition uses a labelled sheet or dialog.
+- Alerts do not add live-region behavior. Use `role="alert"` when the message
+  appears after load; mark decorative icons `aria-hidden` and give an action in
+  the footer an accessible name.
 - Toasts use `role="status"` for polite updates and `role="alert"` for errors;
   close buttons need labels. Timing and dismissal are consumer JavaScript.
 - Message groups should carry an accessible name; a live conversation uses

@@ -12,7 +12,9 @@
       display: grid;
       justify-items: start;
       gap: 0.25rem;
+    }
 
+    > :is(section, [data-slot='description']) {
       :where(p, ul, ol) {
         margin: 0;
       }

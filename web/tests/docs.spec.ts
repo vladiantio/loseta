@@ -1301,6 +1301,84 @@ test("progress mirrors its indeterminate sweep in right-to-left", async ({ page 
   await expect(sweep).toHaveCSS("animation-direction", "reverse");
 });
 
+test("alert lays out icons, descriptions and actions in both directions", async ({
+  page
+}) => {
+  await page.goto("/docs/components/alert");
+
+  const hero = page.locator("section.example").first();
+  const icon = hero.locator(".alert > svg");
+  const title = hero.locator(".alert > h3");
+  const section = hero.locator(".alert > section");
+
+  await expect(icon).toHaveCSS("width", "16px");
+  await expect(icon).toHaveCSS("height", "16px");
+  await expect(section).toHaveCSS("display", "grid");
+
+  const iconBox = await icon.boundingBox();
+  const titleBox = await title.boundingBox();
+  const sectionBox = await section.boundingBox();
+  expect(iconBox).not.toBeNull();
+  expect(titleBox).not.toBeNull();
+  expect(sectionBox).not.toBeNull();
+  if (iconBox && titleBox && sectionBox) {
+    expect(titleBox.x).toBeGreaterThan(iconBox.x + iconBox.width);
+    expect(Math.abs(titleBox.x - sectionBox.x)).toBeLessThan(1);
+  }
+
+  const actionExample = page
+    .locator("section.example")
+    .filter({ has: page.locator(".example-title", { hasText: /^Action$/ }) });
+  const actionAlert = actionExample.locator(".alert");
+  const description = actionAlert.locator("[data-slot='description']");
+  const action = actionAlert.locator("footer .btn");
+
+  await expect(description).toHaveCSS("display", "block");
+  await expect(actionAlert).toHaveCSS("padding-right", "72px");
+  await expect(action).toBeVisible();
+
+  const actionAlertBox = await actionAlert.boundingBox();
+  const actionBox = await action.boundingBox();
+  expect(actionAlertBox).not.toBeNull();
+  expect(actionBox).not.toBeNull();
+  if (actionAlertBox && actionBox) {
+    expect(
+      actionAlertBox.x + actionAlertBox.width - (actionBox.x + actionBox.width)
+    ).toBeLessThanOrEqual(10);
+    expect(actionBox.y - actionAlertBox.y).toBeLessThanOrEqual(10);
+  }
+
+  const rtl = page
+    .locator("section.example")
+    .filter({ has: page.locator(".example-title", { hasText: /^Right-to-left$/ }) });
+  const rtlAlert = rtl.locator(".alert").first();
+  await expect(rtlAlert).toHaveCSS("direction", "rtl");
+
+  const rtlIconBox = await rtlAlert.locator("svg").boundingBox();
+  const rtlTitleBox = await rtlAlert.locator("h3").boundingBox();
+  expect(rtlIconBox).not.toBeNull();
+  expect(rtlTitleBox).not.toBeNull();
+  if (rtlIconBox && rtlTitleBox) {
+    expect(rtlIconBox.x).toBeGreaterThan(rtlTitleBox.x + rtlTitleBox.width);
+  }
+});
+
+test("alert description containers keep paragraph spacing", async ({ page }) => {
+  await page.goto("/docs/components/alert");
+  const example = page
+    .locator("section.example")
+    .filter({
+      has: page.locator(".example-title", { hasText: /^Description container$/ })
+    });
+  const description = example.locator(".alert > [data-slot='description']");
+  const paragraphs = description.locator("p");
+
+  await expect(description).toHaveCSS("display", "block");
+  await expect(paragraphs).toHaveCount(2);
+  await expect(paragraphs.first()).toHaveCSS("margin-bottom", "16px");
+  await expect(paragraphs.last()).toHaveCSS("margin-bottom", "0px");
+});
+
 test("progress keeps a visible system-color track in forced-colors mode", async ({
   page
 }) => {

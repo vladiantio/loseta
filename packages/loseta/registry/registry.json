@@ -387,7 +387,9 @@
         ".alert"
       ],
       "registryDependencies": [],
-      "optionalDependencies": [],
+      "optionalDependencies": [
+        "button"
+      ],
       "files": [
         {
           "path": "components/alert.css",

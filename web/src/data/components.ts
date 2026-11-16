@@ -103,7 +103,7 @@ const notesBy: Record<string, string> = {
   "dropdown-menu":
     "Requires JavaScript for open/close and keyboard navigation. Toggle aria-hidden on [data-popover] and aria-expanded on the trigger.",
   popover:
-    "Requires JavaScript for open/close. Toggle aria-hidden on [data-popover] and aria-expanded on the trigger.",
+    "Requires JavaScript for open/close and focus management. The trigger uses aria-haspopup=\"dialog\", aria-expanded and aria-controls; toggle aria-hidden on the panel and name the role=\"dialog\" panel with aria-labelledby (add aria-describedby when it has a description).",
   pagination:
     "Use nav[aria-label=\"pagination\"] and .btn links. The current page uses aria-current=\"page\"; the ellipsis is decorative. Button is optional composition, not a hard dependency.",
   progress:

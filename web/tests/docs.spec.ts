@@ -990,6 +990,77 @@ test("hover card opens on hover and closes on leave", async ({ page }) => {
   await expect(panel).toBeHidden();
 });
 
+test("popover examples toggle, align and mirror placement", async ({ page }) => {
+  await page.goto("/docs/components/popover");
+
+  const hero = page.locator("section.example").first();
+  const trigger = hero.getByRole("button", { name: "Open popover" });
+  const panel = page.locator("#demo-popover-default-panel");
+
+  await expect(panel).toHaveAttribute("aria-hidden", "true");
+  await expect(panel).toHaveAttribute("role", "dialog");
+  await trigger.click();
+  await expect(panel).toHaveAttribute("aria-hidden", "false");
+  await expect(trigger).toHaveAttribute("aria-expanded", "true");
+  await expect(trigger).toHaveAttribute("aria-controls", "demo-popover-default-panel");
+  await expect(panel).toHaveAccessibleName("Dimensions");
+
+  await page.keyboard.press("Escape");
+  await expect(panel).toHaveAttribute("aria-hidden", "true");
+  await expect(trigger).toHaveAttribute("aria-expanded", "false");
+
+  const alignments = page
+    .locator("section.example")
+    .filter({ has: page.locator(".example-title", { hasText: /^Alignments$/ }) });
+  const centerTrigger = alignments.locator("#demo-popover-align-center-trigger");
+  const centerPanel = page.locator("#demo-popover-align-center-panel");
+  await expect(centerPanel).toHaveCSS("translate", "-50% -8px");
+  await centerTrigger.click();
+  await expect(centerPanel).toHaveCSS("opacity", "1");
+
+  const triggerBox = await centerTrigger.boundingBox();
+  const panelBox = await centerPanel.boundingBox();
+  expect(triggerBox).not.toBeNull();
+  expect(panelBox).not.toBeNull();
+  if (triggerBox && panelBox) {
+    const triggerCenter = triggerBox.x + triggerBox.width / 2;
+    const panelCenter = panelBox.x + panelBox.width / 2;
+    expect(Math.abs(triggerCenter - panelCenter)).toBeLessThan(2);
+  }
+
+  const sides = page
+    .locator("section.example")
+    .filter({ has: page.locator(".example-title", { hasText: /^Sides$/ }) });
+  const topTrigger = sides.locator("#demo-popover-side-top-trigger");
+  const topPanel = page.locator("#demo-popover-side-top-panel");
+  await topTrigger.click();
+  await expect(topPanel).toHaveCSS("opacity", "1");
+
+  const topTriggerBox = await topTrigger.boundingBox();
+  const topPanelBox = await topPanel.boundingBox();
+  if (topTriggerBox && topPanelBox) {
+    expect(topPanelBox.y + topPanelBox.height).toBeLessThanOrEqual(
+      topTriggerBox.y + 1
+    );
+  }
+
+  const rtl = page
+    .locator("section.example")
+    .filter({ has: page.locator(".example-title", { hasText: /^Right-to-left$/ }) });
+  const inlineStartTrigger = rtl.locator("#demo-popover-rtl-inline-start-trigger");
+  const inlineStartPanel = page.locator("#demo-popover-rtl-inline-start-panel");
+  await inlineStartTrigger.click();
+  await expect(inlineStartPanel).toHaveCSS("opacity", "1");
+
+  const rtlTriggerBox = await inlineStartTrigger.boundingBox();
+  const rtlPanelBox = await inlineStartPanel.boundingBox();
+  if (rtlTriggerBox && rtlPanelBox) {
+    expect(rtlPanelBox.x).toBeGreaterThanOrEqual(
+      rtlTriggerBox.x + rtlTriggerBox.width
+    );
+  }
+});
+
 test("context menu opens at the pointer and closes with Escape", async ({ page }) => {
   await page.goto("/docs/components/context-menu");
   const menu = page.locator(".context-menu");

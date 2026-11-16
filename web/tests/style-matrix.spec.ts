@@ -285,6 +285,21 @@ const cases: StyleCase[] = [
     }
   },
   {
+    id: "popover",
+    selector: ".docs-preview .popover > [data-popover]",
+    property: "border-top-left-radius",
+    values: {
+      nova: "10px",
+      vega: "8px",
+      maia: "18px",
+      lyra: "0px",
+      mira: "10px",
+      luma: "22px",
+      sera: "0px",
+      rhea: "18px"
+    }
+  },
+  {
     id: "toast",
     selector: ".docs-preview .toast",
     property: "border-top-left-radius",

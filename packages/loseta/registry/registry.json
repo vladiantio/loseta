@@ -1655,7 +1655,12 @@
       "registryDependencies": [
         "popover-primitive"
       ],
-      "optionalDependencies": [],
+      "optionalDependencies": [
+        "button",
+        "field",
+        "label",
+        "input"
+      ],
       "files": [
         {
           "path": "components/popover.css",

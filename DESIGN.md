@@ -456,7 +456,7 @@ on an RTL page; its header follows the page direction.
 | Native select | `.native-select` | Native `<select>`. | `data-size="sm"`; default by omission |
 | Navigation menu | `.navigation-menu` | `nav` with `ul`/`li`, trigger buttons or links, and `[data-popover]` panels with link lists and `[data-slot="title"]`/`[data-slot="description"]`. | Placement attributes on panels |
 | Pagination | `.pagination` | `nav` with `ul`/`li`; links compose with `.btn`; `[data-slot="ellipsis"]` and `[data-slot="label"]` parts. | `aria-current="page"` on the active link |
-| Popover | `.popover` | Trigger and `[data-popover]` panel with optional header, title and description. | Placement attributes |
+| Popover | `.popover` | Trigger with `aria-haspopup="dialog"`, `aria-expanded` and `aria-controls`, plus a `[data-popover]` `role="dialog"` panel named by `aria-labelledby`; optional header, title and description. | Placement attributes |
 | Progress | `.progress` | Native `<progress>` with fallback text. | `value`/`max`; omit `value` for indeterminate |
 | Questionnaire | `.questionnaire` | `[data-slot="progress"]`, fieldset steps with legends, `[data-slot="choices"]`, native inputs and `[data-slot="actions"]`. | `aria-current="step"` on the active step; `hidden` on inactive steps; native radio/checkbox/input |
 | Radio | `.radio` | Native `input[type="radio"]`, normally inside `role="radiogroup"`. Compose rows with `.field` and a label, and group them with `[data-slot="radio-group"]` inside a `.fieldset`. | — |
@@ -802,8 +802,9 @@ progress sweep slow down instead of stopping. This remains a known gap.
 - Dropdown menus must maintain `aria-expanded` on the trigger,
   `aria-hidden` on the panel and roving focus; checkable items use
   `aria-checked`.
-- Popovers must maintain `aria-expanded` on the trigger and `aria-hidden` on
-  the panel.
+- Popovers must maintain `aria-expanded` and `aria-controls` on the trigger and
+  `aria-hidden` on the panel. The panel uses `role="dialog"` and is named with
+  `aria-labelledby` (and `aria-describedby` when it has a description).
 - Tooltips must have an accessible name or description on the trigger; the
   visual bubble is generated from `data-tooltip` and is not a substitute for
   `aria-label` or `aria-describedby`.

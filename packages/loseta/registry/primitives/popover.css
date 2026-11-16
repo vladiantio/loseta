@@ -28,34 +28,66 @@
       &:not([data-side]),
       &[data-side='bottom'] {
         translate: 0 -0.5rem;
+
+        &[data-align='center'] {
+          translate: -50% -0.5rem;
+        }
       }
 
       &[data-side='top'] {
         translate: 0 0.5rem;
+
+        &[data-align='center'] {
+          translate: -50% 0.5rem;
+        }
       }
 
       &[data-side='left'] {
         translate: 0.5rem;
+
+        &[data-align='center'] {
+          translate: 0.5rem -50%;
+        }
       }
 
       &[data-side='right'] {
         translate: -0.5rem;
+
+        &[data-align='center'] {
+          translate: -0.5rem -50%;
+        }
       }
 
       &[data-side='inline-start'] {
         translate: 0.5rem;
-      }
 
-      &[data-side='inline-start']:dir(rtl) {
-        translate: -0.5rem;
+        &:dir(rtl) {
+          translate: -0.5rem;
+        }
+
+        &[data-align='center'] {
+          translate: 0.5rem -50%;
+        }
+
+        &[data-align='center']:dir(rtl) {
+          translate: -0.5rem -50%;
+        }
       }
 
       &[data-side='inline-end'] {
         translate: -0.5rem;
-      }
 
-      &[data-side='inline-end']:dir(rtl) {
-        translate: 0.5rem;
+        &:dir(rtl) {
+          translate: 0.5rem;
+        }
+
+        &[data-align='center'] {
+          translate: -0.5rem -50%;
+        }
+
+        &[data-align='center']:dir(rtl) {
+          translate: 0.5rem -50%;
+        }
       }
     }
 

@@ -1214,17 +1214,169 @@ Done in 2.8s using pnpm v10.18.0</code></pre>
     {
       title: "Default",
       html: `<div class="popover" data-demo="popover">
-  <button type="button" class="btn" data-variant="outline" data-demo-trigger aria-expanded="false">
+  <button type="button" class="btn" data-variant="outline" data-demo-trigger aria-haspopup="dialog" aria-expanded="false" aria-controls="demo-popover-default-panel">
     Open popover
   </button>
-  <div data-popover data-side="bottom" aria-hidden="true">
+  <div data-popover data-side="bottom" data-align="start" id="demo-popover-default-panel" role="dialog" aria-labelledby="demo-popover-default-title" aria-describedby="demo-popover-default-description" aria-hidden="true">
     <header data-slot="header">
-      <h3 data-slot="title">Dimensions</h3>
-      <p data-slot="description">Set the dimensions for the layer.</p>
+      <h3 data-slot="title" id="demo-popover-default-title">Dimensions</h3>
+      <p data-slot="description" id="demo-popover-default-description">Set the dimensions for the layer.</p>
     </header>
     <div class="field">
-      <label class="label" for="popover-width">Width</label>
-      <input class="input" id="popover-width" value="100%">
+      <label class="label" for="demo-popover-default-width">Width</label>
+      <input class="input" id="demo-popover-default-width" value="100%">
+    </div>
+  </div>
+</div>`
+    },
+    {
+      title: "Basic",
+      html: `<div class="popover" data-demo="popover">
+  <button type="button" class="btn" data-variant="outline" data-demo-trigger aria-haspopup="dialog" aria-expanded="false" aria-controls="demo-popover-basic-panel">
+    Open popover
+  </button>
+  <div data-popover data-side="bottom" data-align="start" id="demo-popover-basic-panel" role="dialog" aria-labelledby="demo-popover-basic-title" aria-describedby="demo-popover-basic-description" aria-hidden="true">
+    <header data-slot="header">
+      <h3 data-slot="title" id="demo-popover-basic-title">Dimensions</h3>
+      <p data-slot="description" id="demo-popover-basic-description">Set the dimensions for the layer.</p>
+    </header>
+  </div>
+</div>`
+    },
+    {
+      title: "Alignments",
+      html: `<div style="display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 1.5rem; min-height: 8rem">
+  <div class="popover" data-demo="popover">
+    <button type="button" class="btn" data-variant="outline" data-size="sm" data-demo-trigger aria-haspopup="dialog" aria-expanded="false" aria-controls="demo-popover-align-start-panel" id="demo-popover-align-start-trigger">
+      Start
+    </button>
+    <div data-popover data-side="bottom" data-align="start" id="demo-popover-align-start-panel" role="dialog" aria-labelledby="demo-popover-align-start-title" aria-describedby="demo-popover-align-start-description" aria-hidden="true" style="width: 9rem">
+      <header data-slot="header">
+        <h3 data-slot="title" id="demo-popover-align-start-title">Start</h3>
+        <p data-slot="description" id="demo-popover-align-start-description">Aligned to start</p>
+      </header>
+    </div>
+  </div>
+  <div class="popover" data-demo="popover">
+    <button type="button" class="btn" data-variant="outline" data-size="sm" data-demo-trigger aria-haspopup="dialog" aria-expanded="false" aria-controls="demo-popover-align-center-panel" id="demo-popover-align-center-trigger">
+      Center
+    </button>
+    <div data-popover data-side="bottom" data-align="center" id="demo-popover-align-center-panel" role="dialog" aria-labelledby="demo-popover-align-center-title" aria-describedby="demo-popover-align-center-description" aria-hidden="true" style="width: 9rem">
+      <header data-slot="header">
+        <h3 data-slot="title" id="demo-popover-align-center-title">Center</h3>
+        <p data-slot="description" id="demo-popover-align-center-description">Aligned to center</p>
+      </header>
+    </div>
+  </div>
+  <div class="popover" data-demo="popover">
+    <button type="button" class="btn" data-variant="outline" data-size="sm" data-demo-trigger aria-haspopup="dialog" aria-expanded="false" aria-controls="demo-popover-align-end-panel" id="demo-popover-align-end-trigger">
+      End
+    </button>
+    <div data-popover data-side="bottom" data-align="end" id="demo-popover-align-end-panel" role="dialog" aria-labelledby="demo-popover-align-end-title" aria-describedby="demo-popover-align-end-description" aria-hidden="true" style="width: 9rem">
+      <header data-slot="header">
+        <h3 data-slot="title" id="demo-popover-align-end-title">End</h3>
+        <p data-slot="description" id="demo-popover-align-end-description">Aligned to end</p>
+      </header>
+    </div>
+  </div>
+</div>`
+    },
+    {
+      title: "With form",
+      html: `<div style="display: flex; align-items: center; justify-content: center; min-height: 10rem">
+  <div class="popover" data-demo="popover">
+    <button type="button" class="btn" data-variant="outline" data-demo-trigger aria-haspopup="dialog" aria-expanded="false" aria-controls="demo-popover-form-panel">
+      Edit dimensions
+    </button>
+    <div data-popover data-side="bottom" data-align="start" id="demo-popover-form-panel" role="dialog" aria-labelledby="demo-popover-form-title" aria-describedby="demo-popover-form-description" aria-hidden="true">
+      <header data-slot="header">
+        <h3 data-slot="title" id="demo-popover-form-title">Dimensions</h3>
+        <p data-slot="description" id="demo-popover-form-description">Set the dimensions for the layer.</p>
+      </header>
+      <div class="field" data-orientation="horizontal">
+        <label class="label" for="demo-popover-form-width">Width</label>
+        <input class="input" id="demo-popover-form-width" value="100%" style="flex: 1">
+      </div>
+      <div class="field" data-orientation="horizontal">
+        <label class="label" for="demo-popover-form-height">Height</label>
+        <input class="input" id="demo-popover-form-height" value="25px" style="flex: 1">
+      </div>
+    </div>
+  </div>
+</div>`
+    },
+    {
+      title: "Sides",
+      html: `<div style="display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 0.5rem; max-width: 18rem; min-height: 12rem; margin-inline: auto">
+  <div class="popover" data-demo="popover">
+    <button type="button" class="btn" data-variant="outline" data-size="sm" data-demo-trigger aria-haspopup="dialog" aria-expanded="false" aria-controls="demo-popover-side-top-panel" id="demo-popover-side-top-trigger">
+      Top
+    </button>
+    <div data-popover data-side="top" data-align="start" id="demo-popover-side-top-panel" role="dialog" aria-labelledby="demo-popover-side-top-title" aria-describedby="demo-popover-side-top-description" aria-hidden="true" style="width: 8rem">
+      <header data-slot="header">
+        <h3 data-slot="title" id="demo-popover-side-top-title">Top</h3>
+        <p data-slot="description" id="demo-popover-side-top-description">Opens above</p>
+      </header>
+    </div>
+  </div>
+  <div class="popover" data-demo="popover">
+    <button type="button" class="btn" data-variant="outline" data-size="sm" data-demo-trigger aria-haspopup="dialog" aria-expanded="false" aria-controls="demo-popover-side-right-panel" id="demo-popover-side-right-trigger">
+      Right
+    </button>
+    <div data-popover data-side="right" data-align="start" id="demo-popover-side-right-panel" role="dialog" aria-labelledby="demo-popover-side-right-title" aria-describedby="demo-popover-side-right-description" aria-hidden="true" style="width: 8rem">
+      <header data-slot="header">
+        <h3 data-slot="title" id="demo-popover-side-right-title">Right</h3>
+        <p data-slot="description" id="demo-popover-side-right-description">Opens to the right</p>
+      </header>
+    </div>
+  </div>
+  <div class="popover" data-demo="popover">
+    <button type="button" class="btn" data-variant="outline" data-size="sm" data-demo-trigger aria-haspopup="dialog" aria-expanded="false" aria-controls="demo-popover-side-bottom-panel" id="demo-popover-side-bottom-trigger">
+      Bottom
+    </button>
+    <div data-popover data-side="bottom" data-align="start" id="demo-popover-side-bottom-panel" role="dialog" aria-labelledby="demo-popover-side-bottom-title" aria-describedby="demo-popover-side-bottom-description" aria-hidden="true" style="width: 8rem">
+      <header data-slot="header">
+        <h3 data-slot="title" id="demo-popover-side-bottom-title">Bottom</h3>
+        <p data-slot="description" id="demo-popover-side-bottom-description">Opens below</p>
+      </header>
+    </div>
+  </div>
+  <div class="popover" data-demo="popover">
+    <button type="button" class="btn" data-variant="outline" data-size="sm" data-demo-trigger aria-haspopup="dialog" aria-expanded="false" aria-controls="demo-popover-side-left-panel" id="demo-popover-side-left-trigger">
+      Left
+    </button>
+    <div data-popover data-side="left" data-align="start" id="demo-popover-side-left-panel" role="dialog" aria-labelledby="demo-popover-side-left-title" aria-describedby="demo-popover-side-left-description" aria-hidden="true" style="width: 8rem">
+      <header data-slot="header">
+        <h3 data-slot="title" id="demo-popover-side-left-title">Left</h3>
+        <p data-slot="description" id="demo-popover-side-left-description">Opens to the left</p>
+      </header>
+    </div>
+  </div>
+</div>`
+    },
+    {
+      title: "Right-to-left",
+      html: `<div dir="rtl" lang="ar" style="display: flex; align-items: center; justify-content: center; gap: 0.75rem">
+  <div class="popover" data-demo="popover">
+    <button type="button" class="btn" data-variant="outline" data-size="sm" data-demo-trigger aria-haspopup="dialog" aria-expanded="false" aria-controls="demo-popover-rtl-inline-start-panel" id="demo-popover-rtl-inline-start-trigger">
+      بداية السطر
+    </button>
+    <div data-popover data-side="inline-start" data-align="start" id="demo-popover-rtl-inline-start-panel" role="dialog" aria-labelledby="demo-popover-rtl-inline-start-title" aria-describedby="demo-popover-rtl-inline-start-description" aria-hidden="true" style="width: 9rem">
+      <header data-slot="header">
+        <h3 data-slot="title" id="demo-popover-rtl-inline-start-title">بداية السطر</h3>
+        <p data-slot="description" id="demo-popover-rtl-inline-start-description">تفتح في بداية السطر.</p>
+      </header>
+    </div>
+  </div>
+  <div class="popover" data-demo="popover">
+    <button type="button" class="btn" data-variant="outline" data-size="sm" data-demo-trigger aria-haspopup="dialog" aria-expanded="false" aria-controls="demo-popover-rtl-inline-end-panel" id="demo-popover-rtl-inline-end-trigger">
+      نهاية السطر
+    </button>
+    <div data-popover data-side="inline-end" data-align="start" id="demo-popover-rtl-inline-end-panel" role="dialog" aria-labelledby="demo-popover-rtl-inline-end-title" aria-describedby="demo-popover-rtl-inline-end-description" aria-hidden="true" style="width: 9rem">
+      <header data-slot="header">
+        <h3 data-slot="title" id="demo-popover-rtl-inline-end-title">نهاية السطر</h3>
+        <p data-slot="description" id="demo-popover-rtl-inline-end-description">تفتح في نهاية السطر.</p>
+      </header>
     </div>
   </div>
 </div>`

@@ -53,4 +53,6 @@ if (lines.length > 0) {
   console.log(lines.slice(-tail).join("\n"));
 }
 
-process.exit(result.status ?? 1);
+const status = result.status ?? 1;
+console.error(status === 0 ? "gate: passed" : `gate: failed (exit ${status})`);
+process.exit(status);

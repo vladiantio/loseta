@@ -4,7 +4,8 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "test": "pnpm --filter=loseta test && pnpm --filter=loseta check && pnpm --filter=web check",
+    "test": "node scripts/gate.mjs pnpm test:raw",
+    "test:raw": "pnpm --filter=loseta test && pnpm --filter=loseta check && pnpm --filter=web check",
     "docs:css": "node packages/loseta/scripts/generate-docs-css.mjs",
     "web:dev": "pnpm docs:css && pnpm --filter=web dev",
     "web:build": "pnpm docs:css && pnpm --filter=web build",
@@ -13,7 +14,7 @@
     "registry:check": "pnpm --filter=loseta validate",
     "registry:examples": "pnpm --filter=loseta examples",
     "gate": "node scripts/gate.mjs",
-    "gate:test": "node scripts/gate.mjs pnpm test",
+    "gate:test": "pnpm test",
     "gate:registry": "node scripts/gate.mjs pnpm registry:check",
     "gate:e2e": "node scripts/gate.mjs pnpm --filter web test:e2e"
   },

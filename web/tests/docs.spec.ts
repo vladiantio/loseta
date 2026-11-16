@@ -778,7 +778,17 @@ test("avatar groups overlap and size their count with the group", async ({
     .locator(".avatar-group");
   await expect(group.locator(".avatar").first()).toHaveCSS(
     "margin-right",
-    "-8px"
+    "-6px"
+  );
+
+  const badgeAvatar = page
+    .locator("section.example")
+    .filter({ has: page.locator(".example-title", { hasText: /^Badge$/ }) })
+    .locator(".avatar");
+  await expect(badgeAvatar).toHaveCSS("overflow", "visible");
+  await expect(badgeAvatar.locator("[data-slot='badge']")).toHaveCSS(
+    "width",
+    "10px"
   );
 
   const groupCount = page
@@ -790,6 +800,7 @@ test("avatar groups overlap and size their count with the group", async ({
   await expect(groupCount).toHaveCSS("width", "32px");
   await expect(groupCount).toHaveCSS("height", "32px");
   await expect(groupCount).toHaveCSS("border-top-width", "1px");
+  await expect(groupCount).toHaveCSS("position", "relative");
 
   const rtl = page
     .locator("section.example")

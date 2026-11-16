@@ -7,11 +7,13 @@
  * Usage:
  *   pnpm --filter web preview --port 4323
  *   node web/scripts/style-review.mjs button card select --scheme both
+ *   node web/scripts/style-review.mjs popover --scheme both --eval "{ el.querySelector('[data-demo-trigger]').click(); }" --shot-el ".component-preview"
  */
 import { execFileSync } from "node:child_process";
 import { existsSync, mkdirSync } from "node:fs";
 import { join, resolve } from "node:path";
 import { chromium } from "@playwright/test";
+import { evaluateSource } from "./lib/eval.mjs";
 
 const args = process.argv.slice(2);
 if (args.length === 0 || args.includes("--help") || args.includes("-h")) {
@@ -20,7 +22,9 @@ if (args.length === 0 || args.includes("--help") || args.includes("-h")) {
 Options:
   --base <url>       Docs preview URL (default http://localhost:4323)
   --out <dir>        Output directory (default /tmp/loseta-style-review)
-  --scheme <name>    light, dark or both (default light)`);
+  --scheme <name>    light, dark or both (default light)
+  --eval <js>        Evaluate an expression, {block} or function on the first example
+  --shot-el <sel>    Screenshot this element instead of the first .docs-preview`);
   process.exit(args.length === 0 ? 1 : 0);
 }
 
@@ -38,6 +42,8 @@ function option(name, fallback) {
 const base = option("--base", "http://localhost:4323").replace(/\/$/, "");
 const out = resolve(option("--out", "/tmp/loseta-style-review"));
 const schemeOption = option("--scheme", "light");
+const evalSource = option("--eval");
+const shotEl = option("--shot-el");
 const schemes =
   schemeOption === "both" ? ["light", "dark"] : [schemeOption];
 if (schemes.some((scheme) => scheme !== "light" && scheme !== "dark")) {
@@ -45,7 +51,7 @@ if (schemes.some((scheme) => scheme !== "light" && scheme !== "dark")) {
   process.exit(1);
 }
 
-const ignored = new Set(["--base", "--out", "--scheme"]);
+const ignored = new Set(["--base", "--out", "--scheme", "--eval", "--shot-el"]);
 const items = args
   .filter((arg, index) => {
     if (ignored.has(arg)) return false;
@@ -101,8 +107,16 @@ for (const scheme of schemes) {
       await waitForStyle(style);
       await page.evaluate(() => document.fonts.ready);
 
+      if (evalSource) {
+        await evaluateSource(page.locator("section.example").first(), evalSource);
+      }
+
       const preview = page.locator(".docs-preview").first();
-      const target = (await preview.count()) > 0 ? preview : page.locator(".docs-content");
+      const target = shotEl
+        ? page.locator(shotEl).first()
+        : (await preview.count()) > 0
+          ? preview
+          : page.locator(".docs-content");
       const file = join(out, `${item}-${style}-${scheme}.png`);
       await target.screenshot({ path: file });
       files.push(file);

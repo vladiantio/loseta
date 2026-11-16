@@ -152,11 +152,17 @@ pnpm web:dev             # docs at http://localhost:4321
 pnpm --filter web test:e2e
 ```
 
+Run gates through `pnpm gate:test`, `pnpm gate:registry` and `pnpm gate:e2e`
+when you want a trimmed tail: the wrapper prints the last 40 lines and exits
+with the command's status. Never pipe a gate into `tail` or `head`.
+
 `registry:check` enforces schema conformance, file and example existence,
 dependency resolution and cycles, exact layer wrapping, forbidden patterns
 (including physical left/right spacing and borders in style files), stable
-style completeness, the experimental Nova-only rule and CSS parseability. Fix
-the source rather than bypassing it.
+style completeness, the experimental Nova-only rule and CSS parseability. It
+also checks example ID and ARIA-reference integrity, the popover dialog
+contract and the shared overlay recipe. Fix the source rather than bypassing
+it.
 
 For visual work, use Astro's preview lifecycle instead of keeping a server by
 hand: `pnpm --filter web astro preview status`,

@@ -16,6 +16,7 @@
 import { existsSync, mkdirSync, readFileSync } from "node:fs";
 import { dirname, join, resolve } from "node:path";
 import { chromium } from "@playwright/test";
+import { evaluateSource } from "./lib/eval.mjs";
 
 const USAGE = `Usage: node web/scripts/probe.mjs <route> [options]
 
@@ -30,21 +31,30 @@ Options:
   --width <px>         Viewport width (default 1280)
   --height <px>        Viewport height (default 1000)
   --html <file>        Append the file's markup to .docs-content as #probe-root
-  --eval <js>          Evaluate an expression or {block} with \`el\` bound to
-                       the example root, #probe-root or .docs-content
+  --eval <js>          Evaluate an expression, {block} or function with \`el\`
+                       bound to the example root, #probe-root or .docs-content.
+                       Blocks may use \`await\`; a returned function is called
+                       with \`el\`; evaluation times out after 10s.
   --shot <file>        Screenshot the selected target (default: first example preview)
-  --page               Screenshot the whole .docs-content instead of one preview
+  --shot-el <selector> Screenshot this element instead of the default preview;
+                       scope it to the selected example when --example is set
+  --page               Screenshot the whole .docs-content instead of one preview;
+                       combine with --example to evaluate on that example
   --out <dir>          --all-examples output directory (default /tmp/loseta-probe)
 
 Examples:
   probe field --example "Responsive layout" --eval "getComputedStyle(el.querySelector('[data-orientation=responsive]')).flexDirection"
+  probe popover --example "With form" --eval "{ el.querySelector('[data-demo-trigger]').click(); }" --shot-el ".component-preview" --shot /tmp/popover.png
+  probe popover --all-examples --eval "{ el.querySelector('[data-demo-trigger]')?.click(); }" --shot-el ".component-preview" --out /tmp/popover
   probe field --html /tmp/fixture.html --eval "el.querySelector('.field').getBoundingClientRect().width"
   probe field --all-examples --style vega --scheme dark
   probe /docs/components/native-select --eval "getComputedStyle(document.querySelector('.native-select')).width"
 
 The default action is a screenshot of the first example preview; add --page for
 the whole page. \`--eval\` runs before \`--shot\`, so an expression can mutate the
-page before it is captured.`;
+page before it is captured. The default \`--shot\` target is .docs-preview;
+open overlays that paint into the code area need --shot-el ".component-preview"
+or a taller preview.`;
 
 const args = process.argv.slice(2);
 const valueFlags = new Set([
@@ -56,6 +66,7 @@ const valueFlags = new Set([
   "--example",
   "--eval",
   "--shot",
+  "--shot-el",
   "--html",
   "--out"
 ]);
@@ -126,12 +137,12 @@ const pageWide = options.has("--page");
 const exampleTitle = option("--example");
 const evalSource = option("--eval");
 const shotFile = option("--shot");
+const shotEl = option("--shot-el");
 const htmlFile = option("--html");
 const out = resolve(option("--out", "/tmp/loseta-probe"));
 
 if (allExamples && exampleTitle) die("use --example or --all-examples, not both");
 if (allExamples && pageWide) die("use --page or --all-examples, not both");
-if (pageWide && exampleTitle) die("use --example or --page, not both");
 if (pageWide && htmlFile) die("use --html or --page, not both");
 if (htmlFile && exampleTitle) die("use --html or --example, not both");
 if (htmlFile && allExamples) die("use --html or --all-examples, not both");
@@ -262,12 +273,7 @@ try {
   }
 
   async function evaluate(locator) {
-    return locator.evaluate((el, source) => {
-      const body = source.trim().startsWith("{")
-        ? source
-        : `return (${source});`;
-      return new Function("el", body)(el);
-    }, evalSource);
+    return evaluateSource(locator, evalSource);
   }
 
   async function screenshot(locator, file) {
@@ -287,13 +293,24 @@ try {
   }
 
   async function shotTarget() {
+    if (shotEl) {
+      if (htmlFile) return page.locator("#probe-root").locator(shotEl).first();
+      if (exampleIndex !== -1) {
+        return sections.nth(exampleIndex).locator(shotEl).first();
+      }
+      return page.locator(shotEl).first();
+    }
     if (htmlFile) return page.locator("#probe-root");
+    if (pageWide) return page.locator(".docs-content");
     if (exampleIndex !== -1) return previewOrSection(exampleIndex);
-    if (!pageWide && sectionCount > 0) return previewOrSection(0);
+    if (sectionCount > 0) return previewOrSection(0);
     return page.locator(".docs-content");
   }
 
   async function screenshotExample(index, file) {
+    if (shotEl) {
+      return screenshot(sections.nth(index).locator(shotEl).first(), file);
+    }
     return screenshot(await previewOrSection(index), file);
   }
 

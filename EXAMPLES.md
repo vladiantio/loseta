@@ -59,8 +59,13 @@ Start the preview once:
   `pnpm --filter web run probe <item> --example "<title>" --eval "getComputedStyle(el.querySelector('.field')).rowGap"`.
   `--style`, `--scheme dark`, `--width`, `--html <fixture>`, `--shot <file>` and
   `--all-examples` cover the rest. `el` is the `section.example` root.
+- Open overlays: `--eval "{ el.querySelector('[data-demo-trigger]').click(); }"`
+  with `--shot-el ".component-preview"` captures the panel over the code area;
+  the default `--shot` captures `.docs-preview` only. `--all-examples` applies
+  the same pass to every example.
 - Whole component across styles:
-  `pnpm --filter web run styles:review <item> --scheme both`.
+  `pnpm --filter web run styles:review <item> --scheme both`. It accepts the
+  same `--eval`/`--shot-el` pair for open overlays.
 
 Probe the rendered preview, not the source. Two field fixes (a bare `<hr>` that
 the selector never matched, and a fieldset that shrink-wrapped as a flex item)

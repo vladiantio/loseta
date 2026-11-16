@@ -1128,7 +1128,10 @@
         ".empty"
       ],
       "registryDependencies": [],
-      "optionalDependencies": [],
+      "optionalDependencies": [
+        "avatar",
+        "input-group"
+      ],
       "files": [
         {
           "path": "components/empty.css",

@@ -23,11 +23,17 @@ const info = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="
 const circleAlert = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="12" x2="12" y1="8" y2="12"/><line x1="12" x2="12.01" y1="16" y2="16"/></svg>`;
 const arrowDown = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14"/><path d="m19 12-7 7-7-7"/></svg>`;
 const plus = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="M12 5v14"/></svg>`;
+const plusInline = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" data-icon="inline-start"><path d="M5 12h14"/><path d="M12 5v14"/></svg>`;
+const arrowUpRight = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" data-icon="inline-end"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg>`;
+const folderCode = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 10.5 8 13l2 2.5"/><path d="m14 10.5 2 2.5-2 2.5"/><path d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z"/></svg>`;
+const bell = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10.268 21a2 2 0 0 0 3.464 0"/><path d="M3.262 15.326A1 1 0 0 0 4 17h16a1 1 0 0 0 .74-1.673C19.41 13.956 18 12.499 18 8A6 6 0 0 0 6 8c0 4.499-1.411 5.956-2.738 7.326"/></svg>`;
+const refresh = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" data-icon="inline-start"><path d="M21 12a9 9 0 0 0-9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/><path d="M3 12a9 9 0 0 0 9 9 9.75 9.75 0 0 0 6.74-2.74L21 16"/><path d="M16 16h5v5"/></svg>`;
 const minus = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/></svg>`;
 const bot = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" data-icon="inline-start"><path d="M12 8V4H8"/><rect width="16" height="12" x="4" y="8" rx="2"/><path d="M2 14h2"/><path d="M20 14h2"/><path d="M15 13v2"/><path d="M9 13v2"/></svg>`;
 const branch = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" data-icon="inline-start"><line x1="6" x2="6" y1="3" y2="15"/><circle cx="18" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><path d="M18 9a9 9 0 0 1-9 9"/></svg>`;
 const fork = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" data-icon="inline-start"><circle cx="12" cy="18" r="3"/><circle cx="6" cy="6" r="3"/><circle cx="18" cy="6" r="3"/><path d="M18 9v2c0 .6-.4 1-1 1H7c-.6 0-1-.4-1-1V9"/><path d="M12 12v3"/></svg>`;
 const ratioImage = `data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 160 90'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop stop-color='%2394a3b8'/%3E%3Cstop offset='1' stop-color='%23e2e8f0'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='160' height='90' fill='url(%23g)'/%3E%3Ctext x='80' y='49' text-anchor='middle' font-family='sans-serif' font-size='12' fill='%23334155'%3E16:9%3C/text%3E%3C/svg%3E`;
+const emptyIllustration = `data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 320 180'%3E%3Cdefs%3E%3ClinearGradient id='s' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop stop-color='%23c7d2fe'/%3E%3Cstop offset='1' stop-color='%23fbcfe8'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='320' height='180' fill='url(%23s)'/%3E%3Ccircle cx='250' cy='45' r='22' fill='%23ffffff' opacity='.7'/%3E%3Cpath d='M0 180 100 80l55 55 40-40 125 85z' fill='%2394a3b8'/%3E%3Cpath d='M0 180 80 110l65 45 60-30 115 55z' fill='%2364758b'/%3E%3C/svg%3E`;
 
 export const examples: Record<string, Example[]> = {
   alert: [
@@ -656,6 +662,119 @@ Done in 2.8s using pnpm v10.18.0</code></pre>
   <section>
     <button class="btn" data-variant="outline">Clear filters</button>
   </section>
+</div>`
+    },
+    {
+      title: "Actions",
+      html: `<div class="empty">
+  <header>
+    <figure>${folderCode}</figure>
+    <h2>No projects yet</h2>
+    <p>You haven't created any projects yet. Get started by creating your first project.</p>
+  </header>
+  <section style="flex-direction: row; justify-content: center">
+    <button class="btn">Create project</button>
+    <button class="btn" data-variant="outline">Import project</button>
+  </section>
+  <footer>
+    <a class="btn" data-variant="link" data-size="sm" href="#">Learn more ${arrowUpRight}</a>
+  </footer>
+</div>`
+    },
+    {
+      title: "Background",
+      html: `<div class="empty" style="background-color: color-mix(in oklab, var(--muted) 50%, transparent)">
+  <header>
+    <figure>${bell}</figure>
+    <h2>No notifications</h2>
+    <p>You're all caught up. New notifications will appear here.</p>
+  </header>
+  <section>
+    <button class="btn" data-variant="outline">${refresh} Refresh</button>
+  </section>
+</div>`
+    },
+    {
+      title: "Avatar",
+      html: `<div class="empty">
+  <header>
+    <figure>
+      <span class="avatar" data-size="lg"><span data-slot="fallback">LR</span></span>
+    </figure>
+    <h2>User offline</h2>
+    <p>This user is currently offline. You can leave a message to notify them or try again later.</p>
+  </header>
+  <section>
+    <button class="btn" data-size="sm">Leave message</button>
+  </section>
+</div>`
+    },
+    {
+      title: "Avatar group",
+      html: `<div class="empty">
+  <header>
+    <figure>
+      <div class="avatar-group">
+        <span class="avatar" data-size="lg"><span data-slot="fallback">CN</span></span>
+        <span class="avatar" data-size="lg"><span data-slot="fallback">LR</span></span>
+        <span class="avatar" data-size="lg"><span data-slot="fallback">ER</span></span>
+      </div>
+    </figure>
+    <h2>No team members</h2>
+    <p>Invite your team to collaborate on this project.</p>
+  </header>
+  <section>
+    <button class="btn" data-size="sm">${plusInline} Invite members</button>
+  </section>
+</div>`
+    },
+    {
+      title: "Image",
+      html: `<div class="empty">
+  <header>
+    <figure><img src="${emptyIllustration}" alt=""></figure>
+    <h2>No previews yet</h2>
+    <p>Upload an image to see a preview here.</p>
+  </header>
+  <section>
+    <button class="btn" data-variant="outline">Upload image</button>
+  </section>
+</div>`
+    },
+    {
+      title: "Search",
+      html: `<div class="empty">
+  <header>
+    <h2>404 - Not found</h2>
+    <p>The page you're looking for doesn't exist. Try searching for what you need below.</p>
+  </header>
+  <section>
+    <div class="input-group" role="group" aria-label="Search pages">
+      <input class="input" type="search" placeholder="Try searching for pages..." aria-label="Search pages">
+      <span data-slot="addon" data-align="inline-start" aria-hidden="true">${search}</span>
+      <span data-slot="addon" data-align="inline-end" aria-hidden="true"><span class="kbd">/</span></span>
+    </div>
+  </section>
+  <footer>
+    <a class="btn" data-variant="link" data-size="sm" href="#">Contact support</a>
+  </footer>
+</div>`
+    },
+    {
+      title: "Right-to-left",
+      html: `<div class="empty" dir="rtl" lang="ar">
+  <header>
+    <figure>${folderCode}</figure>
+    <h2>لا توجد مشاريع بعد</h2>
+    <p>لم تقم بإنشاء أي مشاريع بعد. ابدأ بإنشاء مشروعك الأول.</p>
+  </header>
+  <section style="flex-direction: row; justify-content: center">
+    <button class="btn">إنشاء مشروع</button>
+    <button class="btn" data-variant="outline">استيراد مشروع</button>
+  </section>
+  <footer>
+    <a class="btn" data-variant="link" data-size="sm" href="#">تعرف على المزيد</a>
+  </footer>
 </div>`
     }
   ],

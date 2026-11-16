@@ -184,7 +184,8 @@ const notesBy: Record<string, string> = {
   radio:
     "The .radio class is required. Use native checked/disabled and aria-invalid=\"true\". Compose rows with .field[data-orientation=\"horizontal\"] and a label; group them with role=\"radiogroup\", using [data-slot=\"radio-group\"] inside a .fieldset.",
   label: "Use .label or a native <label> inside .field. A label wrapping a .field becomes a selectable card.",
-  empty: "Uses header/figure/section/footer structure.",
+  empty:
+    "Compose a header with an optional figure, an h2–h4 title and a p description, then a section for actions and a footer for secondary actions. A figure with a single SVG becomes the icon media box; use image, avatar or avatar-group markup for other media. Keep decorative icons and images out of the accessibility tree with aria-hidden or an empty alt. The dashed outline comes from the style layer.",
   item: "Uses figure/section/aside/header/footer structure.",
   kbd: "Use .kbd inside menus, tooltips or shortcut hints.",
   skeleton: "Set width and height inline or with your own layout classes.",

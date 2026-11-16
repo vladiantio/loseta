@@ -465,6 +465,21 @@ const cases: StyleCase[] = [
     }
   },
   {
+    id: "empty",
+    selector: ".docs-preview .empty",
+    property: "padding-top",
+    values: {
+      nova: "24px",
+      vega: "24px",
+      maia: "48px",
+      lyra: "24px",
+      mira: "24px",
+      luma: "48px",
+      sera: "48px",
+      rhea: "48px"
+    }
+  },
+  {
     id: "trace",
     selector: ".docs-preview .trace summary",
     property: "padding-top",

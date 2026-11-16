@@ -31,6 +31,8 @@
     }
 
     figure:has(img) {
+      width: fit-content;
+      max-width: 100%;
       overflow: hidden;
 
       & img {

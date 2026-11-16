@@ -713,6 +713,34 @@ test("field invalid state colors the block and lists every error", async ({
   await expect(list).toHaveCSS("row-gap", "4px");
 });
 
+test("empty draws its dashed outline and scopes media spacing", async ({ page }) => {
+  await page.goto("/docs/components/empty");
+  const defaultExample = page.locator(".docs-preview .empty").first();
+  const figure = defaultExample.locator("figure");
+
+  await expect(defaultExample).toHaveCSS("border-top-width", "1px");
+  await expect(defaultExample).toHaveCSS("border-top-style", "dashed");
+  await expect(defaultExample.locator("header")).toHaveCSS("max-width", "384px");
+  await expect(figure).toHaveCSS("width", "32px");
+  await expect(figure).toHaveCSS("margin-bottom", "8px");
+
+  const avatarExample = page
+    .locator("section.example")
+    .filter({ has: page.locator(".example-title", { hasText: /^Avatar$/ }) })
+    .locator(".empty");
+  await expect(avatarExample.locator("figure")).toHaveCSS("margin-bottom", "0px");
+  await expect(avatarExample.locator(".avatar")).toHaveCSS("width", "40px");
+
+  const imageExample = page
+    .locator("section.example")
+    .filter({ has: page.locator(".example-title", { hasText: /^Image$/ }) })
+    .locator(".empty");
+  const figureBox = await imageExample.locator("figure").boundingBox();
+  expect(figureBox).not.toBeNull();
+  expect(figureBox!.width).toBeGreaterThan(0);
+  expect(figureBox!.width / figureBox!.height).toBeCloseTo(16 / 9, 1);
+});
+
 test("accordion and collapsible animate their content on close", async ({ page }) => {
   for (const [slug, selector] of [
     ["accordion", ".accordion details"],

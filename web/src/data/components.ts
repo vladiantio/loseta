@@ -164,7 +164,7 @@ const notesBy: Record<string, string> = {
     "CSS-only: visible on hover and focus-visible. Use data-arrow for the pointer arrow and data-side/data-align to place it. Keep an aria-label or aria-describedby for screen readers.",
   field:
     "Compose one control per .field: label, control, optional p description and a [role=\"alert\"] error. Mark the control aria-invalid=\"true\" to turn the whole field destructive. Use <fieldset class=\"fieldset\"> with a <legend> for related controls and data-slot=\"checkbox-group|radio-group\" for checkbox and radio rows; a label wrapping a .field becomes a selectable card. data-orientation=\"horizontal\" aligns a row and \"responsive\" switches inside a group container at 28rem. Divide sections with .field-separator and an hr.",
-  table: "Use aria-selected=\"true\" on selectable rows.",
+  table: "Use aria-selected=\"true\" on selectable rows. Checkbox cells accept a native input[type=\"checkbox\"] or role=\"checkbox\". A row containing an expanded trigger keeps the muted highlight.",
   input:
     "Pair every input with a label; a placeholder is not a label. Use native required and disabled states, aria-invalid=\"true\" for the invalid state and type=\"file\" for uploads; the native file-selector button is styled. Compose labels and descriptions with .field.",
   textarea:

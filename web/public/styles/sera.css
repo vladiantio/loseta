@@ -2001,6 +2001,10 @@
         background-color: color-mix(in oklab, var(--muted) 50%, transparent);
       }
 
+      &:has([aria-expanded='true']) {
+        background-color: color-mix(in oklab, var(--muted) 50%, transparent);
+      }
+
       &[aria-selected='true'] {
         background-color: var(--muted);
       }
@@ -2016,7 +2020,7 @@
       font-size: var(--text-xs);
       color: var(--muted-foreground);
 
-      &:has([role='checkbox']) {
+      &:has(:is([role='checkbox'], input[type='checkbox'])) {
         padding-inline-end: 0;
       }
     }
@@ -2026,7 +2030,7 @@
       vertical-align: middle;
       white-space: nowrap;
 
-      &:has([role='checkbox']) {
+      &:has(:is([role='checkbox'], input[type='checkbox'])) {
         padding-inline-end: 0;
       }
     }

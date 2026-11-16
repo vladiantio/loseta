@@ -48,11 +48,11 @@
       font-weight: 500;
       white-space: nowrap;
 
-      &:has([role='checkbox']) {
+      &:has(:is([role='checkbox'], input[type='checkbox'])) {
         padding-inline-end: 0;
       }
 
-      > [role='checkbox'] {
+      > :is([role='checkbox'], input[type='checkbox']) {
         translate: 0 2px;
       }
     }
@@ -61,11 +61,11 @@
       vertical-align: middle;
       white-space: nowrap;
 
-      &:has([role='checkbox']) {
+      &:has(:is([role='checkbox'], input[type='checkbox'])) {
         padding-inline-end: 0;
       }
 
-      > [role='checkbox'] {
+      > :is([role='checkbox'], input[type='checkbox']) {
         translate: 0 2px;
       }
     }

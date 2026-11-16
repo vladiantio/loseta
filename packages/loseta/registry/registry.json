@@ -1949,7 +1949,10 @@
       ],
       "registryDependencies": [],
       "optionalDependencies": [
-        "checkbox"
+        "checkbox",
+        "badge",
+        "button",
+        "dropdown-menu"
       ],
       "files": [
         {

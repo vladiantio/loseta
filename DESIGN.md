@@ -269,7 +269,7 @@ file they own, not by expecting a spacing API.
 | Alert | `--card` surface, 1px `--border` border, `--radius-lg`; no shadow. |
 | Popover, menu, dialog | `--popover` surface, 1px foreground-at-10% ring, `--shadow-md` for popovers/menus, `--radius-lg` or `--radius-xl` by component. |
 | Code Block | `--muted` surface, 1px foreground-at-5% ring, `--radius-xl`; no header divider. Destructive uses a destructive tint, text and ring. |
-| Muted region | `--muted` at 50% for footers, table footers and subdued rows; `--muted` for skeletons and kbd. |
+| Muted region | `--muted` at 50% for footers, table footers, subdued rows and table rows with an expanded trigger; `--muted` for skeletons and kbd. |
 | Aspect ratio | `--muted` media frame; the child fills the box and `data-fit` sets `object-fit`. |
 | Dialog backdrop | Black at 10% plus a 4px backdrop blur. |
 | Empty | Dashed `--border` outline, no fill. |
@@ -311,7 +311,7 @@ fields, selects, checkboxes, radios and switches.
 
 | State | Visual rule |
 | --- | --- |
-| Hover | Primary fills mix toward transparent at 20%; outline and ghost use `--muted`; link underlines; menu items use `--accent`; table rows use muted at 50%. |
+| Hover | Primary fills mix toward transparent at 20%; outline and ghost use `--muted`; link underlines; menu items use `--accent`; table rows use muted at 50%, including while the row contains an expanded trigger. |
 | Focus visible | 1px `--ring` border plus a 3px `--ring`-at-50% shadow. Tabs also draw a 1px `--ring` outline; menu items use the accent background instead of a ring. Code Block rings the block while its `pre` is focused. |
 | Invalid | `--destructive` border plus a 3px destructive-at-20% shadow; dark mode uses stronger destructive mixes. A field containing an invalid control turns its text destructive. |
 | Disabled | 50% opacity. Buttons, tabs and menu items also drop pointer events; inputs, textareas and selects use a not-allowed cursor. Input groups tint the surface with `--input` at 50% (80% in dark) and fade addons. |
@@ -322,7 +322,7 @@ fields, selects, checkboxes, radios and switches.
 | Open details | Accordion summaries rotate their trailing icon 180 degrees; the open state itself is native. |
 | Indeterminate | Progress uses a moving primary gradient over a 20% primary track. Checkbox draws a current-color dash. |
 | Highlighted | Menu items use `--accent` / `--accent-foreground`; destructive items use a destructive tint. |
-| Expanded | Secondary, outline and ghost buttons keep their open-state fill via `aria-expanded="true"`. |
+| Expanded | Secondary, outline and ghost buttons keep their open-state fill via `aria-expanded="true"`. Table rows containing an expanded trigger use muted at 50%. |
 
 Forced-colors mode: focusable controls that suppress the native outline draw a
 transparent 2px outline with a 2px offset so the system focus indicator remains
@@ -469,7 +469,7 @@ on an RTL page; its header follows the page direction.
 | Slider | `.slider` | Native `<input type="range">`. | `data-size="default|sm|lg"` |
 | Spinner | `.spinner` | Empty span; the CSS draws the ring. | `data-size="default|sm|lg"`; `role="status"` plus a label in markup |
 | Switch | `.switch` | Native `input[type="checkbox"]` with `role="switch"` and a label. | `data-size="default|sm"` |
-| Table | `.table-container`, `.table` | `caption`, `thead`, `tbody`, `tfoot`, `tr`, `th`, `td`; checkbox cells use `role="checkbox"`. | Row `aria-selected="true"` |
+| Table | `.table-container`, `.table` | `caption`, `thead`, `tbody`, `tfoot`, `tr`, `th`, `td`; checkbox cells use a native `input[type="checkbox"]` or `role="checkbox"`. | Row `aria-selected="true"`; a row containing `aria-expanded="true"` stays highlighted |
 | Tabs | `.tabs` | `[role="tablist"]`, `[role="tab"]`, `[role="tabpanel"]`. | Tablist `data-variant="default|line"`; `aria-orientation="horizontal|vertical"` |
 | Textarea | `.textarea` | Native `<textarea>`. | — |
 | Toast | `.toaster`, `.toast` | Fixed stack with `.toast` items; a `section` with title/description and a close button. | `data-variant="default|destructive"`; `role="status"` or `role="alert"`; `[data-slot="close"]` |
@@ -849,12 +849,13 @@ or `navigation-menu` also installs `popover-primitive`; installing
 `collapsible`. Optional dependencies are composition hints only and are never
 installed automatically. Notable optional pairs are field with its form
 controls, button with spinner for loading states, button group with
-button/input/select/popover/dropdown-menu, table
-with checkbox, dropdown-menu with kbd, breadcrumb with dropdown-menu,
-pagination with button, sheet and drawer with button, input group with
-input/textarea/button/field/kbd/spinner, combobox with button, command with
-dialog-shell/popover-primitive/card, carousel and chart with card, sidebar with
-sheet, toast with button, and code block with button for copy and wrap controls.
+button/input/select/popover/dropdown-menu, table with
+checkbox/badge/button/dropdown-menu, dropdown-menu with kbd, breadcrumb with
+dropdown-menu, pagination with button, sheet and drawer with button, input
+group with input/textarea/button/field/kbd/spinner, combobox with button,
+command with dialog-shell/popover-primitive/card, carousel and chart with card,
+sidebar with sheet, toast with button, and code block with button for copy and
+wrap controls.
 
 The `menu` primitive styles every `[role="menu"]` in the project. It owns the
 shared item, heading, separator, shortcut and indicator rules; `dropdown-menu`,

@@ -1,5 +1,5 @@
 import { readFileSync } from "node:fs";
-import { expect, test, type Page } from "@playwright/test";
+import { expect, test, type Locator, type Page } from "@playwright/test";
 import AxeBuilder from "@axe-core/playwright";
 import { components, experimentalComponents } from "../src/data/components";
 
@@ -617,6 +617,81 @@ test("button keeps icon padding logical in RTL", async ({ page }) => {
 
   await expect(button).toHaveCSS("padding-right", "8px");
   await expect(button).toHaveCSS("padding-left", "10px");
+});
+
+test("input group positions addons visually and rings only the control", async ({
+  page
+}) => {
+  await page.goto("/docs/components/input-group");
+  const example = page
+    .locator("section.example")
+    .filter({ has: page.locator(".example-title", { hasText: "Inline addons" }) });
+  const group = example.locator(".input-group");
+  const input = group.locator("input");
+  const start = group.locator("[data-slot='addon'][data-align='inline-start']");
+  const end = group.locator("[data-slot='addon'][data-align='inline-end']");
+  const button = end.locator("button");
+
+  const startBox = await start.boundingBox();
+  const inputBox = await input.boundingBox();
+  const endBox = await end.boundingBox();
+  expect(startBox).not.toBeNull();
+  expect(inputBox).not.toBeNull();
+  expect(endBox).not.toBeNull();
+  expect(startBox!.x + startBox!.width).toBeLessThanOrEqual(inputBox!.x);
+  expect(inputBox!.x + inputBox!.width).toBeLessThanOrEqual(endBox!.x);
+  await expect(group).toHaveCSS("height", "32px");
+
+  await input.focus();
+  await expect(group).toHaveCSS("border-top-color", "oklch(0.708 0 0)");
+  await expect(group).toHaveCSS("box-shadow", /3px/);
+
+  await button.focus();
+  await expect(button).toHaveCSS("box-shadow", /3px/);
+  await expect(group).toHaveCSS("border-top-color", "oklch(0.922 0 0)");
+  await expect(group).toHaveCSS("box-shadow", "none");
+});
+
+test("input group tints disabled controls and fades addons", async ({ page }) => {
+  await page.goto("/docs/components/input-group");
+  const states = page
+    .locator("section.example")
+    .filter({ has: page.locator(".example-title", { hasText: "States" }) });
+  const disabled = states
+    .locator(".field")
+    .filter({ has: page.locator("#demo-input-group-disabled") });
+  const disabledGroup = disabled.locator(".input-group");
+  const enabledGroup = page
+    .locator("section.example")
+    .filter({ has: page.locator(".example-title", { hasText: "Inline addons" }) })
+    .locator(".input-group");
+
+  const background = (locator: Locator) =>
+    locator.evaluate((element) => getComputedStyle(element).backgroundColor);
+
+  expect(await background(disabledGroup)).not.toBe(await background(enabledGroup));
+  await expect(disabledGroup.locator("[data-slot='addon']")).toHaveCSS(
+    "opacity",
+    "0.5"
+  );
+  await expect(disabledGroup).toHaveCSS("height", "32px");
+});
+
+test("input group custom controls get the group geometry and focus ring", async ({
+  page
+}) => {
+  await page.goto("/docs/components/input-group");
+  const example = page
+    .locator("section.example")
+    .filter({ has: page.locator(".example-title", { hasText: "Custom control" }) });
+  const group = example.locator(".input-group");
+  const control = group.locator("[data-slot='input-group-control']");
+
+  await expect(control).toHaveCSS("border-top-width", "0px");
+  await expect(control).toHaveCSS("font-size", "14px");
+  await control.focus();
+  await expect(group).toHaveCSS("border-top-color", "oklch(0.708 0 0)");
+  await expect(group).toHaveCSS("box-shadow", /3px/);
 });
 
 test("button styles link actions without the button role", async ({ page }) => {

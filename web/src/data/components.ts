@@ -127,7 +127,7 @@ const notesBy: Record<string, string> = {
   drawer:
     "Native <dialog> with data-side=\"block-end\". CSS only handles presentation; call showModal() and close(). The handle is [data-slot=\"handle\"]; drag gestures are consumer JavaScript. data-size sm/default/lg changes the height.",
   "input-group":
-    "role=\"group\" root. Addons use [data-slot=\"addon\"] and data-align=\"inline-start|inline-end|block-start|block-end\". The group owns the border and focus ring; inner input and textarea controls are borderless. Clicking an addon does not focus the control; that is consumer JavaScript.",
+    "role=\"group\" root. Place addons after the input or textarea in the DOM so the control keeps its tab order; data-align=\"inline-start|inline-end|block-start|block-end\" positions them visually and defaults to inline-start. Addons use [data-slot=\"addon\"]; custom controls opt into the group geometry and focus ring with data-slot=\"input-group-control\". The group owns the border, disabled tint and focus ring; inner controls are borderless and addon buttons keep their own focus ring. Clicking an addon does not focus the control; that is consumer JavaScript.",
   "input-otp":
     "A single native input. Use inputmode=\"numeric\", autocomplete=\"one-time-code\", maxlength and pattern. CSS draws no per-digit slots and does not auto-advance; those need consumer behavior.",
   "scroll-area":

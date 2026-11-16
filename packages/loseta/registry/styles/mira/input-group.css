@@ -16,9 +16,20 @@
     transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
     transition-duration: 150ms;
 
-    &:focus-within {
+    &:has(> :is(input, textarea, [data-slot='input-group-control']):focus-visible) {
       border-color: var(--ring);
       box-shadow: 0 0 0 3px color-mix(in oklab, var(--ring) 50%, transparent);
+    }
+
+    &:has(> :is(input, textarea, [data-slot='input-group-control']):disabled) {
+      background-color: light-dark(
+        color-mix(in oklab, var(--input) 50%, transparent),
+        color-mix(in oklab, var(--input) 80%, transparent)
+      );
+
+      > [data-slot='addon'] {
+        opacity: 50%;
+      }
     }
 
     &:has([aria-invalid='true']) {
@@ -37,7 +48,8 @@
       padding-block: 0.375rem;
     }
 
-    > :is(input, textarea) {
+    > :is(input, textarea, [data-slot='input-group-control']) {
+      height: auto;
       border-width: 0;
       border-radius: 0;
       background-color: transparent;

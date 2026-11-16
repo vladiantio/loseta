@@ -5,8 +5,10 @@
     flex-direction: column;
   }
 
-  .fieldset > :is([role='group'], [role='radiogroup']):not(.field),
-  .field > :is(fieldset, [role='group'], [role='radiogroup']):not(.field) {
+  /* Field-owned groups stack their rows. Component roots that happen to use
+     role="group" (input, button and toggle groups) keep their own layout. */
+  .fieldset > :is([role='group'], [role='radiogroup']):not(.field, .input-group, .btn-group, .toggle-group),
+  .field > :is(fieldset, [role='group'], [role='radiogroup']):not(.field, .input-group, .btn-group, .toggle-group) {
     container-type: inline-size;
     container-name: field-group;
     display: flex;

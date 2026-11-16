@@ -164,6 +164,22 @@ const cases: StyleCase[] = [
     }
   },
   {
+    id: "input-group",
+    selector:
+      ".docs-preview .input-group:has(> [data-slot='addon'] .btn[data-size='icon-xs'])",
+    property: "height",
+    values: {
+      nova: "32px",
+      vega: "36px",
+      maia: "36px",
+      lyra: "32px",
+      mira: "28px",
+      luma: "36px",
+      sera: "40px",
+      rhea: "32px"
+    }
+  },
+  {
     id: "input-otp",
     selector: ".docs-preview .input-otp",
     property: "height",

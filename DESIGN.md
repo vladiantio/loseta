@@ -285,7 +285,7 @@ file they own, not by expecting a spacing API.
 | Chart | Legend swatches use `--chart-*`; tooltips use the popover surface. |
 | Context menu | `--popover` surface, foreground-at-10% ring and `--shadow-md`. |
 | Hover card | `--popover` surface through the popover primitive. |
-| Input group, OTP | `--input` border, `--ring` focus-within/focus and destructive invalid ring. |
+| Input group, OTP | `--input` border, `--ring` control focus and destructive invalid ring. |
 | Listbox panel | `--popover` surface, foreground-at-10% ring and `--shadow-md`; options use `--accent` for highlight. |
 | Menu | Shared menu primitive: `--popover` surface, foreground-at-10% ring and the style's menu shadow. |
 | Menubar | `--background` bar with a 1px `--border` outline and `--shadow-xs`. |
@@ -312,7 +312,7 @@ fields, selects, checkboxes, radios and switches.
 | Hover | Primary fills mix toward transparent at 20%; outline and ghost use `--muted`; link underlines; menu items use `--accent`; table rows use muted at 50%. |
 | Focus visible | 1px `--ring` border plus a 3px `--ring`-at-50% shadow. Tabs also draw a 1px `--ring` outline; menu items use the accent background instead of a ring. Code Block rings the block while its `pre` is focused. |
 | Invalid | `--destructive` border plus a 3px destructive-at-20% shadow; dark mode uses stronger destructive mixes. A field containing an invalid control turns its text destructive. |
-| Disabled | 50% opacity. Buttons, tabs and menu items also drop pointer events; inputs, textareas and selects use a not-allowed cursor. |
+| Disabled | 50% opacity. Buttons, tabs and menu items also drop pointer events; inputs, textareas and selects use a not-allowed cursor. Input groups tint the surface with `--input` at 50% (80% in dark) and fade addons. |
 | Active | Buttons translate down 1px, except triggers with `aria-haspopup`. |
 | Selected | Tabs use a raised background and `--shadow-sm`; line tabs use a 2px foreground indicator. Table rows use `--muted`. Listbox options use font-weight 500 and a check indicator. Selectable label cards use a primary border and tint, and their descriptions rise to `--foreground`. |
 | Current | `aria-current="page"` pagination links use an outline border and `--background`; breadcrumb current text uses `--foreground`. |
@@ -441,7 +441,7 @@ on an RTL page; its header follows the page direction.
 | Field | `.field`, `.fieldset` | Label or legend, control, description `p`, error `[role="alert"]`, group/radiogroup container and `.field-separator`. | Legend `data-variant="label|legend"`; field `data-orientation="horizontal|responsive"`; group `data-slot="checkbox-group|radio-group"` |
 | Hover card | `.hover-card` | Trigger and `[data-popover]` panel; CSS-only open on hover and focus-within. | Placement attributes; no open state |
 | Input | `.input` | Native `<input>`. | — |
-| Input group | `.input-group` | `role="group"` with semantic `input`/`textarea` and `[data-slot="addon"]` parts. | Addon `data-align="inline-start|inline-end|block-start|block-end"` |
+| Input group | `.input-group` | `role="group"` with semantic `input`/`textarea` and `[data-slot="addon"]` parts. Custom controls opt in with `data-slot="input-group-control"`. | Addon `data-align="inline-start|inline-end|block-start|block-end"`, default `inline-start` |
 | Input OTP | `.input-otp` | Native `<input>` with `inputmode="numeric"`, `autocomplete="one-time-code"`, `maxlength` and `pattern`. | `data-size="default|sm|lg"` |
 | Item | `.item`, `.item-group` | `figure`, `section`, `aside`, `header`, `footer`; item groups accept `hr` separators. | Item `data-variant="default|outline|muted"`; `data-size="default|sm|xs"` |
 | Kbd | `.kbd` | Inline shortcut text or SVG. | — |
@@ -503,6 +503,7 @@ The public slot vocabulary is shared across components:
 - `data-slot="handle"` — drawer and resizable.
 - `data-slot="title"`, `data-slot="description"` — navigation menu panels.
 - `data-slot="addon"` — input group.
+- `data-slot="input-group-control"` — custom input group controls.
 - `data-slot="text"` — select, combobox and command option labels.
 - `data-slot="empty"` — listbox and command empty state.
 - `data-slot="clear"` — combobox clear button.
@@ -538,7 +539,9 @@ Popover panels, dropdown panels and tooltips share placement hooks:
 | `data-arrow` | Present or absent | No arrow | Tooltip |
 
 Input-group addons also use `data-align`, but with
-`inline-start`, `inline-end`, `block-start` and `block-end`.
+`inline-start`, `inline-end`, `block-start` and `block-end`; the default is
+`inline-start`. Addons always follow the input or textarea in the DOM so the
+control keeps its tab order; `data-align` and `order` position them visually.
 
 Physical sides (`left`/`right`) and logical sides (`inline-start`/`inline-end`)
 are both supported. `center` alignment uses a translate offset. `data-inset`
@@ -581,7 +584,7 @@ public state hooks:
 | Range value | Native `value` and `max` | Progress; no ARIA override. |
 | Disabled, inert | `inert` | Accordion items. |
 | Focus | `:focus-visible` | All focusable controls. |
-| Focus within | `:focus-within` | Input group; the group draws the ring instead of the inner control. |
+| Focus within | `:has(> :is(input, textarea, [data-slot="input-group-control"]):focus-visible)` | Input group; the group draws the ring for its control, and addon buttons keep their own focus ring. |
 
 The state contract is deliberately small. Do **not** use `.active`,
 `data-active`, `data-invalid`, `data-disabled`, `data-selected`,
@@ -700,8 +703,10 @@ progress sweep slow down instead of stopping. This remains a known gap.
 - Collapsible uses the same native `<details>`/`<summary>` contract. It does
   not impose exclusivity; consumers can add the native `name` attribute.
 - Input groups need an accessible name on the group and on the inner control.
-  Addons are presentation; clicking an addon to focus the control is consumer
-  JavaScript.
+  Place addons after the control in the DOM so the control keeps its tab order;
+  `data-align` positions them visually. Custom controls opt in with
+  `data-slot="input-group-control"`. Addons are presentation; clicking an addon
+  to focus the control is consumer JavaScript.
 - Select triggers need `aria-haspopup="listbox"`, `aria-expanded` and
   `aria-controls`; the option list is a `[role="listbox"]`. The consumer owns
   keyboard navigation, selection, the trigger value and `data-placeholder`.
@@ -844,7 +849,7 @@ controls, button with spinner for loading states, button group with
 button/input/select/popover/dropdown-menu, table
 with checkbox, dropdown-menu with kbd, breadcrumb with dropdown-menu,
 pagination with button, sheet and drawer with button, input group with
-input/textarea/button, combobox with button, command with
+input/textarea/button/field/kbd/spinner, combobox with button, command with
 dialog-shell/popover-primitive/card, carousel and chart with card, sidebar with
 sheet, toast with button, and code block with button for copy and wrap controls.
 
@@ -921,7 +926,8 @@ semantic versioning.
   and consumer-managed fill.
 - OTP inputs do not auto-advance or draw per-digit slots.
 - Input-group addons do not focus the control when clicked; that is consumer
-  JavaScript.
+  JavaScript. Place addons after the control in the DOM so the control keeps
+  its tab order.
 - Scroll areas use native scrollbars; there are no custom overlay thumb
   elements.
 - Select, combobox and command do not open, filter, select or move focus; those

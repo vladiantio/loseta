@@ -174,7 +174,8 @@ const notesBy: Record<string, string> = {
     "The viewport is the scroll container and needs tabindex=\"0\" and an accessible name. Following new messages, anchoring, scroll position and showing [data-slot=\"jump\"] are consumer JavaScript; the jump button needs an accessible label.",
   "native-select":
     ".native-select is the native select root. The custom Select is a separate component with its own install.",
-  switch: "Use input type=\"checkbox\" role=\"switch\" together with the .switch class.",
+  switch:
+    "Use input[type=\"checkbox\"] with role=\"switch\" and the .switch class. Compose rows with .field[data-orientation=\"horizontal\"] and a label; a label wrapping a .field becomes a selectable card. data-size=\"sm\" shrinks the control and aria-invalid=\"true\" marks it invalid. Native checked and disabled states need no JavaScript.",
   questionnaire:
     "A sequence of fieldset steps. Use aria-current=\"step\" on the active item and hidden on inactive ones, a native progress with an accessible name, and native radios, checkboxes and inputs for answers. Step changes, validation and completion are consumer JavaScript.",
   radio:

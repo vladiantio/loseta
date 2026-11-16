@@ -462,6 +462,33 @@ test("radio demo centers the checked indicator and keeps a 24px target", async (
   });
 });
 
+test("switch demo keeps the thumb inside a 44px pointer target", async ({
+  page
+}) => {
+  await page.goto("/docs/components/switch");
+  const control = page.locator(".switch").first();
+
+  const metrics = await control.evaluate((element) => {
+    const thumb = getComputedStyle(element, "::before");
+    const target = getComputedStyle(element, "::after");
+    return {
+      thumb: { width: thumb.width, height: thumb.height },
+      target: {
+        width: Number.parseFloat(target.width),
+        height: Number.parseFloat(target.height)
+      },
+      position: getComputedStyle(element).position
+    };
+  });
+
+  expect(metrics).toMatchObject({
+    thumb: { width: "16px", height: "16px" },
+    position: "relative"
+  });
+  expect(metrics.target.width).toBeGreaterThanOrEqual(44);
+  expect(metrics.target.height).toBeGreaterThanOrEqual(24);
+});
+
 test("accordion and collapsible animate their content on close", async ({ page }) => {
   for (const [slug, selector] of [
     ["accordion", ".accordion details"],

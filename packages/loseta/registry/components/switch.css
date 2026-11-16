@@ -1,14 +1,28 @@
 /* Switch */
 @layer loseta.components {
   .switch {
+    position: relative;
     display: inline-flex;
     flex-shrink: 0;
     appearance: none;
     align-items: center;
+    cursor: pointer;
     transition-property: all;
     transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
     transition-duration: 150ms;
     outline-style: none;
+
+    @media (forced-colors: active) {
+      outline: 2px solid transparent;
+      outline-offset: 2px;
+    }
+
+    &::after {
+      position: absolute;
+      inset-block: -0.5rem;
+      inset-inline: -0.75rem;
+      content: '';
+    }
 
     &:disabled {
       cursor: not-allowed;

@@ -43,39 +43,68 @@
       width: 28px;
     }
 
-    &:before {
+    &::before {
       border-radius: var(--radius-full);
       background-color: light-dark(var(--background), var(--foreground));
     }
 
-    &:checked:before {
+    &:checked::before {
       background-color: light-dark(var(--background), var(--primary-foreground));
     }
 
-    &:not([data-size='sm']):before {
+    &:not([data-size='sm'])::before {
       width: 1.5rem;
       height: 1rem;
     }
 
-    &[data-size='sm']:before {
+    &[data-size='sm']::before {
       width: 1rem;
       height: 0.75rem;
     }
 
-    &:checked:not([data-size='sm']):before {
+    &:checked:not([data-size='sm'])::before {
       translate: calc(100% - 8px);
     }
 
-    &:checked[data-size='sm']:before {
+    &:checked[data-size='sm']::before {
       translate: calc(100% - 8px);
     }
 
-    &:dir(rtl):checked:not([data-size='sm']):before {
-      translate: calc(calc(100% - 2px) * -1);
+    &:dir(rtl):checked:not([data-size='sm'])::before {
+      translate: calc(calc(100% - 8px) * -1);
     }
 
-    &:dir(rtl):checked[data-size='sm']:before {
-      translate: calc(calc(100% - 2px) * -1);
+    &:dir(rtl):checked[data-size='sm']::before {
+      translate: calc(calc(100% - 8px) * -1);
+    }
+
+    @media (forced-colors: active) {
+      border-color: ButtonText;
+
+      &:not(:checked) {
+        background-color: ButtonFace;
+      }
+
+      &::before {
+        background-color: ButtonText;
+      }
+
+      &:checked {
+        border-color: Highlight;
+        background-color: Highlight;
+      }
+
+      &:checked::before {
+        background-color: HighlightText;
+      }
+
+      &:disabled {
+        border-color: GrayText;
+
+        &::before {
+          background-color: GrayText;
+        }
+      }
     }
   }
 }

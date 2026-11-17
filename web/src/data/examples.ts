@@ -28,6 +28,15 @@ const circleAlert = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
 const circleCheck = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21.801 10A10 10 0 1 1 17 3.335"/><path d="m9 11 3 3L22 4"/></svg>`;
 const triangleAlert = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg>`;
 const arrowDown = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14"/><path d="m19 12-7 7-7-7"/></svg>`;
+const close = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>`;
+const trash = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 6h18"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><line x1="10" x2="10" y1="11" y2="17"/><line x1="14" x2="14" y1="11" y2="17"/></svg>`;
+const bluetooth = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m7 7 10 10-5 5V2l5 5L7 17"/></svg>`;
+const circlePlus = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M8 12h8"/><path d="M12 8v8"/></svg>`;
+const dialogParagraphs = Array.from(
+  { length: 8 },
+  () =>
+    "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>"
+).join("\n      ");
 const plus = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="M12 5v14"/></svg>`;
 const plusInline = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" data-icon="inline-start"><path d="M5 12h14"/><path d="M12 5v14"/></svg>`;
 const arrowUpRight = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" data-icon="inline-end"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg>`;
@@ -138,18 +147,18 @@ export const examples: Record<string, Example[]> = {
 </dialog>`
     },
     {
-      title: "Delete account",
-      html: `<button type="button" class="btn" data-variant="destructive" data-open-dialog="demo-alert-dialog">
-  Delete account
+      title: "Destructive",
+      html: `<button type="button" class="btn" data-variant="destructive" data-open-dialog="demo-alert-dialog-destructive">
+  Delete chat
 </button>
 
-<dialog class="alert-dialog" id="demo-alert-dialog" aria-labelledby="alert-title" aria-describedby="alert-description">
+<dialog class="alert-dialog" id="demo-alert-dialog-destructive" data-size="sm" aria-labelledby="alert-dialog-destructive-title" aria-describedby="alert-dialog-destructive-description">
   <div>
     <header>
-      <figure>${shield}</figure>
-      <h2 data-slot="title" id="alert-title">Are you absolutely sure?</h2>
-      <p data-slot="description" id="alert-description">
-        This action cannot be undone. This will permanently delete your account and remove your data.
+      <figure data-variant="destructive">${trash}</figure>
+      <h2 data-slot="title" id="alert-dialog-destructive-title">Delete chat?</h2>
+      <p data-slot="description" id="alert-dialog-destructive-description">
+        This will permanently delete this chat conversation. View <a href="#">Settings</a> to delete any memories saved during this chat.
       </p>
     </header>
     <footer>
@@ -158,6 +167,117 @@ export const examples: Record<string, Example[]> = {
     </footer>
   </div>
 </dialog>`
+    },
+    {
+      title: "Small",
+      html: `<button type="button" class="btn" data-variant="outline" data-open-dialog="demo-alert-dialog-small">
+  Show small alert dialog
+</button>
+
+<dialog class="alert-dialog" id="demo-alert-dialog-small" data-size="sm" aria-labelledby="alert-dialog-small-title" aria-describedby="alert-dialog-small-description">
+  <div>
+    <header>
+      <h2 data-slot="title" id="alert-dialog-small-title">Allow accessory to connect?</h2>
+      <p data-slot="description" id="alert-dialog-small-description">
+        Do you want to allow the USB accessory to connect to this device?
+      </p>
+    </header>
+    <footer>
+      <button type="button" class="btn" data-variant="outline" data-close-dialog>Don't allow</button>
+      <button type="button" class="btn" data-close-dialog>Allow</button>
+    </footer>
+  </div>
+</dialog>`
+    },
+    {
+      title: "Media",
+      html: `<button type="button" class="btn" data-variant="outline" data-open-dialog="demo-alert-dialog-media">
+  Share project
+</button>
+
+<dialog class="alert-dialog" id="demo-alert-dialog-media" aria-labelledby="alert-dialog-media-title" aria-describedby="alert-dialog-media-description">
+  <div>
+    <header>
+      <figure>${circlePlus}</figure>
+      <h2 data-slot="title" id="alert-dialog-media-title">Share this project?</h2>
+      <p data-slot="description" id="alert-dialog-media-description">
+        Anyone with the link will be able to view and edit this project.
+      </p>
+    </header>
+    <footer>
+      <button type="button" class="btn" data-variant="outline" data-close-dialog>Cancel</button>
+      <button type="button" class="btn" data-close-dialog>Share</button>
+    </footer>
+  </div>
+</dialog>`
+    },
+    {
+      title: "Small with media",
+      html: `<button type="button" class="btn" data-variant="outline" data-open-dialog="demo-alert-dialog-small-media">
+  Show small media alert
+</button>
+
+<dialog class="alert-dialog" id="demo-alert-dialog-small-media" data-size="sm" aria-labelledby="alert-dialog-small-media-title" aria-describedby="alert-dialog-small-media-description">
+  <div>
+    <header>
+      <figure>${bluetooth}</figure>
+      <h2 data-slot="title" id="alert-dialog-small-media-title">Allow accessory to connect?</h2>
+      <p data-slot="description" id="alert-dialog-small-media-description">
+        Do you want to allow the USB accessory to connect to this device?
+      </p>
+    </header>
+    <footer>
+      <button type="button" class="btn" data-variant="outline" data-close-dialog>Don't allow</button>
+      <button type="button" class="btn" data-close-dialog>Allow</button>
+    </footer>
+  </div>
+</dialog>`
+    },
+    {
+      title: "With image",
+      html: `<button type="button" class="btn" data-variant="outline" data-open-dialog="demo-alert-dialog-image">
+  Remove teammate
+</button>
+
+<dialog class="alert-dialog" id="demo-alert-dialog-image" aria-labelledby="alert-dialog-image-title" aria-describedby="alert-dialog-image-description">
+  <div>
+    <header>
+      <figure><img src="${avatarImage}" alt="" width="40" height="40"></figure>
+      <h2 data-slot="title" id="alert-dialog-image-title">Remove teammate?</h2>
+      <p data-slot="description" id="alert-dialog-image-description">
+        They will lose access to this workspace and its documents.
+      </p>
+    </header>
+    <footer>
+      <button type="button" class="btn" data-variant="outline" data-close-dialog>Cancel</button>
+      <button type="button" class="btn" data-variant="destructive" data-close-dialog>Remove</button>
+    </footer>
+  </div>
+</dialog>`
+    },
+    {
+      title: "Right-to-left",
+      html: `<div dir="rtl" lang="ar" style="display: flex; flex-wrap: wrap; gap: 0.5rem">
+  <button type="button" class="btn" data-variant="outline" data-open-dialog="demo-alert-dialog-rtl">
+    إظهار الحوار
+  </button>
+
+  <dialog class="alert-dialog" id="demo-alert-dialog-rtl" data-size="sm" aria-labelledby="alert-dialog-rtl-title" aria-describedby="alert-dialog-rtl-description">
+    <div>
+      <header>
+        <figure>${bluetooth}</figure>
+        <h2 data-slot="title" id="alert-dialog-rtl-title">السماح للملحق بالاتصال؟</h2>
+        <p data-slot="description" id="alert-dialog-rtl-description">
+          هل تريد السماح لملحق USB بالاتصال بهذا الجهاز؟
+        </p>
+      </header>
+      <footer>
+        <button type="button" class="btn" data-variant="outline" data-close-dialog>عدم السماح</button>
+        <button type="button" class="btn" data-close-dialog>السماح</button>
+      </footer>
+    </div>
+  </dialog>
+</div>`
     }
   ],
   badge: [
@@ -658,12 +778,15 @@ Done in 2.8s using pnpm v10.18.0</code></pre>
       <button type="button" class="btn" data-variant="outline" data-close-dialog>Cancel</button>
       <button type="button" class="btn" data-close-dialog>Continue</button>
     </footer>
+    <form method="dialog">
+      <button class="btn" data-variant="ghost" data-size="icon-sm" aria-label="Close">${close}</button>
+    </form>
   </div>
 </dialog>`
     },
     {
       title: "Edit profile",
-      html: `<button type="button" class="btn" data-open-dialog="demo-dialog">Open dialog</button>
+      html: `<button type="button" class="btn" data-open-dialog="demo-dialog">Open profile dialog</button>
 
 <dialog class="dialog" id="demo-dialog" aria-labelledby="dialog-title" aria-describedby="dialog-description">
   <div>
@@ -674,9 +797,15 @@ Done in 2.8s using pnpm v10.18.0</code></pre>
       </p>
     </header>
     <section>
-      <div class="field">
-        <label class="label" for="dialog-name">Name</label>
-        <input class="input" id="dialog-name" value="Ada Lovelace">
+      <div class="fieldset">
+        <div class="field">
+          <label class="label" for="dialog-name">Name</label>
+          <input class="input" id="dialog-name" value="Ada Lovelace">
+        </div>
+        <div class="field">
+          <label class="label" for="dialog-username">Username</label>
+          <input class="input" id="dialog-username" value="@ada">
+        </div>
       </div>
     </section>
     <footer>
@@ -684,10 +813,135 @@ Done in 2.8s using pnpm v10.18.0</code></pre>
       <button type="button" class="btn" data-close-dialog>Save changes</button>
     </footer>
     <form method="dialog">
-      <button class="btn" data-variant="ghost" data-size="icon-sm" aria-label="Close">×</button>
+      <button class="btn" data-variant="ghost" data-size="icon-sm" aria-label="Close">${close}</button>
     </form>
   </div>
 </dialog>`
+    },
+    {
+      title: "Custom close button",
+      html: `<button type="button" class="btn" data-variant="outline" data-open-dialog="demo-dialog-close-button">
+  Open share dialog
+</button>
+
+<dialog class="dialog" id="demo-dialog-close-button" aria-labelledby="dialog-close-title" aria-describedby="dialog-close-description">
+  <div>
+    <header>
+      <h2 data-slot="title" id="dialog-close-title">Share link</h2>
+      <p data-slot="description" id="dialog-close-description">
+        Anyone who has this link will be able to view this.
+      </p>
+    </header>
+    <section>
+      <div class="field">
+        <label class="sr-only" for="dialog-share-link">Link</label>
+        <input class="input" id="dialog-share-link" value="https://loseta.dev/docs/components/dialog" readonly>
+      </div>
+    </section>
+    <footer data-align="start">
+      <button type="button" class="btn" data-variant="outline" data-close-dialog>Close</button>
+    </footer>
+  </div>
+</dialog>`
+    },
+    {
+      title: "No close button",
+      html: `<button type="button" class="btn" data-variant="outline" data-open-dialog="demo-dialog-no-close">
+  Open dialog without close
+</button>
+
+<dialog class="dialog" id="demo-dialog-no-close" aria-labelledby="dialog-no-close-title" aria-describedby="dialog-no-close-description">
+  <div>
+    <header>
+      <h2 data-slot="title" id="dialog-no-close-title">No close button</h2>
+      <p data-slot="description" id="dialog-no-close-description">
+        This dialog has no close control. Dismiss it with Escape or your own action.
+      </p>
+    </header>
+  </div>
+</dialog>`
+    },
+    {
+      title: "Scrollable content",
+      html: `<button type="button" class="btn" data-variant="outline" data-open-dialog="demo-dialog-scrollable">
+  Open scrollable dialog
+</button>
+
+<dialog class="dialog" id="demo-dialog-scrollable" aria-labelledby="dialog-scrollable-title" aria-describedby="dialog-scrollable-description">
+  <div>
+    <header>
+      <h2 data-slot="title" id="dialog-scrollable-title">Scrollable content</h2>
+      <p data-slot="description" id="dialog-scrollable-description">
+        The header stays in view while the section scrolls.
+      </p>
+    </header>
+    <section role="region" aria-label="Scrollable content" tabindex="0">
+      ${dialogParagraphs}
+    </section>
+    <form method="dialog">
+      <button class="btn" data-variant="ghost" data-size="icon-sm" aria-label="Close">${close}</button>
+    </form>
+  </div>
+</dialog>`
+    },
+    {
+      title: "Sticky footer",
+      html: `<button type="button" class="btn" data-variant="outline" data-open-dialog="demo-dialog-sticky-footer">
+  Open sticky footer dialog
+</button>
+
+<dialog class="dialog" id="demo-dialog-sticky-footer" aria-labelledby="dialog-sticky-footer-title" aria-describedby="dialog-sticky-footer-description">
+  <div>
+    <header>
+      <h2 data-slot="title" id="dialog-sticky-footer-title">Sticky footer</h2>
+      <p data-slot="description" id="dialog-sticky-footer-description">
+        The footer stays visible while the section scrolls.
+      </p>
+    </header>
+    <section role="region" aria-label="Sticky footer content" tabindex="0">
+      ${dialogParagraphs}
+    </section>
+    <footer>
+      <button type="button" class="btn" data-variant="outline" data-close-dialog>Close</button>
+    </footer>
+  </div>
+</dialog>`
+    },
+    {
+      title: "Right-to-left",
+      html: `<div dir="rtl" lang="ar" style="display: flex; flex-wrap: wrap; gap: 0.5rem">
+  <button type="button" class="btn" data-open-dialog="demo-dialog-rtl">فتح الحوار</button>
+
+  <dialog class="dialog" id="demo-dialog-rtl" aria-labelledby="dialog-rtl-title" aria-describedby="dialog-rtl-description">
+    <div>
+      <header>
+        <h2 data-slot="title" id="dialog-rtl-title">تعديل الملف الشخصي</h2>
+        <p data-slot="description" id="dialog-rtl-description">
+          قم بإجراء تغييرات على ملفك الشخصي هنا. انقر على حفظ عند الانتهاء.
+        </p>
+      </header>
+      <section>
+        <div class="fieldset">
+          <div class="field">
+            <label class="label" for="dialog-rtl-name">الاسم</label>
+            <input class="input" id="dialog-rtl-name" value="آدا لوفليس">
+          </div>
+          <div class="field">
+            <label class="label" for="dialog-rtl-username">اسم المستخدم</label>
+            <input class="input" id="dialog-rtl-username" value="@ada">
+          </div>
+        </div>
+      </section>
+      <footer>
+        <button type="button" class="btn" data-variant="outline" data-close-dialog>إلغاء</button>
+        <button type="button" class="btn" data-close-dialog>حفظ التغييرات</button>
+      </footer>
+      <form method="dialog">
+        <button class="btn" data-variant="ghost" data-size="icon-sm" aria-label="إغلاق">${close}</button>
+      </form>
+    </div>
+  </dialog>
+</div>`
     }
   ],
   "dropdown-menu": [

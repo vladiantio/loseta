@@ -1024,6 +1024,114 @@ test("sheet and drawer dialogs open and close", async ({ page }) => {
   await expect(drawer).not.toHaveAttribute("open", "");
 });
 
+test("dialog examples open, close and scroll", async ({ page }) => {
+  await page.goto("/docs/components/dialog");
+  await page.addStyleTag({
+    content:
+      "*, *::before, *::after { transition: none !important; animation: none !important; }"
+  });
+
+  const dialog = page.locator("#demo-dialog-default");
+  await page.locator('[data-open-dialog="demo-dialog-default"]').click();
+  await expect(dialog).toHaveAttribute("open", "");
+  await expect(dialog.getByRole("heading", { name: "Dialog title" })).toBeVisible();
+  await dialog.getByRole("button", { name: "Close" }).click();
+  await expect(dialog).not.toHaveAttribute("open", "");
+
+  const share = page.locator("#demo-dialog-close-button");
+  await page.locator('[data-open-dialog="demo-dialog-close-button"]').click();
+  await expect(share).toHaveAttribute("open", "");
+  const sharePanelBox = await share.locator(":scope > div").boundingBox();
+  const shareCloseBox = await share
+    .getByRole("button", { name: "Close" })
+    .boundingBox();
+  expect(sharePanelBox).not.toBeNull();
+  expect(shareCloseBox).not.toBeNull();
+  expect(shareCloseBox!.x - sharePanelBox!.x).toBeLessThan(40);
+  await share.getByRole("button", { name: "Close" }).click();
+  await expect(share).not.toHaveAttribute("open", "");
+
+  const scrollable = page.locator("#demo-dialog-scrollable");
+  await page.locator('[data-open-dialog="demo-dialog-scrollable"]').click();
+  const scrollSection = scrollable.locator("section");
+  await expect(scrollSection).toHaveAttribute("role", "region");
+  await expect(scrollSection).toHaveAttribute("tabindex", "0");
+  expect(
+    await scrollSection.evaluate((element) => element.scrollHeight)
+  ).toBeGreaterThan(
+    await scrollSection.evaluate((element) => element.clientHeight)
+  );
+  await page.keyboard.press("Escape");
+  await expect(scrollable).not.toHaveAttribute("open", "");
+
+  const sticky = page.locator("#demo-dialog-sticky-footer");
+  await page.locator('[data-open-dialog="demo-dialog-sticky-footer"]').click();
+  const stickySection = sticky.locator("section");
+  const stickyFooter = sticky.locator("footer");
+  await expect(stickySection).toHaveAttribute("role", "region");
+  await expect(stickySection).toHaveAttribute("tabindex", "0");
+  expect(
+    await stickySection.evaluate((element) => element.scrollHeight)
+  ).toBeGreaterThan(
+    await stickySection.evaluate((element) => element.clientHeight)
+  );
+  const panelBox = await sticky.locator(":scope > div").boundingBox();
+  const footerBox = await stickyFooter.boundingBox();
+  expect(footerBox).not.toBeNull();
+  expect(panelBox).not.toBeNull();
+  await stickySection.evaluate((element) => {
+    element.scrollTop = element.scrollHeight;
+  });
+  const scrolledFooterBox = await stickyFooter.boundingBox();
+  expect(scrolledFooterBox).not.toBeNull();
+  expect(scrolledFooterBox!.y).toBeCloseTo(footerBox!.y, 0);
+  expect(scrolledFooterBox!.y + scrolledFooterBox!.height).toBeLessThanOrEqual(
+    panelBox!.y + panelBox!.height + 4
+  );
+  await stickyFooter.getByRole("button", { name: "Close" }).click();
+  await expect(sticky).not.toHaveAttribute("open", "");
+});
+
+test("alert dialog media, size and destructive treatment", async ({ page }) => {
+  await page.goto("/docs/components/alert-dialog");
+  await page.addStyleTag({
+    content:
+      "*, *::before, *::after { transition: none !important; animation: none !important; }"
+  });
+
+  const small = page.locator("#demo-alert-dialog-small-media");
+  await page.locator('[data-open-dialog="demo-alert-dialog-small-media"]').click();
+  await expect(small).toHaveAttribute("open", "");
+
+  const smallPanel = small.locator(":scope > div");
+  const smallBox = await smallPanel.boundingBox();
+  expect(smallBox).not.toBeNull();
+  expect(smallBox!.width).toBeLessThanOrEqual(320);
+
+  const figureBox = await small.locator("header figure").boundingBox();
+  const titleBox = await small
+    .getByRole("heading", { name: "Allow accessory to connect?" })
+    .boundingBox();
+  expect(figureBox).not.toBeNull();
+  expect(titleBox).not.toBeNull();
+  expect(titleBox!.y).toBeGreaterThan(figureBox!.y + figureBox!.height - 1);
+  await page.keyboard.press("Escape");
+  await expect(small).not.toHaveAttribute("open", "");
+
+  const destructive = page.locator("#demo-alert-dialog-destructive");
+  await page.locator('[data-open-dialog="demo-alert-dialog-destructive"]').click();
+  await expect(destructive).toHaveAttribute("open", "");
+  const mediaColor = await destructive
+    .locator("header figure")
+    .evaluate((element) => getComputedStyle(element).color);
+  const actionColor = await destructive
+    .getByRole("button", { name: "Delete" })
+    .evaluate((element) => getComputedStyle(element).color);
+  expect(mediaColor).toBe(actionColor);
+  await page.keyboard.press("Escape");
+  await expect(destructive).not.toHaveAttribute("open", "");
+});
+
 test("hover card opens on hover and closes on leave", async ({ page }) => {
   await page.goto("/docs/components/hover-card");
   const panel = page.locator("#hover-card-profile");

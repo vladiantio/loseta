@@ -76,6 +76,13 @@
       }
     }
 
+    &:is([data-size='sm']) > * > header > figure,
+    > [data-size='sm'] > header > figure {
+      @media (width >= 40rem) {
+        grid-row: auto;
+      }
+    }
+
     &:is([data-size='sm']) > * > header:has(> figure) > :is(h2, p),
     > [data-size='sm'] > header:has(> figure) > :is(h2, p) {
       @media (width >= 40rem) {

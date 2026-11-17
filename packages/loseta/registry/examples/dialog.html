@@ -13,11 +13,14 @@
       <button type="button" class="btn" data-variant="outline">Cancel</button>
       <button type="button" class="btn">Continue</button>
     </footer>
+    <form method="dialog">
+      <button class="btn" data-variant="ghost" data-size="icon-sm" aria-label="Close"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></button>
+    </form>
   </div>
 </dialog>
 
 <!-- Edit profile -->
-<button type="button" class="btn">Open dialog</button>
+<button type="button" class="btn">Open profile dialog</button>
 
 <dialog class="dialog" id="demo-dialog" aria-labelledby="dialog-title" aria-describedby="dialog-description">
   <div>
@@ -28,9 +31,15 @@
       </p>
     </header>
     <section>
-      <div class="field">
-        <label class="label" for="dialog-name">Name</label>
-        <input class="input" id="dialog-name" value="Ada Lovelace">
+      <div class="fieldset">
+        <div class="field">
+          <label class="label" for="dialog-name">Name</label>
+          <input class="input" id="dialog-name" value="Ada Lovelace">
+        </div>
+        <div class="field">
+          <label class="label" for="dialog-username">Username</label>
+          <input class="input" id="dialog-username" value="@ada">
+        </div>
       </div>
     </section>
     <footer>
@@ -38,7 +47,141 @@
       <button type="button" class="btn">Save changes</button>
     </footer>
     <form method="dialog">
-      <button class="btn" data-variant="ghost" data-size="icon-sm" aria-label="Close">×</button>
+      <button class="btn" data-variant="ghost" data-size="icon-sm" aria-label="Close"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></button>
     </form>
   </div>
 </dialog>
+
+<!-- Custom close button -->
+<button type="button" class="btn" data-variant="outline">
+  Open share dialog
+</button>
+
+<dialog class="dialog" id="demo-dialog-close-button" aria-labelledby="dialog-close-title" aria-describedby="dialog-close-description">
+  <div>
+    <header>
+      <h2 data-slot="title" id="dialog-close-title">Share link</h2>
+      <p data-slot="description" id="dialog-close-description">
+        Anyone who has this link will be able to view this.
+      </p>
+    </header>
+    <section>
+      <div class="field">
+        <label class="sr-only" for="dialog-share-link">Link</label>
+        <input class="input" id="dialog-share-link" value="https://loseta.dev/docs/components/dialog" readonly>
+      </div>
+    </section>
+    <footer data-align="start">
+      <button type="button" class="btn" data-variant="outline">Close</button>
+    </footer>
+  </div>
+</dialog>
+
+<!-- No close button -->
+<button type="button" class="btn" data-variant="outline">
+  Open dialog without close
+</button>
+
+<dialog class="dialog" id="demo-dialog-no-close" aria-labelledby="dialog-no-close-title" aria-describedby="dialog-no-close-description">
+  <div>
+    <header>
+      <h2 data-slot="title" id="dialog-no-close-title">No close button</h2>
+      <p data-slot="description" id="dialog-no-close-description">
+        This dialog has no close control. Dismiss it with Escape or your own action.
+      </p>
+    </header>
+  </div>
+</dialog>
+
+<!-- Scrollable content -->
+<button type="button" class="btn" data-variant="outline">
+  Open scrollable dialog
+</button>
+
+<dialog class="dialog" id="demo-dialog-scrollable" aria-labelledby="dialog-scrollable-title" aria-describedby="dialog-scrollable-description">
+  <div>
+    <header>
+      <h2 data-slot="title" id="dialog-scrollable-title">Scrollable content</h2>
+      <p data-slot="description" id="dialog-scrollable-description">
+        The header stays in view while the section scrolls.
+      </p>
+    </header>
+    <section role="region" aria-label="Scrollable content" tabindex="0">
+      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+    </section>
+    <form method="dialog">
+      <button class="btn" data-variant="ghost" data-size="icon-sm" aria-label="Close"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></button>
+    </form>
+  </div>
+</dialog>
+
+<!-- Sticky footer -->
+<button type="button" class="btn" data-variant="outline">
+  Open sticky footer dialog
+</button>
+
+<dialog class="dialog" id="demo-dialog-sticky-footer" aria-labelledby="dialog-sticky-footer-title" aria-describedby="dialog-sticky-footer-description">
+  <div>
+    <header>
+      <h2 data-slot="title" id="dialog-sticky-footer-title">Sticky footer</h2>
+      <p data-slot="description" id="dialog-sticky-footer-description">
+        The footer stays visible while the section scrolls.
+      </p>
+    </header>
+    <section role="region" aria-label="Sticky footer content" tabindex="0">
+      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+    </section>
+    <footer>
+      <button type="button" class="btn" data-variant="outline">Close</button>
+    </footer>
+  </div>
+</dialog>
+
+<!-- Right-to-left -->
+<div dir="rtl" lang="ar" style="display: flex; flex-wrap: wrap; gap: 0.5rem">
+  <button type="button" class="btn">فتح الحوار</button>
+
+  <dialog class="dialog" id="demo-dialog-rtl" aria-labelledby="dialog-rtl-title" aria-describedby="dialog-rtl-description">
+    <div>
+      <header>
+        <h2 data-slot="title" id="dialog-rtl-title">تعديل الملف الشخصي</h2>
+        <p data-slot="description" id="dialog-rtl-description">
+          قم بإجراء تغييرات على ملفك الشخصي هنا. انقر على حفظ عند الانتهاء.
+        </p>
+      </header>
+      <section>
+        <div class="fieldset">
+          <div class="field">
+            <label class="label" for="dialog-rtl-name">الاسم</label>
+            <input class="input" id="dialog-rtl-name" value="آدا لوفليس">
+          </div>
+          <div class="field">
+            <label class="label" for="dialog-rtl-username">اسم المستخدم</label>
+            <input class="input" id="dialog-rtl-username" value="@ada">
+          </div>
+        </div>
+      </section>
+      <footer>
+        <button type="button" class="btn" data-variant="outline">إلغاء</button>
+        <button type="button" class="btn">حفظ التغييرات</button>
+      </footer>
+      <form method="dialog">
+        <button class="btn" data-variant="ghost" data-size="icon-sm" aria-label="إغلاق"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></button>
+      </form>
+    </div>
+  </dialog>
+</div>

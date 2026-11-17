@@ -18,18 +18,18 @@
   </div>
 </dialog>
 
-<!-- Delete account -->
+<!-- Destructive -->
 <button type="button" class="btn" data-variant="destructive">
-  Delete account
+  Delete chat
 </button>
 
-<dialog class="alert-dialog" id="demo-alert-dialog" aria-labelledby="alert-title" aria-describedby="alert-description">
+<dialog class="alert-dialog" id="demo-alert-dialog-destructive" data-size="sm" aria-labelledby="alert-dialog-destructive-title" aria-describedby="alert-dialog-destructive-description">
   <div>
     <header>
-      <figure><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 13c0 5-3.5 7.5-7.7 8.9a1 1 0 0 1-.6 0C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.2-2.7a1 1 0 0 1 1.6 0C14.5 3.8 17 5 19 5a1 1 0 0 1 1 1z"/></svg></figure>
-      <h2 data-slot="title" id="alert-title">Are you absolutely sure?</h2>
-      <p data-slot="description" id="alert-description">
-        This action cannot be undone. This will permanently delete your account and remove your data.
+      <figure data-variant="destructive"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 6h18"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><line x1="10" x2="10" y1="11" y2="17"/><line x1="14" x2="14" y1="11" y2="17"/></svg></figure>
+      <h2 data-slot="title" id="alert-dialog-destructive-title">Delete chat?</h2>
+      <p data-slot="description" id="alert-dialog-destructive-description">
+        This will permanently delete this chat conversation. View <a href="#">Settings</a> to delete any memories saved during this chat.
       </p>
     </header>
     <footer>
@@ -38,3 +38,109 @@
     </footer>
   </div>
 </dialog>
+
+<!-- Small -->
+<button type="button" class="btn" data-variant="outline">
+  Show small alert dialog
+</button>
+
+<dialog class="alert-dialog" id="demo-alert-dialog-small" data-size="sm" aria-labelledby="alert-dialog-small-title" aria-describedby="alert-dialog-small-description">
+  <div>
+    <header>
+      <h2 data-slot="title" id="alert-dialog-small-title">Allow accessory to connect?</h2>
+      <p data-slot="description" id="alert-dialog-small-description">
+        Do you want to allow the USB accessory to connect to this device?
+      </p>
+    </header>
+    <footer>
+      <button type="button" class="btn" data-variant="outline">Don't allow</button>
+      <button type="button" class="btn">Allow</button>
+    </footer>
+  </div>
+</dialog>
+
+<!-- Media -->
+<button type="button" class="btn" data-variant="outline">
+  Share project
+</button>
+
+<dialog class="alert-dialog" id="demo-alert-dialog-media" aria-labelledby="alert-dialog-media-title" aria-describedby="alert-dialog-media-description">
+  <div>
+    <header>
+      <figure><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M8 12h8"/><path d="M12 8v8"/></svg></figure>
+      <h2 data-slot="title" id="alert-dialog-media-title">Share this project?</h2>
+      <p data-slot="description" id="alert-dialog-media-description">
+        Anyone with the link will be able to view and edit this project.
+      </p>
+    </header>
+    <footer>
+      <button type="button" class="btn" data-variant="outline">Cancel</button>
+      <button type="button" class="btn">Share</button>
+    </footer>
+  </div>
+</dialog>
+
+<!-- Small with media -->
+<button type="button" class="btn" data-variant="outline">
+  Show small media alert
+</button>
+
+<dialog class="alert-dialog" id="demo-alert-dialog-small-media" data-size="sm" aria-labelledby="alert-dialog-small-media-title" aria-describedby="alert-dialog-small-media-description">
+  <div>
+    <header>
+      <figure><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m7 7 10 10-5 5V2l5 5L7 17"/></svg></figure>
+      <h2 data-slot="title" id="alert-dialog-small-media-title">Allow accessory to connect?</h2>
+      <p data-slot="description" id="alert-dialog-small-media-description">
+        Do you want to allow the USB accessory to connect to this device?
+      </p>
+    </header>
+    <footer>
+      <button type="button" class="btn" data-variant="outline">Don't allow</button>
+      <button type="button" class="btn">Allow</button>
+    </footer>
+  </div>
+</dialog>
+
+<!-- With image -->
+<button type="button" class="btn" data-variant="outline">
+  Remove teammate
+</button>
+
+<dialog class="alert-dialog" id="demo-alert-dialog-image" aria-labelledby="alert-dialog-image-title" aria-describedby="alert-dialog-image-description">
+  <div>
+    <header>
+      <figure><img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%23cbd5e1'/%3E%3Ccircle cx='32' cy='24' r='11' fill='%23475569'/%3E%3Cpath d='M10 64c0-12 10-22 22-22s22 10 22 22z' fill='%23475569'/%3E%3C/svg%3E" alt="" width="40" height="40"></figure>
+      <h2 data-slot="title" id="alert-dialog-image-title">Remove teammate?</h2>
+      <p data-slot="description" id="alert-dialog-image-description">
+        They will lose access to this workspace and its documents.
+      </p>
+    </header>
+    <footer>
+      <button type="button" class="btn" data-variant="outline">Cancel</button>
+      <button type="button" class="btn" data-variant="destructive">Remove</button>
+    </footer>
+  </div>
+</dialog>
+
+<!-- Right-to-left -->
+<div dir="rtl" lang="ar" style="display: flex; flex-wrap: wrap; gap: 0.5rem">
+  <button type="button" class="btn" data-variant="outline">
+    إظهار الحوار
+  </button>
+
+  <dialog class="alert-dialog" id="demo-alert-dialog-rtl" data-size="sm" aria-labelledby="alert-dialog-rtl-title" aria-describedby="alert-dialog-rtl-description">
+    <div>
+      <header>
+        <figure><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m7 7 10 10-5 5V2l5 5L7 17"/></svg></figure>
+        <h2 data-slot="title" id="alert-dialog-rtl-title">السماح للملحق بالاتصال؟</h2>
+        <p data-slot="description" id="alert-dialog-rtl-description">
+          هل تريد السماح لملحق USB بالاتصال بهذا الجهاز؟
+        </p>
+      </header>
+      <footer>
+        <button type="button" class="btn" data-variant="outline">عدم السماح</button>
+        <button type="button" class="btn">السماح</button>
+      </footer>
+    </div>
+  </dialog>
+</div>

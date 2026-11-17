@@ -418,7 +418,7 @@ on an RTL page; its header follows the page direction.
 | --- | --- | --- | --- |
 | Accordion | `.accordion` | Container of native `<details>` with `<summary>` triggers and content directly after `summary`. | Exclusive groups use the native `name` attribute; disabled items use `inert` |
 | Alert | `.alert` | Direct SVG icon; title (`h2`–`h6`, `strong` or `[data-slot="title"]`); description (`[data-slot="description"]` or `section`); action (`footer`). | `data-variant="destructive"`; default by omission |
-| Alert dialog | `.alert-dialog` | Native `<dialog>` containing a panel; panel contains `header` (optional `figure`), title, description, `section` and `footer`. | `data-size="sm"` on the dialog or panel; default by omission |
+| Alert dialog | `.alert-dialog` | Native `<dialog>` containing a panel; panel contains `header` (optional `figure` with an icon or image), title, description, `section` and `footer`. | `data-size="sm"` on the dialog or panel; `figure data-variant="destructive"`; default by omission |
 | Aspect ratio | `.aspect-ratio` | A single media child (`img`, `video`, `iframe`, `canvas` or `svg`). | `--ratio` local property (default `16 / 9`); `data-fit="cover|contain"` |
 | Attachment | `.attachment` | `[data-slot="media"]`, `[data-slot="content"]` with title/description and `[data-slot="actions"]`; optional `[data-slot="trigger"]` overlay. | `data-size="default|sm|xs"`; `data-orientation="horizontal|vertical"`; `aria-busy="true"` on the root |
 | Avatar | `.avatar`, `.avatar-group` | Real `img`, `[data-slot="fallback"]` layer and optional `[data-slot="badge"]`; `.avatar-group` overlaps avatars and may end with `[data-slot="count"]`, which follows the group size. | `data-size="default|sm|lg"` |
@@ -437,7 +437,7 @@ on an RTL page; its header follows the page direction.
 | Combobox | `.combobox` | Input with `role="combobox"` and a `[data-popover]` panel containing `[role="listbox"]`; optional `[data-slot="clear"]`. | Listbox `aria-multiselectable="true"` for multiple; placement attributes on the panel |
 | Command | `.command` | Search field composed with input-group and a `[role="listbox"]` with groups, labels, shortcuts and an empty state. | `[data-slot="shortcut"]`, `[data-slot="empty"]`; no surface |
 | Context menu | `.context-menu` | `[role="menu"]` panel with menu items, headings, separators and shortcuts. | `--context-x`, `--context-y` on the panel; `aria-hidden="true|false"` |
-| Dialog | `.dialog` | Native `<dialog>` containing a panel; panel contains `header`, title, description, `section`, `footer` and a close button or `form[method="dialog"]`. | — |
+| Dialog | `.dialog` | Native `<dialog>` containing a panel; panel contains `header`, title, description, `section`, `footer` and a close button or `form[method="dialog"]`. Section content scrolls between a fixed header and footer. | Footer `data-align="start"` |
 | Drawer | `.drawer` | Native `<dialog>` with `data-side` and a panel containing `[data-slot="handle"]`, `header`, `section` and `footer`. | `data-side="block-start|block-end"`; `data-size="default|sm|lg"` |
 | Dropdown menu | `.dropdown-menu` | Trigger, `[data-popover]` panel, `[role="menu"]`, menu item roles, `[role="separator"]`, `[role="heading"]`, shortcut and indicator slots. | Item `data-variant="destructive"`; default by omission; placement attributes; `data-inset`; `data-rtl-flip` |
 | Empty | `.empty` | `header` with optional `figure` (a single SVG becomes the icon box; image, avatar or avatar-group markup is used as-is), title (`h2`–`h4`) and description `p`; `section`; `footer`. | — |
@@ -798,7 +798,9 @@ progress sweep slow down instead of stopping. This remains a known gap.
   group label and supports multiple pressed buttons; single-choice selection
   belongs to a radio group.
 - Dialogs must be labelled with `aria-labelledby` and, when the description is
-  present, `aria-describedby`. Use `showModal()` and `close()`.
+  present, `aria-describedby`. Use `showModal()` and `close()`. A section that
+  scrolls without focusable content needs `role="region"`, an accessible name
+  and `tabindex="0"` so keyboard users can scroll it.
 - Tabs must maintain `aria-selected`, `hidden` on inactive panels and roving
   `tabindex`; CSS does not switch panels.
 - Code Block must keep its content `dir="ltr"` and focusable through

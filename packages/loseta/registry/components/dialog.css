@@ -7,7 +7,24 @@
     }
 
     > * > section {
-      flex: 1;
+      min-height: 0;
+      overflow-y: auto;
+    }
+
+    > *:has(> header):has(> section):has(> footer) {
+      grid-template-rows: auto minmax(0, 1fr) auto;
+    }
+
+    > *:has(> header):has(> section):not(:has(> footer)) {
+      grid-template-rows: auto minmax(0, 1fr);
+    }
+
+    > *:has(> section):not(:has(> header)):has(> footer) {
+      grid-template-rows: minmax(0, 1fr) auto;
+    }
+
+    > *:has(> section):not(:has(> header)):not(:has(> footer)) {
+      grid-template-rows: minmax(0, 1fr);
     }
 
     > * > footer {
@@ -17,6 +34,12 @@
       @media (width >= 40rem) {
         flex-direction: row;
         justify-content: flex-end;
+      }
+
+      &[data-align='start'] {
+        @media (width >= 40rem) {
+          justify-content: flex-start;
+        }
       }
     }
 

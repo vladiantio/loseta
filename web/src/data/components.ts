@@ -97,9 +97,9 @@ const notesBy: Record<string, string> = {
   checkbox:
     "The .checkbox class is required. Use native checked/disabled and aria-invalid=\"true\"; set the indeterminate property from JavaScript. Groups compose with .fieldset, a legend and [data-slot=\"checkbox-group\"].",
   dialog:
-    "Uses native <dialog>. CSS only handles presentation; call showModal() and close() from your JavaScript.",
+    "Uses native <dialog>. CSS only handles presentation and section scrolling; call showModal() and close() from your JavaScript. The close control is a direct child button or form[method=\"dialog\"]; icon-only controls need an accessible label. A section scrolls between the header and footer, and footer data-align=\"start\" moves the actions to the inline start. A scrolling section without focusable content needs role=\"region\", an accessible name and tabindex=\"0\".",
   "alert-dialog":
-    "Uses native <dialog>. CSS only handles presentation; call showModal() and close() from your JavaScript.",
+    "Uses native <dialog>. CSS only handles presentation; call showModal() and close() from your JavaScript. data-size=\"sm\" on the dialog or panel keeps the narrow layout centered. Put an icon or image in header > figure; data-variant=\"destructive\" tints the figure.",
   "dropdown-menu":
     "Requires JavaScript for open/close and keyboard navigation. Toggle aria-hidden on [data-popover] and aria-expanded on the trigger.",
   popover:

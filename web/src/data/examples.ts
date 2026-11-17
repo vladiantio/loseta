@@ -12,9 +12,13 @@ const chevronDown = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
 const chevronLeft = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg>`;
 const chevronRight = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>`;
 const moreHorizontal = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/></svg>`;
-const alignLeft = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="21" x2="3" y1="6" y2="6"/><line x1="15" x2="3" y1="12" y2="12"/><line x1="17" x2="3" y1="18" y2="18"/></svg>`;
-const alignCenter = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="21" x2="3" y1="6" y2="6"/><line x1="17" x2="7" y1="12" y2="12"/><line x1="19" x2="5" y1="18" y2="18"/></svg>`;
-const alignRight = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="21" x2="3" y1="6" y2="6"/><line x1="21" x2="9" y1="12" y2="12"/><line x1="21" x2="7" y1="18" y2="18"/></svg>`;
+const bold = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 12h9a4 4 0 0 1 0 8H7a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1h7a4 4 0 0 1 0 8"/></svg>`;
+const italic = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="19" x2="10" y1="4" y2="4"/><line x1="14" x2="5" y1="20" y2="20"/><line x1="15" x2="9" y1="4" y2="20"/></svg>`;
+const underline = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 4v6a6 6 0 0 0 12 0V4"/><line x1="4" x2="20" y1="20" y2="20"/></svg>`;
+const bookmark = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17 3a2 2 0 0 1 2 2v15a1 1 0 0 1-1.496.868l-4.512-2.578a2 2 0 0 0-1.984 0l-4.512 2.578A1 1 0 0 1 5 20V5a2 2 0 0 1 2-2z"/></svg>`;
+const list = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 5h.01"/><path d="M3 12h.01"/><path d="M3 19h.01"/><path d="M8 5h13"/><path d="M8 12h13"/><path d="M8 19h13"/></svg>`;
+const grid = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M3 9h18"/><path d="M3 15h18"/><path d="M9 3v18"/><path d="M15 3v18"/></svg>`;
+const cards = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="7" height="7" x="3" y="3" rx="1"/><rect width="7" height="7" x="14" y="3" rx="1"/><rect width="7" height="7" x="14" y="14" rx="1"/><rect width="7" height="7" x="3" y="14" rx="1"/></svg>`;
 const avatarImage = `data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%23cbd5e1'/%3E%3Ccircle cx='32' cy='24' r='11' fill='%23475569'/%3E%3Cpath d='M10 64c0-12 10-22 22-22s22 10 22 22z' fill='%23475569'/%3E%3C/svg%3E`;
 const fileText = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M10 9H8"/><path d="M16 13H8"/><path d="M16 17H8"/></svg>`;
 const terminal = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="4 17 10 11 4 5"/><line x1="12" x2="20" y1="19" y2="19"/></svg>`;
@@ -2334,19 +2338,47 @@ Done in 2.8s using pnpm v10.18.0</code></pre>
       html: `<button type="button" class="toggle" aria-pressed="false" data-demo-toggle>Bold</button>`
     },
     {
-      title: "Variants",
+      title: "Outline",
       html: `<div style="display: flex; flex-wrap: wrap; gap: 0.5rem">
-  <button type="button" class="toggle" aria-pressed="false" data-demo-toggle>Bold</button>
-  <button type="button" class="toggle" data-variant="outline" aria-pressed="true" data-demo-toggle>Italic</button>
-  <button type="button" class="toggle" data-variant="outline" aria-pressed="false" disabled>Underline</button>
+  <button type="button" class="toggle" data-variant="outline" aria-pressed="true" data-demo-toggle>${italic}Italic</button>
+  <button type="button" class="toggle" data-variant="outline" aria-pressed="false" data-demo-toggle>${bold}Bold</button>
+  <button type="button" class="toggle" data-variant="outline" aria-pressed="false" data-demo-toggle>${underline}Underline</button>
+</div>`
+    },
+    {
+      title: "With text",
+      html: `<div style="display: flex; flex-wrap: wrap; gap: 0.5rem">
+  <button type="button" class="toggle" aria-pressed="false" data-demo-toggle>${bookmark}Bookmark</button>
+  <button type="button" class="toggle" data-variant="outline" data-size="sm" aria-pressed="true" data-demo-toggle>${bookmark}Saved</button>
+</div>`
+    },
+    {
+      title: "Icon only",
+      html: `<div style="display: flex; flex-wrap: wrap; gap: 0.5rem">
+  <button type="button" class="toggle" data-size="sm" aria-pressed="false" aria-label="Toggle bold" data-demo-toggle>${bold}</button>
+  <button type="button" class="toggle" aria-pressed="true" aria-label="Toggle italic" data-demo-toggle>${italic}</button>
+  <button type="button" class="toggle" data-variant="outline" data-size="lg" aria-pressed="false" aria-label="Toggle underline" data-demo-toggle>${underline}</button>
 </div>`
     },
     {
       title: "Sizes",
       html: `<div style="display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem">
-  <button type="button" class="toggle" data-size="sm" aria-pressed="false" data-demo-toggle>Small</button>
-  <button type="button" class="toggle" aria-pressed="false" data-demo-toggle>Default</button>
-  <button type="button" class="toggle" data-size="lg" aria-pressed="false" data-demo-toggle>Large</button>
+  <button type="button" class="toggle" data-variant="outline" data-size="sm" aria-pressed="false" data-demo-toggle>Small</button>
+  <button type="button" class="toggle" data-variant="outline" aria-pressed="false" data-demo-toggle>Default</button>
+  <button type="button" class="toggle" data-variant="outline" data-size="lg" aria-pressed="false" data-demo-toggle>Large</button>
+</div>`
+    },
+    {
+      title: "Disabled",
+      html: `<div style="display: flex; flex-wrap: wrap; gap: 0.5rem">
+  <button type="button" class="toggle" aria-pressed="false" disabled>Disabled</button>
+  <button type="button" class="toggle" data-variant="outline" aria-pressed="true" disabled>Disabled</button>
+</div>`
+    },
+    {
+      title: "Right-to-left",
+      html: `<div dir="rtl" lang="ar" style="display: flex; flex-wrap: wrap; gap: 0.5rem">
+  <button type="button" class="toggle" data-variant="outline" data-size="sm" aria-pressed="false" data-demo-toggle>${bookmark}إشارة مرجعية</button>
 </div>`
     }
   ],
@@ -2360,19 +2392,76 @@ Done in 2.8s using pnpm v10.18.0</code></pre>
 </div>`
     },
     {
-      title: "Joined",
-      html: `<div class="toggle-group" role="group" aria-label="Text alignment" data-spacing="joined">
-  <button type="button" class="toggle" aria-pressed="true" data-demo-toggle aria-label="Align left">${alignLeft}</button>
-  <button type="button" class="toggle" aria-pressed="false" data-demo-toggle aria-label="Align center">${alignCenter}</button>
-  <button type="button" class="toggle" aria-pressed="false" data-demo-toggle aria-label="Align right">${alignRight}</button>
+      title: "Outline",
+      html: `<div class="toggle-group" role="group" aria-label="Text styles" data-variant="outline">
+  <button type="button" class="toggle" aria-pressed="true" aria-label="Toggle bold" data-demo-toggle>${bold}</button>
+  <button type="button" class="toggle" aria-pressed="false" aria-label="Toggle italic" data-demo-toggle>${italic}</button>
+  <button type="button" class="toggle" aria-pressed="false" aria-label="Toggle underline" data-demo-toggle>${underline}</button>
 </div>`
     },
     {
-      title: "Vertical outline",
-      html: `<div class="toggle-group" role="group" aria-label="View density" data-orientation="vertical" data-variant="outline" data-size="sm">
-  <button type="button" class="toggle" aria-pressed="true" data-demo-toggle>Compact</button>
-  <button type="button" class="toggle" aria-pressed="false" data-demo-toggle>Default</button>
-  <button type="button" class="toggle" aria-pressed="false" data-demo-toggle>Comfortable</button>
+      title: "Sizes",
+      html: `<div style="display: grid; gap: 0.75rem; justify-items: start">
+  <div class="toggle-group" role="group" aria-label="Small alignment" data-variant="outline" data-size="sm">
+    <button type="button" class="toggle" aria-pressed="true" data-demo-toggle>Top</button>
+    <button type="button" class="toggle" aria-pressed="false" data-demo-toggle>Bottom</button>
+  </div>
+  <div class="toggle-group" role="group" aria-label="Default alignment" data-variant="outline">
+    <button type="button" class="toggle" aria-pressed="true" data-demo-toggle>Top</button>
+    <button type="button" class="toggle" aria-pressed="false" data-demo-toggle>Bottom</button>
+  </div>
+  <div class="toggle-group" role="group" aria-label="Large alignment" data-variant="outline" data-size="lg">
+    <button type="button" class="toggle" aria-pressed="true" data-demo-toggle>Top</button>
+    <button type="button" class="toggle" aria-pressed="false" data-demo-toggle>Bottom</button>
+  </div>
+</div>`
+    },
+    {
+      title: "Spacing",
+      html: `<div style="display: grid; gap: 0.75rem; justify-items: start">
+  <div class="toggle-group" role="group" aria-label="Default spacing" data-variant="outline" data-spacing="default">
+    <button type="button" class="toggle" aria-pressed="true" data-demo-toggle>Bold</button>
+    <button type="button" class="toggle" aria-pressed="false" data-demo-toggle>Italic</button>
+    <button type="button" class="toggle" aria-pressed="false" data-demo-toggle>Underline</button>
+  </div>
+  <div class="toggle-group" role="group" aria-label="Joined spacing" data-variant="outline" data-spacing="joined">
+    <button type="button" class="toggle" aria-pressed="true" data-demo-toggle>Bold</button>
+    <button type="button" class="toggle" aria-pressed="false" data-demo-toggle>Italic</button>
+    <button type="button" class="toggle" aria-pressed="false" data-demo-toggle>Underline</button>
+  </div>
+</div>`
+    },
+    {
+      title: "Vertical",
+      html: `<div style="display: flex; flex-wrap: wrap; align-items: flex-start; gap: 1rem">
+  <div class="toggle-group" role="group" aria-label="Text formatting vertical" data-variant="outline" data-orientation="vertical">
+    <button type="button" class="toggle" aria-pressed="true" aria-label="Toggle bold" data-demo-toggle>${bold}</button>
+    <button type="button" class="toggle" aria-pressed="true" aria-label="Toggle italic" data-demo-toggle>${italic}</button>
+    <button type="button" class="toggle" aria-pressed="false" aria-label="Toggle underline" data-demo-toggle>${underline}</button>
+  </div>
+  <div class="toggle-group" role="group" aria-label="View density" data-orientation="vertical" data-spacing="joined" data-variant="outline" data-size="sm">
+    <button type="button" class="toggle" aria-pressed="true" data-demo-toggle>Compact</button>
+    <button type="button" class="toggle" aria-pressed="false" data-demo-toggle>Default</button>
+    <button type="button" class="toggle" aria-pressed="false" data-demo-toggle>Comfortable</button>
+  </div>
+</div>`
+    },
+    {
+      title: "Disabled",
+      html: `<div class="toggle-group" role="group" aria-label="Disabled formatting" data-variant="outline">
+  <button type="button" class="toggle" aria-pressed="false" disabled>Bold</button>
+  <button type="button" class="toggle" aria-pressed="true" disabled>Italic</button>
+  <button type="button" class="toggle" aria-pressed="false" disabled>Underline</button>
+</div>`
+    },
+    {
+      title: "Right-to-left",
+      html: `<div dir="rtl" lang="ar">
+  <div class="toggle-group" role="group" aria-label="عرض المحتوى" data-variant="outline">
+    <button type="button" class="toggle" aria-pressed="true" aria-label="قائمة" data-demo-toggle>${list}</button>
+    <button type="button" class="toggle" aria-pressed="false" aria-label="شبكة" data-demo-toggle>${grid}</button>
+    <button type="button" class="toggle" aria-pressed="false" aria-label="بطاقات" data-demo-toggle>${cards}</button>
+  </div>
 </div>`
     }
   ],

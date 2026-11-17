@@ -618,6 +618,9 @@ Notes:
   selects the indeterminate state through `:indeterminate`.
 - Toggle group `data-variant` and `data-size` apply to children that do not
   declare their own attribute.
+- A joined toggle group collapses the shared borders and rounds only the outer
+  corners; the focused item paints above its siblings so its ring is not
+  clipped at the seam.
 - Menubar, dropdown-menu and context-menu items share the internal `menu`
   primitive. It styles `[role="menu"]`, the menu item roles, headings,
   separators, shortcuts and indicators.

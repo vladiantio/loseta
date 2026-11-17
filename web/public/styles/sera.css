@@ -2821,6 +2821,16 @@
         border-radius: 0;
       }
     }
+
+    /* Joined outline controls share one shadow on the group instead of an
+       edge on every item. */
+    &[data-spacing='joined'][data-variant='outline'] {
+      box-shadow: var(--shadow-xs);
+    }
+
+    &[data-spacing='joined'] > .toggle:not(:focus-visible) {
+      box-shadow: none;
+    }
   }
 
   .toggle-group[data-spacing='joined']:not([data-orientation='vertical'])

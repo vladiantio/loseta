@@ -418,6 +418,41 @@ test("toggle demo flips aria-pressed", async ({ page }) => {
   await expect(toggle).toHaveAttribute("aria-pressed", "false");
 });
 
+test("joined toggle group collapses borders and lifts the focused item", async ({
+  page
+}) => {
+  await page.goto("/docs/components/toggle-group");
+  const group = page.getByRole("group", { name: "Joined spacing" });
+  const middle = group.getByRole("button", { name: "Italic" });
+
+  await expect(middle).toHaveCSS("border-inline-start-width", "0px");
+
+  await middle.focus();
+  const stacking = await middle.evaluate((element) => {
+    const style = getComputedStyle(element);
+    return { position: style.position, zIndex: style.zIndex };
+  });
+
+  expect(stacking.position).toBe("relative");
+  expect(Number(stacking.zIndex)).toBeGreaterThan(0);
+});
+
+test("joined outline toggle group carries a single shadow", async ({ page }) => {
+  await page.goto("/docs/components/toggle-group");
+  await page.locator("[data-style-select]").selectOption("vega");
+  await page.waitForFunction(() =>
+    [...document.styleSheets].some(
+      (sheet) => sheet.href && sheet.href.endsWith("/styles/vega.css")
+    )
+  );
+
+  const group = page.getByRole("group", { name: "Joined spacing" });
+  const middle = group.getByRole("button", { name: "Italic" });
+
+  await expect(middle).toHaveCSS("box-shadow", "none");
+  await expect(group).toHaveCSS("box-shadow", /rgb/);
+});
+
 test("checkbox demo marks the table select-all control indeterminate", async ({
   page
 }) => {

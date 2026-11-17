@@ -155,9 +155,9 @@ const notesBy: Record<string, string> = {
   tabs:
     "Requires JavaScript to switch aria-selected and the hidden attribute. CSS styles the visual states.",
   toggle:
-    "Use a button with aria-pressed=\"true|false\". CSS styles aria-pressed, not a data-state alias. data-variant and data-size are optional.",
+    "Use a button with aria-pressed=\"true|false\". CSS styles aria-pressed, not a data-state alias. data-variant=\"outline\" and data-size=\"sm|lg\" are optional. Pair an icon with visible text; icon-only toggles need an aria-label and a decorative SVG with aria-hidden=\"true\".",
   "toggle-group":
-    "Wrap toggles in role=\"group\" with an accessible label. Each toggle carries its own aria-pressed. Single-choice selection belongs to a radio group; data-spacing=\"joined\" merges the edges.",
+    "Wrap toggles in role=\"group\" with an accessible label. Each toggle carries its own aria-pressed. Single-choice selection belongs to a radio group. Group data-variant and data-size apply to children without their own attribute; data-spacing=\"joined\" collapses the shared borders and rounds only the outer corners.",
   trace:
     "A native details disclosure. Put the line in summary with data-slot icon, title and status, and the detail in data-slot body. Use data-variant=\"error\" or \"success\" on status; aria-busy=\"true\" marks a running step. Nested traces compose inside the body.",
   tooltip:

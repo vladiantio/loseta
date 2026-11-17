@@ -1,6 +1,7 @@
 /* Toggle Group */
 @layer loseta.components {
   .toggle-group {
+    isolation: isolate;
     display: flex;
     width: fit-content;
     align-items: center;
@@ -12,6 +13,13 @@
 
     > .toggle {
       flex-shrink: 0;
+    }
+
+    /* A joined group collapses the shared borders, so the focused item has to
+       paint above its neighbours or the ring is clipped at the seam. */
+    > .toggle:focus-visible {
+      position: relative;
+      z-index: 1;
     }
   }
 }

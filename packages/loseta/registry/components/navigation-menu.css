@@ -14,7 +14,7 @@
       display: flex;
     }
 
-    :is(a, button) {
+    > ul > li > :is(a, button) {
       display: inline-flex;
       align-items: center;
       justify-content: center;
@@ -27,9 +27,26 @@
       }
     }
 
+    > ul > li > button > svg:last-child {
+      pointer-events: none;
+      flex-shrink: 0;
+      transition-property: rotate;
+      transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+      transition-duration: 150ms;
+    }
+
+    > ul > li > button[aria-expanded='true'] > svg:last-child {
+      rotate: 180deg;
+    }
+
     [data-slot='title'],
     [data-slot='description'] {
       display: block;
+    }
+
+    [data-popover] [data-slot='icon'] {
+      display: inline-flex;
+      flex-shrink: 0;
     }
   }
 }

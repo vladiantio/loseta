@@ -436,10 +436,10 @@ on an RTL page; its header follows the page direction.
 | Collapsible | `.collapsible` | Native `<details>` with a `<summary>` trigger and content directly after `summary`. | `[open]`; `inert` for disabled items |
 | Combobox | `.combobox` | Input with `role="combobox"` and a `[data-popover]` panel containing `[role="listbox"]`; optional `[data-slot="clear"]`. | Listbox `aria-multiselectable="true"` for multiple; placement attributes on the panel |
 | Command | `.command` | Search field composed with input-group and a `[role="listbox"]` with groups, labels, shortcuts and an empty state. | `[data-slot="shortcut"]`, `[data-slot="empty"]`; no surface |
-| Context menu | `.context-menu` | `[role="menu"]` panel with menu items, headings, separators and shortcuts. | `--context-x`, `--context-y` on the panel; `aria-hidden="true|false"` |
+| Context menu | `.context-menu` | `[role="menu"]` panel with menu items, checkable items, headings, separators and shortcuts; nested menus use a `role="none"` wrapper around the trigger and its `[data-popover]` panel. | `--context-x`, `--context-y` on the panel; `aria-hidden="true|false"`; `aria-checked` on checkable items; the panel scrolls near the viewport edge |
 | Dialog | `.dialog` | Native `<dialog>` containing a panel; panel contains `header`, title, description, `section`, `footer` and a close button or `form[method="dialog"]`. Section content scrolls between a fixed header and footer. | Footer `data-align="start"` |
 | Drawer | `.drawer` | Native `<dialog>` with `data-side` and a panel containing `[data-slot="handle"]`, `header`, `section` and `footer`. | `data-side="block-start|block-end"`; `data-size="default|sm|lg"` |
-| Dropdown menu | `.dropdown-menu` | Trigger, `[data-popover]` panel, `[role="menu"]`, menu item roles, `[role="separator"]`, `[role="heading"]`, shortcut and indicator slots. | Item `data-variant="destructive"`; default by omission; placement attributes; `data-inset`; `data-rtl-flip` |
+| Dropdown menu | `.dropdown-menu` | Trigger, `[data-popover]` panel, `[role="menu"]`, menu item roles, `[role="separator"]`, `[role="heading"]`, shortcut and indicator slots; nested menus use a `role="none"` wrapper around the sub-trigger and its panel. | Item `data-variant="destructive"`; default by omission; placement attributes; `data-inset`; `data-rtl-flip`; `aria-checked` on checkable items |
 | Empty | `.empty` | `header` with optional `figure` (a single SVG becomes the icon box; image, avatar or avatar-group markup is used as-is), title (`h2`–`h4`) and description `p`; `section`; `footer`. | — |
 | Field | `.field`, `.fieldset` | Label or legend, control, content `section` for a label/description pair, description `p`, error `[role="alert"]`, group/radiogroup container and `.field-separator` with an `hr`. | Legend `data-variant="label|legend"`; field `data-orientation="horizontal|responsive"`; group `data-slot="checkbox-group|radio-group"` |
 | Hover card | `.hover-card` | Trigger and `[data-popover]` panel; CSS-only open on hover and focus-within. | Placement attributes; no open state |
@@ -450,11 +450,11 @@ on an RTL page; its header follows the page direction.
 | Kbd | `.kbd` | Inline shortcut text or SVG. | — |
 | Label | `.label` | Native `<label>`; also supported as a direct label inside `.field`. A label wrapping a `.field` becomes a selectable card. | — |
 | Marker | `.marker` | `[data-slot="icon"]` and `[data-slot="content"]`. | `data-variant="default|separator|border"` |
-| Menubar | `.menubar`, `.menubar-item` | `role="menubar"`, `role="none"` item wrappers, `role="menuitem"` triggers with `aria-haspopup`/`aria-expanded`, and `[data-popover]` submenus with `role="menu"`. | Placement attributes on submenu panels |
+| Menubar | `.menubar`, `.menubar-item` | `role="menubar"`, `role="none"` item wrappers, `role="menuitem"` triggers with `aria-haspopup`/`aria-expanded`, and `[data-popover]` submenus with `role="menu"`. | Placement attributes on submenu panels; nested menus use a `role="none"` wrapper around the sub-trigger and its panel |
 | Message | `.message`, `.message-group` | Row with `[data-slot="avatar"]` and `[data-slot="content"]` containing header, bubble and footer slots. | `data-align="start|end"` |
 | Message scroller | `.message-scroller` | `.message-scroller-viewport` scroll container, `[data-slot="content"]` and optional `[data-slot="jump"]` button. | Consumer-sized; `hidden` toggles the jump button |
 | Native select | `.native-select` | Native `<select>`. | `data-size="sm"`; default by omission |
-| Navigation menu | `.navigation-menu` | `nav` with `ul`/`li`, trigger buttons or links, and `[data-popover]` panels with link lists and `[data-slot="title"]`/`[data-slot="description"]`. | Placement attributes on panels |
+| Navigation menu | `.navigation-menu` | `nav` with `ul`/`li`, trigger buttons or links, and `[data-popover]` panels with link lists and `[data-slot="icon"]`/`[data-slot="title"]`/`[data-slot="description"]` inside links. | Placement attributes on panels; the trigger chevron rotates while `aria-expanded="true"` |
 | Pagination | `.pagination` | `nav` with `ul`/`li`; links compose with `.btn`; `[data-slot="ellipsis"]` and `[data-slot="label"]` parts. | `aria-current="page"` on the active link |
 | Popover | `.popover` | Trigger with `aria-haspopup="dialog"`, `aria-expanded` and `aria-controls`, plus a `[data-popover]` `role="dialog"` panel named by `aria-labelledby`; optional header, title and description. | Placement attributes |
 | Progress | `.progress` | Native `<progress>` with fallback text. | `value`/`max`; omit `value` for indeterminate |
@@ -516,7 +516,7 @@ The public slot vocabulary is shared across components:
 - `data-slot="avatar"`, `data-slot="content"`, `data-slot="header"`, `data-slot="footer"` — message.
 - `data-slot="media"`, `data-slot="actions"`, `data-slot="trigger"` — attachment; title and description use the shared slots.
 - `data-slot="reactions"`, `data-slot="reaction"` — bubble.
-- `data-slot="icon"` — marker and trace.
+- `data-slot="icon"` — marker, trace and navigation menu.
 - `data-slot="progress"`, `data-slot="progress-label"`, `data-slot="item"`, `data-slot="choices"`, `data-slot="error"`, `data-slot="skip"` — questionnaire; `data-slot="label"` and `data-slot="text"` mark choice text.
 - `data-slot="status"`, `data-slot="body"`, `data-slot="source"` — trace.
 - `data-slot="jump"` — message scroller.
@@ -549,7 +549,9 @@ control keeps its tab order; `data-align` and `order` position them visually.
 Physical sides (`left`/`right`) and logical sides (`inline-start`/`inline-end`)
 are both supported. `center` alignment uses a translate offset. `data-inset`
 adds leading padding to menu items and headings; `data-rtl-flip` rotates an
-icon 180 degrees in RTL contexts.
+icon 180 degrees in RTL contexts. Nested menu panels use
+`data-side="inline-end"` so they open away from the parent menu in both
+directions.
 
 Sheets use `inline-start`/`inline-end`; drawers use `block-start`/`block-end`.
 `data-size` on a sheet or drawer sets its width or height. Context menus are
@@ -623,13 +625,22 @@ Notes:
   clipped at the seam.
 - Menubar, dropdown-menu and context-menu items share the internal `menu`
   primitive. It styles `[role="menu"]`, the menu item roles, headings,
-  separators, shortcuts and indicators.
+  separators, shortcuts and indicators. A nested menu wraps its sub-trigger and
+  `[data-popover]` panel in a `role="none"` element; the wrapper is the
+  positioning anchor and the sub-trigger is highlighted while
+  `aria-expanded="true"`. A menu surface that contains a submenu keeps its
+  overflow visible so the nested panel is not clipped; keep those menus short
+  instead of relying on their scroll container.
 - Hover cards have no open state: CSS shows the panel on `:hover` and
   `:focus-within`. They are not a substitute for a popover that needs explicit
   dismissal.
 - Context menus use `aria-hidden` on the panel. The consumer sets
   `--context-x` and `--context-y` and manages focus; the CSS does not track the
-  pointer.
+  pointer. The panel scrolls when its content would extend past the bottom of
+  the viewport; choose coordinates that leave room for the requested side.
+- Nested menu panels are absolutely positioned against their `role="none"`
+  wrapper, so the wrapper needs no JavaScript hook beyond the trigger's
+  `aria-expanded` and the panel's `aria-hidden`.
 - The internal `listbox` primitive styles `[role="listbox"]`, `[role="option"]`,
   `[role="group"]`, group labels and the empty state. Consumers set
   `aria-selected`, `data-highlighted` and `aria-disabled`; the primitive does
@@ -780,7 +791,8 @@ progress sweep slow down instead of stopping. This remains a known gap.
   arrow-key navigation; the consumer also owns the right-click handler and the
   `--context-x`/`--context-y` coordinates.
 - Menubars need roving focus, arrow keys and `aria-expanded` on each submenu
-  trigger. Submenu panels use `[role="menu"]` and its item roles.
+  trigger. Submenu panels use `[role="menu"]` and its item roles, and nested
+  panels open with `data-side="inline-end"`.
 - Navigation menus need an accessible `nav` label, `aria-expanded` and
   `aria-controls` on panel triggers, and ordinary links inside panels. Keyboard
   navigation and the mobile layout are consumer JavaScript; there is no
@@ -862,12 +874,12 @@ or `navigation-menu` also installs `popover-primitive`; installing
 installed automatically. Notable optional pairs are field with its form
 controls, button with spinner for loading states, button group with
 button/input/select/popover/dropdown-menu, table with
-checkbox/badge/button/dropdown-menu, dropdown-menu with kbd, breadcrumb with
-dropdown-menu, pagination with button, sheet and drawer with button, input
-group with input/textarea/button/field/kbd/spinner, combobox with button,
-command with dialog-shell/popover-primitive/card, carousel and chart with card,
-sidebar with sheet, toast with button, and code block with button for copy and
-wrap controls.
+checkbox/badge/button/dropdown-menu, dropdown-menu with button/avatar,
+breadcrumb with dropdown-menu, pagination with button, sheet and drawer with
+button, input group with input/textarea/button/field/kbd/spinner, combobox
+with button, command with dialog-shell/popover-primitive/card, carousel and
+chart with card, sidebar with sheet, toast with button, and code block with
+button for copy and wrap controls.
 
 The `menu` primitive styles every `[role="menu"]` in the project. It owns the
 shared item, heading, separator, shortcut and indicator rules; `dropdown-menu`,

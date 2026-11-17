@@ -1074,7 +1074,7 @@
         "menu"
       ],
       "optionalDependencies": [
-        "kbd",
+        "avatar",
         "button"
       ],
       "files": [
@@ -3246,9 +3246,7 @@
         "menu",
         "popover-primitive"
       ],
-      "optionalDependencies": [
-        "kbd"
-      ],
+      "optionalDependencies": [],
       "files": [
         {
           "path": "components/menubar.css",

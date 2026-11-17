@@ -6,7 +6,11 @@
     top: var(--context-y, 0);
     z-index: 50;
     display: flex;
+    max-block-size: calc(100dvh - var(--context-y, 0px) - 0.5rem);
     flex-direction: column;
+    overflow-x: hidden;
+    overflow-y: auto;
+    overscroll-behavior: contain;
     outline-style: none;
 
     @media (forced-colors: active) {
@@ -17,6 +21,10 @@
     &[aria-hidden='true'] {
       visibility: hidden;
       opacity: 0%;
+    }
+
+    &:has([role='none'] > [data-popover]) {
+      overflow: visible;
     }
 
     :is([role='menuitem'], [role='menuitemcheckbox'], [role='menuitemradio']) {

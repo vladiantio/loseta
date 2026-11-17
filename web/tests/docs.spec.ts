@@ -1231,28 +1231,63 @@ test("popover examples toggle, align and mirror placement", async ({ page }) => 
 
 test("context menu opens at the pointer and closes with Escape", async ({ page }) => {
   await page.goto("/docs/components/context-menu");
-  const menu = page.locator(".context-menu");
+  const area = page.locator("[data-demo-context]").first();
+  const menu = area.locator(".context-menu");
 
   await expect(menu).toHaveAttribute("aria-hidden", "true");
-  await page.locator("[data-demo-context]").click({ button: "right" });
+  await area.click({ button: "right" });
   await expect(menu).toHaveAttribute("aria-hidden", "false");
   await expect(menu).toBeVisible();
+  await expect(menu.getByRole("menuitem", { name: "Profile" })).toBeVisible();
 
   await page.keyboard.press("Escape");
   await expect(menu).toHaveAttribute("aria-hidden", "true");
 });
 
+test("context menu opens a nested panel beside its trigger", async ({ page }) => {
+  await page.goto("/docs/components/context-menu");
+  const example = page
+    .locator("section.example")
+    .filter({ has: page.locator(".example-title", { hasText: /^Submenu$/ }) });
+  const area = example.locator("[data-demo-context]");
+
+  await area.click({ button: "right" });
+  const menu = area.locator(".context-menu");
+  const trigger = menu.locator('[role="menuitem"][aria-haspopup="menu"]', {
+    hasText: "More tools"
+  });
+  await trigger.click();
+
+  const panel = page.locator("#demo-context-submenu-more");
+  await expect(panel).toHaveAttribute("aria-hidden", "false");
+  await expect(trigger).toHaveAttribute("aria-expanded", "true");
+  await expect(menu).toHaveAttribute("aria-hidden", "false");
+
+  const triggerBox = await trigger.boundingBox();
+  const panelBox = await panel.boundingBox();
+  if (triggerBox && panelBox) {
+    expect(panelBox.x).toBeGreaterThanOrEqual(
+      triggerBox.x + triggerBox.width - 1
+    );
+  }
+
+  await page.keyboard.press("Escape");
+  await expect(panel).toHaveAttribute("aria-hidden", "true");
+  await expect(trigger).toHaveAttribute("aria-expanded", "false");
+});
+
 test("menubar switches between menus", async ({ page }) => {
   await page.goto("/docs/components/menubar");
-  const items = page.locator(".menubar-item");
-  const file = items.nth(0).locator("[data-popover]");
-  const edit = items.nth(1).locator("[data-popover]");
+  const menubar = page.locator(".menubar").first();
+  const items = menubar.locator(".menubar-item");
+  const file = items.nth(0).locator("[data-popover]").first();
+  const edit = items.nth(1).locator("[data-popover]").first();
 
-  await page.getByRole("menuitem", { name: "File" }).click();
+  await menubar.getByRole("menuitem", { name: "File", exact: true }).click();
   await expect(file).toHaveAttribute("aria-hidden", "false");
   await expect(edit).toHaveAttribute("aria-hidden", "true");
 
-  await page.getByRole("menuitem", { name: "Edit" }).click();
+  await menubar.getByRole("menuitem", { name: "Edit", exact: true }).click();
   await expect(file).toHaveAttribute("aria-hidden", "true");
   await expect(edit).toHaveAttribute("aria-hidden", "false");
 
@@ -1260,33 +1295,116 @@ test("menubar switches between menus", async ({ page }) => {
   await expect(edit).toHaveAttribute("aria-hidden", "true");
 });
 
-test("navigation menu switches between panels", async ({ page }) => {
-  await page.goto("/docs/components/navigation-menu");
-  const products = page.locator("#nav-products");
-  const resources = page.locator("#nav-resources");
+test("menubar submenus keep the parent open and use menu typography", async ({
+  page
+}) => {
+  await page.goto("/docs/components/menubar");
+  const menubar = page.locator(".menubar").first();
+  const file = menubar
+    .locator(".menubar-item")
+    .first()
+    .locator("[data-popover]")
+    .first();
 
-  await page.getByRole("button", { name: /Products/ }).click();
-  await expect(products).toHaveAttribute("aria-hidden", "false");
-  await expect(resources).toHaveAttribute("aria-hidden", "true");
+  await menubar.getByRole("menuitem", { name: "File", exact: true }).click();
+  await menubar.getByRole("menuitem", { name: "Share", exact: true }).click();
 
-  await page.getByRole("button", { name: /Resources/ }).click();
-  await expect(products).toHaveAttribute("aria-hidden", "true");
-  await expect(resources).toHaveAttribute("aria-hidden", "false");
+  const submenu = page.locator("#demo-menubar-file-share");
+  const item = submenu.getByRole("menuitem", { name: "Email link" });
+  await expect(submenu).toHaveAttribute("aria-hidden", "false");
+  await expect(file).toHaveAttribute("aria-hidden", "false");
+  await expect(item).toBeVisible();
+  await expect(item).toHaveCSS("font-weight", "400");
 
   await page.keyboard.press("Escape");
-  await expect(resources).toHaveAttribute("aria-hidden", "true");
+  await expect(submenu).toHaveAttribute("aria-hidden", "true");
+  await expect(file).toHaveAttribute("aria-hidden", "true");
+});
+
+test("navigation menu switches between panels", async ({ page }) => {
+  await page.goto("/docs/components/navigation-menu");
+  const nav = page.locator(".navigation-menu").first();
+  const gettingStarted = page.locator("#demo-nav-starting");
+  const components = page.locator("#demo-nav-components");
+
+  await nav.getByRole("button", { name: /Getting started/ }).click();
+  await expect(gettingStarted).toHaveAttribute("aria-hidden", "false");
+  await expect(components).toHaveAttribute("aria-hidden", "true");
+
+  await nav.getByRole("button", { name: /^Components$/ }).click();
+  await expect(gettingStarted).toHaveAttribute("aria-hidden", "true");
+  await expect(components).toHaveAttribute("aria-hidden", "false");
+
+  await page.keyboard.press("Escape");
+  await expect(components).toHaveAttribute("aria-hidden", "true");
+});
+
+test("navigation menu lays out an icon link beside its title", async ({ page }) => {
+  await page.goto("/docs/components/navigation-menu");
+  const example = page
+    .locator("section.example")
+    .filter({ has: page.locator(".example-title", { hasText: /^With icons$/ }) });
+  await example.getByRole("button", { name: /Status/ }).click();
+
+  const link = example.locator("#demo-nav-status").getByRole("link", {
+    name: "Backlog"
+  });
+  await expect(link).toHaveCSS("display", "flex");
+  await expect(link.locator("[data-slot='icon'] svg")).toHaveCSS("width", "16px");
 });
 
 test("dropdown menu still opens after the menu primitive refactor", async ({ page }) => {
   await page.goto("/docs/components/dropdown-menu");
-  const panel = page.locator(".dropdown-menu [data-popover]");
+  const dropdown = page.locator(".dropdown-menu").first();
+  const panel = dropdown.locator("[data-popover]").first();
 
-  await page.getByRole("button", { name: "Open menu" }).click();
+  await dropdown.getByRole("button", { name: "Open menu" }).click();
   await expect(panel).toHaveAttribute("aria-hidden", "false");
-  await expect(page.getByRole("menuitem", { name: "Profile" })).toBeVisible();
+  await expect(dropdown.getByRole("menuitem", { name: "Profile" })).toBeVisible();
 
   await page.getByRole("heading", { level: 1 }).click();
   await expect(panel).toHaveAttribute("aria-hidden", "true");
+});
+
+test("dropdown menu nested submenus keep their ancestors open", async ({ page }) => {
+  await page.goto("/docs/components/dropdown-menu");
+  const example = page
+    .locator("section.example")
+    .filter({ has: page.locator(".example-title", { hasText: /^Submenu$/ }) });
+
+  await example.getByRole("button", { name: "Open team menu" }).click();
+  const panel = example.locator("[data-popover]").first();
+  const invite = panel.getByRole("menuitem", { name: "Invite users" });
+  await invite.click();
+
+  const submenu = page.locator("#demo-dropdown-submenu-invite");
+  await expect(submenu).toHaveAttribute("aria-hidden", "false");
+  await expect(panel).toHaveAttribute("aria-hidden", "false");
+  await expect(invite).toHaveAttribute("aria-expanded", "true");
+
+  await submenu.getByRole("menuitem", { name: "More options" }).click();
+  const deeper = page.locator("#demo-dropdown-submenu-more");
+  await expect(deeper).toHaveAttribute("aria-hidden", "false");
+  await expect(submenu).toHaveAttribute("aria-hidden", "false");
+
+  await page.keyboard.press("Escape");
+  await expect(deeper).toHaveAttribute("aria-hidden", "true");
+  await expect(submenu).toHaveAttribute("aria-hidden", "true");
+  await expect(panel).toHaveAttribute("aria-hidden", "true");
+});
+
+test("menu checkbox indicators follow aria-checked", async ({ page }) => {
+  await page.goto("/docs/components/dropdown-menu");
+  const example = page
+    .locator("section.example")
+    .filter({ has: page.locator(".example-title", { hasText: /^Checkboxes$/ }) });
+
+  await example.getByRole("button", { name: "Open appearance" }).click();
+  const checked = example.getByRole("menuitemcheckbox", { name: "Status Bar" });
+  const unchecked = example.getByRole("menuitemcheckbox", { name: "Panel" });
+
+  await expect(checked.locator("[data-slot='indicator']")).toBeVisible();
+  await expect(unchecked.locator("[data-slot='indicator']")).toBeHidden();
 });
 
 test("select opens, selects an option and updates the trigger", async ({ page }) => {

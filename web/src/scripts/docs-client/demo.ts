@@ -58,23 +58,47 @@ const focusPopover = (popover: Element): void => {
   }
 };
 
-const closeAllPopovers = (except?: Element): void => {
-  document.querySelectorAll("[data-demo] [data-popover]").forEach((popover) => {
-    if (popover === except) return;
-    restorePopoverFocus(popover);
-    popover.setAttribute("aria-hidden", "true");
-  });
-  document.querySelectorAll("[data-demo] .context-menu").forEach((menu) => {
-    if (menu === except) return;
-    menu.setAttribute("aria-hidden", "true");
-  });
+const triggerPanel = (trigger: Element): Element | null => {
+  if (trigger.hasAttribute("data-demo-menu-trigger")) {
+    return trigger.parentElement?.querySelector("[data-popover]") ?? null;
+  }
+  if (trigger.hasAttribute("data-demo-select-trigger")) {
+    return trigger.closest(".select")?.querySelector("[data-popover]") ?? null;
+  }
+  if (trigger.hasAttribute("data-demo-combobox-input")) {
+    return trigger.closest(".combobox")?.querySelector("[data-popover]") ?? null;
+  }
+  return trigger.closest("[data-demo]")?.querySelector("[data-popover]") ?? null;
+};
+
+const syncTriggerState = (): void => {
   document
     .querySelectorAll(
       "[data-demo-trigger], [data-demo-menu-trigger], [data-demo-select-trigger], [data-demo-combobox-input]"
     )
     .forEach((trigger) => {
-      trigger.setAttribute("aria-expanded", "false");
+      const panel = triggerPanel(trigger);
+      trigger.setAttribute(
+        "aria-expanded",
+        panel?.getAttribute("aria-hidden") === "false" ? "true" : "false"
+      );
     });
+};
+
+const closeAllPopovers = (except?: Element): void => {
+  document.querySelectorAll("[data-demo] [data-popover]").forEach((popover) => {
+    if (popover === except) return;
+    // Keep the ancestor panels of an open submenu visible.
+    if (except && popover.contains(except)) return;
+    restorePopoverFocus(popover);
+    popover.setAttribute("aria-hidden", "true");
+  });
+  document.querySelectorAll("[data-demo] .context-menu").forEach((menu) => {
+    if (menu === except) return;
+    if (except && menu.contains(except)) return;
+    menu.setAttribute("aria-hidden", "true");
+  });
+  syncTriggerState();
 };
 
 const optionLabel = (option: Element): string =>

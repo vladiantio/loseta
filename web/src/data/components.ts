@@ -101,7 +101,7 @@ const notesBy: Record<string, string> = {
   "alert-dialog":
     "Uses native <dialog>. CSS only handles presentation; call showModal() and close() from your JavaScript. data-size=\"sm\" on the dialog or panel keeps the narrow layout centered. Put an icon or image in header > figure; data-variant=\"destructive\" tints the figure.",
   "dropdown-menu":
-    "Requires JavaScript for open/close and keyboard navigation. Toggle aria-hidden on [data-popover] and aria-expanded on the trigger.",
+    "Requires JavaScript for open/close and keyboard navigation. Toggle aria-hidden on [data-popover] and aria-expanded on the trigger. Group labels use role=\"heading\" with aria-level; checkable items use role=\"menuitemcheckbox\" or role=\"menuitemradio\" with aria-checked. A submenu wraps its trigger and nested [data-popover] in a role=\"none\" element; the trigger carries aria-haspopup=\"menu\" and aria-expanded and the panel opens with data-side=\"inline-end\". Shortcuts use [data-slot=\"shortcut\"], indicators [data-slot=\"indicator\"].",
   popover:
     "Requires JavaScript for open/close and focus management. The trigger uses aria-haspopup=\"dialog\", aria-expanded and aria-controls; toggle aria-hidden on the panel, name the role=\"dialog\" panel with aria-labelledby (add aria-describedby when it has a description), make the panel focusable with tabindex=\"-1\", move focus into it on open and restore the trigger on close.",
   pagination:
@@ -111,7 +111,7 @@ const notesBy: Record<string, string> = {
   separator:
     "Use <hr class=\"separator\"> for a semantic horizontal separator. For vertical use <div role=\"separator\" data-orientation=\"vertical\">; decorative separators use role=\"presentation\" or aria-hidden.",
   "context-menu":
-    "CSS cannot follow the pointer. The consumer sets --context-x and --context-y on the panel (physical left/top, even in RTL), toggles aria-hidden and manages roving focus. Items use role=\"menu\" and role=\"menuitem\".",
+    "CSS cannot follow the pointer. Set --context-x and --context-y on the panel (physical left/top, even in RTL), toggle aria-hidden and manage roving focus. The panel scrolls when it would leave the viewport. Items use role=\"menuitem\", role=\"menuitemcheckbox\" or role=\"menuitemradio\" with aria-checked. A nested menu wraps its trigger and [data-popover] panel in a role=\"none\" element; the sub-trigger carries aria-haspopup=\"menu\" and aria-expanded.",
   calendar:
     "A native table month grid. Day cells use aria-selected; day buttons use aria-current=\"date\" and aria-disabled. Month navigation, selection and keyboard grid movement are consumer JavaScript.",
   carousel:
@@ -145,9 +145,9 @@ const notesBy: Record<string, string> = {
   marker:
     "Use data-variant=\"separator\" for a divider and \"border\" for a trailing rule. The icon is decorative; put the status in the content text and use role=\"status\" for live updates.",
   menubar:
-    "role=\"menubar\" with .menubar-item wrappers (role=\"none\"). Each trigger is role=\"menuitem\" with aria-haspopup=\"menu\" and aria-expanded; submenus are [data-popover] panels with role=\"menu\". Roving focus and arrow keys are consumer JavaScript; there is no built-in mobile layout.",
+    "role=\"menubar\" with .menubar-item wrappers (role=\"none\"). Each trigger is role=\"menuitem\" with aria-haspopup=\"menu\" and aria-expanded; panels are [data-popover] with [role=\"menu\"]. Nested submenus use a role=\"none\" wrapper inside the menu and data-side=\"inline-end\" panels. Roving focus and arrow keys are consumer JavaScript; there is no built-in mobile layout.",
   "navigation-menu":
-    "nav > ul > li. Triggers use aria-expanded and aria-controls; panels are [data-popover] panels with links and title/description slots. Open/close and keyboard navigation are consumer JavaScript; there is no built-in mobile layout.",
+    "nav > ul > li. Triggers use aria-expanded and aria-controls; panels are [data-popover] with links. Link parts use [data-slot=\"icon\"], [data-slot=\"title\"] and [data-slot=\"description\"]. The trigger chevron rotates while expanded. Open/close and keyboard navigation are consumer JavaScript; there is no built-in mobile layout.",
   sheet:
     "Native <dialog> with data-side=\"inline-start|inline-end\". CSS only handles presentation; call showModal() and close(). Use header/section/footer inside the panel. data-size sm/default/lg changes the width.",
   spinner:

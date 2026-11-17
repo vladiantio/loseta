@@ -4,7 +4,176 @@
   <div class="context-menu" role="menu" aria-hidden="true" style="--context-x: 0px; --context-y: 0px">
     <button type="button" role="menuitem">Profile</button>
     <button type="button" role="menuitem">Billing</button>
+    <button type="button" role="menuitem">Team</button>
+    <button type="button" role="menuitem">Subscription</button>
+  </div>
+</div>
+
+<!-- Submenu -->
+<div style="display: grid; place-items: center; min-height: 10rem; border: 1px dashed var(--border); border-radius: var(--radius-lg)">
+  <p>Right-click anywhere in this area.</p>
+  <div class="context-menu" role="menu" aria-hidden="true" style="--context-x: 0px; --context-y: 0px">
+    <button type="button" role="menuitem">Copy <span data-slot="shortcut">⌘C</span></button>
+    <button type="button" role="menuitem">Cut <span data-slot="shortcut">⌘X</span></button>
+    <div role="none">
+      <button type="button" role="menuitem" aria-haspopup="menu" aria-expanded="false" aria-controls="demo-context-submenu-more">
+        More tools
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" data-rtl-flip><path d="m9 18 6-6-6-6"/></svg>
+      </button>
+      <div data-popover data-side="inline-end" id="demo-context-submenu-more" aria-hidden="true">
+        <div role="menu">
+          <button type="button" role="menuitem">Save page...</button>
+          <button type="button" role="menuitem">Create shortcut...</button>
+          <button type="button" role="menuitem">Name window...</button>
+          <div role="separator"></div>
+          <button type="button" role="menuitem">Developer tools</button>
+          <div role="separator"></div>
+          <button type="button" role="menuitem" data-variant="destructive">Delete</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Shortcuts -->
+<div style="display: grid; place-items: center; min-height: 10rem; border: 1px dashed var(--border); border-radius: var(--radius-lg)">
+  <p>Right-click anywhere in this area.</p>
+  <div class="context-menu" role="menu" aria-hidden="true" style="--context-x: 0px; --context-y: 0px">
+    <button type="button" role="menuitem">Back <span data-slot="shortcut">⌘[</span></button>
+    <button type="button" role="menuitem" disabled>Forward <span data-slot="shortcut">⌘]</span></button>
+    <button type="button" role="menuitem">Reload <span data-slot="shortcut">⌘R</span></button>
     <div role="separator"></div>
-    <button type="button" role="menuitem" data-variant="destructive">Delete account</button>
+    <button type="button" role="menuitem">Save <span data-slot="shortcut">⌘S</span></button>
+    <button type="button" role="menuitem">Save as... <span data-slot="shortcut">⇧⌘S</span></button>
+  </div>
+</div>
+
+<!-- Groups -->
+<div style="display: grid; place-items: center; min-height: 10rem; border: 1px dashed var(--border); border-radius: var(--radius-lg)">
+  <p>Right-click anywhere in this area.</p>
+  <div class="context-menu" role="menu" aria-hidden="true" style="--context-x: 0px; --context-y: 0px">
+    <div role="group" aria-label="File">
+      <div role="heading" aria-level="2">File</div>
+      <button type="button" role="menuitem">New file <span data-slot="shortcut">⌘N</span></button>
+      <button type="button" role="menuitem">Open file <span data-slot="shortcut">⌘O</span></button>
+      <button type="button" role="menuitem">Save <span data-slot="shortcut">⌘S</span></button>
+    </div>
+    <div role="separator"></div>
+    <div role="group" aria-label="Edit">
+      <div role="heading" aria-level="2">Edit</div>
+      <button type="button" role="menuitem">Undo <span data-slot="shortcut">⌘Z</span></button>
+      <button type="button" role="menuitem">Redo <span data-slot="shortcut">⇧⌘Z</span></button>
+    </div>
+    <div role="separator"></div>
+    <div role="group" aria-label="Clipboard">
+      <button type="button" role="menuitem">Cut <span data-slot="shortcut">⌘X</span></button>
+      <button type="button" role="menuitem">Copy <span data-slot="shortcut">⌘C</span></button>
+      <button type="button" role="menuitem">Paste <span data-slot="shortcut">⌘V</span></button>
+    </div>
+    <div role="separator"></div>
+    <button type="button" role="menuitem" data-variant="destructive">Delete <span data-slot="shortcut">⌫</span></button>
+  </div>
+</div>
+
+<!-- Icons -->
+<div style="display: grid; place-items: center; min-height: 10rem; border: 1px dashed var(--border); border-radius: var(--radius-lg)">
+  <p>Right-click anywhere in this area.</p>
+  <div class="context-menu" role="menu" aria-hidden="true" style="--context-x: 0px; --context-y: 0px">
+    <button type="button" role="menuitem"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg> Copy</button>
+    <button type="button" role="menuitem"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="6" cy="6" r="3"/><path d="M8.12 8.12 12 12"/><path d="M20 4 8.12 15.88"/><circle cx="6" cy="18" r="3"/><path d="M14.8 14.8 20 20"/></svg> Cut</button>
+    <button type="button" role="menuitem"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="8" height="4" x="8" y="2" rx="1" ry="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><path d="M12 11h4"/><path d="M12 16h4"/><path d="M8 11h.01"/><path d="M8 16h.01"/></svg> Paste</button>
+    <div role="separator"></div>
+    <button type="button" role="menuitem" data-variant="destructive"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 6h18"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><line x1="10" x2="10" y1="11" y2="17"/><line x1="14" x2="14" y1="11" y2="17"/></svg> Delete</button>
+  </div>
+</div>
+
+<!-- Checkboxes -->
+<div style="display: grid; place-items: center; min-height: 10rem; border: 1px dashed var(--border); border-radius: var(--radius-lg)">
+  <p>Right-click anywhere in this area.</p>
+  <div class="context-menu" role="menu" aria-hidden="true" style="--context-x: 0px; --context-y: 0px">
+    <button type="button" role="menuitemcheckbox" aria-checked="true">
+      Show bookmarks bar
+      <span data-slot="indicator" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg></span>
+    </button>
+    <button type="button" role="menuitemcheckbox" aria-checked="false">
+      Show full URLs
+      <span data-slot="indicator" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg></span>
+    </button>
+    <button type="button" role="menuitemcheckbox" aria-checked="true">
+      Show developer tools
+      <span data-slot="indicator" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg></span>
+    </button>
+  </div>
+</div>
+
+<!-- Radio -->
+<div style="display: grid; place-items: center; min-height: 10rem; border: 1px dashed var(--border); border-radius: var(--radius-lg)">
+  <p>Right-click anywhere in this area.</p>
+  <div class="context-menu" role="menu" aria-hidden="true" style="--context-x: 0px; --context-y: 0px">
+    <div role="group" aria-label="People">
+      <div role="heading" aria-level="2">People</div>
+      <button type="button" role="menuitemradio" aria-checked="true">
+        Pedro Duarte
+        <span data-slot="indicator" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg></span>
+      </button>
+      <button type="button" role="menuitemradio" aria-checked="false">
+        Colm Tuite
+        <span data-slot="indicator" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg></span>
+      </button>
+    </div>
+    <div role="separator"></div>
+    <div role="group" aria-label="Theme">
+      <div role="heading" aria-level="2">Theme</div>
+      <button type="button" role="menuitemradio" aria-checked="true">
+        Light
+        <span data-slot="indicator" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg></span>
+      </button>
+      <button type="button" role="menuitemradio" aria-checked="false">
+        Dark
+        <span data-slot="indicator" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg></span>
+      </button>
+      <button type="button" role="menuitemradio" aria-checked="false">
+        System
+        <span data-slot="indicator" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg></span>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- Destructive -->
+<div style="display: grid; place-items: center; min-height: 10rem; border: 1px dashed var(--border); border-radius: var(--radius-lg)">
+  <p>Right-click anywhere in this area.</p>
+  <div class="context-menu" role="menu" aria-hidden="true" style="--context-x: 0px; --context-y: 0px">
+    <button type="button" role="menuitem"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z"/><path d="m15 5 4 4"/></svg> Edit</button>
+    <button type="button" role="menuitem"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" x2="12" y1="2" y2="15"/></svg> Share</button>
+    <div role="separator"></div>
+    <button type="button" role="menuitem" data-variant="destructive"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 6h18"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><line x1="10" x2="10" y1="11" y2="17"/><line x1="14" x2="14" y1="11" y2="17"/></svg> Delete</button>
+  </div>
+</div>
+
+<!-- Right-to-left -->
+<div dir="rtl" lang="ar" style="display: grid; place-items: center; min-height: 10rem; border: 1px dashed var(--border); border-radius: var(--radius-lg)">
+  <p>انقر بزر الماوس الأيمن هنا.</p>
+  <div class="context-menu" role="menu" aria-hidden="true" style="--context-x: 0px; --context-y: 0px">
+    <button type="button" role="menuitem">رجوع <span data-slot="shortcut">⌘[</span></button>
+    <button type="button" role="menuitem" disabled>تقدم <span data-slot="shortcut">⌘]</span></button>
+    <button type="button" role="menuitem">إعادة تحميل <span data-slot="shortcut">⌘R</span></button>
+    <div role="separator"></div>
+    <button type="button" role="menuitemcheckbox" aria-checked="true">
+      إظهار الإشارات المرجعية
+      <span data-slot="indicator" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg></span>
+    </button>
+    <div role="separator"></div>
+    <div role="group" aria-label="الأشخاص">
+      <div role="heading" aria-level="2">الأشخاص</div>
+      <button type="button" role="menuitemradio" aria-checked="true">
+        بيدرو دوارتي
+        <span data-slot="indicator" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg></span>
+      </button>
+      <button type="button" role="menuitemradio" aria-checked="false">
+        كولم تويت
+        <span data-slot="indicator" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg></span>
+      </button>
+    </div>
   </div>
 </div>

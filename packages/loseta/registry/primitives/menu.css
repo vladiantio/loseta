@@ -47,8 +47,18 @@
     }
   }
 
+  [role='menu'] > [role='none'] {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+  }
+
   [role='menu'] [role='heading'] {
     display: flex;
+  }
+
+  [role='menu'] [role='menuitem'][aria-haspopup='menu'] > svg:last-child {
+    margin-inline-start: auto;
   }
 
   [role='menu'] [role='separator'] {

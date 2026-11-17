@@ -11,6 +11,7 @@ const wrap = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="
 const chevronDown = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>`;
 const chevronLeft = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg>`;
 const chevronRight = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>`;
+const submenuIcon = chevronRight.replace('aria-hidden="true"', 'aria-hidden="true" data-rtl-flip');
 const moreHorizontal = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/></svg>`;
 const bold = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 12h9a4 4 0 0 1 0 8H7a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1h7a4 4 0 0 1 0 8"/></svg>`;
 const italic = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="19" x2="10" y1="4" y2="4"/><line x1="14" x2="5" y1="20" y2="20"/><line x1="15" x2="9" y1="4" y2="20"/></svg>`;
@@ -49,6 +50,29 @@ const volumeHigh = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" 
 const bot = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" data-icon="inline-start"><path d="M12 8V4H8"/><rect width="16" height="12" x="4" y="8" rx="2"/><path d="M2 14h2"/><path d="M20 14h2"/><path d="M15 13v2"/><path d="M9 13v2"/></svg>`;
 const branch = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" data-icon="inline-start"><line x1="6" x2="6" y1="3" y2="15"/><circle cx="18" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><path d="M18 9a9 9 0 0 1-9 9"/></svg>`;
 const fork = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" data-icon="inline-start"><circle cx="12" cy="18" r="3"/><circle cx="6" cy="6" r="3"/><circle cx="18" cy="6" r="3"/><path d="M18 9v2c0 .6-.4 1-1 1H7c-.6 0-1-.4-1-1V9"/><path d="M12 12v3"/></svg>`;
+const lucideIcon = (paths: string): string =>
+  `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${paths}</svg>`;
+const check = lucideIcon('<path d="M20 6 9 17l-5-5"/>');
+const pencil = lucideIcon('<path d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z"/><path d="m15 5 4 4"/>');
+const share = lucideIcon('<path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" x2="12" y1="2" y2="15"/>');
+const user = lucideIcon('<path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>');
+const creditCard = lucideIcon('<rect width="20" height="14" x="2" y="5" rx="2"/><line x1="2" x2="22" y1="10" y2="10"/>');
+const settings = lucideIcon('<path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/>');
+const logOut = lucideIcon('<path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" x2="9" y1="12" y2="12"/>');
+const file = lucideIcon('<path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/>');
+const folder = lucideIcon('<path d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z"/>');
+const save = lucideIcon('<path d="M15.2 3a2 2 0 0 1 1.4.6l3.8 3.8a2 2 0 0 1 .6 1.4V19a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2z"/><path d="M17 21v-7a1 1 0 0 0-1-1H8a1 1 0 0 0-1 1v7"/><path d="M7 3v4a1 1 0 0 0 1 1h7"/>');
+const helpCircle = lucideIcon('<circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><path d="M12 17h.01"/>');
+const mail = lucideIcon('<rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>');
+const messageSquare = lucideIcon('<path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>');
+const wallet = lucideIcon('<path d="M19 7V4a1 1 0 0 0-1-1H5a2 2 0 0 0 0 4h15a1 1 0 0 1 1 1v4h-3a2 2 0 0 0 0 4h3a1 1 0 0 0 1-1v-2a1 1 0 0 0-1-1"/><path d="M3 5v14a2 2 0 0 0 2 2h15a1 1 0 0 0 1-1v-4"/>');
+const building = lucideIcon('<rect width="16" height="20" x="4" y="2" rx="2" ry="2"/><path d="M9 22v-4h6v4"/><path d="M8 6h.01"/><path d="M16 6h.01"/><path d="M12 6h.01"/><path d="M12 10h.01"/><path d="M12 14h.01"/><path d="M16 10h.01"/><path d="M16 14h.01"/><path d="M8 10h.01"/><path d="M8 14h.01"/>');
+const scissors = lucideIcon('<circle cx="6" cy="6" r="3"/><path d="M8.12 8.12 12 12"/><path d="M20 4 8.12 15.88"/><circle cx="6" cy="18" r="3"/><path d="M14.8 14.8 20 20"/>');
+const clipboardPaste = lucideIcon('<rect width="8" height="4" x="8" y="2" rx="1" ry="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><path d="M12 11h4"/><path d="M12 16h4"/><path d="M8 11h.01"/><path d="M8 16h.01"/>');
+const circleDashed = lucideIcon('<path d="M10.1 2.18a9.93 9.93 0 0 1 3.8 0"/><path d="M17.6 3.71a9.95 9.95 0 0 1 2.69 2.7"/><path d="M21.82 10.1a9.93 9.93 0 0 1 0 3.8"/><path d="M20.29 17.6a9.95 9.95 0 0 1-2.7 2.69"/><path d="M13.9 21.82a9.94 9.94 0 0 1-3.8 0"/><path d="M6.4 20.29a9.95 9.95 0 0 1-2.69-2.7"/><path d="M2.18 13.9a9.93 9.93 0 0 1 0-3.8"/><path d="M3.71 6.4a9.95 9.95 0 0 1 2.7-2.69"/>');
+const sun = lucideIcon('<circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/>');
+const moon = lucideIcon('<path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/>');
+const monitor = lucideIcon('<rect width="20" height="14" x="2" y="3" rx="2"/><line x1="8" x2="16" y1="21" y2="21"/><line x1="12" x2="12" y1="17" y2="21"/>');
 const ratioImage = `data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 160 90'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop stop-color='%2394a3b8'/%3E%3Cstop offset='1' stop-color='%23e2e8f0'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='160' height='90' fill='url(%23g)'/%3E%3Ctext x='80' y='49' text-anchor='middle' font-family='sans-serif' font-size='12' fill='%23334155'%3E16:9%3C/text%3E%3C/svg%3E`;
 const emptyIllustration = `data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 320 180'%3E%3Cdefs%3E%3ClinearGradient id='s' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop stop-color='%23c7d2fe'/%3E%3Cstop offset='1' stop-color='%23fbcfe8'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='320' height='180' fill='url(%23s)'/%3E%3Ccircle cx='250' cy='45' r='22' fill='%23ffffff' opacity='.7'/%3E%3Cpath d='M0 180 100 80l55 55 40-40 125 85z' fill='%2394a3b8'/%3E%3Cpath d='M0 180 80 110l65 45 60-30 115 55z' fill='%2364758b'/%3E%3C/svg%3E`;
 
@@ -953,11 +977,278 @@ Done in 2.8s using pnpm v10.18.0</code></pre>
   </button>
   <div data-popover data-side="bottom" aria-hidden="true">
     <div role="menu">
+      <div role="heading" aria-level="2">My account</div>
       <button type="button" role="menuitem">Profile</button>
       <button type="button" role="menuitem">Billing</button>
-      <button type="button" role="menuitem">Settings <span class="kbd">⌘S</span></button>
+      <button type="button" role="menuitem">Settings</button>
       <div role="separator"></div>
-      <button type="button" role="menuitem" data-variant="destructive">Delete account</button>
+      <button type="button" role="menuitem">GitHub</button>
+      <button type="button" role="menuitem">Support</button>
+      <button type="button" role="menuitem" disabled>API</button>
+    </div>
+  </div>
+</div>`
+    },
+    {
+      title: "Submenu",
+      html: `<div style="display: flex; width: 100%; align-items: flex-start; justify-content: flex-start; min-height: 24rem; padding-top: 1rem">
+  <div class="dropdown-menu" data-demo="dropdown">
+    <button type="button" class="btn" data-variant="outline" data-demo-trigger aria-haspopup="menu" aria-expanded="false">
+      Open team menu
+    </button>
+    <div data-popover data-side="bottom" aria-hidden="true" style="min-width: 10rem">
+      <div role="menu">
+        <button type="button" role="menuitem">Team</button>
+        <div role="none">
+          <button type="button" role="menuitem" aria-haspopup="menu" aria-expanded="false" aria-controls="demo-dropdown-submenu-invite" data-demo-menu-trigger>
+            Invite users
+            ${submenuIcon}
+          </button>
+          <div data-popover data-side="inline-end" id="demo-dropdown-submenu-invite" aria-hidden="true">
+            <div role="menu">
+              <button type="button" role="menuitem">Email</button>
+              <button type="button" role="menuitem">Message</button>
+              <div role="none">
+                <button type="button" role="menuitem" aria-haspopup="menu" aria-expanded="false" aria-controls="demo-dropdown-submenu-more" data-demo-menu-trigger>
+                  More options
+                  ${submenuIcon}
+                </button>
+                <div data-popover data-side="inline-end" id="demo-dropdown-submenu-more" aria-hidden="true">
+                  <div role="menu">
+                    <button type="button" role="menuitem">Calendly</button>
+                    <button type="button" role="menuitem">Slack</button>
+                    <div role="separator"></div>
+                    <button type="button" role="menuitem">Webhook</button>
+                  </div>
+                </div>
+              </div>
+              <div role="separator"></div>
+              <button type="button" role="menuitem">Advanced...</button>
+            </div>
+          </div>
+        </div>
+        <button type="button" role="menuitem">New Team <span data-slot="shortcut">⌘T</span></button>
+      </div>
+    </div>
+  </div>
+</div>`
+    },
+    {
+      title: "Shortcuts",
+      html: `<div class="dropdown-menu" data-demo="dropdown">
+  <button type="button" class="btn" data-variant="outline" data-demo-trigger aria-haspopup="menu" aria-expanded="false">
+    Open shortcuts
+  </button>
+  <div data-popover data-side="bottom" aria-hidden="true">
+    <div role="menu">
+      <div role="heading" aria-level="2">My account</div>
+      <button type="button" role="menuitem">Profile <span data-slot="shortcut">⇧⌘P</span></button>
+      <button type="button" role="menuitem">Billing <span data-slot="shortcut">⌘B</span></button>
+      <button type="button" role="menuitem">Settings <span data-slot="shortcut">⌘S</span></button>
+      <div role="separator"></div>
+      <button type="button" role="menuitem">Log out <span data-slot="shortcut">⇧⌘Q</span></button>
+    </div>
+  </div>
+</div>`
+    },
+    {
+      title: "Icons",
+      html: `<div class="dropdown-menu" data-demo="dropdown">
+  <button type="button" class="btn" data-variant="outline" data-demo-trigger aria-haspopup="menu" aria-expanded="false">
+    Open account actions
+  </button>
+  <div data-popover data-side="bottom" aria-hidden="true">
+    <div role="menu">
+      <button type="button" role="menuitem">${user} Profile</button>
+      <button type="button" role="menuitem">${creditCard} Billing</button>
+      <button type="button" role="menuitem">${settings} Settings</button>
+      <div role="separator"></div>
+      <button type="button" role="menuitem" data-variant="destructive">${logOut} Log out</button>
+    </div>
+  </div>
+</div>`
+    },
+    {
+      title: "Checkboxes",
+      html: `<div class="dropdown-menu" data-demo="dropdown">
+  <button type="button" class="btn" data-variant="outline" data-demo-trigger aria-haspopup="menu" aria-expanded="false">
+    Open appearance
+  </button>
+  <div data-popover data-side="bottom" aria-hidden="true">
+    <div role="menu">
+      <div role="heading" aria-level="2">Appearance</div>
+      <button type="button" role="menuitemcheckbox" aria-checked="true">
+        Status Bar
+        <span data-slot="indicator" aria-hidden="true">${check}</span>
+      </button>
+      <button type="button" role="menuitemcheckbox" aria-checked="true" disabled>
+        Activity Bar
+        <span data-slot="indicator" aria-hidden="true">${check}</span>
+      </button>
+      <button type="button" role="menuitemcheckbox" aria-checked="false">
+        Panel
+        <span data-slot="indicator" aria-hidden="true">${check}</span>
+      </button>
+    </div>
+  </div>
+</div>`
+    },
+    {
+      title: "Checkboxes icons",
+      html: `<div class="dropdown-menu" data-demo="dropdown">
+  <button type="button" class="btn" data-variant="outline" data-demo-trigger aria-haspopup="menu" aria-expanded="false">
+    Notifications
+  </button>
+  <div data-popover data-side="bottom" aria-hidden="true" style="min-width: 12rem">
+    <div role="menu">
+      <div role="heading" aria-level="2">Notification preferences</div>
+      <button type="button" role="menuitemcheckbox" aria-checked="true">
+        ${mail} Email notifications
+        <span data-slot="indicator" aria-hidden="true">${check}</span>
+      </button>
+      <button type="button" role="menuitemcheckbox" aria-checked="false">
+        ${messageSquare} SMS notifications
+        <span data-slot="indicator" aria-hidden="true">${check}</span>
+      </button>
+      <button type="button" role="menuitemcheckbox" aria-checked="true">
+        ${bell} Push notifications
+        <span data-slot="indicator" aria-hidden="true">${check}</span>
+      </button>
+    </div>
+  </div>
+</div>`
+    },
+    {
+      title: "Radio group",
+      html: `<div class="dropdown-menu" data-demo="dropdown">
+  <button type="button" class="btn" data-variant="outline" data-demo-trigger aria-haspopup="menu" aria-expanded="false">
+    Open panel position
+  </button>
+  <div data-popover data-side="bottom" aria-hidden="true">
+    <div role="menu">
+      <div role="group" aria-label="Panel position">
+        <div role="heading" aria-level="2">Panel position</div>
+        <button type="button" role="menuitemradio" aria-checked="false">
+          Top
+          <span data-slot="indicator" aria-hidden="true">${check}</span>
+        </button>
+        <button type="button" role="menuitemradio" aria-checked="true">
+          Bottom
+          <span data-slot="indicator" aria-hidden="true">${check}</span>
+        </button>
+        <button type="button" role="menuitemradio" aria-checked="false">
+          Right
+          <span data-slot="indicator" aria-hidden="true">${check}</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>`
+    },
+    {
+      title: "Radio icons",
+      html: `<div class="dropdown-menu" data-demo="dropdown">
+  <button type="button" class="btn" data-variant="outline" data-demo-trigger aria-haspopup="menu" aria-expanded="false">
+    Payment method
+  </button>
+  <div data-popover data-side="bottom" aria-hidden="true" style="min-width: 11rem">
+    <div role="menu">
+      <div role="group" aria-label="Select payment method">
+        <div role="heading" aria-level="2">Select payment method</div>
+        <button type="button" role="menuitemradio" aria-checked="true">
+          ${creditCard} Credit Card
+          <span data-slot="indicator" aria-hidden="true">${check}</span>
+        </button>
+        <button type="button" role="menuitemradio" aria-checked="false">
+          ${wallet} PayPal
+          <span data-slot="indicator" aria-hidden="true">${check}</span>
+        </button>
+        <button type="button" role="menuitemradio" aria-checked="false">
+          ${building} Bank Transfer
+          <span data-slot="indicator" aria-hidden="true">${check}</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>`
+    },
+    {
+      title: "Destructive",
+      html: `<div class="dropdown-menu" data-demo="dropdown">
+  <button type="button" class="btn" data-variant="outline" data-demo-trigger aria-haspopup="menu" aria-expanded="false">
+    Actions
+  </button>
+  <div data-popover data-side="bottom" aria-hidden="true">
+    <div role="menu">
+      <button type="button" role="menuitem">${pencil} Edit</button>
+      <button type="button" role="menuitem">${share} Share</button>
+      <div role="separator"></div>
+      <button type="button" role="menuitem" data-variant="destructive">${trash} Delete</button>
+    </div>
+  </div>
+</div>`
+    },
+    {
+      title: "Avatar",
+      html: `<div class="dropdown-menu" data-demo="dropdown">
+  <button type="button" class="btn" data-variant="ghost" data-size="icon" data-demo-trigger aria-haspopup="menu" aria-expanded="false" aria-label="Open account menu for LR" style="border-radius: var(--radius-full)">
+    <span class="avatar" aria-hidden="true"><span data-slot="fallback">LR</span></span>
+  </button>
+  <div data-popover data-side="bottom" data-align="end" aria-hidden="true">
+    <div role="menu">
+      <div role="heading" aria-level="2">Ada Lovelace</div>
+      <button type="button" role="menuitem">${user} Account</button>
+      <button type="button" role="menuitem">${creditCard} Billing</button>
+      <button type="button" role="menuitem">${bell} Notifications</button>
+      <div role="separator"></div>
+      <button type="button" role="menuitem">${logOut} Sign out</button>
+    </div>
+  </div>
+</div>`
+    },
+    {
+      title: "Right-to-left",
+      html: `<div style="display: flex; width: 100%; align-items: flex-start; justify-content: flex-start; min-height: 24rem; padding-top: 1rem" dir="rtl">
+  <div class="dropdown-menu" dir="rtl" lang="ar" data-demo="dropdown">
+    <button type="button" class="btn" data-variant="outline" data-demo-trigger aria-haspopup="menu" aria-expanded="false">
+      افتح القائمة
+    </button>
+    <div data-popover data-side="bottom" aria-hidden="true" style="min-width: 12rem">
+      <div role="menu">
+        <div role="heading" aria-level="2">الحساب</div>
+        <div role="none">
+          <button type="button" role="menuitem" aria-haspopup="menu" aria-expanded="false" aria-controls="demo-dropdown-rtl-settings" data-demo-menu-trigger>
+            ${settings} الإعدادات
+            ${submenuIcon}
+          </button>
+          <div data-popover data-side="inline-end" aria-hidden="true" id="demo-dropdown-rtl-settings">
+            <div role="menu">
+              <button type="button" role="menuitem">${user} الملف الشخصي</button>
+              <button type="button" role="menuitem">${creditCard} الفوترة</button>
+              <button type="button" role="menuitem">${bell} الإشعارات</button>
+            </div>
+          </div>
+        </div>
+        <button type="button" role="menuitem">الفريق <span data-slot="shortcut">⌘T</span></button>
+        <div role="separator"></div>
+        <div role="group" aria-label="السمة">
+          <div role="heading" aria-level="2">السمة</div>
+          <button type="button" role="menuitemradio" aria-checked="true">
+            ${sun} فاتح
+            <span data-slot="indicator" aria-hidden="true">${check}</span>
+          </button>
+          <button type="button" role="menuitemradio" aria-checked="false">
+            ${moon} غامق
+            <span data-slot="indicator" aria-hidden="true">${check}</span>
+          </button>
+          <button type="button" role="menuitemradio" aria-checked="false">
+            ${monitor} النظام
+            <span data-slot="indicator" aria-hidden="true">${check}</span>
+          </button>
+        </div>
+        <div role="separator"></div>
+        <button type="button" role="menuitem" data-variant="destructive">${logOut} تسجيل الخروج</button>
+      </div>
     </div>
   </div>
 </div>`
@@ -2727,8 +3018,185 @@ Done in 2.8s using pnpm v10.18.0</code></pre>
   <div class="context-menu" role="menu" aria-hidden="true" style="--context-x: 0px; --context-y: 0px">
     <button type="button" role="menuitem">Profile</button>
     <button type="button" role="menuitem">Billing</button>
+    <button type="button" role="menuitem">Team</button>
+    <button type="button" role="menuitem">Subscription</button>
+  </div>
+</div>`
+    },
+    {
+      title: "Submenu",
+      html: `<div data-demo="context-menu" data-demo-context style="display: grid; place-items: center; min-height: 10rem; border: 1px dashed var(--border); border-radius: var(--radius-lg)">
+  <p>Right-click anywhere in this area.</p>
+  <div class="context-menu" role="menu" aria-hidden="true" style="--context-x: 0px; --context-y: 0px">
+    <button type="button" role="menuitem">Copy <span data-slot="shortcut">⌘C</span></button>
+    <button type="button" role="menuitem">Cut <span data-slot="shortcut">⌘X</span></button>
+    <div role="none">
+      <button type="button" role="menuitem" aria-haspopup="menu" aria-expanded="false" aria-controls="demo-context-submenu-more" data-demo-menu-trigger>
+        More tools
+        ${submenuIcon}
+      </button>
+      <div data-popover data-side="inline-end" id="demo-context-submenu-more" aria-hidden="true">
+        <div role="menu">
+          <button type="button" role="menuitem">Save page...</button>
+          <button type="button" role="menuitem">Create shortcut...</button>
+          <button type="button" role="menuitem">Name window...</button>
+          <div role="separator"></div>
+          <button type="button" role="menuitem">Developer tools</button>
+          <div role="separator"></div>
+          <button type="button" role="menuitem" data-variant="destructive">Delete</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>`
+    },
+    {
+      title: "Shortcuts",
+      html: `<div data-demo="context-menu" data-demo-context style="display: grid; place-items: center; min-height: 10rem; border: 1px dashed var(--border); border-radius: var(--radius-lg)">
+  <p>Right-click anywhere in this area.</p>
+  <div class="context-menu" role="menu" aria-hidden="true" style="--context-x: 0px; --context-y: 0px">
+    <button type="button" role="menuitem">Back <span data-slot="shortcut">⌘[</span></button>
+    <button type="button" role="menuitem" disabled>Forward <span data-slot="shortcut">⌘]</span></button>
+    <button type="button" role="menuitem">Reload <span data-slot="shortcut">⌘R</span></button>
     <div role="separator"></div>
-    <button type="button" role="menuitem" data-variant="destructive">Delete account</button>
+    <button type="button" role="menuitem">Save <span data-slot="shortcut">⌘S</span></button>
+    <button type="button" role="menuitem">Save as... <span data-slot="shortcut">⇧⌘S</span></button>
+  </div>
+</div>`
+    },
+    {
+      title: "Groups",
+      html: `<div data-demo="context-menu" data-demo-context style="display: grid; place-items: center; min-height: 10rem; border: 1px dashed var(--border); border-radius: var(--radius-lg)">
+  <p>Right-click anywhere in this area.</p>
+  <div class="context-menu" role="menu" aria-hidden="true" style="--context-x: 0px; --context-y: 0px">
+    <div role="group" aria-label="File">
+      <div role="heading" aria-level="2">File</div>
+      <button type="button" role="menuitem">New file <span data-slot="shortcut">⌘N</span></button>
+      <button type="button" role="menuitem">Open file <span data-slot="shortcut">⌘O</span></button>
+      <button type="button" role="menuitem">Save <span data-slot="shortcut">⌘S</span></button>
+    </div>
+    <div role="separator"></div>
+    <div role="group" aria-label="Edit">
+      <div role="heading" aria-level="2">Edit</div>
+      <button type="button" role="menuitem">Undo <span data-slot="shortcut">⌘Z</span></button>
+      <button type="button" role="menuitem">Redo <span data-slot="shortcut">⇧⌘Z</span></button>
+    </div>
+    <div role="separator"></div>
+    <div role="group" aria-label="Clipboard">
+      <button type="button" role="menuitem">Cut <span data-slot="shortcut">⌘X</span></button>
+      <button type="button" role="menuitem">Copy <span data-slot="shortcut">⌘C</span></button>
+      <button type="button" role="menuitem">Paste <span data-slot="shortcut">⌘V</span></button>
+    </div>
+    <div role="separator"></div>
+    <button type="button" role="menuitem" data-variant="destructive">Delete <span data-slot="shortcut">⌫</span></button>
+  </div>
+</div>`
+    },
+    {
+      title: "Icons",
+      html: `<div data-demo="context-menu" data-demo-context style="display: grid; place-items: center; min-height: 10rem; border: 1px dashed var(--border); border-radius: var(--radius-lg)">
+  <p>Right-click anywhere in this area.</p>
+  <div class="context-menu" role="menu" aria-hidden="true" style="--context-x: 0px; --context-y: 0px">
+    <button type="button" role="menuitem">${copy} Copy</button>
+    <button type="button" role="menuitem">${scissors} Cut</button>
+    <button type="button" role="menuitem">${clipboardPaste} Paste</button>
+    <div role="separator"></div>
+    <button type="button" role="menuitem" data-variant="destructive">${trash} Delete</button>
+  </div>
+</div>`
+    },
+    {
+      title: "Checkboxes",
+      html: `<div data-demo="context-menu" data-demo-context style="display: grid; place-items: center; min-height: 10rem; border: 1px dashed var(--border); border-radius: var(--radius-lg)">
+  <p>Right-click anywhere in this area.</p>
+  <div class="context-menu" role="menu" aria-hidden="true" style="--context-x: 0px; --context-y: 0px">
+    <button type="button" role="menuitemcheckbox" aria-checked="true">
+      Show bookmarks bar
+      <span data-slot="indicator" aria-hidden="true">${check}</span>
+    </button>
+    <button type="button" role="menuitemcheckbox" aria-checked="false">
+      Show full URLs
+      <span data-slot="indicator" aria-hidden="true">${check}</span>
+    </button>
+    <button type="button" role="menuitemcheckbox" aria-checked="true">
+      Show developer tools
+      <span data-slot="indicator" aria-hidden="true">${check}</span>
+    </button>
+  </div>
+</div>`
+    },
+    {
+      title: "Radio",
+      html: `<div data-demo="context-menu" data-demo-context style="display: grid; place-items: center; min-height: 10rem; border: 1px dashed var(--border); border-radius: var(--radius-lg)">
+  <p>Right-click anywhere in this area.</p>
+  <div class="context-menu" role="menu" aria-hidden="true" style="--context-x: 0px; --context-y: 0px">
+    <div role="group" aria-label="People">
+      <div role="heading" aria-level="2">People</div>
+      <button type="button" role="menuitemradio" aria-checked="true">
+        Pedro Duarte
+        <span data-slot="indicator" aria-hidden="true">${check}</span>
+      </button>
+      <button type="button" role="menuitemradio" aria-checked="false">
+        Colm Tuite
+        <span data-slot="indicator" aria-hidden="true">${check}</span>
+      </button>
+    </div>
+    <div role="separator"></div>
+    <div role="group" aria-label="Theme">
+      <div role="heading" aria-level="2">Theme</div>
+      <button type="button" role="menuitemradio" aria-checked="true">
+        Light
+        <span data-slot="indicator" aria-hidden="true">${check}</span>
+      </button>
+      <button type="button" role="menuitemradio" aria-checked="false">
+        Dark
+        <span data-slot="indicator" aria-hidden="true">${check}</span>
+      </button>
+      <button type="button" role="menuitemradio" aria-checked="false">
+        System
+        <span data-slot="indicator" aria-hidden="true">${check}</span>
+      </button>
+    </div>
+  </div>
+</div>`
+    },
+    {
+      title: "Destructive",
+      html: `<div data-demo="context-menu" data-demo-context style="display: grid; place-items: center; min-height: 10rem; border: 1px dashed var(--border); border-radius: var(--radius-lg)">
+  <p>Right-click anywhere in this area.</p>
+  <div class="context-menu" role="menu" aria-hidden="true" style="--context-x: 0px; --context-y: 0px">
+    <button type="button" role="menuitem">${pencil} Edit</button>
+    <button type="button" role="menuitem">${share} Share</button>
+    <div role="separator"></div>
+    <button type="button" role="menuitem" data-variant="destructive">${trash} Delete</button>
+  </div>
+</div>`
+    },
+    {
+      title: "Right-to-left",
+      html: `<div data-demo="context-menu" data-demo-context dir="rtl" lang="ar" style="display: grid; place-items: center; min-height: 10rem; border: 1px dashed var(--border); border-radius: var(--radius-lg)">
+  <p>انقر بزر الماوس الأيمن هنا.</p>
+  <div class="context-menu" role="menu" aria-hidden="true" style="--context-x: 0px; --context-y: 0px">
+    <button type="button" role="menuitem">رجوع <span data-slot="shortcut">⌘[</span></button>
+    <button type="button" role="menuitem" disabled>تقدم <span data-slot="shortcut">⌘]</span></button>
+    <button type="button" role="menuitem">إعادة تحميل <span data-slot="shortcut">⌘R</span></button>
+    <div role="separator"></div>
+    <button type="button" role="menuitemcheckbox" aria-checked="true">
+      إظهار الإشارات المرجعية
+      <span data-slot="indicator" aria-hidden="true">${check}</span>
+    </button>
+    <div role="separator"></div>
+    <div role="group" aria-label="الأشخاص">
+      <div role="heading" aria-level="2">الأشخاص</div>
+      <button type="button" role="menuitemradio" aria-checked="true">
+        بيدرو دوارتي
+        <span data-slot="indicator" aria-hidden="true">${check}</span>
+      </button>
+      <button type="button" role="menuitemradio" aria-checked="false">
+        كولم تويت
+        <span data-slot="indicator" aria-hidden="true">${check}</span>
+      </button>
+    </div>
   </div>
 </div>`
     }
@@ -2810,10 +3278,27 @@ Done in 2.8s using pnpm v10.18.0</code></pre>
       <button type="button" role="menuitem" aria-haspopup="menu" aria-expanded="false" data-demo-menu-trigger>File</button>
       <div data-popover data-side="bottom" aria-hidden="true">
         <div role="menu">
-          <button type="button" role="menuitem">New tab <span class="kbd">⌘T</span></button>
-          <button type="button" role="menuitem">New window <span class="kbd">⌘N</span></button>
+          <div role="group" aria-label="File">
+            <button type="button" role="menuitem">New Tab <span data-slot="shortcut">⌘T</span></button>
+            <button type="button" role="menuitem">New Window <span data-slot="shortcut">⌘N</span></button>
+            <button type="button" role="menuitem" disabled>New Incognito Window</button>
+          </div>
           <div role="separator"></div>
-          <button type="button" role="menuitem">Print <span class="kbd">⌘P</span></button>
+          <div role="none">
+            <button type="button" role="menuitem" aria-haspopup="menu" aria-expanded="false" aria-controls="demo-menubar-file-share" data-demo-menu-trigger>
+              Share
+              ${submenuIcon}
+            </button>
+            <div data-popover data-side="inline-end" id="demo-menubar-file-share" aria-hidden="true">
+              <div role="menu">
+                <button type="button" role="menuitem">Email link</button>
+                <button type="button" role="menuitem">Messages</button>
+                <button type="button" role="menuitem">Notes</button>
+              </div>
+            </div>
+          </div>
+          <div role="separator"></div>
+          <button type="button" role="menuitem">Print... <span data-slot="shortcut">⌘P</span></button>
         </div>
       </div>
     </div>
@@ -2821,8 +3306,24 @@ Done in 2.8s using pnpm v10.18.0</code></pre>
       <button type="button" role="menuitem" aria-haspopup="menu" aria-expanded="false" data-demo-menu-trigger>Edit</button>
       <div data-popover data-side="bottom" aria-hidden="true">
         <div role="menu">
-          <button type="button" role="menuitem">Undo <span class="kbd">⌘Z</span></button>
-          <button type="button" role="menuitem">Redo <span class="kbd">⇧⌘Z</span></button>
+          <button type="button" role="menuitem">Undo <span data-slot="shortcut">⌘Z</span></button>
+          <button type="button" role="menuitem">Redo <span data-slot="shortcut">⇧⌘Z</span></button>
+          <div role="separator"></div>
+          <div role="none">
+            <button type="button" role="menuitem" aria-haspopup="menu" aria-expanded="false" aria-controls="demo-menubar-edit-find" data-demo-menu-trigger>
+              Find
+              ${submenuIcon}
+            </button>
+            <div data-popover data-side="inline-end" id="demo-menubar-edit-find" aria-hidden="true">
+              <div role="menu">
+                <button type="button" role="menuitem">Search the web</button>
+                <div role="separator"></div>
+                <button type="button" role="menuitem">Find...</button>
+                <button type="button" role="menuitem">Find Next</button>
+                <button type="button" role="menuitem">Find Previous</button>
+              </div>
+            </div>
+          </div>
           <div role="separator"></div>
           <button type="button" role="menuitem">Cut</button>
           <button type="button" role="menuitem">Copy</button>
@@ -2834,13 +3335,314 @@ Done in 2.8s using pnpm v10.18.0</code></pre>
       <button type="button" role="menuitem" aria-haspopup="menu" aria-expanded="false" data-demo-menu-trigger>View</button>
       <div data-popover data-side="bottom" aria-hidden="true">
         <div role="menu">
-          <button type="button" role="menuitem">Zoom in</button>
-          <button type="button" role="menuitem">Zoom out</button>
-          <div role="separator"></div>
-          <button type="button" role="menuitemcheckbox" aria-checked="true">
-            <span data-slot="indicator">✓</span>
-            Show sidebar
+          <button type="button" role="menuitemcheckbox" aria-checked="false">
+            Bookmarks Bar
+            <span data-slot="indicator" aria-hidden="true">${check}</span>
           </button>
+          <button type="button" role="menuitemcheckbox" aria-checked="true">
+            Full URLs
+            <span data-slot="indicator" aria-hidden="true">${check}</span>
+          </button>
+          <div role="separator"></div>
+          <button type="button" role="menuitem">Reload <span data-slot="shortcut">⌘R</span></button>
+          <button type="button" role="menuitem" disabled>Force Reload <span data-slot="shortcut">⇧⌘R</span></button>
+          <div role="separator"></div>
+          <button type="button" role="menuitem">Toggle Fullscreen</button>
+        </div>
+      </div>
+    </div>
+    <div class="menubar-item" role="none">
+      <button type="button" role="menuitem" aria-haspopup="menu" aria-expanded="false" data-demo-menu-trigger>Profiles</button>
+      <div data-popover data-side="bottom" aria-hidden="true">
+        <div role="menu">
+          <div role="group" aria-label="Profiles">
+            <button type="button" role="menuitemradio" aria-checked="false">
+              Andy
+              <span data-slot="indicator" aria-hidden="true">${check}</span>
+            </button>
+            <button type="button" role="menuitemradio" aria-checked="true">
+              Benoit
+              <span data-slot="indicator" aria-hidden="true">${check}</span>
+            </button>
+            <button type="button" role="menuitemradio" aria-checked="false">
+              Luis
+              <span data-slot="indicator" aria-hidden="true">${check}</span>
+            </button>
+          </div>
+          <div role="separator"></div>
+          <button type="button" role="menuitem" data-inset>Edit...</button>
+          <button type="button" role="menuitem" data-inset>Add Profile...</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>`
+    },
+    {
+      title: "Checkbox",
+      html: `<div style="display: flex; align-items: flex-start; justify-content: center; min-height: 16rem; padding-top: 1rem">
+  <div class="menubar" role="menubar" aria-label="Editor" data-demo="menubar">
+    <div class="menubar-item" role="none">
+      <button type="button" role="menuitem" aria-haspopup="menu" aria-expanded="false" data-demo-menu-trigger>View</button>
+      <div data-popover data-side="bottom" aria-hidden="true">
+        <div role="menu">
+          <button type="button" role="menuitemcheckbox" aria-checked="false">
+            Always Show Bookmarks Bar
+            <span data-slot="indicator" aria-hidden="true">${check}</span>
+          </button>
+          <button type="button" role="menuitemcheckbox" aria-checked="true">
+            Always Show Full URLs
+            <span data-slot="indicator" aria-hidden="true">${check}</span>
+          </button>
+          <div role="separator"></div>
+          <button type="button" role="menuitem" data-inset>Reload <span data-slot="shortcut">⌘R</span></button>
+          <button type="button" role="menuitem" data-inset disabled>Force Reload <span data-slot="shortcut">⇧⌘R</span></button>
+        </div>
+      </div>
+    </div>
+    <div class="menubar-item" role="none">
+      <button type="button" role="menuitem" aria-haspopup="menu" aria-expanded="false" data-demo-menu-trigger>Format</button>
+      <div data-popover data-side="bottom" aria-hidden="true">
+        <div role="menu">
+          <button type="button" role="menuitemcheckbox" aria-checked="true">
+            Strikethrough
+            <span data-slot="indicator" aria-hidden="true">${check}</span>
+          </button>
+          <button type="button" role="menuitemcheckbox" aria-checked="false">
+            Code
+            <span data-slot="indicator" aria-hidden="true">${check}</span>
+          </button>
+          <button type="button" role="menuitemcheckbox" aria-checked="false">
+            Superscript
+            <span data-slot="indicator" aria-hidden="true">${check}</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>`
+    },
+    {
+      title: "Radio",
+      html: `<div style="display: flex; align-items: flex-start; justify-content: center; min-height: 16rem; padding-top: 1rem">
+  <div class="menubar" role="menubar" aria-label="Profile" data-demo="menubar">
+    <div class="menubar-item" role="none">
+      <button type="button" role="menuitem" aria-haspopup="menu" aria-expanded="false" data-demo-menu-trigger>Profiles</button>
+      <div data-popover data-side="bottom" aria-hidden="true">
+        <div role="menu">
+          <div role="group" aria-label="Profiles">
+            <button type="button" role="menuitemradio" aria-checked="false">
+              Andy
+              <span data-slot="indicator" aria-hidden="true">${check}</span>
+            </button>
+            <button type="button" role="menuitemradio" aria-checked="true">
+              Benoit
+              <span data-slot="indicator" aria-hidden="true">${check}</span>
+            </button>
+            <button type="button" role="menuitemradio" aria-checked="false">
+              Luis
+              <span data-slot="indicator" aria-hidden="true">${check}</span>
+            </button>
+          </div>
+          <div role="separator"></div>
+          <button type="button" role="menuitem" data-inset>Edit...</button>
+          <button type="button" role="menuitem" data-inset>Add Profile...</button>
+        </div>
+      </div>
+    </div>
+    <div class="menubar-item" role="none">
+      <button type="button" role="menuitem" aria-haspopup="menu" aria-expanded="false" data-demo-menu-trigger>Theme</button>
+      <div data-popover data-side="bottom" aria-hidden="true">
+        <div role="menu">
+          <div role="group" aria-label="Theme">
+            <button type="button" role="menuitemradio" aria-checked="false">
+              Light
+              <span data-slot="indicator" aria-hidden="true">${check}</span>
+            </button>
+            <button type="button" role="menuitemradio" aria-checked="false">
+              Dark
+              <span data-slot="indicator" aria-hidden="true">${check}</span>
+            </button>
+            <button type="button" role="menuitemradio" aria-checked="true">
+              System
+              <span data-slot="indicator" aria-hidden="true">${check}</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>`
+    },
+    {
+      title: "Submenu",
+      html: `<div style="display: flex; align-items: flex-start; justify-content: center; min-height: 16rem; padding-top: 1rem">
+  <div class="menubar" role="menubar" aria-label="Main" data-demo="menubar">
+    <div class="menubar-item" role="none">
+      <button type="button" role="menuitem" aria-haspopup="menu" aria-expanded="false" data-demo-menu-trigger>File</button>
+      <div data-popover data-side="bottom" aria-hidden="true">
+        <div role="menu">
+          <div role="none">
+            <button type="button" role="menuitem" aria-haspopup="menu" aria-expanded="false" aria-controls="demo-menubar-submenu-share" data-demo-menu-trigger>
+              Share
+              ${submenuIcon}
+            </button>
+            <div data-popover data-side="inline-end" id="demo-menubar-submenu-share" aria-hidden="true">
+              <div role="menu">
+                <button type="button" role="menuitem">Email link</button>
+                <button type="button" role="menuitem">Messages</button>
+                <button type="button" role="menuitem">Notes</button>
+              </div>
+            </div>
+          </div>
+          <div role="separator"></div>
+          <button type="button" role="menuitem">Print... <span data-slot="shortcut">⌘P</span></button>
+        </div>
+      </div>
+    </div>
+    <div class="menubar-item" role="none">
+      <button type="button" role="menuitem" aria-haspopup="menu" aria-expanded="false" data-demo-menu-trigger>Edit</button>
+      <div data-popover data-side="bottom" aria-hidden="true">
+        <div role="menu">
+          <button type="button" role="menuitem">Undo <span data-slot="shortcut">⌘Z</span></button>
+          <button type="button" role="menuitem">Redo <span data-slot="shortcut">⇧⌘Z</span></button>
+          <div role="separator"></div>
+          <div role="none">
+            <button type="button" role="menuitem" aria-haspopup="menu" aria-expanded="false" aria-controls="demo-menubar-submenu-find" data-demo-menu-trigger>
+              Find
+              ${submenuIcon}
+            </button>
+            <div data-popover data-side="inline-end" id="demo-menubar-submenu-find" aria-hidden="true">
+              <div role="menu">
+                <button type="button" role="menuitem">Find...</button>
+                <button type="button" role="menuitem">Find Next</button>
+                <button type="button" role="menuitem">Find Previous</button>
+              </div>
+            </div>
+          </div>
+          <div role="separator"></div>
+          <button type="button" role="menuitem">Cut</button>
+          <button type="button" role="menuitem">Copy</button>
+          <button type="button" role="menuitem">Paste</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>`
+    },
+    {
+      title: "With icons",
+      html: `<div style="display: flex; align-items: flex-start; justify-content: center; min-height: 16rem; padding-top: 1rem">
+  <div class="menubar" role="menubar" aria-label="Files" data-demo="menubar">
+    <div class="menubar-item" role="none">
+      <button type="button" role="menuitem" aria-haspopup="menu" aria-expanded="false" data-demo-menu-trigger>File</button>
+      <div data-popover data-side="bottom" aria-hidden="true">
+        <div role="menu">
+          <button type="button" role="menuitem">${file} New File <span data-slot="shortcut">⌘N</span></button>
+          <button type="button" role="menuitem">${folder} Open Folder</button>
+          <div role="separator"></div>
+          <button type="button" role="menuitem">${save} Save <span data-slot="shortcut">⌘S</span></button>
+        </div>
+      </div>
+    </div>
+    <div class="menubar-item" role="none">
+      <button type="button" role="menuitem" aria-haspopup="menu" aria-expanded="false" data-demo-menu-trigger>More</button>
+      <div data-popover data-side="bottom" aria-hidden="true">
+        <div role="menu">
+          <button type="button" role="menuitem">${settings} Settings</button>
+          <button type="button" role="menuitem">${helpCircle} Help</button>
+          <div role="separator"></div>
+          <button type="button" role="menuitem" data-variant="destructive">${trash} Delete</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>`
+    },
+    {
+      title: "Right-to-left",
+      html: `<div style="display: flex; align-items: flex-start; justify-content: center; min-height: 16rem; padding-top: 1rem">
+  <div class="menubar" role="menubar" aria-label="القائمة الرئيسية" dir="rtl" lang="ar" data-demo="menubar">
+    <div class="menubar-item" role="none">
+      <button type="button" role="menuitem" aria-haspopup="menu" aria-expanded="false" data-demo-menu-trigger>ملف</button>
+      <div data-popover data-side="bottom" aria-hidden="true">
+        <div role="menu">
+          <button type="button" role="menuitem">علامة تبويب جديدة <span data-slot="shortcut">⌘T</span></button>
+          <button type="button" role="menuitem">نافذة جديدة <span data-slot="shortcut">⌘N</span></button>
+          <button type="button" role="menuitem" disabled>نافذة التصفح المتخفي الجديدة</button>
+          <div role="separator"></div>
+          <div role="none">
+            <button type="button" role="menuitem" aria-haspopup="menu" aria-expanded="false" aria-controls="demo-menubar-rtl-share" data-demo-menu-trigger>
+              مشاركة
+              ${submenuIcon}
+            </button>
+            <div data-popover data-side="inline-end" id="demo-menubar-rtl-share" aria-hidden="true">
+              <div role="menu">
+                <button type="button" role="menuitem">رابط البريد الإلكتروني</button>
+                <button type="button" role="menuitem">الرسائل</button>
+                <button type="button" role="menuitem">الملاحظات</button>
+              </div>
+            </div>
+          </div>
+          <div role="separator"></div>
+          <button type="button" role="menuitem">طباعة... <span data-slot="shortcut">⌘P</span></button>
+        </div>
+      </div>
+    </div>
+    <div class="menubar-item" role="none">
+      <button type="button" role="menuitem" aria-haspopup="menu" aria-expanded="false" data-demo-menu-trigger>تعديل</button>
+      <div data-popover data-side="bottom" aria-hidden="true">
+        <div role="menu">
+          <button type="button" role="menuitem">تراجع <span data-slot="shortcut">⌘Z</span></button>
+          <button type="button" role="menuitem">إعادة <span data-slot="shortcut">⇧⌘Z</span></button>
+          <div role="separator"></div>
+          <button type="button" role="menuitem">قص</button>
+          <button type="button" role="menuitem">نسخ</button>
+          <button type="button" role="menuitem">لصق</button>
+        </div>
+      </div>
+    </div>
+    <div class="menubar-item" role="none">
+      <button type="button" role="menuitem" aria-haspopup="menu" aria-expanded="false" data-demo-menu-trigger>عرض</button>
+      <div data-popover data-side="bottom" aria-hidden="true">
+        <div role="menu">
+          <button type="button" role="menuitemcheckbox" aria-checked="false">
+            شريط الإشارات المرجعية
+            <span data-slot="indicator" aria-hidden="true">${check}</span>
+          </button>
+          <button type="button" role="menuitemcheckbox" aria-checked="true">
+            عناوين URL الكاملة
+            <span data-slot="indicator" aria-hidden="true">${check}</span>
+          </button>
+          <div role="separator"></div>
+          <button type="button" role="menuitem">إعادة تحميل <span data-slot="shortcut">⌘R</span></button>
+          <button type="button" role="menuitem" disabled>إعادة تحميل قسري <span data-slot="shortcut">⇧⌘R</span></button>
+          <div role="separator"></div>
+          <button type="button" role="menuitem">تبديل وضع ملء الشاشة</button>
+        </div>
+      </div>
+    </div>
+    <div class="menubar-item" role="none">
+      <button type="button" role="menuitem" aria-haspopup="menu" aria-expanded="false" data-demo-menu-trigger>الملفات الشخصية</button>
+      <div data-popover data-side="bottom" aria-hidden="true">
+        <div role="menu">
+          <div role="group" aria-label="الملفات الشخصية">
+            <button type="button" role="menuitemradio" aria-checked="false">
+              Andy
+              <span data-slot="indicator" aria-hidden="true">${check}</span>
+            </button>
+            <button type="button" role="menuitemradio" aria-checked="true">
+              Benoit
+              <span data-slot="indicator" aria-hidden="true">${check}</span>
+            </button>
+            <button type="button" role="menuitemradio" aria-checked="false">
+              Luis
+              <span data-slot="indicator" aria-hidden="true">${check}</span>
+            </button>
+          </div>
+          <div role="separator"></div>
+          <button type="button" role="menuitem" data-inset>تعديل...</button>
+          <button type="button" role="menuitem" data-inset>إضافة ملف شخصي...</button>
         </div>
       </div>
     </div>
@@ -2851,60 +3653,212 @@ Done in 2.8s using pnpm v10.18.0</code></pre>
   "navigation-menu": [
     {
       title: "Default",
-      html: `<div style="display: flex; justify-content: center; min-height: 18rem; padding-top: 1rem">
+      html: `<div style="display: flex; width: 100%; align-items: flex-start; justify-content: flex-start; min-height: 20rem; padding-top: 1rem">
   <nav class="navigation-menu" aria-label="Main" data-demo="navigation-menu">
     <ul>
       <li>
-        <button type="button" aria-expanded="false" aria-controls="nav-products" data-demo-menu-trigger>
-          Products
+        <button type="button" aria-expanded="false" aria-controls="demo-nav-starting" data-demo-menu-trigger>
+          Getting started
           ${chevronDown}
         </button>
-        <div data-popover data-side="bottom" aria-hidden="true" id="nav-products">
+        <div data-popover data-side="bottom" aria-hidden="true" id="demo-nav-starting" style="width: 22rem">
           <ul>
             <li>
               <a href="#">
-                <span data-slot="title">Components</span>
-                <span data-slot="description">Copy-paste CSS components.</span>
+                <span data-slot="title">Introduction</span>
+                <span data-slot="description">Re-usable native CSS components for any project.</span>
               </a>
             </li>
             <li>
               <a href="#">
-                <span data-slot="title">Styles</span>
-                <span data-slot="description">Eight visual interpretations.</span>
+                <span data-slot="title">Installation</span>
+                <span data-slot="description">How to install dependencies and structure your app.</span>
               </a>
             </li>
             <li>
               <a href="#">
-                <span data-slot="title">CLI</span>
-                <span data-slot="description">Install only what you use.</span>
+                <span data-slot="title">Typography</span>
+                <span data-slot="description">Styles for headings, paragraphs and lists.</span>
               </a>
             </li>
           </ul>
         </div>
       </li>
       <li>
-        <button type="button" aria-expanded="false" aria-controls="nav-resources" data-demo-menu-trigger>
-          Resources
+        <button type="button" aria-expanded="false" aria-controls="demo-nav-components" data-demo-menu-trigger>
+          Components
           ${chevronDown}
         </button>
-        <div data-popover data-side="bottom" aria-hidden="true" id="nav-resources">
-          <ul>
+        <div data-popover data-side="bottom" aria-hidden="true" id="demo-nav-components" style="width: 30rem">
+          <ul style="grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.5rem">
             <li>
               <a href="#">
-                <span data-slot="title">Docs</span>
-                <span data-slot="description">Installation and component contracts.</span>
+                <span data-slot="title">Alert Dialog</span>
+                <span data-slot="description">A modal dialog that interrupts the user with important content.</span>
               </a>
             </li>
             <li>
               <a href="#">
-                <span data-slot="title">GitHub</span>
-                <span data-slot="description">Source and issue tracker.</span>
+                <span data-slot="title">Hover Card</span>
+                <span data-slot="description">Preview content available behind a link.</span>
+              </a>
+            </li>
+            <li>
+              <a href="#">
+                <span data-slot="title">Progress</span>
+                <span data-slot="description">Shows the completion progress of a task.</span>
+              </a>
+            </li>
+            <li>
+              <a href="#">
+                <span data-slot="title">Tabs</span>
+                <span data-slot="description">Layered sections displayed one at a time.</span>
+              </a>
+            </li>
+            <li>
+              <a href="#">
+                <span data-slot="title">Tooltip</span>
+                <span data-slot="description">A label shown on hover or keyboard focus.</span>
+              </a>
+            </li>
+            <li>
+              <a href="#">
+                <span data-slot="title">Scroll Area</span>
+                <span data-slot="description">A styled native scroll container.</span>
               </a>
             </li>
           </ul>
         </div>
       </li>
       <li><a href="#">Docs</a></li>
+    </ul>
+  </nav>
+</div>`
+    },
+    {
+      title: "With icons",
+      html: `<div style="display: flex; justify-content: center; min-height: 16rem; padding-top: 1rem">
+  <nav class="navigation-menu" aria-label="Task views" data-demo="navigation-menu">
+    <ul>
+      <li>
+        <button type="button" aria-expanded="false" aria-controls="demo-nav-status" data-demo-menu-trigger>
+          Status
+          ${chevronDown}
+        </button>
+        <div data-popover data-side="bottom" aria-hidden="true" id="demo-nav-status" style="width: 14rem">
+          <ul>
+            <li>
+              <a href="#">
+                <span data-slot="icon">${circleAlert}</span>
+                <span data-slot="title">Backlog</span>
+              </a>
+            </li>
+            <li>
+              <a href="#">
+                <span data-slot="icon">${circleDashed}</span>
+                <span data-slot="title">To do</span>
+              </a>
+            </li>
+            <li>
+              <a href="#">
+                <span data-slot="icon">${circleCheck}</span>
+                <span data-slot="title">Done</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </li>
+      <li><a href="#">Docs</a></li>
+    </ul>
+  </nav>
+</div>`
+    },
+    {
+      title: "Links",
+      html: `<div style="display: flex; justify-content: center; min-height: 16rem; padding-top: 1rem">
+  <nav class="navigation-menu" aria-label="Resources" data-demo="navigation-menu">
+    <ul>
+      <li>
+        <button type="button" aria-expanded="false" aria-controls="demo-nav-resources" data-demo-menu-trigger>
+          Resources
+          ${chevronDown}
+        </button>
+        <div data-popover data-side="bottom" aria-hidden="true" id="demo-nav-resources" style="width: 12rem">
+          <ul>
+            <li><a href="#"><span data-slot="title">Documentation</span></a></li>
+            <li><a href="#"><span data-slot="title">GitHub</span></a></li>
+            <li><a href="#"><span data-slot="title">Support</span></a></li>
+            <li><a href="#"><span data-slot="title">Changelog</span></a></li>
+          </ul>
+        </div>
+      </li>
+      <li><a href="#">Docs</a></li>
+    </ul>
+  </nav>
+</div>`
+    },
+    {
+      title: "Right-to-left",
+      html: `<div style="display: flex; justify-content: center; min-height: 20rem; padding-top: 1rem">
+  <nav class="navigation-menu" aria-label="القائمة الرئيسية" dir="rtl" lang="ar" data-demo="navigation-menu">
+    <ul>
+      <li>
+        <button type="button" aria-expanded="false" aria-controls="demo-nav-rtl-start" data-demo-menu-trigger>
+          البدء
+          ${chevronDown}
+        </button>
+        <div data-popover data-side="bottom" aria-hidden="true" id="demo-nav-rtl-start" style="width: 22rem">
+          <ul>
+            <li>
+              <a href="#">
+                <span data-slot="title">مقدمة</span>
+                <span data-slot="description">مكونات أصلية قابلة لإعادة الاستخدام لأي مشروع.</span>
+              </a>
+            </li>
+            <li>
+              <a href="#">
+                <span data-slot="title">التثبيت</span>
+                <span data-slot="description">كيفية تثبيت التبعيات وتنظيم تطبيقك.</span>
+              </a>
+            </li>
+            <li>
+              <a href="#">
+                <span data-slot="title">الطباعة</span>
+                <span data-slot="description">أنماط للعناوين والفقرات والقوائم.</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </li>
+      <li>
+        <button type="button" aria-expanded="false" aria-controls="demo-nav-rtl-components" data-demo-menu-trigger>
+          المكونات
+          ${chevronDown}
+        </button>
+        <div data-popover data-side="bottom" aria-hidden="true" id="demo-nav-rtl-components" style="width: 22rem">
+          <ul>
+            <li>
+              <a href="#">
+                <span data-slot="title">حوار التنبيه</span>
+                <span data-slot="description">حوار نافذة يقطع المستخدم بمحتوى مهم.</span>
+              </a>
+            </li>
+            <li>
+              <a href="#">
+                <span data-slot="title">التقدم</span>
+                <span data-slot="description">يعرض مؤشرًا يوضح تقدم إتمام المهمة.</span>
+              </a>
+            </li>
+            <li>
+              <a href="#">
+                <span data-slot="title">التبويبات</span>
+                <span data-slot="description">مجموعة من أقسام المحتوى المعروضة واحدة في كل مرة.</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </li>
+      <li><a href="#">الوثائق</a></li>
     </ul>
   </nav>
 </div>`

@@ -55,7 +55,18 @@ The default action is a screenshot of the first example preview; add --page for
 the whole page. \`--eval\` runs before \`--shot\`, so an expression can mutate the
 page before it is captured. The default \`--shot\` target is .docs-preview;
 open overlays that paint into the code area need --shot-el ".component-preview"
-or a taller preview.`;
+or a taller preview.
+
+Notes:
+  .component-preview has overflow: hidden and an element screenshot clips at the
+  element box, so a nested or overflowing panel is missing from the capture even
+  while it is open. Use an --html fixture with enough room; --page does not
+  bypass the clip.
+  --html appends #probe-root to the end of .docs-content. Prepend it in --eval
+  for fixed-position overlays:
+  { el.parentElement.prepend(el); window.scrollTo(0, 0); }
+  Transitions and animations are disabled for stable screenshots, so computed
+  transition and animation values read "none".`;
 
 const args = process.argv.slice(2);
 const valueFlags = new Set([

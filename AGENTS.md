@@ -79,14 +79,16 @@ rules.
 
 ## Registry workflow
 
-1. Edit the base and/or style file under `packages/loseta/registry/`.
+1. Edit the base and/or style file under `packages/loseta/registry/`. Read the
+   matching role recipe in `STYLE-GUIDE.md` before changing a style file.
 2. Update the item in `registry.json`: `title`, `description`, `root`, `files`
    (one style file per declared style for stable items, one Nova file for
    experimental items), dependencies, `status`, `docs` and `examples` as
    applicable.
-3. Edit example markup in `web/src/data/examples.ts`. Use the demo hooks
-   (`data-demo`, `data-demo-trigger`, `data-demo-toggle`, `data-open-dialog`,
-   `data-close-dialog`) only for docs behavior; the generator strips them.
+3. Edit example markup in `web/src/data/examples.ts`. Demo hooks live in
+   `web/src/scripts/docs-client/demo.ts`; use only the hook an example needs to
+   demonstrate behavior, and the generator strips it. `EXAMPLES.md`,
+   "Demo hooks", lists the common hooks.
 4. Run `pnpm registry:examples` to regenerate
    `packages/loseta/registry/examples/` and the `examples` fields.
 5. Run `pnpm test` and `pnpm docs:css`. For visual or docs changes, run
@@ -184,7 +186,9 @@ Select one case with `--example "<title>"`, `--style`, `--scheme`, `--width` or
 `--html <fixture>`; inspect it with `--eval "<js>"` (binds `el` to the example
 root) and `--page` for the whole page. `--shot-el` captures one element; it is
 scoped to the selected example with `--example` and inside `#probe-root` with
-`--html`. `--all-examples` covers every preview.
+`--html`. `--all-examples` covers every preview. `.component-preview` clips
+panels that open past it; nested menus need an `--html` fixture (see
+`EXAMPLES.md`, "Overlays and clipping").
 For a contact sheet across styles, use
 `pnpm --filter web run styles:review <item> --scheme both`.
 

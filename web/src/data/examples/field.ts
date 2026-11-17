@@ -1,0 +1,268 @@
+import type { Example } from "./types";
+
+export const fieldExamples: Example[] = [
+    {
+      title: "Default",
+      html: `<div class="field">
+  <label class="label" for="demo-field-default">Name</label>
+  <input class="input" id="demo-field-default" placeholder="Ada Lovelace">
+</div>`
+    },
+    {
+      title: "Vertical",
+      html: `<div class="field">
+  <label class="label" for="demo-field-email">Email</label>
+  <input class="input" id="demo-field-email" type="email" placeholder="you@example.com">
+  <p>We'll never share your email with anyone else.</p>
+</div>`
+    },
+    {
+      title: "Horizontal",
+      html: `<div class="field" data-orientation="horizontal">
+  <section>
+    <label class="label" for="demo-field-notifications">Notifications</label>
+    <p>Receive emails about new features.</p>
+  </section>
+  <input class="switch" type="checkbox" role="switch" id="demo-field-notifications">
+</div>`
+    },
+    {
+      title: "Input",
+      html: `<div class="fieldset" style="max-width: 20rem">
+  <div class="field">
+    <label class="label" for="demo-field-username">Username</label>
+    <input class="input" id="demo-field-username" type="text" placeholder="Max Leiter">
+    <p>Choose a unique username for your account.</p>
+  </div>
+  <div class="field">
+    <label class="label" for="demo-field-password">Password</label>
+    <p>Must be at least 8 characters long.</p>
+    <input class="input" id="demo-field-password" type="password" placeholder="••••••••">
+  </div>
+</div>`
+    },
+    {
+      title: "Textarea",
+      html: `<div class="field" style="max-width: 20rem">
+  <label class="label" for="demo-field-feedback">Feedback</label>
+  <textarea class="textarea" id="demo-field-feedback" placeholder="Your feedback helps us improve..." rows="4"></textarea>
+  <p>Share your thoughts about our service.</p>
+</div>`
+    },
+    {
+      title: "Select",
+      html: `<div class="field" style="max-width: 20rem">
+  <label class="label" for="demo-field-department">Department</label>
+  <select class="native-select" id="demo-field-department">
+    <option value="" disabled selected>Choose department</option>
+    <option value="engineering">Engineering</option>
+    <option value="design">Design</option>
+    <option value="marketing">Marketing</option>
+    <option value="support">Customer Support</option>
+  </select>
+  <p>Select your department or area of work.</p>
+</div>`
+    },
+    {
+      title: "Slider",
+      html: `<div class="field" style="max-width: 20rem">
+  <label class="label" for="demo-field-budget">Monthly budget</label>
+  <p>Set the amount you want to spend each month.</p>
+  <input class="slider" type="range" id="demo-field-budget" min="0" max="1000" step="10" value="500">
+</div>`
+    },
+    {
+      title: "Fieldset",
+      html: `<fieldset class="fieldset" style="max-width: 24rem">
+  <legend>Address Information</legend>
+  <p>We need your address to deliver your order.</p>
+  <div class="field">
+    <label class="label" for="demo-field-street">Street Address</label>
+    <input class="input" id="demo-field-street" type="text" placeholder="123 Main St">
+  </div>
+  <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem">
+    <div class="field">
+      <label class="label" for="demo-field-city">City</label>
+      <input class="input" id="demo-field-city" type="text" placeholder="New York">
+    </div>
+    <div class="field">
+      <label class="label" for="demo-field-zip">Postal Code</label>
+      <input class="input" id="demo-field-zip" type="text" placeholder="90502">
+    </div>
+  </div>
+</fieldset>`
+    },
+    {
+      title: "Checkbox",
+      html: `<fieldset class="fieldset" style="max-width: 20rem">
+  <legend data-variant="label">Show these items on the desktop</legend>
+  <p>Select the items you want to show on the desktop.</p>
+  <div role="group" data-slot="checkbox-group" aria-label="Items shown on the desktop">
+    <div class="field" data-orientation="horizontal">
+      <input class="checkbox" type="checkbox" id="demo-field-hard-disks" checked>
+      <label class="label" for="demo-field-hard-disks">Hard disks</label>
+    </div>
+    <div class="field" data-orientation="horizontal">
+      <input class="checkbox" type="checkbox" id="demo-field-external-disks">
+      <label class="label" for="demo-field-external-disks">External disks</label>
+    </div>
+    <div class="field" data-orientation="horizontal">
+      <input class="checkbox" type="checkbox" id="demo-field-cds" checked>
+      <label class="label" for="demo-field-cds">CDs, DVDs, and iPods</label>
+    </div>
+    <div class="field" data-orientation="horizontal">
+      <input class="checkbox" type="checkbox" id="demo-field-servers">
+      <label class="label" for="demo-field-servers">Connected servers</label>
+    </div>
+  </div>
+  <div class="field-separator"><hr class="separator"></div>
+  <div class="field" data-orientation="horizontal">
+    <input class="checkbox" type="checkbox" id="demo-field-sync-folders" checked>
+    <section>
+      <label class="label" for="demo-field-sync-folders">Sync Desktop &amp; Documents folders</label>
+      <p>Your Desktop &amp; Documents folders are being synced with iCloud Drive. You can access them from other devices.</p>
+    </section>
+  </div>
+</fieldset>`
+    },
+    {
+      title: "Radio",
+      html: `<fieldset class="fieldset" style="max-width: 20rem">
+  <legend data-variant="label">Subscription Plan</legend>
+  <p>Yearly and lifetime plans offer significant savings.</p>
+  <div role="radiogroup" data-slot="radio-group" aria-label="Subscription Plan">
+    <div class="field" data-orientation="horizontal">
+      <input class="radio" type="radio" name="demo-field-plan" id="demo-field-monthly" value="monthly" checked>
+      <label class="label" for="demo-field-monthly">Monthly ($9.99/month)</label>
+    </div>
+    <div class="field" data-orientation="horizontal">
+      <input class="radio" type="radio" name="demo-field-plan" id="demo-field-yearly" value="yearly">
+      <label class="label" for="demo-field-yearly">Yearly ($99.99/year)</label>
+    </div>
+    <div class="field" data-orientation="horizontal">
+      <input class="radio" type="radio" name="demo-field-plan" id="demo-field-lifetime" value="lifetime">
+      <label class="label" for="demo-field-lifetime">Lifetime ($299.99)</label>
+    </div>
+  </div>
+</fieldset>`
+    },
+    {
+      title: "Switch",
+      html: `<div class="field" data-orientation="horizontal" style="max-width: 20rem">
+  <label class="label" for="demo-field-2fa">Multi-factor authentication</label>
+  <input class="switch" type="checkbox" role="switch" id="demo-field-2fa" checked>
+</div>`
+    },
+    {
+      title: "Choice card",
+      html: `<fieldset class="fieldset" style="max-width: 20rem">
+  <legend data-variant="label">Compute Environment</legend>
+  <p>Select the compute environment for your cluster.</p>
+  <div role="radiogroup" data-slot="radio-group" aria-label="Compute environment">
+    <label class="label" for="demo-field-kubernetes">
+      <div class="field" data-orientation="horizontal">
+        <section>
+          <h3>Kubernetes</h3>
+          <p>Run GPU workloads on a K8s cluster.</p>
+        </section>
+        <input class="radio" type="radio" name="demo-field-environment" id="demo-field-kubernetes" value="kubernetes" checked>
+      </div>
+    </label>
+    <label class="label" for="demo-field-virtual-machine">
+      <div class="field" data-orientation="horizontal">
+        <section>
+          <h3>Virtual Machine</h3>
+          <p>Access a cluster to run GPU workloads.</p>
+        </section>
+        <input class="radio" type="radio" name="demo-field-environment" id="demo-field-virtual-machine" value="virtual-machine">
+      </div>
+    </label>
+  </div>
+</fieldset>`
+    },
+    {
+      title: "Field group",
+      html: `<div class="fieldset" style="max-width: 20rem">
+  <fieldset class="fieldset">
+    <legend data-variant="label">Responses</legend>
+    <p>Get notified when ChatGPT responds to requests that take time, like research or image generation.</p>
+    <div role="group" data-slot="checkbox-group" aria-label="Responses">
+      <div class="field" data-orientation="horizontal">
+        <input class="checkbox" type="checkbox" id="demo-field-responses-push" checked disabled>
+        <label class="label" for="demo-field-responses-push">Push notifications</label>
+      </div>
+    </div>
+  </fieldset>
+  <div class="field-separator"><hr class="separator"><span>Or</span></div>
+  <fieldset class="fieldset">
+    <legend data-variant="label">Tasks</legend>
+    <p>Get notified when tasks you've created have updates. <a href="#">Manage tasks</a></p>
+    <div role="group" data-slot="checkbox-group" aria-label="Tasks">
+      <div class="field" data-orientation="horizontal">
+        <input class="checkbox" type="checkbox" id="demo-field-tasks-push">
+        <label class="label" for="demo-field-tasks-push">Push notifications</label>
+      </div>
+      <div class="field" data-orientation="horizontal">
+        <input class="checkbox" type="checkbox" id="demo-field-tasks-email">
+        <label class="label" for="demo-field-tasks-email">Email notifications</label>
+      </div>
+    </div>
+  </fieldset>
+</div>`
+    },
+    {
+      title: "Responsive layout",
+      html: `<fieldset class="fieldset" style="max-width: 40rem">
+  <legend>Profile</legend>
+  <p>Fill in your profile information.</p>
+  <div role="group" aria-label="Profile fields">
+    <div class="field" data-orientation="responsive">
+      <section>
+        <label class="label" for="demo-field-profile-name">Name</label>
+        <p>Provide your full name for identification.</p>
+      </section>
+      <input class="input" id="demo-field-profile-name" placeholder="Ada Lovelace" required>
+    </div>
+    <div class="field" data-orientation="responsive">
+      <button type="button" class="btn">Submit</button>
+      <button type="button" class="btn" data-variant="outline">Cancel</button>
+    </div>
+  </div>
+</fieldset>`
+    },
+    {
+      title: "Validation and errors",
+      html: `<div class="field" style="max-width: 20rem">
+  <label class="label" for="demo-field-invalid-email">Email</label>
+  <input class="input" id="demo-field-invalid-email" type="email" value="ada@example" aria-invalid="true" aria-describedby="demo-field-invalid-error">
+  <div id="demo-field-invalid-error" role="alert">
+    <ul>
+      <li>Enter a valid email address.</li>
+      <li>Use the format name@example.com.</li>
+    </ul>
+  </div>
+</div>`
+    },
+    {
+      title: "Right-to-left",
+      html: `<div class="fieldset" dir="rtl" lang="ar" style="max-width: 20rem">
+  <div class="field">
+    <label class="label" for="demo-field-rtl-name">الاسم على البطاقة</label>
+    <input class="input" id="demo-field-rtl-name" placeholder="Ada Lovelace">
+  </div>
+  <div class="field">
+    <label class="label" for="demo-field-rtl-number">رقم البطاقة</label>
+    <input class="input" id="demo-field-rtl-number" inputmode="numeric" placeholder="1234 5678 9012 3456">
+    <p>أدخل رقم البطاقة المكون من 16 رقمًا.</p>
+  </div>
+  <div class="field-separator"><hr class="separator"><span>أو</span></div>
+  <div class="field" data-orientation="horizontal">
+    <section>
+      <label class="label" for="demo-field-rtl-shipping">نفس عنوان الشحن</label>
+      <p>استخدم عنوان الشحن نفسه لعنوان الفوترة.</p>
+    </section>
+    <input class="checkbox" type="checkbox" id="demo-field-rtl-shipping" checked>
+  </div>
+</div>`
+    }
+];

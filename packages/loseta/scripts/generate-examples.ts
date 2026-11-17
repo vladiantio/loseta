@@ -1,7 +1,7 @@
 import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
-import { examples } from "../../../web/src/data/examples.ts";
+import { examples } from "../../../web/src/data/examples/index.ts";
 import { stripDemoHooks } from "../../../web/src/lib/example-markup.ts";
 
 const here = dirname(fileURLToPath(import.meta.url));

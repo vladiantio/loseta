@@ -6,9 +6,13 @@ reference for this checklist.
 
 ## Files
 
-- `web/src/data/examples.ts` — example markup keyed by registry item name. The
-  first `"Default"` entry renders as the hero and is removed from the Examples
-  list; every other entry becomes a titled preview.
+- `web/src/data/examples/` — one file per component, re-exported by `index.ts`
+  as example markup keyed by item name. The first `"Default"` entry renders as
+  the hero and is removed from the Examples list; every other entry becomes a
+  titled preview.
+- `web/src/data/examples/icons.ts` — shared inline SVGs and example helpers.
+  Import only the icons a component uses; add a new icon here when an example
+  needs it.
 - `web/src/scripts/docs-client/demo.ts` — demo-only click, context-menu and
   dialog behavior. The generator strips the hooks from installed examples.
 - `web/src/data/components.ts` — `groupBy` (sidebar group) and `notesBy` (one
@@ -28,10 +32,11 @@ reference for this checklist.
 1. Read the base file and every style file of the item. List the parts the CSS
    already supports before inventing markup; a detail fix should follow from
    what the selectors promise.
-2. Add examples to `web/src/data/examples.ts` from simple to composed: default,
-   vertical, horizontal, each control, groups, responsive, validation, RTL. Use
-   unique `demo-<item>-*` ids. Add demo hooks only when the docs client must
-   demonstrate behavior; see "Demo hooks" below.
+2. Add examples to `web/src/data/examples/<item>.ts` from simple to composed:
+   default, vertical, horizontal, each control, groups, responsive, validation,
+   RTL. Use unique `demo-<item>-*` ids, then add the import and record entry to
+   `web/src/data/examples/index.ts`. Add demo hooks only when the docs client
+   must demonstrate behavior; see "Demo hooks" below.
 3. Run `pnpm registry:examples`. It regenerates the HTML and the item's
    `examples` field.
 4. Update the evidence around the examples:

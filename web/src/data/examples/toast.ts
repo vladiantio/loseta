@@ -1,0 +1,23 @@
+import type { Example } from "./types";
+
+export const toastExamples: Example[] = [
+    {
+      title: "Default",
+      html: `<div style="display: flex; flex-direction: column; gap: 0.5rem; max-width: 22rem">
+  <div class="toast" role="status">
+    <section>
+      <p data-slot="title">Saved</p>
+      <p data-slot="description">Your changes have been saved.</p>
+    </section>
+    <button type="button" class="btn" data-variant="ghost" data-size="icon-xs" data-slot="close" data-demo-toast-close aria-label="Dismiss">×</button>
+  </div>
+  <div class="toast" data-variant="destructive" role="alert">
+    <section>
+      <p data-slot="title">Upload failed</p>
+      <p data-slot="description">The file is larger than 10 MB.</p>
+    </section>
+    <button type="button" class="btn" data-variant="ghost" data-size="icon-xs" data-slot="close" data-demo-toast-close aria-label="Dismiss">×</button>
+  </div>
+</div>`
+    }
+];

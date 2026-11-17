@@ -1,0 +1,12 @@
+import type { Example } from "./types";
+
+export const skeletonExamples: Example[] = [
+    {
+      title: "Default",
+      html: `<div style="display: flex; flex-direction: column; gap: 0.5rem; width: 100%; max-width: 20rem">
+  <div class="skeleton" style="height: 1rem; width: 60%"></div>
+  <div class="skeleton" style="height: 1rem; width: 100%"></div>
+  <div class="skeleton" style="height: 1rem; width: 80%"></div>
+</div>`
+    }
+];

@@ -1,0 +1,186 @@
+import type { Example } from "./types";
+import { close, dialogParagraphs } from "./icons";
+
+export const dialogExamples: Example[] = [
+    {
+      title: "Default",
+      html: `<button type="button" class="btn" data-open-dialog="demo-dialog-default">Open dialog</button>
+
+<dialog class="dialog" id="demo-dialog-default" aria-labelledby="dialog-default-title" aria-describedby="dialog-default-description">
+  <div>
+    <header>
+      <h2 data-slot="title" id="dialog-default-title">Dialog title</h2>
+      <p data-slot="description" id="dialog-default-description">
+        This is the dialog content. Add actions or a form to finish the flow.
+      </p>
+    </header>
+    <footer>
+      <button type="button" class="btn" data-variant="outline" data-close-dialog>Cancel</button>
+      <button type="button" class="btn" data-close-dialog>Continue</button>
+    </footer>
+    <form method="dialog">
+      <button class="btn" data-variant="ghost" data-size="icon-sm" aria-label="Close">${close}</button>
+    </form>
+  </div>
+</dialog>`
+    },
+    {
+      title: "Edit profile",
+      html: `<button type="button" class="btn" data-open-dialog="demo-dialog">Open profile dialog</button>
+
+<dialog class="dialog" id="demo-dialog" aria-labelledby="dialog-title" aria-describedby="dialog-description">
+  <div>
+    <header>
+      <h2 data-slot="title" id="dialog-title">Edit profile</h2>
+      <p data-slot="description" id="dialog-description">
+        Make changes to your profile here. Click save when you're done.
+      </p>
+    </header>
+    <section>
+      <div class="fieldset">
+        <div class="field">
+          <label class="label" for="dialog-name">Name</label>
+          <input class="input" id="dialog-name" value="Ada Lovelace">
+        </div>
+        <div class="field">
+          <label class="label" for="dialog-username">Username</label>
+          <input class="input" id="dialog-username" value="@ada">
+        </div>
+      </div>
+    </section>
+    <footer>
+      <button type="button" class="btn" data-variant="outline" data-close-dialog>Cancel</button>
+      <button type="button" class="btn" data-close-dialog>Save changes</button>
+    </footer>
+    <form method="dialog">
+      <button class="btn" data-variant="ghost" data-size="icon-sm" aria-label="Close">${close}</button>
+    </form>
+  </div>
+</dialog>`
+    },
+    {
+      title: "Custom close button",
+      html: `<button type="button" class="btn" data-variant="outline" data-open-dialog="demo-dialog-close-button">
+  Open share dialog
+</button>
+
+<dialog class="dialog" id="demo-dialog-close-button" aria-labelledby="dialog-close-title" aria-describedby="dialog-close-description">
+  <div>
+    <header>
+      <h2 data-slot="title" id="dialog-close-title">Share link</h2>
+      <p data-slot="description" id="dialog-close-description">
+        Anyone who has this link will be able to view this.
+      </p>
+    </header>
+    <section>
+      <div class="field">
+        <label class="sr-only" for="dialog-share-link">Link</label>
+        <input class="input" id="dialog-share-link" value="https://loseta.dev/docs/components/dialog" readonly>
+      </div>
+    </section>
+    <footer data-align="start">
+      <button type="button" class="btn" data-variant="outline" data-close-dialog>Close</button>
+    </footer>
+  </div>
+</dialog>`
+    },
+    {
+      title: "No close button",
+      html: `<button type="button" class="btn" data-variant="outline" data-open-dialog="demo-dialog-no-close">
+  Open dialog without close
+</button>
+
+<dialog class="dialog" id="demo-dialog-no-close" aria-labelledby="dialog-no-close-title" aria-describedby="dialog-no-close-description">
+  <div>
+    <header>
+      <h2 data-slot="title" id="dialog-no-close-title">No close button</h2>
+      <p data-slot="description" id="dialog-no-close-description">
+        This dialog has no close control. Dismiss it with Escape or your own action.
+      </p>
+    </header>
+  </div>
+</dialog>`
+    },
+    {
+      title: "Scrollable content",
+      html: `<button type="button" class="btn" data-variant="outline" data-open-dialog="demo-dialog-scrollable">
+  Open scrollable dialog
+</button>
+
+<dialog class="dialog" id="demo-dialog-scrollable" aria-labelledby="dialog-scrollable-title" aria-describedby="dialog-scrollable-description">
+  <div>
+    <header>
+      <h2 data-slot="title" id="dialog-scrollable-title">Scrollable content</h2>
+      <p data-slot="description" id="dialog-scrollable-description">
+        The header stays in view while the section scrolls.
+      </p>
+    </header>
+    <section role="region" aria-label="Scrollable content" tabindex="0">
+      ${dialogParagraphs}
+    </section>
+    <form method="dialog">
+      <button class="btn" data-variant="ghost" data-size="icon-sm" aria-label="Close">${close}</button>
+    </form>
+  </div>
+</dialog>`
+    },
+    {
+      title: "Sticky footer",
+      html: `<button type="button" class="btn" data-variant="outline" data-open-dialog="demo-dialog-sticky-footer">
+  Open sticky footer dialog
+</button>
+
+<dialog class="dialog" id="demo-dialog-sticky-footer" aria-labelledby="dialog-sticky-footer-title" aria-describedby="dialog-sticky-footer-description">
+  <div>
+    <header>
+      <h2 data-slot="title" id="dialog-sticky-footer-title">Sticky footer</h2>
+      <p data-slot="description" id="dialog-sticky-footer-description">
+        The footer stays visible while the section scrolls.
+      </p>
+    </header>
+    <section role="region" aria-label="Sticky footer content" tabindex="0">
+      ${dialogParagraphs}
+    </section>
+    <footer>
+      <button type="button" class="btn" data-variant="outline" data-close-dialog>Close</button>
+    </footer>
+  </div>
+</dialog>`
+    },
+    {
+      title: "Right-to-left",
+      html: `<div dir="rtl" lang="ar" style="display: flex; flex-wrap: wrap; gap: 0.5rem">
+  <button type="button" class="btn" data-open-dialog="demo-dialog-rtl">فتح الحوار</button>
+
+  <dialog class="dialog" id="demo-dialog-rtl" aria-labelledby="dialog-rtl-title" aria-describedby="dialog-rtl-description">
+    <div>
+      <header>
+        <h2 data-slot="title" id="dialog-rtl-title">تعديل الملف الشخصي</h2>
+        <p data-slot="description" id="dialog-rtl-description">
+          قم بإجراء تغييرات على ملفك الشخصي هنا. انقر على حفظ عند الانتهاء.
+        </p>
+      </header>
+      <section>
+        <div class="fieldset">
+          <div class="field">
+            <label class="label" for="dialog-rtl-name">الاسم</label>
+            <input class="input" id="dialog-rtl-name" value="آدا لوفليس">
+          </div>
+          <div class="field">
+            <label class="label" for="dialog-rtl-username">اسم المستخدم</label>
+            <input class="input" id="dialog-rtl-username" value="@ada">
+          </div>
+        </div>
+      </section>
+      <footer>
+        <button type="button" class="btn" data-variant="outline" data-close-dialog>إلغاء</button>
+        <button type="button" class="btn" data-close-dialog>حفظ التغييرات</button>
+      </footer>
+      <form method="dialog">
+        <button class="btn" data-variant="ghost" data-size="icon-sm" aria-label="إغلاق">${close}</button>
+      </form>
+    </div>
+  </dialog>
+</div>`
+    }
+];

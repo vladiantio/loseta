@@ -1,5 +1,5 @@
 import registry from "../../../packages/loseta/registry/registry.json" with { type: "json" };
-import { examples } from "./examples";
+import { examples } from "./examples/index";
 
 export type ComponentGroup =
   | "Forms"

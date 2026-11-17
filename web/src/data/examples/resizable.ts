@@ -1,0 +1,42 @@
+import type { Example } from "./types";
+
+export const resizableExamples: Example[] = [
+    {
+      title: "Default",
+      html: `<div class="resizable" style="height: 10rem">
+  <div class="resizable-panel">
+    <p><strong>Sidebar</strong></p>
+  </div>
+  <div data-slot="handle" role="separator" aria-orientation="vertical" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" tabindex="0"></div>
+  <div class="resizable-panel">
+    <p><strong>Content</strong></p>
+  </div>
+</div>`
+    },
+    {
+      title: "Horizontal",
+      html: `<div class="resizable" data-orientation="horizontal" style="height: 12rem">
+  <div class="resizable-panel">
+    <p><strong>Panel one</strong></p>
+    <p>Drag the handle or use the arrow keys in your application.</p>
+  </div>
+  <div data-slot="handle" role="separator" aria-orientation="vertical" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" tabindex="0"></div>
+  <div class="resizable-panel" style="--panel-size: 2">
+    <p><strong>Panel two</strong></p>
+    <p>Set --panel-size to change the initial flex ratio.</p>
+  </div>
+</div>`
+    },
+    {
+      title: "Vertical",
+      html: `<div class="resizable" data-orientation="vertical" style="height: 14rem">
+  <div class="resizable-panel">
+    <p><strong>Top panel</strong></p>
+  </div>
+  <div data-slot="handle" role="separator" aria-orientation="horizontal" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" tabindex="0"></div>
+  <div class="resizable-panel">
+    <p><strong>Bottom panel</strong></p>
+  </div>
+</div>`
+    }
+];

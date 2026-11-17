@@ -57,7 +57,7 @@ and `read`.
 - `web/` — Astro docs site; it imports the registry CSS directly. Component
   pages are one dynamic route (`web/src/pages/docs/components/[id].astro`);
   per-item copy lives in `web/src/data/components.ts` and example markup in
-  `web/src/data/examples.ts`.
+  `web/src/data/examples/`.
 
 ## Base/style split
 
@@ -85,7 +85,7 @@ rules.
    (one style file per declared style for stable items, one Nova file for
    experimental items), dependencies, `status`, `docs` and `examples` as
    applicable.
-3. Edit example markup in `web/src/data/examples.ts`. Demo hooks live in
+3. Edit example markup in `web/src/data/examples/<item>.ts`. Demo hooks live in
    `web/src/scripts/docs-client/demo.ts`; use only the hook an example needs to
    demonstrate behavior, and the generator strips it. `EXAMPLES.md`,
    "Demo hooks", lists the common hooks.
@@ -132,7 +132,7 @@ Nova-only until they are promoted.
 Regenerate these; do not edit them by hand:
 
 - `packages/loseta/registry/examples/*.html` from
-  `web/src/data/examples.ts` (`pnpm registry:examples`).
+  `web/src/data/examples/` (`pnpm registry:examples`).
 - `web/src/styles/loseta.css` from the stable registry items
   (`pnpm docs:css`, also run by `pnpm web:dev` and `pnpm web:build`).
 - `web/public/styles/loseta-experimental.css` from the experimental base and

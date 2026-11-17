@@ -191,7 +191,7 @@ verify `npm view loseta version` and a fresh install.
   - `recipes/date-picker.astro`: remove the `experimental` prop and
     `--experimental` command.
   - `data/components.ts`: update the native-select note.
-  - `data/examples.ts`: remove the “experimental bundle” conversation copy.
+  - `data/examples/`: remove the “experimental bundle” conversation copy.
 - CLI: `list --experimental` prints “No experimental components” instead of an
   empty heading; `add` without names does not print the experimental hint when
   none exist.

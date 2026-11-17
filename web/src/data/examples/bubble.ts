@@ -1,0 +1,34 @@
+import type { Example } from "./types";
+
+export const bubbleExamples: Example[] = [
+    {
+      title: "Default",
+      html: `<div class="bubble" data-align="start">
+  <div data-slot="content">Hello! How can I help you today?</div>
+</div>`
+    },
+    {
+      title: "Variants",
+      html: `<div style="display: flex; flex-wrap: wrap; gap: 0.5rem; align-items: flex-start">
+  <div class="bubble"><div data-slot="content">Default</div></div>
+  <div class="bubble" data-variant="secondary"><div data-slot="content">Secondary</div></div>
+  <div class="bubble" data-variant="muted"><div data-slot="content">Muted</div></div>
+  <div class="bubble" data-variant="tinted"><div data-slot="content">Tinted</div></div>
+  <div class="bubble" data-variant="outline"><div data-slot="content">Outline</div></div>
+  <div class="bubble" data-variant="ghost"><div data-slot="content">Ghost content</div></div>
+  <div class="bubble" data-variant="destructive"><div data-slot="content">Something went wrong.</div></div>
+</div>`
+    },
+    {
+      title: "Reactions",
+      html: `<div style="display: flex; flex-direction: column; gap: 2rem; padding-block: 1rem; max-width: 22rem">
+  <div class="bubble" data-variant="muted" data-align="start">
+    <div data-slot="content">The install failure came from an out-of-date lockfile.</div>
+    <div data-slot="reactions">
+      <button type="button" data-slot="reaction" aria-pressed="true" aria-label="Helpful, 2 reactions">👍 <span>2</span></button>
+      <button type="button" data-slot="reaction" aria-pressed="false" aria-label="Celebrate, 0 reactions">🎉</button>
+    </div>
+  </div>
+</div>`
+    }
+];

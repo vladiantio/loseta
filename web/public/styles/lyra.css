@@ -3308,9 +3308,15 @@
     font-size: var(--text-base);
     line-height: var(--text-base--line-height);
     letter-spacing: 0.4em;
+    text-indent: 0.4em;
     transition-property: color, background-color, border-color, box-shadow;
     transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
     transition-duration: 150ms;
+
+    &::selection {
+      background-color: var(--primary);
+      color: var(--primary-foreground);
+    }
 
     &:focus-visible {
       border-color: var(--ring);
@@ -3333,6 +3339,7 @@
       font-size: var(--text-sm);
       line-height: var(--text-sm--line-height);
       letter-spacing: 0.3em;
+      text-indent: 0.3em;
     }
 
     &[data-size='lg'] {
@@ -3340,6 +3347,7 @@
       font-size: var(--text-lg);
       line-height: var(--text-lg--line-height);
       letter-spacing: 0.5em;
+      text-indent: 0.5em;
     }
   }
 }

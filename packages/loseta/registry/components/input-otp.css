@@ -3,9 +3,15 @@
   .input-otp {
     display: block;
     width: 100%;
+    min-width: 0;
     outline-style: none;
     text-align: center;
     font-variant-numeric: tabular-nums;
+
+    @media (forced-colors: active) {
+      outline: 2px solid transparent;
+      outline-offset: 2px;
+    }
 
     &::placeholder {
       color: var(--muted-foreground);

@@ -129,7 +129,7 @@ const notesBy: Record<string, string> = {
   "input-group":
     "role=\"group\" root. Place addons after the input or textarea in the DOM so the control keeps its tab order; data-align=\"inline-start|inline-end|block-start|block-end\" positions them visually and defaults to inline-start. Addons use [data-slot=\"addon\"]; custom controls opt into the group geometry and focus ring with data-slot=\"input-group-control\". The group owns the border, disabled tint and focus ring; inner controls are borderless and addon buttons keep their own focus ring. Clicking an addon does not focus the control; that is consumer JavaScript.",
   "input-otp":
-    "A single native input. Use inputmode=\"numeric\", autocomplete=\"one-time-code\", maxlength and pattern. CSS draws no per-digit slots and does not auto-advance; those need consumer behavior.",
+    "A single native input, centered with tabular numerals and compensated letter spacing. Use inputmode=\"numeric\", autocomplete=\"one-time-code\", maxlength and pattern; data-size=\"sm|lg\" changes the height and type scale, and aria-invalid plus disabled follow the field states. CSS draws one field, not per-digit slots, and does not auto-advance; those need consumer behavior. Size it with your layout.",
   "scroll-area":
     "Put .scroll-area on the scroll container and size it with your own layout or inline styles. Native scrollbars follow the --scrollbar-* tokens; data-orientation limits the axis and data-size=\"sm\" narrows the scrollbar. A scrollable region needs tabindex=\"0\" and an accessible name.",
   select:

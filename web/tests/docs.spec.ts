@@ -616,6 +616,76 @@ test("input file button follows the Mira type scale", async ({ page }) => {
   expect(fileButton).toEqual({ fontSize: "12px", lineHeight: "16px" });
 });
 
+test("input otp centers letter-spaced values and keeps sizes and states", async ({
+  page
+}) => {
+  await page.emulateMedia({ colorScheme: "light" });
+  await page.goto("/docs/components/input-otp");
+
+  const inputs = page.locator(".docs-preview .input-otp");
+  const count = await inputs.count();
+  expect(count).toBeGreaterThanOrEqual(8);
+
+  for (let index = 0; index < count; index += 1) {
+    const metrics = await inputs.nth(index).evaluate((element) => {
+      const style = getComputedStyle(element);
+      return {
+        align: style.textAlign,
+        spacing: parseFloat(style.letterSpacing),
+        indent: parseFloat(style.textIndent),
+        numeric: style.fontVariantNumeric
+      };
+    });
+
+    expect(metrics.align).toBe("center");
+    expect(metrics.numeric).toContain("tabular-nums");
+    expect(metrics.spacing).toBeGreaterThan(0);
+    expect(metrics.indent).toBeCloseTo(metrics.spacing, 5);
+  }
+
+  const selection = await inputs.first().evaluate((element) => {
+    const style = getComputedStyle(element, "::selection");
+    return { background: style.backgroundColor, color: style.color };
+  });
+  expect(selection).toEqual({
+    background: "oklch(0.205 0 0)",
+    color: "oklch(0.985 0 0)"
+  });
+
+  await expect(page.locator("#demo-input-otp-sm")).toHaveCSS("height", "32px");
+  await expect(page.locator("#demo-input-otp-default")).toHaveCSS(
+    "height",
+    "40px"
+  );
+  await expect(page.locator("#demo-input-otp-lg")).toHaveCSS("height", "48px");
+
+  const disabled = page.locator("#demo-input-otp-disabled");
+  await expect(disabled).toBeDisabled();
+  await expect(disabled).toHaveCSS("opacity", "0.5");
+
+  const invalid = page.locator("#demo-input-otp-invalid");
+  await expect(invalid).toHaveAttribute("aria-invalid", "true");
+  const borderColors = await page.evaluate(() => {
+    const read = (selector: string) =>
+      getComputedStyle(document.querySelector(selector)!).borderTopColor;
+    return {
+      invalid: read("#demo-input-otp-invalid"),
+      valid: read("#demo-input-otp-default")
+    };
+  });
+  expect(borderColors.invalid).not.toBe(borderColors.valid);
+});
+
+test("input otp keeps a focus outline in forced-colors mode", async ({ page }) => {
+  await page.goto("/docs/components/input-otp");
+  await page.emulateMedia({ forcedColors: "active" });
+  const input = page.locator(".docs-preview .input-otp").first();
+
+  await expect(input).toHaveCSS("outline-width", "2px");
+  await expect(input).toHaveCSS("outline-style", "solid");
+  await expect(input).toHaveCSS("outline-offset", "2px");
+});
+
 test("textarea demo keeps the control type scale, selection and growth", async ({
   page
 }) => {

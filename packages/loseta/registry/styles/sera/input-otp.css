@@ -15,9 +15,15 @@
     font-size: var(--text-xl);
     line-height: var(--text-xl--line-height);
     letter-spacing: 0.6em;
+    text-indent: 0.6em;
     transition-property: color, background-color, border-color, box-shadow;
     transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
     transition-duration: 150ms;
+
+    &::selection {
+      background-color: var(--primary);
+      color: var(--primary-foreground);
+    }
 
     &:focus-visible {
       border-color: var(--ring);
@@ -40,6 +46,7 @@
       font-size: var(--text-lg);
       line-height: var(--text-lg--line-height);
       letter-spacing: 0.45em;
+      text-indent: 0.45em;
     }
 
     &[data-size='lg'] {
@@ -47,6 +54,7 @@
       font-size: var(--text-2xl);
       line-height: var(--text-2xl--line-height);
       letter-spacing: 0.7em;
+      text-indent: 0.7em;
     }
   }
 }

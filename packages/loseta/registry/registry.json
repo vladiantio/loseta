@@ -3623,7 +3623,12 @@
         ".input-otp"
       ],
       "registryDependencies": [],
-      "optionalDependencies": [],
+      "optionalDependencies": [
+        "button",
+        "card",
+        "field",
+        "label"
+      ],
       "files": [
         {
           "path": "components/input-otp.css",

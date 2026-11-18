@@ -94,8 +94,8 @@ Use for cards, alerts, toasts, attachments, sheet and drawer panels, sidebar
 surfaces, resizable panels and chart tooltips.
 
 - Radius: match the reference surface. Cards and attachments use the card
-  radius; menus, popovers and tooltips use the overlay radius; dialogs, sheets
-  and drawers use the dialog radius.
+  radius; menus and popovers use the overlay radius; dialogs, sheets and
+  drawers use the dialog radius.
 - Padding: copy the stable reference. Nova cards and dialogs use `1rem`; Vega,
   Maia, Luma and Sera dialogs use `1.5rem`; Rhea uses `1.5rem` for dialogs and
   `1.25rem` for cards. Do not invent one universal surface padding.
@@ -121,6 +121,19 @@ navigation-menu panels.
 - Selected and highlighted options: `--accent` background and
   `--accent-foreground`; selected listbox options also use font-weight 500 and
   the check indicator.
+
+### Tooltip
+
+Use for the tooltip bubble and its tail.
+
+- Radius: Nova, Vega and Mira `--radius-md`; Maia `--radius-2xl`; Luma and Rhea
+  `--radius-xl`; Lyra and Sera `0`. Set `--tooltip-radius` on `.tooltip` and use
+  it for the bubble radius; the base derives the tail offset from the same
+  value.
+- Surface: `--foreground` background, `--background` text, no shadow. Type is
+  `--text-xs` with `0.375rem 0.75rem` padding; the bubble wraps at `20rem`.
+- Tail: keep the masked tail at the bubble surface color. Do not add a border
+  radius to the tail.
 
 ### Row
 

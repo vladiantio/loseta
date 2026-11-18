@@ -1,5 +1,27 @@
 # Changelog
 
+## Unreleased
+
+### Changed
+
+- Tooltip is now a wrapper around the trigger. Put `data-tooltip` on the
+  wrapper for a text bubble, or add a direct `[data-slot="content"]` child with
+  `role="tooltip"` and an id, referenced by `aria-describedby` on the trigger.
+  The content child enables rich markup such as `kbd` and wins when both
+  sources are present.
+- The pointer is now a masked tail based on daisyUI's tooltip and is always
+  rendered. `data-arrow` is removed.
+- Hover and `:has(:focus-visible)` on the wrapper open the tooltip; disabled
+  triggers remain pointer-only.
+
+### Migration
+
+- Move `.tooltip` from the trigger to a wrapper element and move `data-tooltip`
+  to that wrapper.
+- For rich content, add `<span data-slot="content" role="tooltip" id="...">`
+  after the trigger and point `aria-describedby` at it.
+- Remove `data-arrow`; the tail is part of every tooltip.
+
 ## 0.16.0 - 2026-11-18
 
 ### Added

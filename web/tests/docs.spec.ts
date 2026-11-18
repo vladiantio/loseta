@@ -1464,7 +1464,7 @@ test("popover examples toggle, align and mirror placement", async ({ page }) => 
   }
 });
 
-test("tooltip shows on focus and hover, wraps and keeps its arrow aligned", async ({ page }) => {
+test("tooltip wraps content, opens from the wrapper and keeps its tail", async ({ page }) => {
   await page.goto("/docs/components/tooltip");
   await page.addStyleTag({
     content:
@@ -1473,10 +1473,16 @@ test("tooltip shows on focus and hover, wraps and keeps its arrow aligned", asyn
 
   const hero = page.locator("section.example").first();
   const trigger = hero.getByRole("button", { name: "Hover" });
-  const bubble = (target: Locator) =>
-    target.evaluate((element) => {
-      const style = getComputedStyle(element, "::before");
+  const wrapper = page.locator("#demo-tooltip-default");
+  const content = page.locator("#demo-tooltip-default-description");
+
+  const readBubble = (target: Locator, pseudo = false) =>
+    target.evaluate((element, usePseudo) => {
+      const style = usePseudo
+        ? getComputedStyle(element, "::before")
+        : getComputedStyle(element);
       return {
+        content: style.content,
         visibility: style.visibility,
         opacity: style.opacity,
         scale: style.scale,
@@ -1485,67 +1491,117 @@ test("tooltip shows on focus and hover, wraps and keeps its arrow aligned", asyn
         translate: style.translate,
         whiteSpace: style.whiteSpace
       };
+    }, pseudo);
+
+  const readTail = (target: Locator) =>
+    target.evaluate((element) => {
+      const style = getComputedStyle(element, "::after");
+      return {
+        visibility: style.visibility,
+        opacity: style.opacity,
+        width: style.width,
+        height: style.height,
+        top: style.top,
+        bottom: style.bottom,
+        rotate: style.rotate,
+        maskImage: style.maskImage
+      };
     });
 
-  expect((await bubble(trigger)).visibility).toBe("hidden");
+  expect((await readBubble(content)).visibility).toBe("hidden");
+  expect((await readTail(wrapper)).visibility).toBe("hidden");
+  await expect(content).toHaveAttribute("role", "tooltip");
 
   await trigger.focus();
-  await expect.poll(async () => (await bubble(trigger)).visibility).toBe("visible");
+  await expect
+    .poll(async () => (await readBubble(content)).visibility)
+    .toBe("visible");
+  await expect(trigger).toHaveAccessibleDescription("Add to library");
+  await expect
+    .poll(async () => (await readTail(wrapper)).visibility)
+    .toBe("visible");
+
   await trigger.evaluate((element) => element.blur());
-  await expect.poll(async () => (await bubble(trigger)).visibility).toBe("hidden");
+  await expect
+    .poll(async () => (await readBubble(content)).visibility)
+    .toBe("hidden");
 
   await trigger.hover();
-  await expect.poll(async () => (await bubble(trigger)).visibility).toBe("visible");
-  const shown = await bubble(trigger);
+  await expect
+    .poll(async () => (await readBubble(content)).visibility)
+    .toBe("visible");
+  const shown = await readBubble(content);
   expect(shown.opacity).toBe("1");
   expect(shown.scale).toBe("1");
-  await expect(trigger).toHaveAttribute(
-    "aria-describedby",
-    "demo-tooltip-default-description"
-  );
-  await expect(page.locator("#demo-tooltip-default-description")).toHaveText(
-    "Add to library"
-  );
+  await expect(content).toHaveText("Add to library");
+
+  const shownTail = await readTail(wrapper);
+  expect(shownTail.opacity).toBe("1");
+  expect(shownTail.width).toBe("10px");
+  expect(shownTail.height).toBe("4px");
+  expect(shownTail.maskImage).toContain("data:image/svg+xml");
+  await expect(page.locator("[data-arrow]")).toHaveCount(0);
 
   await page.mouse.move(0, 0);
-  await expect.poll(async () => (await bubble(trigger)).visibility).toBe("hidden");
+  await expect
+    .poll(async () => (await readBubble(content)).visibility)
+    .toBe("hidden");
 
   const alignStart = page.locator("#demo-tooltip-align-top-start");
   await alignStart.hover();
-  expect((await bubble(alignStart)).translate).toBe("none");
+  const startBubble = await readBubble(alignStart, true);
+  expect(startBubble.visibility).toBe("visible");
+  expect(startBubble.translate).toBe("none");
+  expect((await readTail(alignStart)).maskImage).toContain("image/svg+xml");
 
   const leftStart = page.locator("#demo-tooltip-align-left-start");
-  const leftCenter = page.locator("#demo-tooltip-align-left-center");
+  const leftEnd = page.locator("#demo-tooltip-align-left-end");
   await leftStart.hover();
-  const arrowTop = (target: Locator) =>
-    target.evaluate((element) =>
-      Number.parseFloat(getComputedStyle(element, "::after").top)
-    );
-  const startArrowTop = await arrowTop(leftStart);
-  const centerArrowTop = await arrowTop(leftCenter);
-  expect(startArrowTop).toBeLessThan(centerArrowTop);
+  const startTailTop = Number.parseFloat((await readTail(leftStart)).top);
+  await leftEnd.hover();
+  const endTailTop = Number.parseFloat((await readTail(leftEnd)).top);
+  expect(startTailTop).toBeGreaterThan(endTailTop);
 
-  const longContent = page.locator("#demo-tooltip-long-content");
-  await longContent.hover();
-  const wrapped = await bubble(longContent);
+  const longContent = page.locator("#demo-tooltip-long-content-description");
+  await page.locator("#demo-tooltip-long-content").hover();
+  const wrapped = await readBubble(longContent);
+  expect(wrapped.visibility).toBe("visible");
   expect(wrapped.width).toBe("320px");
   expect(wrapped.whiteSpace).toBe("normal");
   expect(Number.parseFloat(wrapped.height)).toBeGreaterThan(28);
 
-  const disabled = page
-    .locator("section.example")
-    .filter({ has: page.locator(".example-title", { hasText: /^Disabled button$/ }) });
-  const disabledRoot = disabled.locator(".tooltip");
-  const disabledBubble = () =>
-    disabledRoot.evaluate(
-      (element) => getComputedStyle(element, "::before").visibility
-    );
-  expect(await disabledBubble()).toBe("hidden");
-  await disabledRoot.hover();
-  await expect.poll(disabledBubble).toBe("visible");
-  await expect(disabledRoot.locator("button")).toHaveAttribute(
-    "aria-describedby",
-    "demo-tooltip-disabled-description"
+  const disabled = page.locator("#demo-tooltip-disabled");
+  const disabledContent = page.locator("#demo-tooltip-disabled-description");
+  await expect
+    .poll(async () => (await readBubble(disabledContent)).visibility)
+    .toBe("hidden");
+  await disabled.hover();
+  await expect
+    .poll(async () => (await readBubble(disabledContent)).visibility)
+    .toBe("visible");
+  await expect(disabled.locator("button")).toHaveAccessibleDescription(
+    "This feature is currently unavailable"
+  );
+
+  const keyboard = page.locator("#demo-tooltip-keyboard");
+  const keyboardContent = page.locator("#demo-tooltip-keyboard-description");
+  await keyboard.hover();
+  await expect
+    .poll(async () => (await readBubble(keyboardContent)).visibility)
+    .toBe("visible");
+  await expect(keyboardContent.locator(".kbd")).toHaveText("S");
+  await expect(keyboard.locator("button")).toHaveAccessibleDescription(
+    /Save changes/
+  );
+
+  const shorthand = page.locator("#demo-tooltip-shorthand");
+  await shorthand.hover();
+  const shorthandBubble = await readBubble(shorthand, true);
+  expect(shorthandBubble.visibility).toBe("visible");
+  expect(shorthandBubble.content).toContain("Copy link");
+  await expect(shorthand.locator("button")).toHaveAttribute(
+    "aria-label",
+    "Copy link"
   );
 
   const inlineStart = page.locator("#demo-tooltip-rtl-inline-start");
@@ -1554,7 +1610,7 @@ test("tooltip shows on focus and hover, wraps and keeps its arrow aligned", asyn
   const physicalRight = page.locator("#demo-tooltip-rtl-right");
   const offset = (target: Locator) =>
     target.evaluate((element) => {
-      const style = getComputedStyle(element, "::before");
+      const style = getComputedStyle(element);
       return {
         left: Number.parseFloat(style.left),
         marginLeft: Number.parseFloat(style.marginLeft) || 0
@@ -1562,20 +1618,30 @@ test("tooltip shows on focus and hover, wraps and keeps its arrow aligned", asyn
     });
 
   await inlineStart.hover();
-  const mirroredStart = await offset(inlineStart);
+  const mirroredStart = await offset(
+    page.locator("#demo-tooltip-rtl-inline-start-description")
+  );
   expect(mirroredStart.left + mirroredStart.marginLeft).toBeGreaterThan(1);
 
   await inlineEnd.hover();
-  const mirroredEnd = await offset(inlineEnd);
+  const mirroredEnd = await offset(
+    page.locator("#demo-tooltip-rtl-inline-end-description")
+  );
   expect(mirroredEnd.left).toBeLessThan(-1);
 
   await physicalLeft.hover();
-  const physicalLeftOffset = await offset(physicalLeft);
+  const physicalLeftOffset = await offset(
+    page.locator("#demo-tooltip-rtl-left-description")
+  );
   expect(physicalLeftOffset.left).toBeLessThan(-1);
 
   await physicalRight.hover();
-  const physicalRightOffset = await offset(physicalRight);
-  expect(physicalRightOffset.left + physicalRightOffset.marginLeft).toBeGreaterThan(1);
+  const physicalRightOffset = await offset(
+    page.locator("#demo-tooltip-rtl-right-description")
+  );
+  expect(physicalRightOffset.left + physicalRightOffset.marginLeft).toBeGreaterThan(
+    1
+  );
 });
 
 test("context menu opens at the pointer and closes with Escape", async ({ page }) => {

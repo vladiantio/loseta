@@ -137,7 +137,7 @@ const notesBy: Record<string, string> = {
   resizable:
     "Flex layout with panels sized by --panel-size flex-grow. Handles use role=\"separator\" with aria-orientation and aria-valuenow/min/max; drag and keyboard resizing are consumer JavaScript.",
   sidebar:
-    "Composition, not a stateful widget. Use an aside with header/section/footer; active links use aria-current=\"page\"; groups use collapsible; the mobile composition uses sheet.",
+    "Composition, not a stateful widget. Use an aside with header/section/footer; active links use aria-current=\"page\". Each nav group takes its name from a heading in its header or [data-slot=\"group-label\"], with an optional [data-slot=\"group-action\"] button. Rows accept one trailing [data-slot=\"menu-badge\"] or [data-slot=\"menu-action\"]; collapsible details and nested uls form submenus. The section scrolls, and the mobile composition uses a labelled sheet.",
   slider:
     "Native input[type=\"range\"]. Pair it with a label or aria-label; accent-color draws the filled track and thumb, and data-size sm/default/lg changes the hit area. The control is horizontal and has one thumb, so vertical, range and multiple-thumb sliders need a custom control. A visible value readout is consumer JavaScript; set aria-valuetext when the displayed value carries a unit.",
   "hover-card":

@@ -4374,6 +4374,7 @@
         "collapsible"
       ],
       "optionalDependencies": [
+        "button",
         "sheet"
       ],
       "files": [

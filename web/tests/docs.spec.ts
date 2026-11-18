@@ -1155,6 +1155,17 @@ test("open overlay panels pass axe in every color scheme", async ({ page }) => {
   await page.keyboard.press("Escape");
   await expect(page.locator("#demo-sheet-default")).not.toHaveAttribute("open", "");
 
+  await page.goto("/docs/components/sidebar");
+  await disableMotion();
+  await page.getByRole("button", { name: "Open navigation" }).click();
+  await expect(page.locator("#demo-sidebar-mobile")).toHaveAttribute("open", "");
+  await audit("sidebar mobile sheet");
+  await page.keyboard.press("Escape");
+  await expect(page.locator("#demo-sidebar-mobile")).not.toHaveAttribute(
+    "open",
+    ""
+  );
+
   await page.goto("/docs/components/drawer");
   await disableMotion();
   await page.locator('[data-open-dialog="demo-drawer-default"]').click();
@@ -1506,6 +1517,165 @@ test("navigation menu lays out an icon link beside its title", async ({ page }) 
   await expect(link).toHaveCSS("display", "flex");
   await expect(link.locator("[data-slot='icon'] svg")).toHaveCSS("width", "16px");
 });
+
+test("sidebar labels groups, sizes icons and reserves trailing slots", async ({
+  page
+}) => {
+  await page.goto("/docs/components/sidebar");
+  const example = (title: string) =>
+    page.locator("section.example").filter({
+      has: page.locator(".example-title", { hasText: new RegExp(`^${title}$`) })
+    });
+
+  const groups = example("Groups");
+  const platform = groups.getByRole("navigation", { name: "Platform" });
+  await expect(
+    platform.getByRole("heading", { name: "Platform" })
+  ).toHaveCSS("font-size", "12px");
+  await expect(platform.getByRole("link", { name: "Playground" })).toHaveAttribute(
+    "aria-current",
+    "page"
+  );
+  await expect(platform.getByRole("link", { name: "Playground" })).toHaveCSS(
+    "text-decoration-line",
+    "none"
+  );
+
+  const icons = example("With icons");
+  await expect(
+    icons.getByRole("link", { name: "Playground" }).locator("svg")
+  ).toHaveCSS("width", "16px");
+
+  const groupActionExample = example("Group action");
+  const groupHeader = groupActionExample.locator("nav > header");
+  const addProject = groupActionExample.getByRole("button", {
+    name: "Add project"
+  });
+  const groupHeaderBox = await groupHeader.boundingBox();
+  const addProjectBox = await addProject.boundingBox();
+  expect(groupHeaderBox).not.toBeNull();
+  expect(addProjectBox).not.toBeNull();
+  expect(addProjectBox!.x).toBeGreaterThan(
+    groupHeaderBox!.x + groupHeaderBox!.width - 40
+  );
+
+  const collapsibleGroups = example("Collapsible groups");
+  await expect(
+    collapsibleGroups.locator("summary[data-slot='group-label']").first()
+  ).toHaveCSS("font-size", "12px");
+
+  const badges = example("Badges");
+  const badgeRow = badges
+    .locator("li")
+    .filter({ hasText: "Design Engineering" });
+  await expect(badgeRow.locator("a")).toHaveCSS("padding-right", "32px");
+  const badge = badgeRow.locator("[data-slot='menu-badge']");
+  await expect(badge).toHaveCSS("pointer-events", "none");
+  const badgeBox = await badge.boundingBox();
+  const badgeRowBox = await badgeRow.locator("a").boundingBox();
+  expect(badgeBox).not.toBeNull();
+  expect(badgeRowBox).not.toBeNull();
+  expect(badgeBox!.x).toBeGreaterThan(
+    badgeRowBox!.x + badgeRowBox!.width - 40
+  );
+
+  const actions = example("Actions");
+  await expect(
+    actions.getByRole("link", { name: "Design Engineering" })
+  ).toHaveCSS("padding-right", "32px");
+  const action = actions.getByRole("button", {
+    name: "More actions for Design Engineering"
+  });
+  const actionBox = await action.boundingBox();
+  const actionRowBox = await action.locator("xpath=..").boundingBox();
+  expect(actionBox).not.toBeNull();
+  expect(actionRowBox).not.toBeNull();
+  expect(actionBox!.x + actionBox!.width).toBeLessThanOrEqual(
+    actionRowBox!.x + actionRowBox!.width
+  );
+});
+
+test("sidebar scrolls its section between the header and footer", async ({
+  page
+}) => {
+  await page.goto("/docs/components/sidebar");
+  const example = page
+    .locator("section.example")
+    .filter({ has: page.locator(".example-title", { hasText: "Scrollable content" }) });
+  const sidebar = example.locator(".sidebar");
+  const section = sidebar.locator("section");
+  const header = sidebar.locator(":scope > header");
+
+  await expect(section).toHaveAttribute("tabindex", "0");
+  expect(
+    await section.evaluate((element) => element.scrollHeight)
+  ).toBeGreaterThan(await section.evaluate((element) => element.clientHeight));
+
+  const headerBefore = await header.boundingBox();
+  await section.evaluate((element) => {
+    element.scrollTop = element.scrollHeight;
+  });
+  expect(await section.evaluate((element) => element.scrollTop)).toBeGreaterThan(0);
+  const headerAfter = await header.boundingBox();
+  expect(headerBefore).not.toBeNull();
+  expect(headerAfter).not.toBeNull();
+  expect(headerAfter!.y).toBe(headerBefore!.y);
+});
+
+test("sidebar composes into a labelled mobile sheet", async ({ page }) => {
+  await page.goto("/docs/components/sidebar");
+  const example = page
+    .locator("section.example")
+    .filter({ has: page.locator(".example-title", { hasText: /^Mobile$/ }) });
+  await example.getByRole("button", { name: "Open navigation" }).click();
+
+  const sheet = page.locator("#demo-sidebar-mobile");
+  await expect(sheet).toHaveAttribute("open", "");
+  await expect(
+    sheet.getByRole("heading", { name: "Acme Inc" })
+  ).toBeVisible();
+  await expect(
+    sheet.locator(".sidebar").getByRole("link", { name: "Playground" })
+  ).toBeVisible();
+
+  await sheet.getByRole("button", { name: "Close navigation" }).click();
+  await expect(sheet).not.toHaveAttribute("open", "");
+});
+
+test("sidebar mirrors its edge and nested indent in right-to-left", async ({
+  page
+}) => {
+  await page.goto("/docs/components/sidebar");
+  const example = page
+    .locator("section.example")
+    .filter({ has: page.locator(".example-title", { hasText: "Right-to-left" }) });
+  const sidebar = example.locator(".sidebar");
+  const nested = sidebar.locator("nav ul ul");
+
+  await expect(sidebar).toHaveCSS("border-left-width", "1px");
+  await expect(sidebar).toHaveCSS("border-right-width", "0px");
+  await expect(nested).toHaveCSS("border-right-width", "1px");
+  await expect(nested).toHaveCSS("border-left-width", "0px");
+
+  const action = sidebar.getByRole("button", { name: "إضافة مشروع" });
+  const groupHeader = sidebar.locator("nav > header").first();
+  const actionBox = await action.boundingBox();
+  const groupHeaderBox = await groupHeader.boundingBox();
+  expect(actionBox).not.toBeNull();
+  expect(groupHeaderBox).not.toBeNull();
+  expect(actionBox!.x).toBeLessThan(
+    groupHeaderBox!.x + groupHeaderBox!.width / 2
+  );
+
+  const badge = sidebar.locator("[data-slot='menu-badge']");
+  const row = sidebar.getByRole("link", { name: /هندسة التصميم/ });
+  const badgeBox = await badge.boundingBox();
+  const rowBox = await row.boundingBox();
+  expect(badgeBox).not.toBeNull();
+  expect(rowBox).not.toBeNull();
+  expect(badgeBox!.x).toBeLessThan(rowBox!.x + rowBox!.width / 2);
+});
+
 
 test("dropdown menu still opens after the menu primitive refactor", async ({ page }) => {
   await page.goto("/docs/components/dropdown-menu");

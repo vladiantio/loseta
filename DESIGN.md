@@ -465,7 +465,7 @@ on an RTL page; its header follows the page direction.
 | Select | `.select` | Trigger with `role="combobox"`, `[data-slot="value"]` and a `[data-popover] > [role="listbox"]` panel. | `data-size="default|sm"`; `data-placeholder` on the value |
 | Separator | `.separator` | `<hr>` or `[role="separator"]`. | `data-orientation="horizontal|vertical"`; `aria-orientation` is also recognized |
 | Sheet | `.sheet` | Native `<dialog>` with `data-side` and a panel containing `header`, `section`, `footer` and an optional close control. The section scrolls between the header and footer. | `data-side="inline-start|inline-end|block-start|block-end"`; `data-size="default|sm|lg"` sets the width or the height on block sides; close control is a direct child `form[method="dialog"]` or `button` |
-| Sidebar | `.sidebar` | `<aside>` with `header`, `section` and `footer`; nav lists and collapsible groups. | `aria-current="page"` on links; `data-slot="brand"` |
+| Sidebar | `.sidebar` | `<aside>` with `header`, `section` and `footer`; `nav` groups named by a heading or `[data-slot="group-label"]` with an optional `[data-slot="group-action"]`; nav rows with an optional `[data-slot="menu-badge"]` or `[data-slot="menu-action"]`; nested lists and collapsible groups. | `aria-current="page"` on links; `data-slot="brand"` |
 | Skeleton | `.skeleton` | No required children; the consumer sets dimensions. | — |
 | Slider | `.slider` | Native `<input type="range">`; horizontal, one thumb. | `data-size="default|sm|lg"` |
 | Spinner | `.spinner` | Empty span; the CSS draws the ring. | `data-size="default|sm|lg"`; `role="status"` plus a label in markup |
@@ -512,6 +512,8 @@ The public slot vocabulary is shared across components:
 - `data-slot="clear"` — combobox clear button.
 - `data-slot="plot"`, `data-slot="legend"`, `data-slot="legend-item"`, `data-slot="swatch"`, `data-slot="tooltip"` — chart.
 - `data-slot="brand"` — sidebar.
+- `data-slot="group-label"`, `data-slot="group-action"` — sidebar nav group label text and trailing action.
+- `data-slot="menu-badge"`, `data-slot="menu-action"` — sidebar row trailing count and action.
 - `data-slot="close"` — toast.
 - `data-slot="avatar"`, `data-slot="content"`, `data-slot="header"`, `data-slot="footer"` — message.
 - `data-slot="media"`, `data-slot="actions"`, `data-slot="trigger"` — attachment; title and description use the shared slots.
@@ -761,7 +763,9 @@ progress sweep slow down instead of stopping. This remains a known gap.
   `aria-valuenow`/`aria-valuemin`/`aria-valuemax`; keyboard resizing is consumer
   JavaScript.
 - Sidebar navigation needs a `nav` label and `aria-current="page"` on the active
-  link. Mobile composition uses a labelled sheet or dialog.
+  link. Label each group with a heading or `[data-slot="group-label"]`; give
+  icon-only group and row actions an accessible name. The mobile composition
+  uses a labelled sheet or dialog.
 - Alerts do not add live-region behavior. Use `role="alert"` when the message
   appears after load; mark decorative icons `aria-hidden` and give an action in
   the footer an accessible name.

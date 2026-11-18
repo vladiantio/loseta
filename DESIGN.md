@@ -476,7 +476,7 @@ on an RTL page; its header follows the page direction.
 | Toast | `.toaster`, `.toast` | Fixed stack with `.toast` items; a `section` with title/description and a close button. | `data-variant="default|destructive"`; `role="status"` or `role="alert"`; `[data-slot="close"]` |
 | Toggle | `.toggle` | Native `<button type="button">`; text and optional SVG. | `aria-pressed="true|false"`; `data-variant="default|outline"`; `data-size="default|sm|lg"` |
 | Toggle group | `.toggle-group` | `role="group"` container of `.toggle` children. | `data-orientation="horizontal|vertical"`; `data-spacing="default|joined"`; group `data-variant`/`data-size` apply to children without their own |
-| Tooltip | `.tooltip[data-tooltip]` | Pseudo-element content from `data-tooltip`; optional arrow. | `data-side`, `data-align`, `data-arrow` |
+| Tooltip | `.tooltip[data-tooltip]` | Trigger element; pseudo-element content from `data-tooltip`; optional arrow. Text-only and wraps at `20rem`. | `data-side`, `data-align`, `data-arrow` |
 | Trace | `.trace` | Native `<details>` with a `<summary>` line (`[data-slot="icon"]`, title and status) and `[data-slot="body"]`; `[data-slot="source"]` links compose inside the body. | `[open]`; `aria-busy="true"` while running; status `data-variant="error|success"` |
 
 On buttons, `default` and `primary` are aliases; omitting `data-variant` is
@@ -539,8 +539,8 @@ Popover panels, dropdown panels and tooltips share placement hooks:
 
 | Attribute | Values | Default | Applies to |
 | --- | --- | --- | --- |
-| `data-side` | `top`, `bottom`, `left`, `right`, `inline-start`, `inline-end`, `block-start`, `block-end` | `bottom` for popover/dropdown/tooltip; required on sheets and drawers | Popover, dropdown, tooltip, sheet, drawer and navigation panels |
-| `data-align` | `start`, `center`, `end` | `start` | Popover, dropdown, tooltip and navigation panels |
+| `data-side` | `top`, `bottom`, `left`, `right`, `inline-start`, `inline-end`, `block-start`, `block-end` | `bottom` for popover and dropdown; `top` for tooltip; required on sheets and drawers | Popover, dropdown, tooltip, sheet, drawer and navigation panels |
+| `data-align` | `start`, `center`, `end` | `start` for popover, dropdown and navigation panels; `center` for tooltip | Popover, dropdown, tooltip and navigation panels |
 | `data-arrow` | Present or absent | No arrow | Tooltip |
 
 Input-group addons also use `data-align`, but with
@@ -710,9 +710,9 @@ Notes:
   the panel moves from 95% to 100% scale with opacity.
 - Popovers scale from 95% and move `0.5rem` from their placement side. Menus
   and popovers fade with `visibility`.
-- Tooltips fade with `visibility` on hover and focus; their `0.5rem` placement
-  offsets are static. Their pseudo-element is currently held at 95% scale, so
-  the tooltip does not scale in (see Known gaps).
+- Tooltips fade in and scale from 95% on hover and focus; the bubble and arrow
+  stay anchored, so placement does not shift. The transition stops under
+  `prefers-reduced-motion: reduce`.
 - Motion is primarily opacity, scale, translate and rotate. There are no
   springs or bounces.
 
@@ -848,7 +848,8 @@ progress sweep slow down instead of stopping. This remains a known gap.
   first control on open, and restore focus to the trigger on close.
 - Tooltips must have an accessible name or description on the trigger; the
   visual bubble is generated from `data-tooltip` and is not a substitute for
-  `aria-label` or `aria-describedby`.
+  `aria-label` or `aria-describedby`. A disabled trigger is pointer-only
+  because disabled controls do not receive focus.
 - Components that suppress the native outline provide a visible replacement
   in the documented markup; the dialog close button must carry `.btn` (or an
   equivalent focus style). The default focus ring is a 1px `--ring` border plus a
@@ -943,8 +944,8 @@ semantic versioning.
 
 - Most motion has no `prefers-reduced-motion` guard. The spinner rotation and
   the progress sweep slow down instead of stopping.
-- Tooltip entry only fades; the pseudo-element remains at 95% scale instead of
-  animating to 100%.
+- Tooltips render text only from the `data-tooltip` attribute; they cannot
+  contain markup such as a `kbd` shortcut.
 - Nova, Vega, Maia, Lyra, Mira, Luma, Sera and Rhea are the only shipped
   styles; style-specific visual regression snapshots are not part of CI.
 - No JavaScript behavior is shipped. Dialogs, popovers, dropdown menus, tabs,

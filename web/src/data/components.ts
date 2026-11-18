@@ -161,7 +161,7 @@ const notesBy: Record<string, string> = {
   trace:
     "A native details disclosure. Put the line in summary with data-slot icon, title and status, and the detail in data-slot body. Use data-variant=\"error\" or \"success\" on status; aria-busy=\"true\" marks a running step. Nested traces compose inside the body.",
   tooltip:
-    "CSS-only: visible on hover and focus-visible. Use data-arrow for the pointer arrow and data-side/data-align to place it. Keep an aria-label or aria-describedby for screen readers.",
+    "CSS-only: a .tooltip root with a data-tooltip text attribute, visible on hover and focus-visible. Text wraps at the 20rem maximum. Place the bubble with data-side (default top) and data-align (default center); add data-arrow for the pointer arrow. Keep an aria-label or aria-describedby on the trigger, because the generated bubble is not in the accessibility tree. Wrap a disabled control in .tooltip with display: inline-block; disabled controls stay pointer-only.",
   field:
     "Compose one control per .field: label, control, optional p description and a [role=\"alert\"] error. Mark the control aria-invalid=\"true\" to turn the whole field destructive. Use <fieldset class=\"fieldset\"> with a <legend> for related controls and data-slot=\"checkbox-group|radio-group\" for checkbox and radio rows; a label wrapping a .field becomes a selectable card. data-orientation=\"horizontal\" aligns a row and \"responsive\" switches inside a group container at 28rem. Divide sections with .field-separator and an hr.",
   table: "Use aria-selected=\"true\" on selectable rows. Checkbox cells accept a native input[type=\"checkbox\"] or role=\"checkbox\". A row containing an expanded trigger keeps the muted highlight.",

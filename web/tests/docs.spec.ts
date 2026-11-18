@@ -1464,6 +1464,120 @@ test("popover examples toggle, align and mirror placement", async ({ page }) => 
   }
 });
 
+test("tooltip shows on focus and hover, wraps and keeps its arrow aligned", async ({ page }) => {
+  await page.goto("/docs/components/tooltip");
+  await page.addStyleTag({
+    content:
+      "*, *::before, *::after { transition: none !important; animation: none !important; }"
+  });
+
+  const hero = page.locator("section.example").first();
+  const trigger = hero.getByRole("button", { name: "Hover" });
+  const bubble = (target: Locator) =>
+    target.evaluate((element) => {
+      const style = getComputedStyle(element, "::before");
+      return {
+        visibility: style.visibility,
+        opacity: style.opacity,
+        scale: style.scale,
+        width: style.width,
+        height: style.height,
+        translate: style.translate,
+        whiteSpace: style.whiteSpace
+      };
+    });
+
+  expect((await bubble(trigger)).visibility).toBe("hidden");
+
+  await trigger.focus();
+  await expect.poll(async () => (await bubble(trigger)).visibility).toBe("visible");
+  await trigger.evaluate((element) => element.blur());
+  await expect.poll(async () => (await bubble(trigger)).visibility).toBe("hidden");
+
+  await trigger.hover();
+  await expect.poll(async () => (await bubble(trigger)).visibility).toBe("visible");
+  const shown = await bubble(trigger);
+  expect(shown.opacity).toBe("1");
+  expect(shown.scale).toBe("1");
+  await expect(trigger).toHaveAttribute(
+    "aria-describedby",
+    "demo-tooltip-default-description"
+  );
+  await expect(page.locator("#demo-tooltip-default-description")).toHaveText(
+    "Add to library"
+  );
+
+  await page.mouse.move(0, 0);
+  await expect.poll(async () => (await bubble(trigger)).visibility).toBe("hidden");
+
+  const alignStart = page.locator("#demo-tooltip-align-top-start");
+  await alignStart.hover();
+  expect((await bubble(alignStart)).translate).toBe("none");
+
+  const leftStart = page.locator("#demo-tooltip-align-left-start");
+  const leftCenter = page.locator("#demo-tooltip-align-left-center");
+  await leftStart.hover();
+  const arrowTop = (target: Locator) =>
+    target.evaluate((element) =>
+      Number.parseFloat(getComputedStyle(element, "::after").top)
+    );
+  const startArrowTop = await arrowTop(leftStart);
+  const centerArrowTop = await arrowTop(leftCenter);
+  expect(startArrowTop).toBeLessThan(centerArrowTop);
+
+  const longContent = page.locator("#demo-tooltip-long-content");
+  await longContent.hover();
+  const wrapped = await bubble(longContent);
+  expect(wrapped.width).toBe("320px");
+  expect(wrapped.whiteSpace).toBe("normal");
+  expect(Number.parseFloat(wrapped.height)).toBeGreaterThan(28);
+
+  const disabled = page
+    .locator("section.example")
+    .filter({ has: page.locator(".example-title", { hasText: /^Disabled button$/ }) });
+  const disabledRoot = disabled.locator(".tooltip");
+  const disabledBubble = () =>
+    disabledRoot.evaluate(
+      (element) => getComputedStyle(element, "::before").visibility
+    );
+  expect(await disabledBubble()).toBe("hidden");
+  await disabledRoot.hover();
+  await expect.poll(disabledBubble).toBe("visible");
+  await expect(disabledRoot.locator("button")).toHaveAttribute(
+    "aria-describedby",
+    "demo-tooltip-disabled-description"
+  );
+
+  const inlineStart = page.locator("#demo-tooltip-rtl-inline-start");
+  const inlineEnd = page.locator("#demo-tooltip-rtl-inline-end");
+  const physicalLeft = page.locator("#demo-tooltip-rtl-left");
+  const physicalRight = page.locator("#demo-tooltip-rtl-right");
+  const offset = (target: Locator) =>
+    target.evaluate((element) => {
+      const style = getComputedStyle(element, "::before");
+      return {
+        left: Number.parseFloat(style.left),
+        marginLeft: Number.parseFloat(style.marginLeft) || 0
+      };
+    });
+
+  await inlineStart.hover();
+  const mirroredStart = await offset(inlineStart);
+  expect(mirroredStart.left + mirroredStart.marginLeft).toBeGreaterThan(1);
+
+  await inlineEnd.hover();
+  const mirroredEnd = await offset(inlineEnd);
+  expect(mirroredEnd.left).toBeLessThan(-1);
+
+  await physicalLeft.hover();
+  const physicalLeftOffset = await offset(physicalLeft);
+  expect(physicalLeftOffset.left).toBeLessThan(-1);
+
+  await physicalRight.hover();
+  const physicalRightOffset = await offset(physicalRight);
+  expect(physicalRightOffset.left + physicalRightOffset.marginLeft).toBeGreaterThan(1);
+});
+
 test("context menu opens at the pointer and closes with Escape", async ({ page }) => {
   await page.goto("/docs/components/context-menu");
   const area = page.locator("[data-demo-context]").first();

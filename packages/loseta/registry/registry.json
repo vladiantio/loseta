@@ -3084,7 +3084,7 @@
       "type": "component",
       "status": "stable",
       "title": "Drawer",
-      "description": "A bottom sheet built on the dialog shell.",
+      "description": "A bottom or top sheet built on the dialog shell.",
       "docs": "/docs/components/drawer",
       "root": [
         ".drawer"
@@ -3386,7 +3386,7 @@
       "type": "component",
       "status": "stable",
       "title": "Sheet",
-      "description": "Extends the dialog shell to the side of the screen.",
+      "description": "Extends the dialog shell to the side or edge of the screen.",
       "docs": "/docs/components/sheet",
       "root": [
         ".sheet"
@@ -4002,6 +4002,7 @@
       "optionalDependencies": [
         "dialog-shell",
         "popover-primitive",
+        "popover",
         "card",
         "button",
         "dialog",

@@ -1,4 +1,5 @@
 import type { Example } from "./types";
+import { close, dialogParagraphs } from "./icons";
 
 export const sheetExamples: Example[] = [
     {
@@ -10,42 +11,154 @@ export const sheetExamples: Example[] = [
 <dialog class="sheet" id="demo-sheet-default" data-side="inline-end" aria-labelledby="sheet-default-title" aria-describedby="sheet-default-description">
   <div>
     <header>
-      <h2 data-slot="title" id="sheet-default-title">Sheet title</h2>
-      <p data-slot="description" id="sheet-default-description">
-        This sheet opens from the inline end edge.
-      </p>
+      <h2 data-slot="title" id="sheet-default-title">Edit profile</h2>
+      <p data-slot="description" id="sheet-default-description">Make changes to your profile here. Click save when you're done.</p>
     </header>
     <section>
-      <p>Use sheets for secondary content, filters or forms.</p>
-    </section>
-    <footer>
-      <button type="button" class="btn" data-variant="outline" data-close-dialog>Close</button>
-    </footer>
-  </div>
-</dialog>`
-    },
-    {
-      title: "Right",
-      html: `<button type="button" class="btn" data-variant="outline" data-open-dialog="demo-sheet">
-  Open sheet
-</button>
-
-<dialog class="sheet" id="demo-sheet" data-side="inline-end" aria-labelledby="sheet-title" aria-describedby="sheet-description">
-  <div>
-    <header>
-      <h2 data-slot="title" id="sheet-title">Edit profile</h2>
-      <p data-slot="description" id="sheet-description">Make changes to your profile here.</p>
-    </header>
-    <section>
-      <div class="field">
-        <label class="label" for="sheet-name">Name</label>
-        <input class="input" id="sheet-name" value="Ada Lovelace">
+      <div class="fieldset">
+        <div class="field">
+          <label class="label" for="sheet-default-name">Name</label>
+          <input class="input" id="sheet-default-name" value="Ada Lovelace">
+        </div>
+        <div class="field">
+          <label class="label" for="sheet-default-username">Username</label>
+          <input class="input" id="sheet-default-username" value="@ada">
+        </div>
       </div>
     </section>
     <footer>
       <button type="button" class="btn" data-variant="outline" data-close-dialog>Cancel</button>
       <button type="button" class="btn" data-close-dialog>Save changes</button>
     </footer>
+    <form method="dialog">
+      <button class="btn" data-variant="ghost" data-size="icon-sm" aria-label="Close">${close}</button>
+    </form>
+  </div>
+</dialog>`
+    },
+    {
+      title: "Sides",
+      html: `<div style="display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 0.5rem">
+  <button type="button" class="btn" data-variant="outline" data-size="sm" data-open-dialog="demo-sheet-side-top">Top</button>
+  <button type="button" class="btn" data-variant="outline" data-size="sm" data-open-dialog="demo-sheet-side-right">Right</button>
+  <button type="button" class="btn" data-variant="outline" data-size="sm" data-open-dialog="demo-sheet-side-bottom">Bottom</button>
+  <button type="button" class="btn" data-variant="outline" data-size="sm" data-open-dialog="demo-sheet-side-left">Left</button>
+</div>
+
+<dialog class="sheet" id="demo-sheet-side-top" data-side="block-start" aria-labelledby="sheet-side-top-title">
+  <div>
+    <header>
+      <h2 data-slot="title" id="sheet-side-top-title">Top sheet</h2>
+      <p data-slot="description">Anchored to the block start edge.</p>
+    </header>
+    <section>
+      <p>Use a top sheet for a short announcement or a wide filter bar.</p>
+    </section>
+    <footer>
+      <button type="button" class="btn" data-variant="outline" data-close-dialog>Close</button>
+    </footer>
+    <form method="dialog">
+      <button class="btn" data-variant="ghost" data-size="icon-sm" aria-label="Close top sheet">${close}</button>
+    </form>
+  </div>
+</dialog>
+
+<dialog class="sheet" id="demo-sheet-side-right" data-side="inline-end" aria-labelledby="sheet-side-right-title">
+  <div>
+    <header>
+      <h2 data-slot="title" id="sheet-side-right-title">Right sheet</h2>
+      <p data-slot="description">Anchored to the inline end edge.</p>
+    </header>
+    <section>
+      <p>Use a side sheet for details that complement the page.</p>
+    </section>
+    <footer>
+      <button type="button" class="btn" data-variant="outline" data-close-dialog>Close</button>
+    </footer>
+    <form method="dialog">
+      <button class="btn" data-variant="ghost" data-size="icon-sm" aria-label="Close right sheet">${close}</button>
+    </form>
+  </div>
+</dialog>
+
+<dialog class="sheet" id="demo-sheet-side-bottom" data-side="block-end" aria-labelledby="sheet-side-bottom-title">
+  <div>
+    <header>
+      <h2 data-slot="title" id="sheet-side-bottom-title">Bottom sheet</h2>
+      <p data-slot="description">Anchored to the block end edge.</p>
+    </header>
+    <section>
+      <p>Use a bottom sheet for actions that relate to the current view.</p>
+    </section>
+    <footer>
+      <button type="button" class="btn" data-variant="outline" data-close-dialog>Close</button>
+    </footer>
+    <form method="dialog">
+      <button class="btn" data-variant="ghost" data-size="icon-sm" aria-label="Close bottom sheet">${close}</button>
+    </form>
+  </div>
+</dialog>
+
+<dialog class="sheet" id="demo-sheet-side-left" data-side="inline-start" aria-labelledby="sheet-side-left-title">
+  <div>
+    <header>
+      <h2 data-slot="title" id="sheet-side-left-title">Left sheet</h2>
+      <p data-slot="description">Anchored to the inline start edge.</p>
+    </header>
+    <section>
+      <p>Use a left sheet for navigation or secondary controls.</p>
+    </section>
+    <footer>
+      <button type="button" class="btn" data-variant="outline" data-close-dialog>Close</button>
+    </footer>
+    <form method="dialog">
+      <button class="btn" data-variant="ghost" data-size="icon-sm" aria-label="Close left sheet">${close}</button>
+    </form>
+  </div>
+</dialog>`
+    },
+    {
+      title: "No close button",
+      html: `<button type="button" class="btn" data-variant="outline" data-open-dialog="demo-sheet-no-close">
+  Open sheet without close
+</button>
+
+<dialog class="sheet" id="demo-sheet-no-close" data-side="inline-end" aria-labelledby="sheet-no-close-title" aria-describedby="sheet-no-close-description">
+  <div>
+    <header>
+      <h2 data-slot="title" id="sheet-no-close-title">No close button</h2>
+      <p data-slot="description" id="sheet-no-close-description">This sheet has no close control in the corner. Dismiss it with Escape or the footer action.</p>
+    </header>
+    <section>
+      <p>Omit the close form when the footer already provides a clear exit.</p>
+    </section>
+    <footer>
+      <button type="button" class="btn" data-close-dialog>Close</button>
+    </footer>
+  </div>
+</dialog>`
+    },
+    {
+      title: "Scrollable content",
+      html: `<button type="button" class="btn" data-variant="outline" data-open-dialog="demo-sheet-scrollable">
+  Open scrollable sheet
+</button>
+
+<dialog class="sheet" id="demo-sheet-scrollable" data-side="inline-end" aria-labelledby="sheet-scrollable-title" aria-describedby="sheet-scrollable-description">
+  <div>
+    <header>
+      <h2 data-slot="title" id="sheet-scrollable-title">Scrollable content</h2>
+      <p data-slot="description" id="sheet-scrollable-description">The header and footer stay in place while the section scrolls.</p>
+    </header>
+    <section role="region" aria-label="Scrollable sheet content" tabindex="0">
+      ${dialogParagraphs}
+    </section>
+    <footer>
+      <button type="button" class="btn" data-variant="outline" data-close-dialog>Close</button>
+    </footer>
+    <form method="dialog">
+      <button class="btn" data-variant="ghost" data-size="icon-sm" aria-label="Close scrollable sheet">${close}</button>
+    </form>
   </div>
 </dialog>`
     },
@@ -66,7 +179,68 @@ export const sheetExamples: Example[] = [
     <footer>
       <button type="button" class="btn" data-variant="outline" data-close-dialog>Close</button>
     </footer>
+    <form method="dialog">
+      <button class="btn" data-variant="ghost" data-size="icon-sm" aria-label="Close left sheet">${close}</button>
+    </form>
   </div>
 </dialog>`
+    },
+    {
+      title: "Large",
+      html: `<button type="button" class="btn" data-variant="outline" data-open-dialog="demo-sheet-large">
+  Open large sheet
+</button>
+
+<dialog class="sheet" id="demo-sheet-large" data-side="inline-end" data-size="lg" aria-labelledby="sheet-large-title" aria-describedby="sheet-large-description">
+  <div>
+    <header>
+      <h2 data-slot="title" id="sheet-large-title">Filters</h2>
+      <p data-slot="description" id="sheet-large-description">Narrow the results to the records you need.</p>
+    </header>
+    <section>
+      <div class="field">
+        <label class="label" for="sheet-large-query">Search</label>
+        <input class="input" id="sheet-large-query" placeholder="Name, owner or status">
+      </div>
+    </section>
+    <footer>
+      <button type="button" class="btn" data-variant="outline" data-close-dialog>Reset</button>
+      <button type="button" class="btn" data-close-dialog>Apply</button>
+    </footer>
+    <form method="dialog">
+      <button class="btn" data-variant="ghost" data-size="icon-sm" aria-label="Close large sheet">${close}</button>
+    </form>
+  </div>
+</dialog>`
+    },
+    {
+      title: "Right-to-left",
+      html: `<div dir="rtl" lang="ar">
+  <button type="button" class="btn" data-variant="outline" data-open-dialog="demo-sheet-rtl">
+    فتح اللوحة
+  </button>
+
+  <dialog class="sheet" id="demo-sheet-rtl" data-side="inline-end" aria-labelledby="sheet-rtl-title" aria-describedby="sheet-rtl-description">
+    <div>
+      <header>
+        <h2 data-slot="title" id="sheet-rtl-title">تعديل الملف الشخصي</h2>
+        <p data-slot="description" id="sheet-rtl-description">أجرِ تغييرات على ملفك الشخصي هنا.</p>
+      </header>
+      <section>
+        <div class="field">
+          <label class="label" for="sheet-rtl-name">الاسم</label>
+          <input class="input" id="sheet-rtl-name" value="ليلى حسن">
+        </div>
+      </section>
+      <footer>
+        <button type="button" class="btn" data-variant="outline" data-close-dialog>إلغاء</button>
+        <button type="button" class="btn" data-close-dialog>حفظ التغييرات</button>
+      </footer>
+      <form method="dialog">
+        <button class="btn" data-variant="ghost" data-size="icon-sm" aria-label="إغلاق">${close}</button>
+      </form>
+    </div>
+  </dialog>
+</div>`
     }
 ];

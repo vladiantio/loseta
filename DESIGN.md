@@ -435,10 +435,10 @@ on an RTL page; its header follows the page direction.
 | Code Block | `.code-block` | Optional `header` with `[data-slot="title"]` and `[data-slot="actions"]`; required `pre` containing `code`; optional `footer`; line parts `[data-slot="line"]` wrapping `[data-slot="line-content"]`. | `data-size="default|sm"`; `data-variant="default|destructive"`; `pre` `data-line-numbers`, `data-wrap`, `--line-start`; line `data-variant="added|removed|highlighted"` |
 | Collapsible | `.collapsible` | Native `<details>` with a `<summary>` trigger and content directly after `summary`. | `[open]`; `inert` for disabled items |
 | Combobox | `.combobox` | Input with `role="combobox"` and a `[data-popover]` panel containing `[role="listbox"]`; optional `[data-slot="clear"]`. | Listbox `aria-multiselectable="true"` for multiple; placement attributes on the panel |
-| Command | `.command` | Search field composed with input-group and a `[role="listbox"]` with groups, labels, shortcuts and an empty state. | `[data-slot="shortcut"]`, `[data-slot="empty"]`; no surface |
+| Command | `.command` | Search field composed with input-group and a `[role="listbox"]` with groups, labels, separators, shortcuts and an empty state. | `[data-slot="shortcut"]`, `[data-slot="empty"]`; `[role="separator"]` dividers; no surface |
 | Context menu | `.context-menu` | `[role="menu"]` panel with menu items, checkable items, headings, separators and shortcuts; nested menus use a `role="none"` wrapper around the trigger and its `[data-popover]` panel. | `--context-x`, `--context-y` on the panel; `aria-hidden="true|false"`; `aria-checked` on checkable items; the panel scrolls near the viewport edge |
 | Dialog | `.dialog` | Native `<dialog>` containing a panel; panel contains `header`, title, description, `section`, `footer` and a close button or `form[method="dialog"]`. Section content scrolls between a fixed header and footer. | Footer `data-align="start"` |
-| Drawer | `.drawer` | Native `<dialog>` with `data-side` and a panel containing `[data-slot="handle"]`, `header`, `section` and `footer`. | `data-side="block-start|block-end"`; `data-size="default|sm|lg"` |
+| Drawer | `.drawer` | Native `<dialog>` with `data-side` and a panel containing an optional `[data-slot="handle"]`, `header`, `section` and `footer`. The section scrolls between the header and footer. | `data-side="block-start|block-end"`; `data-size="default|sm|lg"` sets the height |
 | Dropdown menu | `.dropdown-menu` | Trigger, `[data-popover]` panel, `[role="menu"]`, menu item roles, `[role="separator"]`, `[role="heading"]`, shortcut and indicator slots; nested menus use a `role="none"` wrapper around the sub-trigger and its panel. | Item `data-variant="destructive"`; default by omission; placement attributes; `data-inset`; `data-rtl-flip`; `aria-checked` on checkable items |
 | Empty | `.empty` | `header` with optional `figure` (a single SVG becomes the icon box; image, avatar or avatar-group markup is used as-is), title (`h2`–`h4`) and description `p`; `section`; `footer`. | — |
 | Field | `.field`, `.fieldset` | Label or legend, control, content `section` for a label/description pair, description `p`, error `[role="alert"]`, group/radiogroup container and `.field-separator` with an `hr`. | Legend `data-variant="label|legend"`; field `data-orientation="horizontal|responsive"`; group `data-slot="checkbox-group|radio-group"` |
@@ -464,7 +464,7 @@ on an RTL page; its header follows the page direction.
 | Scroll area | `.scroll-area` | Scroll container; the consumer sets dimensions and content. | `data-orientation="horizontal|vertical"`; `data-size="default|sm"` |
 | Select | `.select` | Trigger with `role="combobox"`, `[data-slot="value"]` and a `[data-popover] > [role="listbox"]` panel. | `data-size="default|sm"`; `data-placeholder` on the value |
 | Separator | `.separator` | `<hr>` or `[role="separator"]`. | `data-orientation="horizontal|vertical"`; `aria-orientation` is also recognized |
-| Sheet | `.sheet` | Native `<dialog>` with `data-side` and a panel containing `header`, `section` and `footer`. | `data-side="inline-start|inline-end"`; `data-size="default|sm|lg"` |
+| Sheet | `.sheet` | Native `<dialog>` with `data-side` and a panel containing `header`, `section`, `footer` and an optional close control. The section scrolls between the header and footer. | `data-side="inline-start|inline-end|block-start|block-end"`; `data-size="default|sm|lg"` sets the width or the height on block sides; close control is a direct child `form[method="dialog"]` or `button` |
 | Sidebar | `.sidebar` | `<aside>` with `header`, `section` and `footer`; nav lists and collapsible groups. | `aria-current="page"` on links; `data-slot="brand"` |
 | Skeleton | `.skeleton` | No required children; the consumer sets dimensions. | — |
 | Slider | `.slider` | Native `<input type="range">`; horizontal, one thumb. | `data-size="default|sm|lg"` |
@@ -553,11 +553,14 @@ icon 180 degrees in RTL contexts. Nested menu panels use
 `data-side="inline-end"` so they open away from the parent menu in both
 directions.
 
-Sheets use `inline-start`/`inline-end`; drawers use `block-start`/`block-end`.
-`data-size` on a sheet or drawer sets its width or height. Context menus are
-positioned by the consumer through `--context-x` and `--context-y` on the
-panel. Those coordinates are physical `left`/`top` values even in RTL; this is
-the only physical-inset exception in the registry.
+Sheets use `inline-start`/`inline-end` for side sheets and
+`block-start`/`block-end` for top and bottom sheets; drawers use
+`block-start`/`block-end`. `data-size` on a sheet sets its width, or its height
+on a block side; on a drawer, `sm` and `lg` set an explicit height while the
+default sizes to content up to `80vh`. Context menus are positioned by the
+consumer through `--context-x` and `--context-y` on the panel. Those
+coordinates are physical `left`/`top` values even in RTL; this is the only
+physical-inset exception in the registry.
 
 `data-orientation` is component-specific: `horizontal|vertical` on button
 groups, tablists, separators and toggle groups, `horizontal|responsive` on
@@ -648,6 +651,15 @@ Notes:
 - Select, combobox and command do not open, close, filter or select by
   themselves. The consumer owns those behaviors and the `aria-expanded` /
   `aria-hidden` transitions.
+- Command composes the input group and listbox with its own list chrome. Group
+  labels use `data-slot="label"`, dividers are `[role="separator"]` (mark them
+  `aria-hidden="true"` inside a listbox) and the list caps at `20rem` with
+  vertical scrolling. Shortcuts use `data-slot="shortcut"` and stay
+  left-to-right in RTL containers.
+- Sheets and drawers keep the footer at the bottom of the panel while the
+  section scrolls. The sheet close control is a direct child
+  `form[method="dialog"]` or `button` at the inline end; style its button with
+  `.btn` and give icon-only controls an accessible label.
 - Calendar day cells use `aria-selected`; day buttons use `aria-current="date"`
   and `aria-disabled`. Month navigation and keyboard grid movement are
   consumer JavaScript.
@@ -784,6 +796,9 @@ progress sweep slow down instead of stopping. This remains a known gap.
 - Sheets and drawers are native `<dialog>` elements and follow the dialog
   labelling rules. The drawer handle is decorative unless the consumer makes it
   a focusable drag control; swipe and drag gestures are consumer JavaScript.
+  The sheet close control needs an accessible label when its button is
+  icon-only, and a scrolling section without focusable content needs
+  `role="region"`, an accessible name and `tabindex="0"`.
 - Hover-card triggers need `aria-describedby` pointing at the panel. The panel
   is a non-modal preview; interactive content that must stay open belongs in a
   popover.
@@ -877,9 +892,9 @@ button/input/select/popover/dropdown-menu, table with
 checkbox/badge/button/dropdown-menu, dropdown-menu with button/avatar,
 breadcrumb with dropdown-menu, pagination with button, sheet and drawer with
 button, input group with input/textarea/button/field/kbd/spinner, combobox
-with button, command with dialog-shell/popover-primitive/card, carousel and
-chart with card, sidebar with sheet, toast with button, and code block with
-button for copy and wrap controls.
+with button, command with dialog-shell/popover-primitive/popover/card,
+carousel and chart with card, sidebar with sheet, toast with button, and code
+block with button for copy and wrap controls.
 
 The `menu` primitive styles every `[role="menu"]` in the project. It owns the
 shared item, heading, separator, shortcut and indicator rules; `dropdown-menu`,
@@ -961,6 +976,7 @@ semantic versioning.
 - Select, combobox and command do not open, filter, select or move focus; those
   are consumer JavaScript concerns.
 - Command has no surface of its own; place it inside a dialog, popover or card.
+  Its group dividers are decorative and its list scrolls at `20rem`.
 - Multiple combobox selections are not rendered as chips; compose them with
   badges in consumer markup.
 - Calendar day navigation, selection and keyboard grid movement are consumer

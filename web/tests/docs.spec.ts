@@ -999,29 +999,133 @@ test("button styles link actions without the button role", async ({ page }) => {
   await expect(example.getByRole("button", { name: "Login", exact: true })).toHaveCount(0);
 });
 
-test("sheet and drawer dialogs open and close", async ({ page }) => {
+test("sheet sides, close control and scrolling", async ({ page }) => {
   await page.goto("/docs/components/sheet");
-  const sheet = page.locator("#demo-sheet");
-  await page.locator('[data-open-dialog="demo-sheet"]').click();
+  await page.addStyleTag({
+    content:
+      "*, *::before, *::after { transition: none !important; animation: none !important; }"
+  });
+  const viewport = page.viewportSize();
+  expect(viewport).not.toBeNull();
+
+  const sheet = page.locator("#demo-sheet-default");
+  await page.locator('[data-open-dialog="demo-sheet-default"]').click();
   await expect(sheet).toHaveAttribute("open", "");
   await expect(sheet.locator("[data-slot='title']")).toBeVisible();
-  await sheet.getByRole("button", { name: "Cancel" }).click();
+  const panelBox = await sheet.locator(":scope > div").boundingBox();
+  const closeBox = await sheet.getByRole("button", { name: "Close" }).boundingBox();
+  expect(panelBox).not.toBeNull();
+  expect(closeBox).not.toBeNull();
+  expect(closeBox!.x).toBeGreaterThan(panelBox!.x + panelBox!.width - 60);
+  await sheet.getByRole("button", { name: "Close" }).click();
   await expect(sheet).not.toHaveAttribute("open", "");
 
+  const top = page.locator("#demo-sheet-side-top");
+  await page.locator('[data-open-dialog="demo-sheet-side-top"]').click();
+  await expect(top).toHaveAttribute("open", "");
+  const topPanelBox = await top.locator(":scope > div").boundingBox();
+  expect(topPanelBox).not.toBeNull();
+  expect(topPanelBox!.y).toBeLessThan(4);
+  expect(topPanelBox!.width).toBeGreaterThan(600);
+  await top.getByRole("button", { name: "Close top sheet" }).click();
+  await expect(top).not.toHaveAttribute("open", "");
+
+  const bottom = page.locator("#demo-sheet-side-bottom");
+  await page.locator('[data-open-dialog="demo-sheet-side-bottom"]').click();
+  await expect(bottom).toHaveAttribute("open", "");
+  const bottomPanelBox = await bottom.locator(":scope > div").boundingBox();
+  expect(bottomPanelBox).not.toBeNull();
+  expect(bottomPanelBox!.y + bottomPanelBox!.height).toBeGreaterThan(
+    viewport!.height - 4
+  );
+  await page.keyboard.press("Escape");
+  await expect(bottom).not.toHaveAttribute("open", "");
+
   const left = page.locator("#demo-sheet-left");
-  await page.getByRole("button", { name: "Open left sheet" }).click();
+  await page.locator('[data-open-dialog="demo-sheet-left"]').click();
   await expect(left).toHaveAttribute("open", "");
   await expect(left.locator("[data-slot='title']")).toBeVisible();
-  await left.getByRole("button", { name: "Close" }).click();
+  const leftPanelBox = await left.locator(":scope > div").boundingBox();
+  expect(leftPanelBox).not.toBeNull();
+  expect(leftPanelBox!.x).toBeLessThan(4);
+  await left.getByRole("button", { name: "Close left sheet" }).click();
   await expect(left).not.toHaveAttribute("open", "");
 
+  const scrollable = page.locator("#demo-sheet-scrollable");
+  await page.locator('[data-open-dialog="demo-sheet-scrollable"]').click();
+  const scrollSection = scrollable.locator("section");
+  await expect(scrollSection).toHaveAttribute("role", "region");
+  await expect(scrollSection).toHaveAttribute("tabindex", "0");
+  expect(
+    await scrollSection.evaluate((element) => element.scrollHeight)
+  ).toBeGreaterThan(
+    await scrollSection.evaluate((element) => element.clientHeight)
+  );
+  await page.keyboard.press("Escape");
+  await expect(scrollable).not.toHaveAttribute("open", "");
+});
+
+test("drawer sides, sizes, nested dialogs and scrolling", async ({ page }) => {
   await page.goto("/docs/components/drawer");
-  const drawer = page.locator("#demo-drawer");
-  await page.getByRole("button", { name: "Open drawer" }).click();
+  await page.addStyleTag({
+    content:
+      "*, *::before, *::after { transition: none !important; animation: none !important; }"
+  });
+  const viewport = page.viewportSize();
+  expect(viewport).not.toBeNull();
+
+  const drawer = page.locator("#demo-drawer-default");
+  await page.locator('[data-open-dialog="demo-drawer-default"]').click();
   await expect(drawer).toHaveAttribute("open", "");
   await expect(drawer.locator("[data-slot='handle']")).toBeVisible();
   await drawer.getByRole("button", { name: "Cancel" }).click();
   await expect(drawer).not.toHaveAttribute("open", "");
+
+  const top = page.locator("#demo-drawer-top");
+  await page.locator('[data-open-dialog="demo-drawer-top"]').click();
+  await expect(top).toHaveAttribute("open", "");
+  const topPanelBox = await top.locator(":scope > div").boundingBox();
+  const topHandleBox = await top.locator("[data-slot='handle']").boundingBox();
+  expect(topPanelBox).not.toBeNull();
+  expect(topHandleBox).not.toBeNull();
+  expect(topPanelBox!.y).toBeLessThan(4);
+  expect(topHandleBox!.y).toBeGreaterThan(
+    topPanelBox!.y + topPanelBox!.height - 40
+  );
+  await top.getByRole("button", { name: "Close" }).click();
+  await expect(top).not.toHaveAttribute("open", "");
+
+  const small = page.locator("#demo-drawer-small");
+  await page.locator('[data-open-dialog="demo-drawer-small"]').click();
+  const smallPanelBox = await small.locator(":scope > div").boundingBox();
+  expect(smallPanelBox).not.toBeNull();
+  expect(smallPanelBox!.height).toBeCloseTo(viewport!.height / 2, 0);
+  await page.keyboard.press("Escape");
+  await expect(small).not.toHaveAttribute("open", "");
+
+  const scrollable = page.locator("#demo-drawer-scrollable");
+  await page.locator('[data-open-dialog="demo-drawer-scrollable"]').click();
+  const scrollSection = scrollable.locator("section");
+  await expect(scrollSection).toHaveAttribute("role", "region");
+  await expect(scrollSection).toHaveAttribute("tabindex", "0");
+  expect(
+    await scrollSection.evaluate((element) => element.scrollHeight)
+  ).toBeGreaterThan(
+    await scrollSection.evaluate((element) => element.clientHeight)
+  );
+  await page.keyboard.press("Escape");
+  await expect(scrollable).not.toHaveAttribute("open", "");
+
+  const nested = page.locator("#demo-drawer-nested");
+  await page.locator('[data-open-dialog="demo-drawer-nested"]').click();
+  await nested.getByRole("button", { name: "Open nested drawer" }).click();
+  const child = page.locator("#demo-drawer-nested-child");
+  await expect(child).toHaveAttribute("open", "");
+  await expect(child.locator("[data-slot='title']")).toHaveText("Nested drawer");
+  await child.getByRole("button", { name: "Close" }).click();
+  await expect(child).not.toHaveAttribute("open", "");
+  await nested.getByRole("button", { name: "Close" }).click();
+  await expect(nested).not.toHaveAttribute("open", "");
 });
 
 test("dialog examples open, close and scroll", async ({ page }) => {
@@ -1470,18 +1574,26 @@ test("combobox filters, selects, clears and shows an empty state", async ({ page
   await expect(multiple.locator("[data-popover]")).toHaveAttribute("aria-hidden", "false");
 });
 
-test("command filters, shows an empty state and closes on selection", async ({ page }) => {
+test("command filters groups, shows an empty state and closes on selection", async ({ page }) => {
   await page.goto("/docs/components/command");
   const dialog = page.locator("#demo-command");
   const input = dialog.getByRole("textbox", { name: "Search commands" });
 
-  await page.getByRole("button", { name: "Open command" }).click();
+  await page.getByRole("button", { name: "Open command", exact: true }).click();
   await expect(dialog).toHaveAttribute("open", "");
   await expect(input).toBeFocused();
 
   await input.fill("set");
   await expect(dialog.getByRole("option", { name: "Open settings" })).toBeVisible();
   await expect(dialog.getByRole("option", { name: "Go home" })).toBeHidden();
+  await expect(
+    dialog.locator("[data-slot='label']", { hasText: "Actions" })
+  ).toBeHidden();
+  expect(
+    await dialog
+      .locator("[role='separator']")
+      .evaluateAll((nodes) => nodes.every((node) => node.hasAttribute("hidden")))
+  ).toBe(true);
   await expect(dialog.locator(".command [data-slot='empty']")).toBeHidden();
 
   await input.fill("zzz");
@@ -1490,6 +1602,23 @@ test("command filters, shows an empty state and closes on selection", async ({ p
   await input.fill("set");
   await dialog.getByRole("option", { name: "Open settings" }).click();
   await expect(dialog).not.toHaveAttribute("open", "");
+
+  const scrollable = page.locator("#demo-command-scrollable");
+  await page.locator('[data-open-dialog="demo-command-scrollable"]').click();
+  const list = scrollable.locator("[role='listbox']");
+  expect(await list.evaluate((element) => element.scrollHeight)).toBeGreaterThan(
+    await list.evaluate((element) => element.clientHeight)
+  );
+  await page.keyboard.press("Escape");
+  await expect(scrollable).not.toHaveAttribute("open", "");
+
+  const trigger = page.getByRole("button", { name: "Open command menu" });
+  const popover = page.locator("#demo-command-popover-panel");
+  await trigger.click();
+  await expect(popover).toHaveAttribute("aria-hidden", "false");
+  await popover.getByRole("option", { name: "Settings" }).click();
+  await expect(popover).toHaveAttribute("aria-hidden", "true");
+  await expect(trigger).toHaveAttribute("aria-expanded", "false");
 });
 
 test("calendar exposes a grid with a selected day", async ({ page }) => {

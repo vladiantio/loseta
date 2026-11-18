@@ -9,15 +9,19 @@
 
       > header {
         display: flex;
+        flex-shrink: 0;
         flex-direction: column;
       }
 
       > section {
+        min-height: 0;
         overflow-y: auto;
       }
 
       > footer {
         display: flex;
+        flex-shrink: 0;
+        margin-block-start: auto;
         align-items: center;
         justify-content: flex-end;
       }

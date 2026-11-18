@@ -2905,10 +2905,18 @@
 
     &[data-size='sm'] {
       --drawer-height: 50vh;
+
+      > * {
+        block-size: var(--drawer-height);
+      }
     }
 
     &[data-size='lg'] {
       --drawer-height: 90vh;
+
+      > * {
+        block-size: var(--drawer-height);
+      }
     }
 
     > * {
@@ -3124,13 +3132,16 @@
 @layer loseta.style {
   .sheet {
     --sheet-width: 24rem;
+    --sheet-height: 80vh;
 
     &[data-size='sm'] {
       --sheet-width: 20rem;
+      --sheet-height: 50vh;
     }
 
     &[data-size='lg'] {
       --sheet-width: 28rem;
+      --sheet-height: 90vh;
     }
 
     > * {
@@ -3151,6 +3162,23 @@
       border-inline-start-style: solid;
       border-inline-start-width: 1px;
       border-inline-start-color: var(--border);
+    }
+
+    &[data-side='block-start'] > *,
+    &[data-side='block-end'] > * {
+      max-height: var(--sheet-height);
+    }
+
+    &[data-side='block-start'] > * {
+      border-block-end-style: solid;
+      border-block-end-width: 1px;
+      border-block-end-color: var(--border);
+    }
+
+    &[data-side='block-end'] > * {
+      border-block-start-style: solid;
+      border-block-start-width: 1px;
+      border-block-start-color: var(--border);
     }
 
     > * > header {
@@ -3568,6 +3596,12 @@
       line-height: var(--text-xs--line-height);
       letter-spacing: 0.08em;
       color: var(--muted-foreground);
+    }
+
+    [role='listbox'] [role='separator'] {
+      block-size: 1px;
+      margin-block: 0.25rem;
+      background-color: var(--border);
     }
 
     [role='listbox'] [role='option'] {

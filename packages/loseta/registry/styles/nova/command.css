@@ -1,11 +1,19 @@
 /* Command */
 @layer loseta.style {
   .command {
+    gap: 0.5rem;
+
     [data-slot='shortcut'] {
       font-size: var(--text-xs);
       line-height: var(--text-xs--line-height);
       letter-spacing: 0.1em;
       color: var(--muted-foreground);
+    }
+
+    [role='listbox'] [role='separator'] {
+      block-size: 1px;
+      margin-block: 0.25rem;
+      background-color: var(--border);
     }
 
     [role='listbox'] [role='option'] {

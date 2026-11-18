@@ -121,6 +121,17 @@ const filterOptions = (root: Element, query: string): void => {
     group.toggleAttribute("hidden", !anyVisible);
   });
 
+  root.querySelectorAll<HTMLElement>('[role="separator"]').forEach((separator) => {
+    const previous = separator.previousElementSibling;
+    const next = separator.nextElementSibling;
+    const surrounded =
+      previous !== null &&
+      next !== null &&
+      !previous.hasAttribute("hidden") &&
+      !next.hasAttribute("hidden");
+    separator.toggleAttribute("hidden", !surrounded);
+  });
+
   root
     .querySelector<HTMLElement>("[data-slot='empty']")
     ?.toggleAttribute("hidden", visible > 0);
@@ -438,7 +449,18 @@ const onClick = async (event: MouseEvent): Promise<void> => {
         delete input.dataset.suppressOpen;
       }
     } else if (root.classList.contains("command")) {
-      option.closest("dialog")?.close();
+      const dialog = option.closest("dialog");
+      if (dialog) {
+        dialog.close();
+      } else {
+        const popover = root.closest("[data-popover]");
+        if (popover) {
+          popover.setAttribute("aria-hidden", "true");
+          const trigger = popoverTrigger(popover);
+          trigger?.setAttribute("aria-expanded", "false");
+          trigger?.focus();
+        }
+      }
     }
     return;
   }

@@ -5,10 +5,18 @@
 
     &[data-size='sm'] {
       --drawer-height: 50vh;
+
+      > * {
+        block-size: var(--drawer-height);
+      }
     }
 
     &[data-size='lg'] {
       --drawer-height: 90vh;
+
+      > * {
+        block-size: var(--drawer-height);
+      }
     }
 
     > * {

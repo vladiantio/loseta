@@ -123,9 +123,9 @@ const notesBy: Record<string, string> = {
   combobox:
     "An input with role=\"combobox\", aria-expanded and aria-controls. The panel is a [data-popover] containing a [role=\"listbox\"]. Add aria-multiselectable=\"true\" for multiple selection. Filtering, selection and keyboard navigation are consumer JavaScript; selected chips are composed with badges.",
   command:
-    "Content-only: a search field composed with input-group and a listbox of commands. Place it inside a dialog, popover or card. Filtering, keyboard navigation and closing on selection are consumer JavaScript. Shortcuts use [data-slot=\"shortcut\"].",
+    "Content-only: a search field composed with input-group and a listbox of commands. Group labels use [data-slot=\"label\"], dividers use [role=\"separator\"] and the list scrolls at 20rem. Place it inside a dialog, popover or card. Filtering, keyboard navigation and closing on selection are consumer JavaScript. Shortcuts use [data-slot=\"shortcut\"] and stay left-to-right in RTL containers.",
   drawer:
-    "Native <dialog> with data-side=\"block-end\". CSS only handles presentation; call showModal() and close(). The handle is [data-slot=\"handle\"]; drag gestures are consumer JavaScript. data-size sm/default/lg changes the height.",
+    "Native <dialog> with data-side=\"block-end\" or \"block-start\". CSS only handles presentation; call showModal() and close(). The handle is optional [data-slot=\"handle\"]; drag gestures are consumer JavaScript. data-size=\"sm\" and \"lg\" set a 50vh or 90vh height; the default sizes to content up to 80vh. A section scrolls between the header and footer; a scrolling section without focusable content needs role=\"region\", an accessible name and tabindex=\"0\".",
   "input-group":
     "role=\"group\" root. Place addons after the input or textarea in the DOM so the control keeps its tab order; data-align=\"inline-start|inline-end|block-start|block-end\" positions them visually and defaults to inline-start. Addons use [data-slot=\"addon\"]; custom controls opt into the group geometry and focus ring with data-slot=\"input-group-control\". The group owns the border, disabled tint and focus ring; inner controls are borderless and addon buttons keep their own focus ring. Clicking an addon does not focus the control; that is consumer JavaScript.",
   "input-otp":
@@ -149,7 +149,7 @@ const notesBy: Record<string, string> = {
   "navigation-menu":
     "nav > ul > li. Triggers use aria-expanded and aria-controls; panels are [data-popover] with links. Link parts use [data-slot=\"icon\"], [data-slot=\"title\"] and [data-slot=\"description\"]. The trigger chevron rotates while expanded. Open/close and keyboard navigation are consumer JavaScript; there is no built-in mobile layout.",
   sheet:
-    "Native <dialog> with data-side=\"inline-start|inline-end\". CSS only handles presentation; call showModal() and close(). Use header/section/footer inside the panel. data-size sm/default/lg changes the width.",
+    "Native <dialog> with data-side=\"inline-start|inline-end\" for side sheets or \"block-start|block-end\" for top and bottom sheets. CSS only handles presentation; call showModal() and close(). Use header/section/footer inside the panel. data-size sm/default/lg changes the width, or the height on a top or bottom sheet. The optional close control is a direct child form[method=\"dialog\"] wrapping an icon .btn; give it an accessible label. A section scrolls between the header and footer.",
   spinner:
     "The spinner is a span; add role=\"status\" and a .sr-only label for standalone use. data-size picks sm, default or lg. Motion slows under prefers-reduced-motion.",
   tabs:

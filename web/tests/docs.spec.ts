@@ -1128,6 +1128,56 @@ test("drawer sides, sizes, nested dialogs and scrolling", async ({ page }) => {
   await expect(nested).not.toHaveAttribute("open", "");
 });
 
+test("open overlay panels pass axe in every color scheme", async ({ page }) => {
+  const disableMotion = async () => {
+    await page.addStyleTag({
+      content:
+        "*, *::before, *::after { transition: none !important; animation: none !important; }"
+    });
+  };
+  const audit = async (label: string) => {
+    for (const scheme of ["light", "dark"] as const) {
+      await page.emulateMedia({ colorScheme: scheme });
+      const results = await new AxeBuilder({ page }).withTags(tags).analyze();
+      const violations = blocking(results.violations);
+      expect(
+        violations,
+        `${label} ${scheme}: ${JSON.stringify(violations, null, 2)}`
+      ).toEqual([]);
+    }
+  };
+
+  await page.goto("/docs/components/sheet");
+  await disableMotion();
+  await page.locator('[data-open-dialog="demo-sheet-default"]').click();
+  await expect(page.locator("#demo-sheet-default")).toHaveAttribute("open", "");
+  await audit("sheet");
+  await page.keyboard.press("Escape");
+  await expect(page.locator("#demo-sheet-default")).not.toHaveAttribute("open", "");
+
+  await page.goto("/docs/components/drawer");
+  await disableMotion();
+  await page.locator('[data-open-dialog="demo-drawer-default"]').click();
+  await expect(page.locator("#demo-drawer-default")).toHaveAttribute("open", "");
+  await audit("drawer");
+  await page.keyboard.press("Escape");
+  await expect(page.locator("#demo-drawer-default")).not.toHaveAttribute("open", "");
+
+  await page.goto("/docs/components/command");
+  await disableMotion();
+  await page.getByRole("button", { name: "Open command", exact: true }).click();
+  await expect(page.locator("#demo-command")).toHaveAttribute("open", "");
+  await audit("command dialog");
+  await page.keyboard.press("Escape");
+
+  await page.getByRole("button", { name: "Open command menu" }).click();
+  const popover = page.locator("#demo-command-popover-panel");
+  await expect(popover).toHaveAttribute("aria-hidden", "false");
+  await audit("command popover");
+  await page.keyboard.press("Escape");
+  await expect(popover).toHaveAttribute("aria-hidden", "true");
+});
+
 test("dialog examples open, close and scroll", async ({ page }) => {
   await page.goto("/docs/components/dialog");
   await page.addStyleTag({

@@ -55,6 +55,8 @@ reference for this checklist.
    `pnpm --filter web exec playwright test -g "<item>"`. After changing example
    colors or surfaces, run the page axe case before the full suite:
    `pnpm --filter web exec playwright test -g "axe: /docs/components/<item>"`.
+   Overlay components also need the open-panel case:
+   `pnpm --filter web exec playwright test -g "open overlay panels"`.
    Run `pnpm --filter web test:e2e` once, when the diff is final.
 9. `git status` must show only source and regenerated files. Commit with
    `feat(registry): expand <item> examples and fix details`.

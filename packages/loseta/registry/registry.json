@@ -1,7 +1,7 @@
 {
   "$schema": "./schema.json",
   "name": "loseta",
-  "version": "0.15.0",
+  "version": "0.16.0",
   "styles": [
     {
       "name": "nova",

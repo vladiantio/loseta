@@ -8,7 +8,7 @@ It is not an implementation guide. The installed CSS is the reference
 implementation: if this document and the registry disagree,
 [`packages/loseta/registry/tokens.css`](packages/loseta/registry/tokens.css)
 and [`registry.json`](packages/loseta/registry/registry.json) win, and this
-document must be corrected. The baseline covers registry version `0.15.0`.
+document must be corrected. The baseline covers registry version `0.16.0`.
 
 Vocabulary is defined in [`GLOSSARY.md`](GLOSSARY.md). Style implementation
 guidance lives in [`STYLE-GUIDE.md`](STYLE-GUIDE.md).

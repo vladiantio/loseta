@@ -1,5 +1,78 @@
 # Changelog
 
+## 0.16.0 - 2026-11-18
+
+### Added
+
+- Expanded examples for alert, alert-dialog, avatar, button, button-group,
+  checkbox, command, context-menu, dialog, drawer, dropdown-menu, empty, field,
+  input, input-group, input-otp, menubar, navigation-menu, popover, progress,
+  radio, sheet, sidebar, slider, switch, table, textarea, toggle, toggle-group
+  and tooltip. The new cases cover sizes, variants, composition, validation,
+  disabled, forced-colors, right-to-left and responsive layouts.
+- Avatar group counts: `[data-slot="count"]` follows the group size and uses
+  the fallback type and icon scale in every style.
+- Checkbox `:indeterminate` now draws a current-color dash.
+- Input group custom controls opt into the group geometry and focus ring with
+  `data-slot="input-group-control"`.
+- Table checkbox cells accept a native `input[type="checkbox"]`, and a row with
+  an expanded trigger keeps the muted highlight.
+- Sidebar `[data-slot="group-label"]`, `[data-slot="group-action"]`,
+  `[data-slot="menu-badge"]` and `[data-slot="menu-action"]` parts.
+- Field content sections, `hr`-based field separators and labels that wrap a
+  `.field` as a selectable card; navigation-menu link icons; checkable context
+  and dropdown menu items.
+- Sheet `block-start`/`block-end` sides and a documented close control; drawer
+  handles are optional and `sm`/`lg` set explicit heights.
+- Popover panels are documented and validated as labelled `role="dialog"`
+  panels with focus management.
+- Tooltip text wraps at `20rem` and the bubble fades and scales in on hover and
+  focus.
+- Component pages lead with a Default example and an Installation heading.
+
+### Changed
+
+- Progress uses slimmer per-style heights; Nova drops to `0.25rem` from
+  `0.5rem`, and the documented scale is updated.
+- Input group addons now follow the control in the DOM, and `data-align`
+  defaults to `inline-start` so the control keeps its tab order.
+- Tooltip defaults to `data-side="top"` and `data-align="center"`; placement no
+  longer shifts while the bubble fades in.
+- Dialog, drawer and sheet sections scroll between a fixed header and footer.
+  Dialog footers accept `data-align="start"`, and button groups keep
+  size-specific outer radii and stay above nested picker panels.
+- `registry:check` now enforces style selector parity, logical properties in
+  style files, example dependency declarations, unique IDs and ARIA
+  references, the popover dialog contract and shared overlay recipes.
+
+### Fixed
+
+- Accordion and collapsible content stays rendered while it collapses, so the
+  close animation runs instead of cutting off.
+- Button padding mirrors in RTL and buttons used on anchors no longer inherit
+  underlines.
+- Checkbox, radio and switch keep their focus rings and state in forced-colors
+  mode and have larger pointer targets; the switch thumb no longer overflows.
+- Avatar badges and group counts are no longer clipped, and the group overlap
+  no longer covers fallback initials.
+- Empty draws its dashed outline and keeps media spacing and image ratios.
+  Inputs and textareas share selection colors and focus outlines, and the Mira
+  line height is corrected.
+- Slider, progress, toggle-group and input-group geometry and right-to-left
+  behavior are aligned across styles. Progress keeps its track and indicator
+  visible in forced colors, and Kbd contrast is raised on muted surfaces.
+- Popovers animate from their placement side, the Rhea overlay radius matches
+  the menu primitive, and Mira ships the missing input and textarea selectors.
+- Table captions and selected rows, sidebar group and row parts, sheet and
+  drawer sizing, command dividers and menu scrolling follow the documented
+  contract in every style.
+
+### Notes
+
+- The registry still has 62 stable components and no experimental items.
+- Examples are docs-only. The registry remains CSS-only; no JavaScript behavior
+  was added.
+
 ## 0.15.0 - 2026-11-15
 
 ### Changed

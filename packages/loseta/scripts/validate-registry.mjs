@@ -68,6 +68,68 @@ function fail(message) {
   errors.push(message);
 }
 
+// Selector ASTs from lightningcss are comparable across files: they ignore
+// formatting and preserve the rule structure. The formatter is only for error
+// messages, so a readable approximation is enough.
+function formatSelector(selector) {
+  return selector.map(formatSelectorComponent).join("");
+}
+
+function formatSelectorComponent(component) {
+  switch (component.type) {
+    case "nesting":
+      return "&";
+    case "class":
+      return `.${component.name}`;
+    case "type":
+      return component.name;
+    case "universal":
+      return "*";
+    case "combinator":
+      return (
+        {
+          descendant: " ",
+          child: " > ",
+          "next-sibling": " + ",
+          "later-sibling": " ~ "
+        }[component.value] ?? ` ${component.value} `
+      );
+    case "pseudo-class": {
+      const argument = component.selectors
+        ? `(${component.selectors.map(formatSelector).join(", ")})`
+        : component.kind === "dir" && component.direction
+          ? `(${component.direction})`
+          : "";
+      return `:${component.kind}${argument}`;
+    }
+    case "pseudo-element":
+      return `::${component.kind}`;
+    case "attribute": {
+      const namespace = component.namespace ? `${component.namespace}|` : "";
+      if (!component.operation) {
+        return `[${namespace}${component.name}]`;
+      }
+      const operators = {
+        equal: "=",
+        includes: "~=",
+        "dash-match": "|=",
+        prefix: "^=",
+        suffix: "$=",
+        substring: "*="
+      };
+      const operator =
+        operators[component.operation.operator] ?? component.operation.operator;
+      const insensitive =
+        component.operation.caseSensitivity === "ascii-case-insensitive"
+          ? " i"
+          : "";
+      return `[${namespace}${component.name}${operator}"${component.operation.value}"${insensitive}]`;
+    }
+    default:
+      return JSON.stringify(component);
+  }
+}
+
 function readJson(file) {
   return JSON.parse(readFileSync(file, "utf8"));
 }
@@ -339,7 +401,9 @@ for (const item of registry.items ?? []) {
 
   const roles = new Set();
   const styleFiles = [];
+  const styleSelectors = new Map();
   for (const file of item.files ?? []) {
+    let currentStyle = null;
     const absolute = join(registryDir, file.path);
     if (!existsSync(absolute)) {
       fail(`${item.name}: file not found: ${file.path}`);
@@ -367,6 +431,7 @@ for (const item of registry.items ?? []) {
           fail(`${item.name}: style target does not match ${match[1]}: ${file.target}`);
         }
         styleFiles.push(match[1]);
+        currentStyle = match[1];
       }
     } else if (file.path.startsWith("styles/")) {
       fail(`${item.name}: base file must not live under styles/: ${file.path}`);
@@ -415,12 +480,27 @@ for (const item of registry.items ?? []) {
       }
     }
 
+    const selectors = new Set();
     try {
       transform({
         filename: file.path,
         code: Buffer.from(css),
-        minify: false
+        minify: false,
+        visitor:
+          currentStyle === null
+            ? undefined
+            : {
+                Rule(rule) {
+                  if (rule.type !== "style") return;
+                  for (const selector of rule.value.selectors) {
+                    selectors.add(JSON.stringify(selector));
+                  }
+                }
+              }
       });
+      if (currentStyle !== null) {
+        styleSelectors.set(currentStyle, selectors);
+      }
     } catch (error) {
       fail(`${item.name}: ${file.path}: CSS parse error: ${error.message}`);
     }
@@ -450,6 +530,27 @@ for (const item of registry.items ?? []) {
         const count = styleFiles.filter((name) => name === style).length;
         if (count !== 1) {
           fail(`${item.name}: expected exactly one ${style} style file, found ${count}`);
+        }
+      }
+
+      // Every stable style mirrors Nova's selectors. Extra selectors are
+      // allowed for a style's role recipe; omissions are the failure mode that
+      // shows up after an eight-file edit.
+      const novaSelectors = styleSelectors.get("nova");
+      if (novaSelectors) {
+        for (const [style, selectors] of styleSelectors) {
+          if (style === "nova") continue;
+          const missing = [...novaSelectors].filter(
+            (selector) => !selectors.has(selector)
+          );
+          if (missing.length > 0) {
+            fail(
+              `${item.name}: ${style} style is missing Nova selectors: ${missing
+                .map((selector) => formatSelector(JSON.parse(selector)))
+                .sort()
+                .join(", ")}`
+            );
+          }
         }
       }
     }

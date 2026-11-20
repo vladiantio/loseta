@@ -86,7 +86,7 @@ const notesBy: Record<string, string> = {
   badge:
     "Text plus an optional SVG. Put data-icon=\"inline-start\" or data-icon=\"inline-end\" on the icon to tighten that edge. Use an anchor for a navigable badge and aria-hidden=\"true\" on decorative icons. A badge that reports loading takes aria-busy=\"true\", and its text must still carry the meaning when the spinner is hidden.",
   breadcrumb:
-    "Use nav[aria-label=\"breadcrumb\"] and an ordered list. Mark the current page with aria-current=\"page\" and separators with aria-hidden=\"true\".",
+    "Use nav[aria-label=\"breadcrumb\"] and an ordered list. Mark the current page with aria-current=\"page\" and separators with aria-hidden=\"true\"; add data-rtl-flip to directional separator icons. A collapsed path uses [data-slot=\"ellipsis\"] in its own item; a menu trigger is a button in the item or in a nested .dropdown-menu. Link and button styling applies to the item control only, so menu items keep their own surface.",
   bubble:
     "Variants default, secondary, muted, tinted, outline, ghost and destructive. [data-slot=\"content\"] may be a div, a or button. Reactions use [data-slot=\"reactions\"] with [data-slot=\"reaction\"] buttons and aria-pressed. data-align=\"end\" aligns a standalone bubble.",
   button:

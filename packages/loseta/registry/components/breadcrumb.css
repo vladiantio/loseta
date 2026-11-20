@@ -27,13 +27,21 @@
       }
     }
 
-    :is(a, button) {
+    > ol > li > :is(a, button),
+    > ol > li > :is(.dropdown-menu, .popover) > button {
       outline-style: none;
 
       @media (forced-colors: active) {
         outline: 2px solid transparent;
         outline-offset: 2px;
       }
+    }
+
+    > ol > li > button,
+    > ol > li > :is(.dropdown-menu, .popover) > button {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.25rem;
     }
 
     [aria-current='page'] {

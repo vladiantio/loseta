@@ -2497,7 +2497,8 @@
       gap: 0.25rem;
     }
 
-    :is(a, button) {
+    > ol > li > :is(a, button),
+    > ol > li > :is(.dropdown-menu, .popover) > button {
       border-radius: 0;
       transition-property: color, background-color, border-color, outline-color, text-decoration-color, fill, stroke;
       transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);

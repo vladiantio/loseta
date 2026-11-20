@@ -1228,6 +1228,76 @@ test("avatar groups overlap and size their count with the group", async ({
   );
 });
 
+test("breadcrumb styles separators and opens collapsed menus", async ({ page }) => {
+  await page.goto("/docs/components/breadcrumb");
+
+  const defaultExample = page.locator(".docs-preview .breadcrumb").first();
+  const current = defaultExample.locator("[aria-current='page']");
+  await expect(current).toHaveText("Breadcrumb");
+  await expect(current).toHaveCSS("cursor", "default");
+  await expect(defaultExample.locator("li[aria-hidden='true']")).toHaveCount(2);
+  await expect(
+    defaultExample.locator("li[aria-hidden='true'] svg").first()
+  ).toHaveAttribute("data-rtl-flip", "");
+
+  const custom = page
+    .locator("section.example")
+    .filter({
+      has: page.locator(".example-title", { hasText: /^Custom separator$/ })
+    });
+  await expect(custom.locator("li[aria-hidden='true'] svg").first()).toHaveCSS(
+    "width",
+    "14px"
+  );
+
+  const rtl = page
+    .locator("section.example")
+    .filter({
+      has: page.locator(".example-title", { hasText: /^Right-to-left$/ })
+    });
+  await expect(rtl.locator(".breadcrumb > ol")).toHaveCSS("direction", "rtl");
+  expect(
+    await rtl
+      .locator("li[aria-hidden='true'] svg")
+      .first()
+      .evaluate((icon) => getComputedStyle(icon).rotate)
+  ).toBe("180deg");
+
+  const ellipsisMenu = page
+    .locator("section.example")
+    .filter({
+      has: page.locator(".example-title", { hasText: /^Ellipsis menu$/ })
+    });
+  await ellipsisMenu
+    .getByRole("button", { name: "Show more breadcrumb items" })
+    .click();
+  const ellipsisPanel = page.locator("#demo-breadcrumb-ellipsis-panel");
+  await expect(ellipsisPanel).toHaveAttribute("aria-hidden", "false");
+  await expect(
+    ellipsisPanel.getByRole("menuitem", { name: "Themes" })
+  ).toBeVisible();
+  await page.keyboard.press("Escape");
+
+  const dropdown = page
+    .locator("section.example")
+    .filter({ has: page.locator(".example-title", { hasText: /^Dropdown$/ }) });
+  const trigger = dropdown.getByRole("button", { name: "Components" });
+  await trigger.click();
+  const panel = page.locator("#demo-breadcrumb-dropdown-panel");
+  await expect(panel).toHaveAttribute("aria-hidden", "false");
+  const documentation = panel.getByRole("menuitem", { name: "Documentation" });
+  await expect(documentation).toBeVisible();
+
+  await trigger.focus();
+  await page.keyboard.press("Tab");
+  await expect(documentation).toBeFocused();
+  await expect(documentation).toHaveCSS("box-shadow", "none");
+  await expect(documentation).toHaveCSS("border-top-left-radius", "8px");
+
+  await page.keyboard.press("Escape");
+  await expect(panel).toHaveAttribute("aria-hidden", "true");
+});
+
 test("badge tightens its icon edge and keeps state colors above variants", async ({
   page
 }) => {

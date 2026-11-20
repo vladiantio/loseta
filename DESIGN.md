@@ -407,8 +407,9 @@ Component widths:
 
 Directionality: layout uses logical properties. RTL-specific rules exist for
 the switch thumb, native-select chevron, popover/tooltip placement and
-`[data-rtl-flip]` icons in menus. Code Block content is always `dir="ltr"` even
-on an RTL page; its header follows the page direction.
+`[data-rtl-flip]` icons in menus, breadcrumb and pagination. Code Block content
+is always `dir="ltr"` even on an RTL page; its header follows the page
+direction.
 
 ## Public component API
 
@@ -423,7 +424,7 @@ on an RTL page; its header follows the page direction.
 | Attachment | `.attachment` | `[data-slot="media"]`, `[data-slot="content"]` with title/description and `[data-slot="actions"]`; optional `[data-slot="trigger"]` overlay. | `data-size="default|sm|xs"`; `data-orientation="horizontal|vertical"`; `aria-busy="true"` on the root |
 | Avatar | `.avatar`, `.avatar-group` | Real `img`, `[data-slot="fallback"]` layer and optional `[data-slot="badge"]`; `.avatar-group` overlaps avatars and may end with `[data-slot="count"]`, which follows the group size. | `data-size="default|sm|lg"` |
 | Badge | `.badge` | Text and optional SVG; `data-icon="inline-start|inline-end"` marks the icon so that edge tightens. Use on `span` or `a`; decorative icons need `aria-hidden="true"`. | `data-variant="primary|secondary|outline|destructive|ghost|link"`; `aria-invalid="true"` draws the destructive border and ring; `aria-busy="true"` while reporting progress |
-| Breadcrumb | `.breadcrumb` | `nav` with `ol`/`li`, links and a current `span`; separators are `li[aria-hidden="true"]`; `[data-slot="ellipsis"]` for collapsed paths. | `aria-current="page"` on the current item |
+| Breadcrumb | `.breadcrumb` | `nav` with `ol`/`li`, links or menu-trigger buttons and a current `span`; separators are `li[aria-hidden="true"]`; `[data-slot="ellipsis"]` for collapsed paths. | `aria-current="page"` on the current item; `data-rtl-flip` on directional separator icons |
 | Bubble | `.bubble`, `.bubble-group` | `[data-slot="content"]` surface and optional `[data-slot="reactions"]` containing `[data-slot="reaction"]` buttons. | `data-variant="default|secondary|muted|tinted|outline|ghost|destructive"`; `data-align="start|end"`; reaction `aria-pressed` |
 | Button | `.btn` | Text, optional SVG and inline spinner; `data-icon="inline-start|inline-end"` marks inline icons for padding. Use on `button` or `a`; icon-only buttons need an accessible name. | `data-variant="default|primary|secondary|outline|destructive|ghost|link"`; `data-size="default|xs|sm|lg|icon|icon-xs|icon-sm|icon-lg"` |
 | Button group | `.btn-group` | Buttons, inputs, dropdown/popover/select wrappers, `span`/`label`/`output` and `hr[role="separator"]`. | `data-orientation="horizontal|vertical"` (horizontal by default) |

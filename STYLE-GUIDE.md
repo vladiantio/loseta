@@ -164,7 +164,10 @@ Use for badges, status pills, reaction chips and keyboard hints.
 - Type: `--text-xs`; Mira and Sera use `0.625rem`. Sera is uppercase with
   `letter-spacing: 0.1em`.
 - Color: follow the reference badge and the semantic surface recipe; do not
-  introduce a new palette.
+  introduce a new palette. Maia and Mira tint the outline variant with
+  `--input` at 30% (Mira 20% in light).
+- Icon edge: the inline side that holds a `data-icon` tightens to `0.375rem`;
+  Sera keeps zero inline padding.
 
 ### Avatar
 

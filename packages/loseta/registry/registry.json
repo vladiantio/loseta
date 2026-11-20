@@ -537,7 +537,12 @@
         ".badge"
       ],
       "registryDependencies": [],
-      "optionalDependencies": [],
+      "optionalDependencies": [
+        "field",
+        "input",
+        "label",
+        "spinner"
+      ],
       "files": [
         {
           "path": "components/badge.css",

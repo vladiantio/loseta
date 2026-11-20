@@ -10,3 +10,40 @@
   <span class="badge" data-variant="ghost">Ghost</span>
   <span class="badge" data-variant="link">Link</span>
 </div>
+
+<!-- With icons -->
+<div style="display: flex; flex-wrap: wrap; gap: 0.5rem">
+  <span class="badge" data-variant="secondary"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" data-icon="inline-start"><path d="M3.85 8.62a4 4 0 0 1 4.78-4.77 4 4 0 0 1 6.74 0 4 4 0 0 1 4.78 4.78 4 4 0 0 1 0 6.74 4 4 0 0 1-4.77 4.78 4 4 0 0 1-6.75 0 4 4 0 0 1-4.78-4.77 4 4 0 0 1 0-6.76Z"/><path d="m9 12 2 2 4-4"/></svg>Verified</span>
+  <span class="badge" data-variant="outline">Bookmark<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" data-icon="inline-end"><path d="M17 3a2 2 0 0 1 2 2v15a1 1 0 0 1-1.496.868l-4.512-2.578a2 2 0 0 0-1.984 0l-4.512 2.578A1 1 0 0 1 5 20V5a2 2 0 0 1 2-2z"/></svg></span>
+</div>
+
+<!-- With spinner -->
+<div style="display: flex; flex-wrap: wrap; gap: 0.5rem">
+  <span class="badge" data-variant="destructive" aria-busy="true"><span class="spinner" data-size="sm" data-icon="inline-start" aria-hidden="true"></span>Deleting</span>
+  <span class="badge" data-variant="secondary" aria-busy="true">Generating<span class="spinner" data-size="sm" data-icon="inline-end" aria-hidden="true"></span></span>
+</div>
+
+<!-- As link -->
+<div style="display: flex; flex-wrap: wrap; gap: 0.5rem">
+  <a class="badge" href="#">Open link<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" data-icon="inline-end"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg></a>
+  <a class="badge" data-variant="outline" href="#">Read the docs<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" data-icon="inline-end"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg></a>
+</div>
+
+<!-- In a field -->
+<div class="field" style="max-width: 24rem">
+  <label class="label" for="demo-badge-webhook" style="width: 100%">
+    Webhook URL
+    <span class="badge" data-variant="secondary" style="margin-inline-start: auto">Beta</span>
+  </label>
+  <input class="input" id="demo-badge-webhook" type="url" placeholder="https://api.example.com/webhook">
+</div>
+
+<!-- Right-to-left -->
+<div dir="rtl" lang="ar" style="display: flex; flex-wrap: wrap; gap: 0.5rem">
+  <span class="badge">شارة</span>
+  <span class="badge" data-variant="secondary">ثانوي</span>
+  <span class="badge" data-variant="outline">مخطط</span>
+  <span class="badge" data-variant="destructive">مدمر</span>
+  <span class="badge" data-variant="secondary"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" data-icon="inline-start"><path d="M3.85 8.62a4 4 0 0 1 4.78-4.77 4 4 0 0 1 6.74 0 4 4 0 0 1 4.78 4.78 4 4 0 0 1 0 6.74 4 4 0 0 1-4.77 4.78 4 4 0 0 1-6.75 0 4 4 0 0 1-4.78-4.77 4 4 0 0 1 0-6.76Z"/><path d="m9 12 2 2 4-4"/></svg>متحقق</span>
+  <span class="badge" data-variant="outline">إشارة مرجعية<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" data-icon="inline-end"><path d="M17 3a2 2 0 0 1 2 2v15a1 1 0 0 1-1.496.868l-4.512-2.578a2 2 0 0 0-1.984 0l-4.512 2.578A1 1 0 0 1 5 20V5a2 2 0 0 1 2-2z"/></svg></span>
+</div>

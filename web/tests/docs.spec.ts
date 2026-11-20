@@ -1228,6 +1228,64 @@ test("avatar groups overlap and size their count with the group", async ({
   );
 });
 
+test("badge tightens its icon edge and keeps state colors above variants", async ({
+  page
+}) => {
+  await page.emulateMedia({ colorScheme: "light" });
+  await page.goto("/docs/components/badge");
+  await page.addStyleTag({
+    content:
+      "*, *::before, *::after { transition: none !important; animation: none !important; }"
+  });
+
+  const icons = page
+    .locator("section.example")
+    .filter({ has: page.locator(".example-title", { hasText: /^With icons$/ }) });
+  const verified = icons.locator(".badge").nth(0);
+  await expect(verified).toHaveCSS("padding-left", "6px");
+  await expect(verified).toHaveCSS("padding-right", "8px");
+  await expect(verified.locator("svg")).toHaveCSS("width", "12px");
+  await expect(verified.locator("svg")).toHaveAttribute(
+    "data-icon",
+    "inline-start"
+  );
+
+  const bookmark = icons.locator(".badge").nth(1);
+  await expect(bookmark).toHaveCSS("padding-left", "8px");
+  await expect(bookmark).toHaveCSS("padding-right", "6px");
+  await expect(bookmark.locator("svg")).toHaveAttribute(
+    "data-icon",
+    "inline-end"
+  );
+
+  const variants = page
+    .locator("section.example")
+    .filter({ has: page.locator(".example-title", { hasText: /^Variants$/ }) });
+  const outline = variants.locator(".badge[data-variant='outline']");
+  const destructive = variants.locator(".badge[data-variant='destructive']");
+  await outline.evaluate((element) =>
+    element.setAttribute("aria-invalid", "true")
+  );
+
+  const [invalid, destructiveColor] = await Promise.all([
+    outline.evaluate((element) => {
+      const style = getComputedStyle(element);
+      return { border: style.borderTopColor, shadow: style.boxShadow };
+    }),
+    destructive.evaluate((element) => getComputedStyle(element).color)
+  ]);
+  expect(invalid.border).toBe(destructiveColor);
+  expect(invalid.shadow).not.toBe("none");
+
+  const rtl = page
+    .locator("section.example")
+    .filter({
+      has: page.locator(".example-title", { hasText: /^Right-to-left$/ })
+    });
+  await expect(rtl.locator(".badge").nth(4)).toHaveCSS("padding-right", "6px");
+  await expect(rtl.locator(".badge").nth(5)).toHaveCSS("padding-left", "6px");
+});
+
 test("accordion and collapsible animate their content on close", async ({ page }) => {
   for (const [slug, selector] of [
     ["accordion", ".accordion details"],

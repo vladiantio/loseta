@@ -83,6 +83,8 @@ const notesBy: Record<string, string> = {
     "Set --ratio on the root (default 16 / 9). Media children fill the box; data-fit=\"contain\" preserves the whole image.",
   avatar:
     "Render the fallback under the image. CSS cannot detect a broken image, so hide the img (or omit it) when loading fails. Use alt text for img and aria-hidden on fallback initials and decorative badges. Give .avatar-group role=\"group\" and an accessible name; [data-slot=\"count\"] follows the group size and needs sr-only text when its visual is an icon.",
+  badge:
+    "Text plus an optional SVG. Put data-icon=\"inline-start\" or data-icon=\"inline-end\" on the icon to tighten that edge. Use an anchor for a navigable badge and aria-hidden=\"true\" on decorative icons. A badge that reports loading takes aria-busy=\"true\", and its text must still carry the meaning when the spinner is hidden.",
   breadcrumb:
     "Use nav[aria-label=\"breadcrumb\"] and an ordered list. Mark the current page with aria-current=\"page\" and separators with aria-hidden=\"true\".",
   bubble:

@@ -3853,7 +3853,10 @@
         "listbox",
         "popover-primitive"
       ],
-      "optionalDependencies": [],
+      "optionalDependencies": [
+        "field",
+        "label"
+      ],
       "files": [
         {
           "path": "components/select.css",

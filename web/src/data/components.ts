@@ -133,7 +133,7 @@ const notesBy: Record<string, string> = {
   "scroll-area":
     "Put .scroll-area on the scroll container and size it with your own layout or inline styles. Native scrollbars follow the --scrollbar-* tokens; data-orientation limits the axis and data-size=\"sm\" narrows the scrollbar. A scrollable region needs tabindex=\"0\" and an accessible name.",
   select:
-    "A button with role=\"combobox\", aria-expanded and aria-controls. The panel is a [data-popover] containing a [role=\"listbox\"]. Single-select only. Open/close, selection and keyboard navigation are consumer JavaScript; update [data-slot=\"value\"] and remove data-placeholder when a value is selected.",
+    "A button with role=\"combobox\", aria-haspopup=\"listbox\", aria-expanded and aria-controls. The panel is a [data-popover] containing a [role=\"listbox\"] and caps at 18rem with vertical scrolling. Single-select only. Group options with [role=\"group\"] and [data-slot=\"label\"]; dividers are [role=\"separator\"] marked aria-hidden. data-size=\"sm\" shrinks the trigger and aria-invalid=\"true\" marks it invalid. Open/close, selection and keyboard navigation are consumer JavaScript; update [data-slot=\"value\"] and remove data-placeholder when a value is selected.",
   resizable:
     "Flex layout with panels sized by --panel-size flex-grow. Handles use role=\"separator\" with aria-orientation and aria-valuenow/min/max; drag and keyboard resizing are consumer JavaScript.",
   sidebar:
@@ -176,7 +176,7 @@ const notesBy: Record<string, string> = {
   "message-scroller":
     "The viewport is the scroll container and needs tabindex=\"0\" and an accessible name. Following new messages, anchoring, scroll position and showing [data-slot=\"jump\"] are consumer JavaScript; the jump button needs an accessible label.",
   "native-select":
-    ".native-select is the native select root. The custom Select is a separate component with its own install.",
+    ".native-select is the native select root. Pair it with a label or aria-label; native required and disabled states need no JavaScript, and aria-invalid=\"true\" marks the invalid state. data-size=\"sm\" shrinks the control and optgroup groups options. The custom Select is a separate component with its own install.",
   switch:
     "Use input[type=\"checkbox\"] with role=\"switch\" and the .switch class. Compose rows with .field[data-orientation=\"horizontal\"] and a label; a label wrapping a .field becomes a selectable card. data-size=\"sm\" shrinks the control and aria-invalid=\"true\" marks it invalid. Native checked and disabled states need no JavaScript.",
   questionnaire:

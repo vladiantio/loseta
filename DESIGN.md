@@ -453,7 +453,7 @@ on an RTL page; its header follows the page direction.
 | Menubar | `.menubar`, `.menubar-item` | `role="menubar"`, `role="none"` item wrappers, `role="menuitem"` triggers with `aria-haspopup`/`aria-expanded`, and `[data-popover]` submenus with `role="menu"`. | Placement attributes on submenu panels; nested menus use a `role="none"` wrapper around the sub-trigger and its panel |
 | Message | `.message`, `.message-group` | Row with `[data-slot="avatar"]` and `[data-slot="content"]` containing header, bubble and footer slots. | `data-align="start|end"` |
 | Message scroller | `.message-scroller` | `.message-scroller-viewport` scroll container, `[data-slot="content"]` and optional `[data-slot="jump"]` button. | Consumer-sized; `hidden` toggles the jump button |
-| Native select | `.native-select` | Native `<select>`. | `data-size="sm"`; default by omission |
+| Native select | `.native-select` | Native `<select>`; `optgroup` groups options. | `data-size="default|sm"`; native `required` and `disabled`; `aria-invalid` |
 | Navigation menu | `.navigation-menu` | `nav` with `ul`/`li`, trigger buttons or links, and `[data-popover]` panels with link lists and `[data-slot="icon"]`/`[data-slot="title"]`/`[data-slot="description"]` inside links. | Placement attributes on panels; the trigger chevron rotates while `aria-expanded="true"` |
 | Pagination | `.pagination` | `nav` with `ul`/`li`; links compose with `.btn`; `[data-slot="ellipsis"]` and `[data-slot="label"]` parts. | `aria-current="page"` on the active link |
 | Popover | `.popover` | Trigger with `aria-haspopup="dialog"`, `aria-expanded` and `aria-controls`, plus a `[data-popover]` `role="dialog"` panel named by `aria-labelledby`; optional header, title and description. | Placement attributes |
@@ -462,7 +462,7 @@ on an RTL page; its header follows the page direction.
 | Radio | `.radio` | Native `input[type="radio"]`, normally inside `role="radiogroup"`. Compose rows with `.field` and a label, and group them with `[data-slot="radio-group"]` inside a `.fieldset`. | — |
 | Resizable | `.resizable` | `.resizable-panel` panes and `[data-slot="handle"]` separators. | `data-orientation="horizontal|vertical"`; panel `--panel-size`; handle `aria-valuenow/min/max` |
 | Scroll area | `.scroll-area` | Scroll container; the consumer sets dimensions and content. | `data-orientation="horizontal|vertical"`; `data-size="default|sm"` |
-| Select | `.select` | Trigger with `role="combobox"`, `[data-slot="value"]` and a `[data-popover] > [role="listbox"]` panel. | `data-size="default|sm"`; `data-placeholder` on the value |
+| Select | `.select` | Trigger with `role="combobox"`, `[data-slot="value"]` and a `[data-popover] > [role="listbox"]` panel. Group labels use `[data-slot="label"]`, dividers use `[role="separator"]` and the panel scrolls at `18rem`. | `data-size="default|sm"`; `data-placeholder` on the value; `aria-invalid` on the trigger |
 | Separator | `.separator` | `<hr>` or `[role="separator"]`. | `data-orientation="horizontal|vertical"`; `aria-orientation` is also recognized |
 | Sheet | `.sheet` | Native `<dialog>` with `data-side` and a panel containing `header`, `section`, `footer` and an optional close control. The section scrolls between the header and footer. | `data-side="inline-start|inline-end|block-start|block-end"`; `data-size="default|sm|lg"` sets the width or the height on block sides; close control is a direct child `form[method="dialog"]` or `button` |
 | Sidebar | `.sidebar` | `<aside>` with `header`, `section` and `footer`; `nav` groups named by a heading or `[data-slot="group-label"]` with an optional `[data-slot="group-action"]`; nav rows with an optional `[data-slot="menu-badge"]` or `[data-slot="menu-action"]`; nested lists and collapsible groups. | `aria-current="page"` on links; `data-slot="brand"` |
@@ -647,7 +647,7 @@ Notes:
   wrapper, so the wrapper needs no JavaScript hook beyond the trigger's
   `aria-expanded` and the panel's `aria-hidden`.
 - The internal `listbox` primitive styles `[role="listbox"]`, `[role="option"]`,
-  `[role="group"]`, group labels and the empty state. Consumers set
+  `[role="group"]`, group labels, separators and the empty state. Consumers set
   `aria-selected`, `data-highlighted` and `aria-disabled`; the primitive does
   not filter, select or move focus.
 - Select, combobox and command do not open, close, filter or select by
@@ -906,7 +906,7 @@ The `menu` primitive styles every `[role="menu"]` in the project. It owns the
 shared item, heading, separator, shortcut and indicator rules; `dropdown-menu`,
 `context-menu` and `menubar` add their own trigger, surface and positioning
 behavior. The `listbox` primitive does the same for
-`[role="listbox"]` options, groups and empty states.
+`[role="listbox"]` options, groups, group labels, separators and empty states.
 
 ### Compatibility contract
 

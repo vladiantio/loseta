@@ -1505,6 +1505,14 @@ test("open overlay panels pass axe in every color scheme", async ({ page }) => {
   await audit("command popover");
   await page.keyboard.press("Escape");
   await expect(popover).toHaveAttribute("aria-hidden", "true");
+
+  await page.goto("/docs/components/select");
+  await disableMotion();
+  await page.locator("#demo-select-groups-trigger").click();
+  const selectPanel = page.locator("#demo-select-groups-panel");
+  await expect(selectPanel).toHaveAttribute("aria-hidden", "false");
+  await audit("select panel");
+  await page.keyboard.press("Escape");
 });
 
 test("dialog examples open, close and scroll", async ({ page }) => {
@@ -2240,6 +2248,129 @@ test("select opens, selects an option and updates the trigger", async ({ page })
   await select.getByRole("option", { name: "Banana", exact: true }).click();
   await expect(trigger).toContainText("Banana");
   await expect(panel).toHaveAttribute("aria-hidden", "true");
+});
+
+test("select groups options with labels and dividers", async ({ page }) => {
+  await page.goto("/docs/components/select");
+  const example = page
+    .locator("section.example")
+    .filter({ has: page.locator(".example-title", { hasText: "Groups" }) });
+  const select = example.locator(".select");
+  const trigger = select.locator('[role="combobox"]');
+  const panel = select.locator("[data-popover]");
+
+  await trigger.click();
+  await expect(panel).toHaveAttribute("aria-hidden", "false");
+  await expect(select.getByRole("group")).toHaveCount(2);
+  await expect(select.locator('[role="separator"]')).toHaveCount(1);
+
+  await select.getByRole("option", { name: "Carrot", exact: true }).click();
+  await expect(trigger).toContainText("Carrot");
+  await expect(panel).toHaveAttribute("aria-hidden", "true");
+});
+
+test("select panel caps its height and scrolls", async ({ page }) => {
+  await page.goto("/docs/components/select");
+  const example = page
+    .locator("section.example")
+    .filter({ has: page.locator(".example-title", { hasText: "Scrollable" }) });
+  const trigger = example.locator('[role="combobox"]');
+  const panel = example.locator("[data-popover]");
+
+  await trigger.click();
+  await expect(panel).toHaveAttribute("aria-hidden", "false");
+
+  const metrics = await panel.evaluate((element) => {
+    const style = getComputedStyle(element);
+    return {
+      maxHeight: style.maxHeight,
+      clientHeight: element.clientHeight,
+      scrollHeight: element.scrollHeight
+    };
+  });
+
+  expect(metrics.maxHeight).toBe("288px");
+  expect(metrics.scrollHeight).toBeGreaterThan(metrics.clientHeight);
+});
+
+test("select invalid trigger follows the field invalid state", async ({ page }) => {
+  await page.goto("/docs/components/select");
+  const example = page
+    .locator("section.example")
+    .filter({ has: page.locator(".example-title", { hasText: /^Invalid$/ }) });
+  const trigger = example.locator('[role="combobox"]');
+  const normal = page.locator(".select:has(#demo-select-default-panel) > button");
+
+  await expect(trigger).toHaveAttribute("aria-invalid", "true");
+
+  const invalidStyle = await trigger.evaluate((element) => {
+    const style = getComputedStyle(element);
+    return { borderColor: style.borderTopColor, boxShadow: style.boxShadow };
+  });
+  const normalStyle = await normal.evaluate((element) => {
+    const style = getComputedStyle(element);
+    return { borderColor: style.borderTopColor, boxShadow: style.boxShadow };
+  });
+
+  expect(invalidStyle.borderColor).not.toBe(normalStyle.borderColor);
+  expect(invalidStyle.boxShadow).not.toBe("none");
+  expect(normalStyle.boxShadow).toBe("none");
+});
+
+test("select and native select follow the field type scale", async ({ page }) => {
+  await page.goto("/docs/components/select");
+  const trigger = page.locator(".select:has(#demo-select-default-panel) > button");
+
+  await page.setViewportSize({ width: 1280, height: 900 });
+  await expect(trigger).toHaveCSS("font-size", "14px");
+
+  await page.setViewportSize({ width: 600, height: 900 });
+  await expect(trigger).toHaveCSS("font-size", "16px");
+
+  await page.goto("/docs/components/native-select");
+  const nativeSelect = page.locator("#demo-native-select-default");
+  await expect(nativeSelect).toHaveCSS("font-size", "16px");
+
+  await page.setViewportSize({ width: 1280, height: 900 });
+  await expect(nativeSelect).toHaveCSS("font-size", "14px");
+});
+
+test("native select examples expose native states and sizes", async ({ page }) => {
+  await page.goto("/docs/components/native-select");
+
+  await expect(page.locator("#demo-native-select-disabled")).toBeDisabled();
+  await expect(page.locator("#demo-native-select-invalid")).toHaveAttribute(
+    "aria-invalid",
+    "true"
+  );
+  await expect(page.locator("#demo-native-select-groups optgroup")).toHaveCount(3);
+
+  const sizes = await page.evaluate(() => {
+    const small = document.querySelector("#demo-native-select-size-sm");
+    const fallback = document.querySelector("#demo-native-select-size-default");
+    if (!small || !fallback) throw new Error("Missing native select size examples");
+    return {
+      small: parseFloat(getComputedStyle(small).height),
+      default: parseFloat(getComputedStyle(fallback).height)
+    };
+  });
+
+  expect(sizes.small).toBeLessThan(sizes.default);
+});
+
+test("native select chevron flips in right-to-left content", async ({ page }) => {
+  await page.goto("/docs/components/native-select");
+  const position = (selector: string) =>
+    page
+      .locator(selector)
+      .evaluate((element) => getComputedStyle(element).backgroundPosition);
+
+  const ltr = await position("#demo-native-select-default");
+  const rtl = await position("#demo-native-select-rtl");
+
+  expect(ltr).not.toBe(rtl);
+  expect(ltr).toContain("calc");
+  expect(rtl).toContain("10px");
 });
 
 test("button group keeps a nested picker above the preview chrome", async ({ page }) => {

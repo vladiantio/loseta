@@ -16,8 +16,6 @@
     gap: var(--_otp-gap);
     max-width: max-content;
     /* Clip the input's caret gutter, but let the active-slot ring paint out. */
-    /*overflow: clip;
-    overflow-clip-margin: 6px;*/
     clip-path: inset(-6px);
     cursor: text;
     /* Codes read left to right even inside an RTL field. */

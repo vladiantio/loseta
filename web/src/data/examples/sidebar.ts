@@ -44,7 +44,7 @@ export const sidebarExamples: Example[] = [
     </nav>
   </section>
   <footer>
-    <span>v0.16.0</span>
+    <span>v0.17.0</span>
   </footer>
 </aside>`
     },
@@ -78,7 +78,7 @@ export const sidebarExamples: Example[] = [
     </nav>
   </section>
   <footer>
-    <span>v0.16.0</span>
+    <span>v0.17.0</span>
   </footer>
 </aside>`
     },
@@ -130,7 +130,7 @@ export const sidebarExamples: Example[] = [
     </nav>
   </section>
   <footer>
-    <span>v0.16.0</span>
+    <span>v0.17.0</span>
   </footer>
 </aside>`
     },
@@ -169,7 +169,7 @@ export const sidebarExamples: Example[] = [
     </details>
   </section>
   <footer>
-    <span>v0.16.0</span>
+    <span>v0.17.0</span>
   </footer>
 </aside>`
     },
@@ -215,7 +215,7 @@ export const sidebarExamples: Example[] = [
     </nav>
   </section>
   <footer>
-    <span>v0.16.0</span>
+    <span>v0.17.0</span>
   </footer>
 </aside>`
     },
@@ -248,7 +248,7 @@ export const sidebarExamples: Example[] = [
     </nav>
   </section>
   <footer>
-    <span>v0.16.0</span>
+    <span>v0.17.0</span>
   </footer>
 </aside>`
     },
@@ -273,7 +273,7 @@ export const sidebarExamples: Example[] = [
     </nav>
   </section>
   <footer>
-    <span>v0.16.0</span>
+    <span>v0.17.0</span>
   </footer>
 </aside>`
     },
@@ -305,7 +305,7 @@ export const sidebarExamples: Example[] = [
     </nav>
   </section>
   <footer>
-    <span>v0.16.0</span>
+    <span>v0.17.0</span>
   </footer>
 </aside>`
     },
@@ -390,7 +390,7 @@ export const sidebarExamples: Example[] = [
         </nav>
       </section>
       <footer>
-        <span>v0.16.0</span>
+        <span>v0.17.0</span>
       </footer>
     </aside>
   </div>
@@ -432,7 +432,7 @@ export const sidebarExamples: Example[] = [
     </nav>
   </section>
   <footer>
-    <span>الإصدار 0.16.0</span>
+    <span>الإصدار 0.17.0</span>
   </footer>
 </aside>`
     }

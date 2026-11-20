@@ -1,6 +1,32 @@
 # Changelog
 
-## Unreleased
+## 0.17.0 - 2026-11-20
+
+### Added
+
+- Expanded examples for badge, breadcrumb, calendar, card, kbd, native-select
+  and select. The new cases cover icons, spinners, links, ellipsis and text
+  menus, month and year selectors, ranges, presets, date pickers, images,
+  spacing, key groups, option groups, disabled and invalid states, scrolling
+  and right-to-left layouts.
+- Badge `data-icon="inline-start|inline-end"` tightens the edge that holds the
+  icon; badges report loading with `aria-busy="true"`, draw the invalid state
+  with `aria-invalid="true"` and compose on an `a`.
+- Breadcrumb items accept menu-trigger buttons, including inside a
+  `.dropdown-menu` or `.popover` wrapper, and custom separators;
+  `data-rtl-flip` mirrors directional separator icons.
+- Calendar headers accept `[data-slot="caption"]` with native month and year
+  selects in `[data-slot="dropdown"]`; a grid with `aria-multiselectable="true"`
+  draws ranges and multiple selections as a continuous `--muted` band, and week
+  numbers use row headers.
+- Card exposes `--card-spacing` for the section gap and inline inset, and a
+  direct leading or trailing `img` fills the card width.
+- Kbd `.kbd-group` joins related keys. Shortcut hints stay aligned inside menu
+  items, and keys inside tooltip content keep contrast on the inverted surface.
+- Select panels cap at `18rem` with contained scrolling and style
+  `[role="separator"]` dividers between option groups.
+- The docs site emits canonical, Open Graph and Twitter metadata with a
+  generated `1200x630` card for every page and an `og:preview` script.
 
 ### Changed
 
@@ -13,6 +39,8 @@
   rendered. `data-arrow` is removed.
 - Hover and `:has(:focus-visible)` on the wrapper open the tooltip; disabled
   triggers remain pointer-only.
+- Styles set the tooltip bubble radius with `--tooltip-radius` and derive the
+  tail offset from it.
 - Input OTP is now a label wrapper: `.input-otp` holds one
   `[data-slot="cell"]` span per code position and a `[data-slot="entry"]`
   around the native input. `data-spacing="joined"` connects the cells,
@@ -20,6 +48,37 @@
   input's `maxlength` and `pattern`. The active cell indicator follows the end
   of the typed value; a completed code rings all cells. This is a breaking
   markup change.
+- Badge focus and invalid rings moved from the base file to the style files so
+  they paint above variant borders. Maia and Mira tint the outline variant,
+  and Sera widens its key gap and keeps zero padding at the icon edge.
+- Card spacing is a single style-defined `--card-spacing`, so `data-size="sm"`
+  only lowers the value.
+- Native select and Select use the base type scale below `48rem` and return to
+  the `sm` scale at wider viewports; disabled native selects no longer take
+  pointer events.
+- Calendar header arrows and caption dropdowns use the `sm` control size.
+- Menu shortcut alignment applies to menu items only, so nested content keeps
+  its own layout.
+
+### Fixed
+
+- The tooltip bubble scales from its attachment edge and the tail scales in
+  place, so the seam stays closed across placements and RTL.
+- The Input OTP active cell follows the end of the typed value, a completed code
+  rings all cells, and the row stays LTR inside an RTL field.
+- Link and button styling in a breadcrumb applies to the item control only, and
+  menu triggers align their icons with the link items.
+- Calendar presets, unavailable dates, date-time and date-picker compositions,
+  RTL arrows and selected ranges follow the documented contract in every style.
+- Card images no longer break the rounded surface or the section spacing.
+- Kbd keeps default text at `--foreground`; `--muted-foreground` failed WCAG AA
+  on `--muted`.
+- Native select keeps a forced-colors outline, and its `sm` size matches the
+  compact field scale.
+- Select keeps its trigger text from overflowing in narrow containers, and
+  option groups, dividers and the scrollable panel match the listbox contract.
+- Maia, Mira and Sera badge recipes match the reference for outline tint, icon
+  edge and focus ring.
 
 ### Migration
 
@@ -32,6 +91,12 @@
   `[data-slot="cell"]` span per code position, and put the native input in a
   `[data-slot="entry"]` wrapper with an accessible name, `required` and a
   full-length `pattern`. The old bare-input markup is no longer supported.
+
+### Notes
+
+- The registry still has 62 stable components and no experimental items.
+- Examples are docs-only. The registry remains CSS-only; no JavaScript behavior
+  was added.
 
 ## 0.16.0 - 2026-11-18
 

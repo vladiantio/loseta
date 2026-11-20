@@ -3618,7 +3618,7 @@
       "type": "component",
       "status": "stable",
       "title": "Input OTP",
-      "description": "A single native input for one-time codes.",
+      "description": "A one-time code input drawn as a row of character slots.",
       "docs": "/docs/components/input-otp",
       "root": [
         ".input-otp"

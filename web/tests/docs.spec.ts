@@ -616,74 +616,322 @@ test("input file button follows the Mira type scale", async ({ page }) => {
   expect(fileButton).toEqual({ fontSize: "12px", lineHeight: "16px" });
 });
 
-test("input otp centers letter-spaced values and keeps sizes and states", async ({
-  page
-}) => {
+test("input otp builds a slot row and aligns the value", async ({ page }) => {
+  await page.emulateMedia({ colorScheme: "light" });
+  await page.goto("/docs/components/input-otp");
+  await page.evaluate(() => document.fonts.ready);
+
+  const components = page.locator(".docs-preview .input-otp");
+  const count = await components.count();
+  expect(count).toBeGreaterThanOrEqual(10);
+
+  for (let index = 0; index < count; index += 1) {
+    const component = components.nth(index);
+    const control = component.locator("input");
+    const maxLength = await control.evaluate(
+      (element) => (element as HTMLInputElement).maxLength
+    );
+    const name = await control.evaluate((element) => {
+      const input = element as HTMLInputElement;
+      const labels = input.labels
+        ? Array.from(input.labels)
+            .map((label) => label.textContent?.trim())
+            .filter(Boolean)
+        : [];
+      return input.getAttribute("aria-label") ?? labels.join(" ") ?? "";
+    });
+
+    await expect(component.locator("[data-slot='cell']")).toHaveCount(maxLength);
+    await expect(component.locator("[data-slot='entry']")).toHaveCount(1);
+    expect(name).not.toBe("");
+  }
+
+  const component = components.first();
+  const cells = component.locator("[data-slot='cell']");
+  const input = component.locator("input");
+
+  await expect(cells).toHaveCount(6);
+  await expect(input).toHaveCount(1);
+
+  const structure = await component.evaluate((element) => {
+    const control = element.querySelector("input")!;
+    const cell = element.querySelector("[data-slot='cell']")!;
+    const style = getComputedStyle(element);
+    const cellStyle = getComputedStyle(cell);
+    const rect = cell.getBoundingClientRect();
+    return {
+      tag: element.tagName,
+      direction: style.direction,
+      gap: parseFloat(style.columnGap),
+      cellWidth: rect.width,
+      cellHeight: rect.height,
+      radius: cellStyle.borderStartStartRadius,
+      numeric: getComputedStyle(control).fontVariantNumeric
+    };
+  });
+
+  expect(structure.tag).toBe("LABEL");
+  expect(structure.direction).toBe("ltr");
+  expect(structure.gap).toBe(8);
+  expect(structure.cellWidth).toBe(40);
+  expect(structure.cellHeight).toBe(40);
+  expect(structure.radius).toBe("10px");
+  expect(structure.numeric).toContain("tabular-nums");
+
+  const fourthBox = await cells.nth(3).boundingBox();
+  expect(fourthBox).not.toBeNull();
+  await page.mouse.click(
+    fourthBox!.x + fourthBox!.width / 2,
+    fourthBox!.y + fourthBox!.height / 2
+  );
+  await expect(input).toBeFocused();
+
+  await input.fill("123456");
+  await expect(input).toHaveValue("123456");
+
+  const alignment = await component.evaluate((element) => {
+    const control = element.querySelector("input")!;
+    const inputStyle = getComputedStyle(control);
+    const canvas = document.createElement("canvas");
+    const context = canvas.getContext("2d")!;
+    context.font = `${inputStyle.fontStyle} ${inputStyle.fontWeight} ${inputStyle.fontSize} ${inputStyle.fontFamily}`;
+    const charWidth = context.measureText("0").width;
+    const paddingStart = parseFloat(inputStyle.paddingInlineStart);
+    const spacing = parseFloat(inputStyle.letterSpacing);
+    const inputLeft = control.getBoundingClientRect().left;
+
+    return [...element.querySelectorAll("[data-slot='cell']")].map(
+      (cell, index) => {
+        const rect = cell.getBoundingClientRect();
+        return {
+          cell: rect.left + rect.width / 2,
+          glyph:
+            inputLeft +
+            paddingStart +
+            index * (charWidth + spacing) +
+            charWidth / 2
+        };
+      }
+    );
+  });
+
+  for (const pair of alignment) {
+    expect(Math.abs(pair.cell - pair.glyph)).toBeLessThanOrEqual(1);
+  }
+
+  await input.fill("123");
+  const active = await component.evaluate((element) => {
+    const control = element.querySelector("input")!;
+    const entry = element.querySelector("[data-slot='entry']")!;
+    const entryStyle = getComputedStyle(entry);
+    const activeStyle = getComputedStyle(entry, "::after");
+    const cells = [...element.querySelectorAll("[data-slot='cell']")];
+    return {
+      visibility: activeStyle.visibility,
+      shadow: activeStyle.boxShadow,
+      border: activeStyle.borderTopColor,
+      indicatorLeft:
+        control.getBoundingClientRect().right +
+        parseFloat(entryStyle.columnGap) +
+        parseFloat(activeStyle.marginInlineStart),
+      fourthLeft: cells[3].getBoundingClientRect().left
+    };
+  });
+
+  expect(active.visibility).toBe("visible");
+  expect(active.shadow).toContain("3px");
+  expect(Math.abs(active.indicatorLeft - active.fourthLeft)).toBeLessThanOrEqual(1);
+
+  await input.fill("123456");
+  const completed = await component.evaluate((element) => {
+    const entry = element.querySelector("[data-slot='entry']")!;
+    const cell = element.querySelector("[data-slot='cell']")!;
+    return {
+      visibility: getComputedStyle(entry, "::after").visibility,
+      cellShadow: getComputedStyle(cell).boxShadow
+    };
+  });
+
+  expect(completed.visibility).toBe("hidden");
+  expect(completed.cellShadow).toBe("none");
+  await expect
+    .poll(() =>
+      component.evaluate(
+        (element) =>
+          getComputedStyle(element.querySelector("[data-slot='cell']")!)
+            .borderTopColor
+      )
+    )
+    .toBe(active.border);
+
+  const selection = await input.evaluate(
+    (element) => getComputedStyle(element, "::selection").backgroundColor
+  );
+  expect(selection).not.toBe("rgba(0, 0, 0, 0)");
+  expect(selection).not.toBe("oklch(0.205 0 0)");
+
+  const joinedInput = page.locator("#demo-input-otp-joined");
+  const joined = page.locator(".docs-preview .input-otp").filter({
+    has: joinedInput
+  });
+  const joinedCells = joined.locator("[data-slot='cell']");
+
+  await expect(joinedInput).toHaveValue("123456");
+  await expect(joinedCells).toHaveCount(6);
+  await expect(joined).toHaveCSS("column-gap", "0px");
+  await expect(joinedCells.nth(1)).toHaveCSS("border-inline-start-width", "0px");
+  await expect(joinedCells.first()).toHaveCSS(
+    "border-start-start-radius",
+    "10px"
+  );
+  await expect(joinedCells.last()).toHaveCSS("border-start-end-radius", "10px");
+
+  const sizes = [
+    { selector: "#demo-input-otp-sm", size: 32 },
+    { selector: "#demo-input-otp-default", size: 40 },
+    { selector: "#demo-input-otp-lg", size: 48 }
+  ];
+
+  for (const { selector, size } of sizes) {
+    const control = page.locator(selector);
+    const root = page.locator(".docs-preview .input-otp").filter({
+      has: control
+    });
+    const cell = root.locator("[data-slot='cell']").first();
+
+    await expect(cell).toHaveCSS("width", `${size}px`);
+    await expect(cell).toHaveCSS("height", `${size}px`);
+    await expect(control).toHaveCSS("height", `${size}px`);
+  }
+
+  const rtlInput = page.locator("#demo-input-otp-rtl");
+  const rtl = page.locator(".docs-preview .input-otp").filter({
+    has: rtlInput
+  });
+  const rtlCells = rtl.locator("[data-slot='cell']");
+  const field = page.locator(".docs-preview .field").filter({ has: rtlInput });
+
+  await expect(rtlInput).toHaveValue("123456");
+  expect(await rtlInput.evaluate((element) => getComputedStyle(element).direction)).toBe(
+    "ltr"
+  );
+  const firstBox = await rtlCells.first().boundingBox();
+  const lastBox = await rtlCells.last().boundingBox();
+  const fieldBox = await field.boundingBox();
+  const rtlBox = await rtl.boundingBox();
+  expect(firstBox).not.toBeNull();
+  expect(lastBox).not.toBeNull();
+  expect(fieldBox).not.toBeNull();
+  expect(rtlBox).not.toBeNull();
+  expect(firstBox!.x).toBeLessThan(lastBox!.x);
+  expect(
+    Math.abs(fieldBox!.x + fieldBox!.width - (rtlBox!.x + rtlBox!.width))
+  ).toBeLessThanOrEqual(1);
+});
+
+test("input otp keeps focus, invalid and disabled states", async ({ page }) => {
   await page.emulateMedia({ colorScheme: "light" });
   await page.goto("/docs/components/input-otp");
 
-  const inputs = page.locator(".docs-preview .input-otp");
-  const count = await inputs.count();
-  expect(count).toBeGreaterThanOrEqual(8);
-
-  for (let index = 0; index < count; index += 1) {
-    const metrics = await inputs.nth(index).evaluate((element) => {
-      const style = getComputedStyle(element);
-      return {
-        align: style.textAlign,
-        spacing: parseFloat(style.letterSpacing),
-        indent: parseFloat(style.textIndent),
-        numeric: style.fontVariantNumeric
-      };
-    });
-
-    expect(metrics.align).toBe("center");
-    expect(metrics.numeric).toContain("tabular-nums");
-    expect(metrics.spacing).toBeGreaterThan(0);
-    expect(metrics.indent).toBeCloseTo(metrics.spacing, 5);
-  }
-
-  const selection = await inputs.first().evaluate((element) => {
-    const style = getComputedStyle(element, "::selection");
-    return { background: style.backgroundColor, color: style.color };
-  });
-  expect(selection).toEqual({
-    background: "oklch(0.205 0 0)",
-    color: "oklch(0.985 0 0)"
-  });
-
-  await expect(page.locator("#demo-input-otp-sm")).toHaveCSS("height", "32px");
-  await expect(page.locator("#demo-input-otp-default")).toHaveCSS(
-    "height",
-    "40px"
+  const component = page.locator(".docs-preview .input-otp").first();
+  const input = component.locator("input");
+  const cell = component.locator("[data-slot='cell']").first();
+  const defaultBorder = await cell.evaluate(
+    (element) => getComputedStyle(element).borderTopColor
   );
-  await expect(page.locator("#demo-input-otp-lg")).toHaveCSS("height", "48px");
 
-  const disabled = page.locator("#demo-input-otp-disabled");
-  await expect(disabled).toBeDisabled();
-  await expect(disabled).toHaveCSS("opacity", "0.5");
+  await input.focus();
+  await expect(component).toHaveCSS("box-shadow", "none");
+  await expect(cell).toHaveCSS("box-shadow", "none");
+  await expect(cell).toHaveCSS("border-top-color", defaultBorder);
+  const active = await component.evaluate((element) => {
+    const entry = element.querySelector("[data-slot='entry']")!;
+    const style = getComputedStyle(entry, "::after");
+    return { visibility: style.visibility, shadow: style.boxShadow };
+  });
+  expect(active.visibility).toBe("visible");
+  expect(active.shadow).toContain("3px");
 
-  const invalid = page.locator("#demo-input-otp-invalid");
-  await expect(invalid).toHaveAttribute("aria-invalid", "true");
-  const borderColors = await page.evaluate(() => {
-    const read = (selector: string) =>
-      getComputedStyle(document.querySelector(selector)!).borderTopColor;
+  const invalidInput = page.locator("#demo-input-otp-invalid");
+  const invalid = page.locator(".docs-preview .input-otp").filter({
+    has: invalidInput
+  });
+  const invalidCell = invalid.locator("[data-slot='cell']").first();
+
+  await expect(invalidInput).toHaveAttribute("aria-invalid", "true");
+  await expect(invalid).toHaveCSS("box-shadow", "none");
+  const invalidBorder = await invalidCell.evaluate(
+    (element) => getComputedStyle(element).borderTopColor
+  );
+  expect(invalidBorder).not.toBe(defaultBorder);
+
+  await invalidInput.focus();
+  await expect(invalidCell).toHaveCSS("box-shadow", /3px/);
+
+  await invalidInput.fill("123");
+  await expect(invalidCell).toHaveCSS("box-shadow", /3px/);
+  const invalidActive = await invalid.evaluate((element) => {
+    const entry = element.querySelector("[data-slot='entry']")!;
+    const style = getComputedStyle(entry, "::after");
     return {
-      invalid: read("#demo-input-otp-invalid"),
-      valid: read("#demo-input-otp-default")
+      visibility: style.visibility,
+      border: style.borderTopColor,
+      shadow: style.boxShadow
     };
   });
-  expect(borderColors.invalid).not.toBe(borderColors.valid);
+  expect(invalidActive.visibility).toBe("visible");
+  expect(invalidActive.border).not.toBe(defaultBorder);
+  expect(invalidActive.shadow).toContain("3px");
+
+  const disabledInput = page.locator("#demo-input-otp-disabled");
+  const disabled = page.locator(".docs-preview .input-otp").filter({
+    has: disabledInput
+  });
+
+  await expect(disabledInput).toBeDisabled();
+  await expect(disabled).toHaveCSS("opacity", "0.5");
+  await expect(disabled).toHaveCSS("cursor", "not-allowed");
 });
 
 test("input otp keeps a focus outline in forced-colors mode", async ({ page }) => {
   await page.goto("/docs/components/input-otp");
   await page.emulateMedia({ forcedColors: "active" });
-  const input = page.locator(".docs-preview .input-otp").first();
+  const component = page.locator(".docs-preview .input-otp").first();
+  const cell = component.locator("[data-slot='cell']").first();
 
-  await expect(input).toHaveCSS("outline-width", "2px");
-  await expect(input).toHaveCSS("outline-style", "solid");
-  await expect(input).toHaveCSS("outline-offset", "2px");
+  await component.locator("input").focus();
+  const active = await component.evaluate((element) => {
+    const entry = element.querySelector("[data-slot='entry']")!;
+    const style = getComputedStyle(entry, "::after");
+    return {
+      visibility: style.visibility,
+      width: style.outlineWidth,
+      style: style.outlineStyle,
+      offset: style.outlineOffset
+    };
+  });
+
+  expect(active.visibility).toBe("visible");
+  expect(active.width).toBe("2px");
+  expect(active.style).toBe("solid");
+  expect(active.offset).toBe("2px");
+  await expect(cell).toHaveCSS("outline-style", "none");
+
+  const fullInput = page.locator("#demo-input-otp-rtl");
+  const full = page.locator(".docs-preview .input-otp").filter({
+    has: fullInput
+  });
+  const fullCell = full.locator("[data-slot='cell']").first();
+
+  await fullInput.focus();
+  await expect(fullCell).toHaveCSS("outline-width", "2px");
+  await expect(fullCell).toHaveCSS("outline-style", "solid");
+  await expect(fullCell).toHaveCSS("outline-offset", "2px");
+  const fullActive = await full.evaluate((element) => {
+    const entry = element.querySelector("[data-slot='entry']")!;
+    return getComputedStyle(entry, "::after").visibility;
+  });
+  expect(fullActive).toBe("hidden");
 });
 
 test("textarea demo keeps the control type scale, selection and growth", async ({

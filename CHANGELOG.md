@@ -13,6 +13,13 @@
   rendered. `data-arrow` is removed.
 - Hover and `:has(:focus-visible)` on the wrapper open the tooltip; disabled
   triggers remain pointer-only.
+- Input OTP is now a label wrapper: `.input-otp` holds one
+  `[data-slot="cell"]` span per code position and a `[data-slot="entry"]`
+  around the native input. `data-spacing="joined"` connects the cells,
+  `data-size="default|sm|lg"` sizes them, and the cell count must match the
+  input's `maxlength` and `pattern`. The active cell indicator follows the end
+  of the typed value; a completed code rings all cells. This is a breaking
+  markup change.
 
 ### Migration
 
@@ -21,6 +28,10 @@
 - For rich content, add `<span data-slot="content" role="tooltip" id="...">`
   after the trigger and point `aria-describedby` at it.
 - Remove `data-arrow`; the tail is part of every tooltip.
+- Move `.input-otp` from the input to a `<label>` wrapper, add one
+  `[data-slot="cell"]` span per code position, and put the native input in a
+  `[data-slot="entry"]` wrapper with an accessible name, `required` and a
+  full-length `pattern`. The old bare-input markup is no longer supported.
 
 ## 0.16.0 - 2026-11-18
 

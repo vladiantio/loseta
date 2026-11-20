@@ -349,7 +349,7 @@ visible. Progress uses a `Canvas` track with a `CanvasText` outline and a
 | Drawer | `80vh` maximum height | `sm` 50vh, `lg` 90vh |
 | Hover card | `18rem` wide | — |
 | Input group | `2rem` minimum height | Auto with a textarea |
-| Input OTP | `2.5rem` high | `sm` 2rem, `lg` 3rem |
+| Input OTP cell | `2.5rem` square | `sm` 2rem, `lg` 3rem |
 | Menubar trigger | `1.75rem` high | — |
 | Navigation trigger | `2rem` high | — |
 | Progress | `0.25rem` high | — |
@@ -445,7 +445,7 @@ on an RTL page; its header follows the page direction.
 | Hover card | `.hover-card` | Trigger and `[data-popover]` panel; CSS-only open on hover and focus-within. | Placement attributes; no open state |
 | Input | `.input` | Native `<input>`. | — |
 | Input group | `.input-group` | `role="group"` with semantic `input`/`textarea` and `[data-slot="addon"]` parts. Custom controls opt in with `data-slot="input-group-control"`. | Addon `data-align="inline-start|inline-end|block-start|block-end"`, default `inline-start` |
-| Input OTP | `.input-otp` | Native `<input>` with `inputmode="numeric"`, `autocomplete="one-time-code"`, `maxlength` and `pattern`. | `data-size="default|sm|lg"` |
+| Input OTP | `.input-otp` | Label wrapper with one `[data-slot="cell"]` span per code position and a `[data-slot="entry"]` around the native `<input>`; keep the cell count equal to `maxlength` and `pattern`, add `required` with a full-length pattern, and give the input an accessible name. The row stays LTR; the active cell indicator follows the end of the value, and a completed code rings all cells. | `data-spacing="default|joined"`; `data-size="default|sm|lg"`; input `required`, `aria-invalid`, `disabled` |
 | Item | `.item`, `.item-group` | `figure`, `section`, `aside`, `header`, `footer`; item groups accept `hr` separators. | Item `data-variant="default|outline|muted"`; `data-size="default|sm|xs"` |
 | Kbd | `.kbd` | Inline shortcut text or SVG. | — |
 | Label | `.label` | Native `<label>`; also supported as a direct label inside `.field`. A label wrapping a `.field` becomes a selectable card. | — |

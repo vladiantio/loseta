@@ -1,26 +1,121 @@
 /* Input OTP */
 @layer loseta.components {
+  /* The root is a label: clicking any cell focuses the input. The cells define
+     the row width; the content-sized input sits in an overlay entry and its
+     trailing indicator tracks the next cell. */
   .input-otp {
-    display: block;
-    width: 100%;
-    min-width: 0;
-    outline-style: none;
-    text-align: center;
+    --otp-cell-size: 2.5rem;
+    --otp-gap: 0.5rem;
+    /* Joined mode zeroes the effective gap without overriding the style. */
+    --_otp-gap: var(--otp-gap);
+
+    position: relative;
+    display: grid;
+    grid-auto-columns: var(--otp-cell-size);
+    grid-auto-flow: column;
+    gap: var(--_otp-gap);
+    max-width: max-content;
+    /* Clip the input's caret gutter, but let the active-slot ring paint out. */
+    /*overflow: clip;
+    overflow-clip-margin: 6px;*/
+    clip-path: inset(-6px);
+    cursor: text;
+    /* Codes read left to right even inside an RTL field. */
+    direction: ltr;
     font-variant-numeric: tabular-nums;
 
     @media (forced-colors: active) {
-      outline: 2px solid transparent;
-      outline-offset: 2px;
+      &:has(> [data-slot='entry'] > input:focus-visible)
+        > [data-slot='entry']::after {
+        outline: 2px solid transparent;
+        outline-offset: 2px;
+      }
+
+      &:has(> [data-slot='entry'] > input:valid:focus-visible)
+        > [data-slot='cell'] {
+        outline: 2px solid transparent;
+        outline-offset: 2px;
+      }
     }
 
-    &::placeholder {
-      color: var(--muted-foreground);
-    }
-
-    &:disabled {
+    > [data-slot='cell'] {
+      display: block;
+      inline-size: var(--otp-cell-size);
+      block-size: var(--otp-cell-size);
       pointer-events: none;
+    }
+
+    > [data-slot='entry'] {
+      position: absolute;
+      inset-block: 0;
+      inset-inline-start: 0;
+      z-index: 1;
+      display: flex;
+      align-items: center;
+      gap: var(--_otp-gap);
+      pointer-events: none;
+
+      /* Sits over the next cell. The negative margin cancels the input's
+         start padding and the flex gap. */
+      &::after {
+        content: "";
+        flex: none;
+        inline-size: var(--otp-cell-size);
+        block-size: var(--otp-cell-size);
+        margin-inline-start: calc(
+          -1 * ((var(--otp-cell-size) - 1ch) / 2 + var(--_otp-gap))
+        );
+        visibility: hidden;
+      }
+
+      > input {
+        field-sizing: content;
+        width: auto;
+        height: 100%;
+        min-width: 0;
+        margin: 0;
+        padding: 0;
+        padding-inline-start: calc((var(--otp-cell-size) - 1ch) / 2);
+        border: 0;
+        outline: 0;
+        appearance: none;
+        background-color: transparent;
+        color: inherit;
+        font: inherit;
+        font-variant-numeric: tabular-nums;
+        letter-spacing: calc(var(--otp-cell-size) + var(--_otp-gap) - 1ch);
+        line-height: var(--otp-cell-size);
+        text-align: start;
+        pointer-events: auto;
+
+        &::placeholder {
+          color: var(--muted-foreground);
+        }
+      }
+    }
+
+    &:has(> [data-slot='entry'] > input:focus-visible)
+      > [data-slot='entry']::after {
+      visibility: visible;
+    }
+
+    /* A complete code has no next cell; the style files ring the cells. */
+    &:has(> [data-slot='entry'] > input:valid:focus-visible)
+      > [data-slot='entry']::after {
+      visibility: hidden;
+    }
+
+    &[data-spacing='joined'] {
+      --_otp-gap: 0rem;
+    }
+
+    &:has(> [data-slot='entry'] > input:disabled) {
       cursor: not-allowed;
       opacity: 50%;
+
+      > [data-slot='entry'] > input {
+        cursor: not-allowed;
+      }
     }
   }
 }

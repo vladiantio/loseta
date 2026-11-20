@@ -42,20 +42,22 @@ const focusPopover = (popover: Element): void => {
       "input, select, textarea, button, a[href], [tabindex]:not([tabindex='-1'])"
     ) ?? popover;
 
-  const focus = (): void => {
+  const focus = (attempts: number): void => {
     if (popover.getAttribute("aria-hidden") !== "false") return;
-    const active = document.activeElement;
-    if (active !== document.body && active !== popoverTrigger(popover)) return;
-    target.focus();
+
+    // Visibility is discrete in the panel transition: it flips to visible on
+    // an early frame. Focus only once it is visible, and retry across frames
+    // because a single timer can fire before a slow engine applies the change
+    // and then the focus call is silently ignored.
+    if (getComputedStyle(popover).visibility === "visible") {
+      target.focus();
+      if (popover.contains(document.activeElement)) return;
+    }
+
+    if (attempts > 0) setTimeout(() => focus(attempts - 1), 16);
   };
 
-  const duration = Number.parseFloat(getComputedStyle(popover).transitionDuration);
-  if (Number.isFinite(duration) && duration > 0) {
-    // visibility is discrete in the panel transition, so focus after it flips.
-    setTimeout(focus, duration * 1000);
-  } else {
-    setTimeout(focus, 0);
-  }
+  setTimeout(() => focus(20), 0);
 };
 
 const triggerPanel = (trigger: Element): Element | null => {

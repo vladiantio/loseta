@@ -569,6 +569,10 @@ async function waitForStyle(page: Page, style: string): Promise<void> {
 }
 
 test("style files change component geometry and pass axe", async ({ page }) => {
+  // Nine pages, eight style switches and sixteen full-page axe audits run in
+  // one test; a loaded CI runner needs more than the default 60s budget.
+  test.slow();
+
   await page.emulateMedia({ colorScheme: "light" });
   const disableMotion = async () => {
     await page.addStyleTag({

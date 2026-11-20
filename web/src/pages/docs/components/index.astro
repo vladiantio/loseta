@@ -7,14 +7,16 @@ import {
   stableComponents,
   stableComponentsInGroup
 } from "@/data/components";
+import pageMeta from "@/data/page-meta.json";
 
+const meta = pageMeta["/docs/components"];
 const summary =
   experimentalComponents.length > 0
     ? `${stableComponents.length} stable components and ${experimentalComponents.length} experimental components.`
     : `${stableComponents.length} stable components.`;
 ---
 
-<Layout title="Components" description="Browse the loseta component registry.">
+<Layout title={meta.title} description={meta.description}>
   <div class="docs-content">
     <p class="docs-eyebrow">Registry</p>
     <h1>Components</h1>

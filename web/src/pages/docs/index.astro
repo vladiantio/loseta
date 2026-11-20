@@ -3,9 +3,12 @@ import Layout from "@/layouts/Layout.astro";
 import InstallCommand from "@/components/InstallCommand.astro";
 import CodeBlock from "@/components/CodeBlock.astro";
 import { stableComponents } from "@/data/components";
+import pageMeta from "@/data/page-meta.json";
+
+const meta = pageMeta["/docs"];
 ---
 
-<Layout title="Documentation" description="Install, configure and customize loseta.">
+<Layout title={meta.title} description={meta.description}>
   <div class="docs-content">
     <p class="docs-eyebrow">Documentation</p>
     <h1>Native CSS scaffolds, without the runtime.</h1>

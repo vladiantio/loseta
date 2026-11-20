@@ -8,6 +8,7 @@
     "preview": "astro preview",
     "check": "astro check",
     "test:e2e": "pnpm build && playwright test",
+    "og:preview": "node scripts/og-preview.mjs",
     "probe": "node scripts/probe.mjs",
     "styles:review": "node scripts/style-review.mjs",
     "astro": "astro"
@@ -16,6 +17,7 @@
     "@astrojs/check": "^0.9.12",
     "@lucide/astro": "^1.70.0",
     "astro": "^7.4.12",
+    "takumi-js": "^2.21.0",
     "typescript": "^5.9.3"
   },
   "devDependencies": {

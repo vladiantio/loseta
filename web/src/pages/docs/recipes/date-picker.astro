@@ -2,12 +2,12 @@
 import Layout from "@/layouts/Layout.astro";
 import ComponentPreview from "@/components/ComponentPreview.astro";
 import CodeBlock from "@/components/CodeBlock.astro";
+import pageMeta from "@/data/page-meta.json";
+
+const meta = pageMeta["/docs/recipes/date-picker"];
 ---
 
-<Layout
-  title="Date picker"
-  description="A docs-only date picker recipe composed from popover and calendar."
->
+<Layout title={meta.title} description={meta.description}>
   <div class="docs-content">
     <p class="docs-eyebrow">Recipes</p>
     <h1>Date picker</h1>

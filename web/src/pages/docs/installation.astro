@@ -2,9 +2,12 @@
 import Layout from "@/layouts/Layout.astro";
 import InstallCommand from "@/components/InstallCommand.astro";
 import CodeBlock from "@/components/CodeBlock.astro";
+import pageMeta from "@/data/page-meta.json";
+
+const meta = pageMeta["/docs/installation"];
 ---
 
-<Layout title="Installation" description="Install loseta in a native CSS project.">
+<Layout title={meta.title} description={meta.description}>
   <div class="docs-content">
     <p class="docs-eyebrow">Getting started</p>
     <h1>Installation</h1>

@@ -2,12 +2,12 @@
 import Layout from "@/layouts/Layout.astro";
 import ComponentPreview from "@/components/ComponentPreview.astro";
 import CodeBlock from "@/components/CodeBlock.astro";
+import pageMeta from "@/data/page-meta.json";
+
+const meta = pageMeta["/docs/recipes/data-table"];
 ---
 
-<Layout
-  title="Data table"
-  description="A docs-only data table recipe built from table, checkbox, badge and button."
->
+<Layout title={meta.title} description={meta.description}>
   <div class="docs-content">
     <p class="docs-eyebrow">Recipes</p>
     <h1>Data table</h1>

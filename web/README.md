@@ -16,6 +16,24 @@ pnpm test:e2e     # build + Playwright + axe
 
 From the repo root, use `pnpm web:dev` or `pnpm web:build`.
 
+## Open Graph images
+
+`pnpm build` renders one 1200×630 PNG per built page into `dist/og/` (and
+`dist/og.png` for the home page) with Takumi and the local Inter variable font,
+including the site's `ss02` feature.
+The integration reads `og:title` and the meta description from each built
+document, so `Layout.astro` stays the source of truth; it fails the build when a
+page is missing metadata or an image.
+
+Static route copy lives in `src/data/page-meta.json`; component copy comes from
+the registry. Preview one card without a full build:
+
+```bash
+pnpm og:preview /docs/components/button
+```
+
+Images are written to `.og-preview/` and are never committed.
+
 ## Client behavior
 
 `src/scripts/docs-client/` owns browser-side docs behavior: stored preferences,

@@ -1,12 +1,15 @@
 ---
 import Layout from "@/layouts/Layout.astro";
 import CodeBlock from "@/components/CodeBlock.astro";
+import pageMeta from "@/data/page-meta.json";
 import registry from "../../../../packages/loseta/registry/registry.json" with {
   type: "json"
 };
+
+const meta = pageMeta["/docs/styles"];
 ---
 
-<Layout title="Styles" description="The visual styles shipped with loseta.">
+<Layout title={meta.title} description={meta.description}>
   <div class="docs-content">
     <p class="docs-eyebrow">Getting started</p>
     <h1>Styles</h1>

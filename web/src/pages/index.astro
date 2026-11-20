@@ -3,13 +3,17 @@ import Layout from "@/layouts/Layout.astro";
 import InstallCommand from "@/components/InstallCommand.astro";
 import CodeBlock from "@/components/CodeBlock.astro";
 import { components } from "@/data/components";
+import pageMeta from "@/data/page-meta.json";
 
 const featured = ["button", "card", "field", "dialog", "dropdown-menu", "table"]
   .map((id) => components.find((component) => component.id === id))
   .filter((component) => component !== undefined);
 ---
 
-<Layout>
+<Layout
+  title={pageMeta["/"].title}
+  description={pageMeta["/"].description}
+>
   <div class="docs-content">
     <section class="docs-hero">
       <span class="docs-badge">Native CSS · copy-paste · MIT</span>

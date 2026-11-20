@@ -1,0 +1,46 @@
+{
+  "/": {
+    "title": "loseta",
+    "description": "Native CSS component scaffolds with the shadcn feel."
+  },
+  "/docs": {
+    "title": "Documentation",
+    "description": "Install, configure and customize loseta."
+  },
+  "/docs/installation": {
+    "title": "Installation",
+    "description": "Install loseta in a native CSS project."
+  },
+  "/docs/theming": {
+    "title": "Theming",
+    "description": "Tokens, layers, the color scheme and the public style contract."
+  },
+  "/docs/styles": {
+    "title": "Styles",
+    "description": "The visual styles shipped with loseta."
+  },
+  "/docs/components": {
+    "title": "Components",
+    "description": "Browse the loseta component registry."
+  },
+  "/docs/recipes": {
+    "title": "Recipes",
+    "description": "Docs-only compositions for forms, data tables and date pickers."
+  },
+  "/docs/recipes/form": {
+    "title": "Form",
+    "description": "A docs-only form recipe built from field, input, checkbox, radio and button."
+  },
+  "/docs/recipes/data-table": {
+    "title": "Data table",
+    "description": "A docs-only data table recipe built from table, checkbox, badge and button."
+  },
+  "/docs/recipes/date-picker": {
+    "title": "Date picker",
+    "description": "A docs-only date picker recipe composed from popover and calendar."
+  },
+  "/docs/guidelines/typography": {
+    "title": "Typography",
+    "description": "The loseta type scale, prose rules and font fallbacks."
+  }
+}

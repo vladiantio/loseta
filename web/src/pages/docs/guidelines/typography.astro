@@ -1,12 +1,12 @@
 ---
 import Layout from "@/layouts/Layout.astro";
 import CodeBlock from "@/components/CodeBlock.astro";
+import pageMeta from "@/data/page-meta.json";
+
+const meta = pageMeta["/docs/guidelines/typography"];
 ---
 
-<Layout
-  title="Typography"
-  description="The loseta type scale, prose rules and font fallbacks."
->
+<Layout title={meta.title} description={meta.description}>
   <div class="docs-content">
     <p class="docs-eyebrow">Guidelines</p>
     <h1>Typography</h1>

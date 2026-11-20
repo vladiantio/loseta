@@ -1900,6 +1900,83 @@ test("tooltip wraps content, opens from the wrapper and keeps its tail", async (
   );
 });
 
+test("kbd groups keys and keeps tooltip keys on the inverted surface", async ({
+  page
+}) => {
+  await page.emulateMedia({ colorScheme: "light" });
+  await page.goto("/docs/components/kbd");
+
+  const groupExample = page
+    .locator("section.example")
+    .filter({
+      has: page.locator(".example-title", { hasText: /^Group$/ })
+    });
+  const group = groupExample.locator(".kbd-group").first();
+  await expect(group).toHaveCSS("display", "inline-flex");
+  await expect(group).toHaveCSS("column-gap", "4px");
+
+  const button = page.getByRole("button", { name: "Accept" });
+  const buttonKey = button.locator(".kbd");
+  await expect(buttonKey).toHaveCSS("height", "20px");
+  await expect(buttonKey).toHaveAttribute("aria-hidden", "true");
+  await expect(button).toHaveAttribute("aria-keyshortcuts", "Enter");
+
+  const tooltip = page.locator("#demo-kbd-tooltip");
+  await tooltip.hover();
+  const content = page.locator("#demo-kbd-tooltip-description");
+  await expect(content).toBeVisible();
+  await expect(content.locator(".kbd")).toBeVisible();
+
+  const colors = await tooltip.evaluate((element) => {
+    const bubble = element.querySelector("[data-slot='content']");
+    const key = bubble?.querySelector(".kbd");
+    if (!(bubble instanceof HTMLElement) || !(key instanceof HTMLElement)) {
+      throw new Error("missing tooltip kbd");
+    }
+    return {
+      bubbleColor: getComputedStyle(bubble).color,
+      bubbleBackground: getComputedStyle(bubble).backgroundColor,
+      keyColor: getComputedStyle(key).color,
+      keyBackground: getComputedStyle(key).backgroundColor
+    };
+  });
+
+  expect(colors.keyColor).toBe(colors.bubbleColor);
+  expect(colors.keyBackground).not.toBe(colors.bubbleBackground);
+
+  const menuExample = page
+    .locator("section.example")
+    .filter({ has: page.locator(".example-title", { hasText: /^In a menu$/ }) });
+  await menuExample.locator("[data-demo-trigger]").click();
+  const menuItem = menuExample.getByRole("menuitem", {
+    name: /Command palette/
+  });
+  await expect(menuItem).toBeVisible();
+
+  const menuGeometry = await menuItem.evaluate((item) => {
+    const group = item.querySelector(".kbd-group");
+    const lastKey = group?.lastElementChild;
+    if (!(group instanceof HTMLElement) || !(lastKey instanceof HTMLElement)) {
+      throw new Error("missing menu kbd group");
+    }
+    const itemBox = item.getBoundingClientRect();
+    const groupBox = group.getBoundingClientRect();
+    return {
+      gapToEnd: itemBox.right - groupBox.right,
+      itemPaddingEnd: getComputedStyle(item).paddingInlineEnd,
+      lastKeyPaddingStart: getComputedStyle(lastKey).paddingInlineStart
+    };
+  });
+
+  expect(
+    Math.abs(
+      menuGeometry.gapToEnd - Number.parseFloat(menuGeometry.itemPaddingEnd)
+    )
+  ).toBeLessThanOrEqual(1);
+  expect(menuGeometry.lastKeyPaddingStart).toBe("4px");
+  await page.keyboard.press("Escape");
+});
+
 test("context menu opens at the pointer and closes with Escape", async ({ page }) => {
   await page.goto("/docs/components/context-menu");
   const area = page.locator("[data-demo-context]").first();

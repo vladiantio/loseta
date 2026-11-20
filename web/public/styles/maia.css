@@ -2221,6 +2221,11 @@
     background-color: var(--foreground);
   }
 
+  .tooltip > [data-slot='content'] .kbd {
+    background-color: color-mix(in oklab, var(--background) 20%, transparent);
+    color: var(--background);
+  }
+
   @media (forced-colors: active) {
     .tooltip::after {
       background-color: CanvasText;

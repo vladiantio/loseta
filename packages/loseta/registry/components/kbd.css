@@ -3,9 +3,17 @@
   .kbd {
     pointer-events: none;
     display: inline-flex;
+    flex-shrink: 0;
     align-items: center;
     justify-content: center;
+    white-space: nowrap;
     -webkit-user-select: none;
     user-select: none;
+  }
+
+  .kbd-group {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
   }
 }

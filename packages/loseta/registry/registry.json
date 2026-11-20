@@ -1460,10 +1460,17 @@
       "description": "Displays keyboard shortcuts.",
       "docs": "/docs/components/kbd",
       "root": [
-        ".kbd"
+        ".kbd",
+        ".kbd-group"
       ],
       "registryDependencies": [],
-      "optionalDependencies": [],
+      "optionalDependencies": [
+        "button",
+        "dropdown-menu",
+        "input",
+        "input-group",
+        "tooltip"
+      ],
       "files": [
         {
           "path": "components/kbd.css",

@@ -187,7 +187,8 @@ const notesBy: Record<string, string> = {
   empty:
     "Compose a header with an optional figure, an h2–h4 title and a p description, then a section for actions and a footer for secondary actions. A figure with a single SVG becomes the icon media box; use image, avatar or avatar-group markup for other media. Keep decorative icons and images out of the accessibility tree with aria-hidden or an empty alt. The dashed outline comes from the style layer.",
   item: "Uses figure/section/aside/header/footer structure.",
-  kbd: "Use .kbd inside menus, tooltips or shortcut hints.",
+  kbd:
+    "Use <kbd class=\"kbd\"> for each key and .kbd-group to join related keys. Pair the keys with a text label, or set aria-keyshortcuts on the control and mark decorative keys aria-hidden=\"true\". A trailing .kbd or .kbd-group aligns in a menu item, tooltips tint keys inside [data-slot=\"content\"] so they stay legible on the inverted surface, and a key at the end of a .btn can take data-icon=\"inline-end\".",
   skeleton: "Set width and height inline or with your own layout classes.",
   alert:
     "Add role=\"alert\" for messages that appear after load. Mark a decorative direct SVG icon aria-hidden=\"true\". The title accepts h2–h6, strong or [data-slot=\"title\"]; the description is a section or [data-slot=\"description\"], and footer holds the action. Custom colors come from overriding --card, --border and --muted-foreground.",

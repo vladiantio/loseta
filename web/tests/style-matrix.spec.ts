@@ -59,6 +59,21 @@ const cases: StyleCase[] = [
     }
   },
   {
+    id: "card",
+    selector: ".docs-preview .card",
+    property: "row-gap",
+    values: {
+      nova: "16px",
+      vega: "24px",
+      maia: "24px",
+      lyra: "16px",
+      mira: "16px",
+      luma: "24px",
+      sera: "32px",
+      rhea: "20px"
+    }
+  },
+  {
     id: "input",
     selector: ".docs-preview .input",
     property: "height",

@@ -777,6 +777,8 @@
 /* Card */
 @layer loseta.style {
   .card {
+    --card-spacing: 1.25rem;
+
     overflow: hidden;
     border-radius: min(var(--radius-4xl), 24px);
     background-color: var(--card);
@@ -797,15 +799,11 @@
       border-bottom-left-radius: min(var(--radius-4xl), 24px);
     }
 
-    &:not([data-size]),
-    &[data-size='default'] {
-      gap: 1.25rem;
-      padding-block: 1.25rem;
-    }
+    gap: var(--card-spacing);
+    padding-block: var(--card-spacing);
 
     &[data-size='sm'] {
-      gap: 1rem;
-      padding-block: 1rem;
+      --card-spacing: 1rem;
     }
 
     &:is(:not([data-size]), [data-size]):has(> footer) {
@@ -820,21 +818,13 @@
       gap: 0.25rem;
       border-top-left-radius: min(var(--radius-4xl), 24px);
       border-top-right-radius: min(var(--radius-4xl), 24px);
-      padding-inline: 1.25rem;
+      padding-inline: var(--card-spacing);
 
       &[data-separator='bottom'] {
         border-bottom-style: solid;
         border-bottom-width: 1px;
         border-bottom-color: var(--border);
-        padding-bottom: 1.25rem;
-      }
-    }
-
-    &[data-size='sm'] > header {
-      padding-inline: 1rem;
-
-      &[data-separator='bottom'] {
-        padding-bottom: 1rem;
+        padding-bottom: var(--card-spacing);
       }
     }
 
@@ -856,21 +846,13 @@
     }
 
     > section {
-      padding-inline: 1.25rem;
-    }
-
-    &[data-size='sm'] > section {
-      padding-inline: 1rem;
+      padding-inline: var(--card-spacing);
     }
 
     > footer {
       border-bottom-right-radius: min(var(--radius-4xl), 24px);
       border-bottom-left-radius: min(var(--radius-4xl), 24px);
-      padding: 1.25rem;
-    }
-
-    &[data-size='sm'] > footer {
-      padding: 1rem;
+      padding: var(--card-spacing);
     }
   }
 }

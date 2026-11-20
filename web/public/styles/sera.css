@@ -809,6 +809,8 @@
 /* Card */
 @layer loseta.style {
   .card {
+    --card-spacing: 2rem;
+
     overflow: hidden;
     border-radius: 0;
     background-color: var(--card);
@@ -829,15 +831,11 @@
       border-bottom-left-radius: 0;
     }
 
-    &:not([data-size]),
-    &[data-size='default'] {
-      gap: 2rem;
-      padding-block: 2rem;
-    }
+    gap: var(--card-spacing);
+    padding-block: var(--card-spacing);
 
     &[data-size='sm'] {
-      gap: 1.25rem;
-      padding-block: 1.25rem;
+      --card-spacing: 1.25rem;
     }
 
     &:is(:not([data-size]), [data-size]):has(> footer) {
@@ -852,21 +850,13 @@
       gap: 0.25rem;
       border-top-left-radius: 0;
       border-top-right-radius: 0;
-      padding-inline: 2rem;
+      padding-inline: var(--card-spacing);
 
       &[data-separator='bottom'] {
         border-bottom-style: solid;
         border-bottom-width: 1px;
         border-bottom-color: var(--border);
-        padding-bottom: 2rem;
-      }
-    }
-
-    &[data-size='sm'] > header {
-      padding-inline: 1.25rem;
-
-      &[data-separator='bottom'] {
-        padding-bottom: 1.25rem;
+        padding-bottom: var(--card-spacing);
       }
     }
 
@@ -890,21 +880,13 @@
     }
 
     > section {
-      padding-inline: 2rem;
-    }
-
-    &[data-size='sm'] > section {
-      padding-inline: 1.25rem;
+      padding-inline: var(--card-spacing);
     }
 
     > footer {
       border-bottom-right-radius: 0;
       border-bottom-left-radius: 0;
-      padding: 2rem;
-    }
-
-    &[data-size='sm'] > footer {
-      padding: 1.25rem;
+      padding: var(--card-spacing);
     }
   }
 }

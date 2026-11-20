@@ -765,10 +765,13 @@
       ],
       "registryDependencies": [],
       "optionalDependencies": [
+        "accordion",
+        "badge",
         "button",
         "field",
         "input",
-        "label"
+        "label",
+        "skeleton"
       ],
       "files": [
         {

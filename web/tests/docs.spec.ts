@@ -1120,6 +1120,67 @@ test("empty draws its dashed outline and scopes media spacing", async ({ page })
   expect(figureBox!.width / figureBox!.height).toBeCloseTo(16 / 9, 1);
 });
 
+test("card spacing follows the size and the custom property", async ({ page }) => {
+  await page.goto("/docs/components/card");
+
+  const defaultCard = page.locator(".docs-preview .card").first();
+  await expect(defaultCard).toHaveCSS("padding-top", "16px");
+  await expect(defaultCard).toHaveCSS("row-gap", "16px");
+  await expect(defaultCard.locator("header").first()).toHaveCSS(
+    "padding-left",
+    "16px"
+  );
+
+  const smallCard = page
+    .locator("section.example")
+    .filter({ has: page.locator(".example-title", { hasText: /^Small$/ }) })
+    .locator(".card");
+  await expect(smallCard).toHaveCSS("padding-top", "12px");
+  await expect(smallCard).toHaveCSS("row-gap", "12px");
+  await expect(smallCard.locator("header")).toHaveCSS("padding-left", "12px");
+
+  const spacingCards = page
+    .locator("section.example")
+    .filter({ has: page.locator(".example-title", { hasText: /^Spacing$/ }) })
+    .locator(".card");
+  await expect(spacingCards.nth(1)).toHaveCSS("padding-top", "24px");
+  await expect(spacingCards.nth(1)).toHaveCSS("row-gap", "24px");
+  await expect(spacingCards.nth(1).locator("header")).toHaveCSS(
+    "padding-left",
+    "24px"
+  );
+  await expect(spacingCards.nth(2)).toHaveCSS("padding-top", "32px");
+  await expect(spacingCards.nth(2)).toHaveCSS("row-gap", "32px");
+});
+
+test("card images fill the width and follow the card radius", async ({ page }) => {
+  await page.goto("/docs/components/card");
+
+  const card = page
+    .locator("section.example")
+    .filter({ has: page.locator(".example-title", { hasText: /^Image$/ }) })
+    .locator(".card");
+  const geometry = await card.evaluate((element) => {
+    const image = element.querySelector(":scope > img");
+    if (!(image instanceof HTMLElement)) throw new Error("missing card image");
+    const cardBox = element.getBoundingClientRect();
+    const imageBox = image.getBoundingClientRect();
+    const imageStyle = getComputedStyle(image);
+    return {
+      cardWidth: cardBox.width,
+      imageWidth: imageBox.width,
+      cardRadius: getComputedStyle(element).borderTopLeftRadius,
+      imageRadius: imageStyle.borderTopLeftRadius,
+      display: imageStyle.display
+    };
+  });
+
+  expect(Math.abs(geometry.imageWidth - geometry.cardWidth)).toBeLessThanOrEqual(1);
+  expect(geometry.cardRadius).not.toBe("0px");
+  expect(geometry.imageRadius).toBe(geometry.cardRadius);
+  expect(geometry.display).toBe("block");
+});
+
 test("avatar groups overlap and size their count with the group", async ({
   page
 }) => {

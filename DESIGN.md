@@ -428,7 +428,7 @@ on an RTL page; its header follows the page direction.
 | Button | `.btn` | Text, optional SVG and inline spinner; `data-icon="inline-start|inline-end"` marks inline icons for padding. Use on `button` or `a`; icon-only buttons need an accessible name. | `data-variant="default|primary|secondary|outline|destructive|ghost|link"`; `data-size="default|xs|sm|lg|icon|icon-xs|icon-sm|icon-lg"` |
 | Button group | `.btn-group` | Buttons, inputs, dropdown/popover/select wrappers, `span`/`label`/`output` and `hr[role="separator"]`. | `data-orientation="horizontal|vertical"` (horizontal by default) |
 | Calendar | `.calendar` | Header with `[data-slot="title"]` or `[data-slot="caption"]` containing month and year selects in `[data-slot="dropdown"]`; native `<table role="grid">` with column headers and `td[role="gridcell"]` day cells. Week numbers use `th[scope="row"]`. | Cell `aria-selected`; grid `aria-multiselectable="true"` for ranges and multiple selection; day `aria-current="date"` and `aria-disabled` |
-| Card | `.card` | `header` with title/description/action, `section`, `footer`, optional leading/trailing image. | `data-size="default|sm"`; `data-separator="bottom"` on the header |
+| Card | `.card` | `header` with title/description/action, `section`, `footer`, optional leading/trailing image. | `data-size="default|sm"`; `data-separator="bottom"` on the header; `--card-spacing` overrides the section gap and inline inset |
 | Carousel | `.carousel` | `.carousel-viewport`, `.carousel-track`, `.carousel-item` slides, `.carousel-controls`, `.carousel-button` and `.carousel-indicator`. | `data-orientation="horizontal|vertical"`; indicator `aria-current` |
 | Chart | `.chart` | `[data-slot="plot"]`, legend with `[data-slot="legend-item"]`/`[data-slot="swatch"]` and `[data-slot="tooltip"]`. | `data-series="1"`–`"5"` |
 | Checkbox | `.checkbox` | Native `input[type="checkbox"]`; must not carry `role="switch"`. Checked draws a check; indeterminate draws a dash. | — |
@@ -485,7 +485,10 @@ the same as `primary`. On badges, `primary` and omission are equivalent and
 omission.
 
 Card also accepts the compatibility aliases `.card-title`, `.card-description`
-and `.card-action`; prefer the `data-slot` names in new markup.
+and `.card-action`; prefer the `data-slot` names in new markup. A direct
+leading or trailing `img` fills the card width and the matching corners follow
+the card radius. `--card-spacing` is set by the style per size and can be
+overridden on the card root; it controls the section gap and inline inset.
 
 ### Parts and slots
 

@@ -96,9 +96,12 @@ surfaces, resizable panels and chart tooltips.
 - Radius: match the reference surface. Cards and attachments use the card
   radius; menus and popovers use the overlay radius; dialogs, sheets and
   drawers use the dialog radius.
-- Padding: copy the stable reference. Nova cards and dialogs use `1rem`; Vega,
-  Maia, Luma and Sera dialogs use `1.5rem`; Rhea uses `1.5rem` for dialogs and
-  `1.25rem` for cards. Do not invent one universal surface padding.
+- Padding: copy the stable reference. Cards expose `--card-spacing` for the
+  section gap and inline inset: Nova, Lyra and Mira `1rem`; Vega, Maia and Luma
+  `1.5rem`; Rhea `1.25rem`; Sera `2rem`. The `sm` size uses `0.75rem` in Nova,
+  Lyra and Mira, `1rem` in Vega, Maia, Luma and Rhea and `1.25rem` in Sera.
+  Dialogs use Nova `1rem`; Vega, Maia, Luma, Sera and Rhea `1.5rem`. Do not
+  invent one universal surface padding.
 - Shadow: Nova ring only; Vega `--shadow-xs`; Luma `--shadow-md`; Sera and Rhea
   `--shadow-sm`; Maia, Lyra and Mira ring only.
 - Borders: use `--border` for outlines; use the foreground-at-10% ring for cards

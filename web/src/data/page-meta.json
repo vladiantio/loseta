@@ -23,6 +23,10 @@
     "title": "Components",
     "description": "Browse the loseta component registry."
   },
+  "/docs/behavior": {
+    "title": "Behavior",
+    "description": "How loseta behavior modules install, initialize and integrate."
+  },
   "/docs/recipes": {
     "title": "Recipes",
     "description": "Docs-only compositions for forms, data tables and date pickers."

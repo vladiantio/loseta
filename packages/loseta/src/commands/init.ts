@@ -4,6 +4,7 @@ import { existsSync } from "node:fs";
 import { join, resolve } from "node:path";
 import {
   ConfigError,
+  DEFAULT_BEHAVIOR_DIR,
   DEFAULT_CSS_DIR,
   detectEntrypoint,
   readConfig,
@@ -151,6 +152,7 @@ export const initCommand = defineCommand({
 
     const config: LosetaConfig = {
       cssDir,
+      behaviorDir: existingConfig?.behaviorDir ?? DEFAULT_BEHAVIOR_DIR,
       style,
       ...(entrypoint ? { entrypoint } : {})
     };

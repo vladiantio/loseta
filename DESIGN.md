@@ -4,11 +4,13 @@ This is the durable design contract for loseta v1. It defines the visual
 language, token roles, component API, state contract, accessibility floor and
 compatibility policy that the registry promises to consumers.
 
-It is not an implementation guide. The installed CSS is the reference
-implementation: if this document and the registry disagree,
-[`packages/loseta/registry/tokens.css`](packages/loseta/registry/tokens.css)
-and [`registry.json`](packages/loseta/registry/registry.json) win, and this
-document must be corrected. The baseline covers registry version `0.17.0`.
+It is not an implementation guide. The installed CSS and ESM behavior files are
+the reference implementation: if this document and the registry disagree,
+[`packages/loseta/registry/tokens.css`](packages/loseta/registry/tokens.css),
+[`registry.json`](packages/loseta/registry/registry.json) and the files under
+[`packages/loseta/registry/behaviors/`](packages/loseta/registry/behaviors) win,
+and this document must be corrected. The baseline covers registry version
+`0.18.0`.
 
 Vocabulary is defined in [`GLOSSARY.md`](GLOSSARY.md). Style implementation
 guidance lives in [`STYLE-GUIDE.md`](STYLE-GUIDE.md).
@@ -22,11 +24,12 @@ guidance lives in [`STYLE-GUIDE.md`](STYLE-GUIDE.md).
 2. **The consumer owns the code.** The CLI copies files into the project.
    Unmodified installed files are the contract; edited files are the
    consumer's own divergence.
-3. **Structure and style are separate.** Base files describe anatomy, layout
-   and state hooks. Style files supply the visual treatment.
+3. **Structure, style and behavior are separate.** Base files describe anatomy,
+   layout and state hooks. Style files supply the visual treatment. Behavior
+   modules supply interaction and are optional.
 4. **Semantic HTML and platform states come first.** Styling reads ARIA and
-   native pseudo-classes, not bespoke state classes. loseta ships no
-   JavaScript behavior.
+   native pseudo-classes, not bespoke state classes. CSS never depends on
+   behavior; installed behavior modules are plain ESM the consumer owns.
 5. **Tokens are the customization surface.** Visual decisions should be
    changeable through tokens before they require editing a component or style
    file.
@@ -58,6 +61,11 @@ foundations:
   All four are stable. Primitives are installed automatically as dependencies
   and are not consumer-facing components.
 - **4 foundations**: tokens, reset, base and utilities.
+- **15 behavior-bearing components**: dialog, alert-dialog, sheet, drawer,
+  popover, dropdown-menu, context-menu, menubar, navigation-menu, tabs, select,
+  combobox, command, toast and code-block. Their modules live in
+  `registry/behaviors/` and are optional; the CSS contract does not depend on
+  them.
 
 No experimental components ship in this release. The experimental pipeline
 remains for future items.
@@ -84,7 +92,10 @@ is installed.
 
 The browser fidelity target is Chrome/Edge 125+, Safari 26+ and Firefox 147+.
 Older engines may render a reduced experience where they lack `:has()`,
-`@starting-style`, `field-sizing` or `light-dark()`.
+`@starting-style`, `field-sizing` or `light-dark()`. Behavior modules target
+the same engines and rely on native `<dialog>`, `showModal()`,
+`aria-activedescendant` and `:has()`; there is no transpilation or polyfill
+layer.
 
 ## Layer contract
 
@@ -102,6 +113,9 @@ Every generated `index.css` declares this order before importing any file:
 | `loseta.components` | base files and primitives | Anatomy, layout, behavior hooks and structural state rules. |
 | `loseta.style` | style files | Color, typography, spacing, radii, shadows, surfaces and animations. |
 | `loseta.utilities` | foundation | Only `.sr-only` in v1. |
+
+Behavior is not a cascade layer. Behavior modules live under `behaviors/`,
+never participate in the layer order and never change the CSS contract.
 
 Rules:
 
@@ -433,9 +447,9 @@ direction.
 | Carousel | `.carousel` | `.carousel-viewport`, `.carousel-track`, `.carousel-item` slides, `.carousel-controls`, `.carousel-button` and `.carousel-indicator`. | `data-orientation="horizontal|vertical"`; indicator `aria-current` |
 | Chart | `.chart` | `[data-slot="plot"]`, legend with `[data-slot="legend-item"]`/`[data-slot="swatch"]` and `[data-slot="tooltip"]`. | `data-series="1"`–`"5"` |
 | Checkbox | `.checkbox` | Native `input[type="checkbox"]`; must not carry `role="switch"`. Checked draws a check; indeterminate draws a dash. | — |
-| Code Block | `.code-block` | Optional `header` with `[data-slot="title"]` and `[data-slot="actions"]`; required `pre` containing `code`; optional `footer`; line parts `[data-slot="line"]` wrapping `[data-slot="line-content"]`. | `data-size="default|sm"`; `data-variant="default|destructive"`; `pre` `data-line-numbers`, `data-wrap`, `--line-start`; line `data-variant="added|removed|highlighted"` |
+| Code Block | `.code-block` | Optional `header` with `[data-slot="title"]` and `[data-slot="actions"]`; required `pre` containing `code`; optional `footer`; line parts `[data-slot="line"]` wrapping `[data-slot="line-content"]`. Copy controls use `[data-slot="copy"]` with copy/check icons; wrap controls use `[data-slot="wrap"]`. | `data-size="default|sm"`; `data-variant="default|destructive"`; `pre` `data-line-numbers`, `data-wrap`, `--line-start`; line `data-variant="added|removed|highlighted"`; transient `data-copied` |
 | Collapsible | `.collapsible` | Native `<details>` with a `<summary>` trigger and content directly after `summary`. | `[open]`; `inert` for disabled items |
-| Combobox | `.combobox` | Input with `role="combobox"` and a `[data-popover]` panel containing `[role="listbox"]`; optional `[data-slot="clear"]`. | Listbox `aria-multiselectable="true"` for multiple; placement attributes on the panel |
+| Combobox | `.combobox` | Input with `role="combobox"`, optional `[data-slot="input"]` hidden input and a `[data-popover]` panel containing `[role="listbox"]`; optional `[data-slot="clear"]`. | Listbox `aria-multiselectable="true"` for multiple; placement attributes on the panel |
 | Command | `.command` | Search field composed with input-group and a `[role="listbox"]` with groups, labels, separators, shortcuts and an empty state. | `[data-slot="shortcut"]`, `[data-slot="empty"]`; `[role="separator"]` dividers; no surface |
 | Context menu | `.context-menu` | `[role="menu"]` panel with menu items, checkable items, headings, separators and shortcuts; nested menus use a `role="none"` wrapper around the trigger and its `[data-popover]` panel. | `--context-x`, `--context-y` on the panel; `aria-hidden="true|false"`; `aria-checked` on checkable items; the panel scrolls near the viewport edge |
 | Dialog | `.dialog` | Native `<dialog>` containing a panel; panel contains `header`, title, description, `section`, `footer` and a close button or `form[method="dialog"]`. Section content scrolls between a fixed header and footer. | Footer `data-align="start"` |
@@ -463,7 +477,7 @@ direction.
 | Radio | `.radio` | Native `input[type="radio"]`, normally inside `role="radiogroup"`. Compose rows with `.field` and a label, and group them with `[data-slot="radio-group"]` inside a `.fieldset`. | — |
 | Resizable | `.resizable` | `.resizable-panel` panes and `[data-slot="handle"]` separators. | `data-orientation="horizontal|vertical"`; panel `--panel-size`; handle `aria-valuenow/min/max` |
 | Scroll area | `.scroll-area` | Scroll container; the consumer sets dimensions and content. | `data-orientation="horizontal|vertical"`; `data-size="default|sm"` |
-| Select | `.select` | Trigger with `role="combobox"`, `[data-slot="value"]` and a `[data-popover] > [role="listbox"]` panel. Group labels use `[data-slot="label"]`, dividers use `[role="separator"]` and the panel scrolls at `18rem`. | `data-size="default|sm"`; `data-placeholder` on the value; `aria-invalid` on the trigger |
+| Select | `.select` | Trigger with `role="combobox"`, `[data-slot="value"]`, optional `[data-slot="input"]` hidden input and a `[data-popover] > [role="listbox"]` panel. Group labels use `[data-slot="label"]`, dividers use `[role="separator"]` and the panel scrolls at `18rem`. | `data-size="default|sm"`; `data-placeholder` on the value; `aria-invalid` on the trigger |
 | Separator | `.separator` | `<hr>` or `[role="separator"]`. | `data-orientation="horizontal|vertical"`; `aria-orientation` is also recognized |
 | Sheet | `.sheet` | Native `<dialog>` with `data-side` and a panel containing `header`, `section`, `footer` and an optional close control. The section scrolls between the header and footer. | `data-side="inline-start|inline-end|block-start|block-end"`; `data-size="default|sm|lg"` sets the width or the height on block sides; close control is a direct child `form[method="dialog"]` or `button` |
 | Sidebar | `.sidebar` | `<aside>` with `header`, `section` and `footer`; `nav` groups named by a heading or `[data-slot="group-label"]` with an optional `[data-slot="group-action"]`; nav rows with an optional `[data-slot="menu-badge"]` or `[data-slot="menu-action"]`; nested lists and collapsible groups. | `aria-current="page"` on links; `data-slot="brand"` |
@@ -474,7 +488,7 @@ direction.
 | Table | `.table-container`, `.table` | `caption`, `thead`, `tbody`, `tfoot`, `tr`, `th`, `td`; checkbox cells use a native `input[type="checkbox"]` or `role="checkbox"`. | Row `aria-selected="true"`; a row containing `aria-expanded="true"` stays highlighted |
 | Tabs | `.tabs` | `[role="tablist"]`, `[role="tab"]`, `[role="tabpanel"]`. | Tablist `data-variant="default|line"`; `aria-orientation="horizontal|vertical"` |
 | Textarea | `.textarea` | Native `<textarea>`. | — |
-| Toast | `.toaster`, `.toast` | Fixed stack with `.toast` items; a `section` with title/description and a close button. | `data-variant="default|destructive"`; `role="status"` or `role="alert"`; `[data-slot="close"]` |
+| Toast | `.toaster`, `.toast` | Fixed stack with `.toast` items; a `section` with title/description and a close button. | `data-variant="default|destructive"`; `data-duration` in milliseconds; `role="status"` or `role="alert"`; `[data-slot="close"]` |
 | Toggle | `.toggle` | Native `<button type="button">`; text and optional SVG. | `aria-pressed="true|false"`; `data-variant="default|outline"`; `data-size="default|sm|lg"` |
 | Toggle group | `.toggle-group` | `role="group"` container of `.toggle` children. | `data-orientation="horizontal|vertical"`; `data-spacing="default|joined"`; group `data-variant`/`data-size` apply to children without their own |
 | Tooltip | `.tooltip` | Wrapper around the trigger; `data-tooltip` for the text bubble or a direct `[data-slot="content"]` child with `role="tooltip"`; always-on tail. | `data-side`, `data-align` |
@@ -604,9 +618,10 @@ public state hooks:
 The state contract is deliberately small. Do **not** use `.active`,
 `data-active`, `data-invalid`, `data-disabled`, `data-selected`,
 `data-state="selected"` or similar class/data aliases. Beyond variant, size,
-orientation, spacing, fit and placement attributes, `data-highlighted` is the
-only public data-driven state; any other state must be expressible with a
-native pseudo-class or ARIA.
+orientation, spacing, fit and placement attributes, `data-highlighted` (active
+option) and the transient `data-copied` (copy feedback) are the only public
+data-driven states; `data-duration` configures the toast timer. Any other state
+must be expressible with a native pseudo-class or ARIA.
 
 Notes:
 
@@ -615,9 +630,9 @@ Notes:
   popover API, but the documented dialog pattern is `<dialog>` plus `[open]`.
 - `aria-expanded="true"` is the trigger state for popovers, dropdown menus and
   buttons that open an overlay.
-- `data-dropdown-menu-initialized` is an internal behavior hook used to
-  disable the CSS-only hover fallback once JavaScript takes over keyboard
-  navigation. It is not part of the public state contract.
+- `data-dropdown-menu-initialized` is an internal behavior hook set by the
+  shipped menu module to disable the CSS-only hover fallback once JavaScript
+  takes over keyboard navigation. It is not part of the public state contract.
 - The CSS-only tooltip opens on wrapper `:hover` and `:has(:focus-visible)`; it
   has no JavaScript open state. Empty content does not open the bubble.
 - Code Block's `data-line-numbers`, `data-wrap` and line `data-variant` are
@@ -644,29 +659,34 @@ Notes:
 - Hover cards have no open state: CSS shows the panel on `:hover` and
   `:focus-within`. They are not a substitute for a popover that needs explicit
   dismissal.
-- Context menus use `aria-hidden` on the panel. The consumer sets
-  `--context-x` and `--context-y` and manages focus; the CSS does not track the
-  pointer. The panel scrolls when its content would extend past the bottom of
-  the viewport; choose coordinates that leave room for the requested side.
+- Context menus use `aria-hidden` on the panel. The shipped menu behavior sets
+  `--context-x` and `--context-y`, manages focus and opens on right-click or
+  Shift+F10; the CSS does not track the pointer. The area uses
+  `aria-haspopup="menu"`, `aria-controls` and `tabindex="0"`; `aria-expanded`
+  is not set on a generic container. The panel scrolls when its content would
+  extend past the bottom of the viewport; choose coordinates that leave room
+  for the requested side.
 - Nested menu panels are absolutely positioned against their `role="none"`
   wrapper, so the wrapper needs no JavaScript hook beyond the trigger's
   `aria-expanded` and the panel's `aria-hidden`.
 - The internal `listbox` primitive styles `[role="listbox"]`, `[role="option"]`,
-  `[role="group"]`, group labels, separators and the empty state. Consumers set
-  `aria-selected`, `data-highlighted` and `aria-disabled`; the primitive does
-  not filter, select or move focus.
-- Select, combobox and command do not open, close, filter or select by
-  themselves. The consumer owns those behaviors and the `aria-expanded` /
-  `aria-hidden` transitions.
+  `[role="group"]`, group labels, separators and the empty state. The shipped
+  behavior sets `aria-selected`, `data-highlighted` and `aria-activedescendant`;
+  consumers may still drive the primitive directly and own those attributes.
+- Select, combobox and command use the `listbox` helpers. The shipped modules
+  open, close, filter, select and move the highlight; the `aria-expanded` /
+  `aria-hidden` transitions are behavior-owned after install.
 - Command composes the input group and listbox with its own list chrome. Group
   labels use `data-slot="label"`, dividers are `[role="separator"]` (mark them
   `aria-hidden="true"` inside a listbox) and the list caps at `20rem` with
   vertical scrolling. Shortcuts use `data-slot="shortcut"` and stay
   left-to-right in RTL containers.
 - Sheets and drawers keep the footer at the bottom of the panel while the
-  section scrolls. The sheet close control is a direct child
-  `form[method="dialog"]` or `button` at the inline end; style its button with
-  `.btn` and give icon-only controls an accessible label.
+  section scrolls. The shipped dialog behavior opens them with
+  `data-open-dialog="<id>"` and closes them with `data-close-dialog`. The sheet
+  close control is a direct child `form[method="dialog"]` or `button` at the
+  inline end; style its button with `.btn` and give icon-only controls an
+  accessible label.
 - Calendar day cells use `aria-selected`; day buttons use `aria-current="date"`
   and `aria-disabled`. A range or multiple selection sets
   `aria-multiselectable="true"` on the grid and marks every selected day. The
@@ -691,8 +711,41 @@ Notes:
   step; the status pill uses `data-variant="error|success"` as presentation.
 - The message scroller does not follow, anchor or restore scroll position. The
   consumer toggles `hidden` on `[data-slot="jump"]` and scrolls the viewport.
-- Toast items use `role="status"` or `role="alert"`; timing, dismissal and
-  Sonner integration are consumer JavaScript.
+- Toast items use `role="status"` or `role="alert"`. The shipped behavior
+  auto-dismisses after `5000ms`, honors `data-duration` in milliseconds (`0` is
+  persistent), pauses on hover/focus and dismisses from `[data-slot="close"]`.
+  Sonner remains a compatibility note, not a registry dependency.
+
+## Behavior
+
+Behavior is optional, copy-paste ESM. Installed modules are plain JavaScript
+with JSDoc types, no dependencies and no build step. The CSS contract is
+complete without them; `--no-behavior` must always produce a valid install.
+
+- **Entry modules** self-initialize on import and register a document-level
+  delegated dispatcher from `behaviors/core.js`. **Support modules**
+  (`core.js`, `listbox.js`) export helpers and never auto-init.
+- `init(root)` mounts the same handlers on a scoped root. Import is SSR-safe:
+  top-level code does not touch `document`.
+- Markup is the source of truth at rest. Modules toggle ARIA, focus,
+  `tabindex`, `hidden`, `inert`, `data-highlighted` and transient
+  `data-copied`. No `data-state`, no extra wrappers and no `innerHTML`.
+- Events bubble from the component root: `change` (`detail.value`,
+  `detail.values` or `detail.checked`), `toggle` (`detail.open`) and
+  `dismiss` (`detail.reason`).
+- Static content and the page's own navigation stay readable without
+  JavaScript. Overlay panels and selection widgets may be inert and are
+  documented as behavior-dependent. Tooltip and hover-card keep their CSS
+  fallbacks.
+- The modules are: `dialog` (dialog, alert-dialog, sheet, drawer), `popover`,
+  `menu` (dropdown-menu, context-menu, menubar, navigation-menu), `tabs`,
+  `listbox` plus `select`, `combobox` and `command`, `toast` and `code-block`.
+- Dialog actions use `data-open-dialog="<id>"` and `data-close-dialog`. Select
+  and single-combobox forms sync a `[data-slot="input"]` hidden input. Toast
+  reads `data-duration` and Code Block uses `data-copied` for its transient
+  check state.
+- Behavior relies on the same browser target as the CSS: Chrome/Edge 125+,
+  Safari 26+ and Firefox 147+.
 
 ## Motion
 
@@ -733,8 +786,9 @@ progress sweep slow down instead of stopping. This remains a known gap.
   `<table>`. ARIA roles are used for composite widgets that have no native
   equivalent (`tablist`, `tab`, `menu`, `menuitem`, `radiogroup`, `group`).
 - Every interactive component must be operable by keyboard and expose its
-  state through the contract above. loseta provides styling only; the
-  consumer provides behavior.
+  state through the contract above. Components that ship behavior provide it;
+  consumers may replace it or install with `--no-behavior`, in which case they
+  own the interaction.
 - Accordion items must keep the trigger as the `<summary>`; disabled items use
   `inert`, which removes them and their content from the tab order. Exclusive
   groups use the native `name` attribute.
@@ -746,18 +800,21 @@ progress sweep slow down instead of stopping. This remains a known gap.
   `data-slot="input-group-control"`. Addons are presentation; clicking an addon
   to focus the control is consumer JavaScript.
 - Select triggers need `aria-haspopup="listbox"`, `aria-expanded` and
-  `aria-controls`; the option list is a `[role="listbox"]`. The consumer owns
-  keyboard navigation, selection, the trigger value and `data-placeholder`.
+  `aria-controls`; the option list is a `[role="listbox"]`. The shipped
+  `select` behavior owns keyboard navigation, selection, the trigger value,
+  `data-placeholder` and the optional `[data-slot="input"]` hidden input.
 - Combobox inputs need a label, role `combobox`, `aria-expanded`,
   `aria-controls` and `aria-autocomplete="list"`. Multiple lists also set
-  `aria-multiselectable="true"`. Filtering and selection are consumer
-  JavaScript.
+  `aria-multiselectable="true"`. The shipped behavior filters client-side,
+  moves the highlight and selects; selected chips stay app-rendered.
 - Commands compose a labelled search field with a `[role="listbox"]`; place
-  them inside a labelled dialog, popover or card. Keyboard navigation and
-  closing on selection are consumer JavaScript.
-- Listbox options need an accessible name. Consumers manage roving focus or
-  `aria-activedescendant`, set `aria-selected` and `data-highlighted`, and mark
-  unavailable options with `aria-disabled="true"`.
+  them inside a labelled dialog, popover or card. The input uses
+  `role="combobox"`, `aria-controls`, `aria-expanded="true"` and
+  `aria-autocomplete="list"`. The shipped behavior filters, highlights and
+  activates the focused option; closing the containing surface stays app-owned.
+- Listbox options need an accessible name. The shipped behavior manages
+  `aria-activedescendant`, `aria-selected`, `data-highlighted` and
+  `aria-disabled="true"`; consumers driving the primitive directly own them.
 - Calendar uses a native `<table role="grid">` with column headers and
   `gridcell` day cells. The grid needs an accessible name; day buttons need
   full-date labels; week numbers use row headers; focus moves inside the grid
@@ -778,7 +835,8 @@ progress sweep slow down instead of stopping. This remains a known gap.
   appears after load; mark decorative icons `aria-hidden` and give an action in
   the footer an accessible name.
 - Toasts use `role="status"` for polite updates and `role="alert"` for errors;
-  close buttons need labels. Timing and dismissal are consumer JavaScript.
+  close buttons need labels. The shipped behavior owns timing, pause/resume,
+  dismissal and the inserted-toast observer.
 - Message groups should carry an accessible name; a live conversation uses
   `role="log"`. Message headers and footers are metadata, not headings.
 - Attachments need a label for the media, a name for the root action and labels
@@ -815,15 +873,16 @@ progress sweep slow down instead of stopping. This remains a known gap.
   is a non-modal preview; interactive content that must stay open belongs in a
   popover.
 - Context menus must move focus into the menu, return it on close and support
-  arrow-key navigation; the consumer also owns the right-click handler and the
-  `--context-x`/`--context-y` coordinates.
+  arrow-key navigation. The shipped menu behavior owns the right-click and
+  Shift+F10 handlers, the `--context-x`/`--context-y` coordinates and focus.
 - Menubars need roving focus, arrow keys and `aria-expanded` on each submenu
   trigger. Submenu panels use `[role="menu"]` and its item roles, and nested
-  panels open with `data-side="inline-end"`.
+  panels open with `data-side="inline-end"`. The shipped menu behavior owns the
+  keyboard and hover-switching model.
 - Navigation menus need an accessible `nav` label, `aria-expanded` and
-  `aria-controls` on panel triggers, and ordinary links inside panels. Keyboard
-  navigation and the mobile layout are consumer JavaScript; there is no
-  built-in mobile fallback.
+  `aria-controls` on panel triggers, and ordinary links inside panels. The
+  shipped menu behavior owns open/close, ArrowDown and Escape; the mobile
+  layout remains consumer work.
 - Breadcrumb and pagination need an accessible `nav` label; the current item
   uses `aria-current="page"`. Pagination icon links need an `aria-label`.
 - Progress needs an accessible name through `aria-label` or a `<label>`; keep
@@ -837,23 +896,26 @@ progress sweep slow down instead of stopping. This remains a known gap.
   group label and supports multiple pressed buttons; single-choice selection
   belongs to a radio group.
 - Dialogs must be labelled with `aria-labelledby` and, when the description is
-  present, `aria-describedby`. Use `showModal()` and `close()`. A section that
-  scrolls without focusable content needs `role="region"`, an accessible name
-  and `tabindex="0"` so keyboard users can scroll it.
+  present, `aria-describedby`. The shipped dialog behavior uses `showModal()`
+  and `close()`, returns focus to the opener, traps Tab, ignores alert-dialog
+  backdrop clicks and locks background scroll. A section that scrolls without
+  focusable content needs `role="region"`, an accessible name and
+  `tabindex="0"` so keyboard users can scroll it.
 - Tabs must maintain `aria-selected`, `hidden` on inactive panels and roving
-  `tabindex`; CSS does not switch panels.
+  `tabindex`; the shipped behavior switches them with automatic activation.
 - Code Block must keep its content `dir="ltr"` and focusable through
   `tabindex="0"`; line numbers and diff markers are generated content and are
-  excluded from selection. Copy controls need an accessible label and a
-  consumer-managed announcement; a wrap toggle uses `aria-pressed`.
+  excluded from selection. The shipped behavior copies the source, sets
+  `data-copied` for its check state and toggles `data-wrap` + `aria-pressed`.
 - Dropdown menus must maintain `aria-expanded` on the trigger,
   `aria-hidden` on the panel and roving focus; checkable items use
-  `aria-checked`.
+  `aria-checked`. The shipped menu behavior owns those transitions.
 - Popovers must maintain `aria-expanded` and `aria-controls` on the trigger and
   `aria-hidden` on the panel. The panel uses `role="dialog"` and is named with
   `aria-labelledby` (and `aria-describedby` when it has a description). Make
-  the panel focusable with `tabindex="-1"`, move focus to the panel or its
-  first control on open, and restore focus to the trigger on close.
+  the panel focusable with `tabindex="-1"`. The shipped popover behavior moves
+  focus into a `role="dialog"` panel, closes on Escape/outside/focus-out and
+  restores focus to the trigger.
 - Tooltips should use a direct `[data-slot="content"]` child with
   `role="tooltip"` and an id, referenced by `aria-describedby` on the trigger.
   The `data-tooltip` shorthand is visual-only and is not a substitute for an
@@ -879,10 +941,20 @@ Install targets:
 | Primitive | `primitives/<name>.css` | `styles/<style>/primitives/<name>.css` |
 | Component | `components/<name>.css` | `styles/<style>/<name>.css` |
 
-The CLI writes these under the configured CSS directory (default
-`src/styles/loseta`), records them in `.loseta/manifest.json`, and regenerates
-`index.css` with the fixed layer declaration and imports. `loseta.json` holds
-the CSS directory, entrypoint and style. The default style is Nova.
+Components that need interaction also declare behavior files:
+
+| Behavior kind | Source | Install target |
+| --- | --- | --- |
+| Entry | `behaviors/<name>.js` | `behaviors/<name>.js` |
+| Support | `behaviors/core.js`, `behaviors/listbox.js` | `behaviors/<name>.js` |
+
+The CLI writes CSS under the configured CSS directory (default
+`src/styles/loseta`), behavior under the configured behavior directory (default
+`behaviors`), records both in `.loseta/manifest.json`, and regenerates
+`index.css` and `behaviors/index.js`. `loseta.json` holds the CSS and behavior
+directories, entrypoint and style. The default style is Nova. `--no-behavior`
+skips behavior files and does not update the behavior index; `--behavior`
+backfills missing modules for installed items.
 
 Experimental items are published and installable, but they ship exactly one
 `styles/nova/` file and stay outside the compatibility contract.
@@ -931,7 +1003,13 @@ The following are public API and require a breaking-change note when changed:
 - the fixed layer order and the meaning of each layer;
 - documented anatomy requirements and optional/required children;
 - the shared `menu` primitive's `[role="menu"]` styling;
-- the `dialog-shell` side and bottom placement behavior.
+- the `dialog-shell` side and bottom placement behavior;
+- behavior module paths, the entry/support split, auto-init and `init(root)`;
+- the `change`, `toggle` and `dismiss` event contract;
+- `data-open-dialog` / `data-close-dialog` and the `[data-slot="input"]` hidden
+  input on select and single combobox;
+- `data-duration` on toast and transient `data-copied` on copy controls;
+- the context-menu area's `aria-haspopup`, `aria-controls` and `tabindex`.
 
 Additive changes (a new optional part, a new variant, a new token with a
 fallback) are non-breaking. Visual refinements that preserve anatomy and API
@@ -957,8 +1035,13 @@ semantic versioning.
   open when the pointer leaves the trigger. Rich content is non-interactive.
 - Nova, Vega, Maia, Lyra, Mira, Luma, Sera and Rhea are the only shipped
   styles; style-specific visual regression snapshots are not part of CI.
-- No JavaScript behavior is shipped. Dialogs, popovers, dropdown menus, tabs,
-  toggle buttons and Code Block copy/wrap controls require consumer code.
+- Toggle and toggle-group remain consumer-driven in this release.
+- Combobox filtering is client-side; async search requires editing the copied
+  module. Multiple combobox chips are app-rendered.
+- Tabs use automatic activation only; there is no manual mode.
+- Toasts hide immediately; there is no exit animation. Toast timers use the one
+  scoped `MutationObserver` in the behavior layer.
+- There is no behavior teardown API; `init(root)` only adds roots.
 - Code Block does not ship syntax highlighting, ANSI rendering, streaming or a
   Show More interaction; syntax highlighting stays in the consumer's
   highlighter and line numbers/diff/highlights require explicit line markup.
@@ -967,11 +1050,11 @@ semantic versioning.
 - Experimental items are published and installable but outside this contract.
   They ship Nova only and are not promoted until all eight style files,
   examples, docs and tests exist.
-- Context menus do not track the pointer. The consumer sets
-  `--context-x`/`--context-y` and manages focus.
+- Context menu coordinates are physical even in RTL; the behavior sets them
+  from the pointer or the focused area.
 - Drawers ship no swipe or drag behavior; the handle is a visual affordance.
-- Menubars and navigation menus ship no roving focus, arrow-key navigation or
-  mobile layout; those are consumer behavior.
+- Menubars and navigation menus ship keyboard navigation; the mobile layout
+  remains consumer work.
 - Hover cards are CSS-only previews. They cannot be dismissed explicitly and
   should not wrap interactive content that needs to stay open.
 - The `menu` primitive styles every `[role="menu"]` in the project.
@@ -987,8 +1070,9 @@ semantic versioning.
   its tab order.
 - Scroll areas use native scrollbars; there are no custom overlay thumb
   elements.
-- Select, combobox and command do not open, filter, select or move focus; those
-  are consumer JavaScript concerns.
+- Select, combobox and command ship open/close, filtering, selection and
+  highlight handling; server-side filtering and app-specific side effects stay
+  consumer work.
 - Command has no surface of its own; place it inside a dialog, popover or card.
   Its group dividers are decorative and its list scrolls at `20rem`.
 - Multiple combobox selections are not rendered as chips; compose them with
@@ -1002,8 +1086,8 @@ semantic versioning.
 - Resizable drag and keyboard resizing are consumer JavaScript.
 - Sidebar mobile composition and active-navigation behavior are consumer
   JavaScript.
-- Toast timing and dismissal are consumer JavaScript. `sonner` is documented as
-  a compatibility note, not a registry item.
+- Toast timing and dismissal ship in the behavior module; `sonner` is
+  documented as a compatibility note, not a registry item.
 - Message rendering, reactions, attachments, trace status, questionnaire
   validation and message-scroller following/anchor behavior are consumer
   JavaScript.

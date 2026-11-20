@@ -61,6 +61,10 @@
           "minItems": 1,
           "items": { "$ref": "#/$defs/file" }
         },
+        "behaviors": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/behavior" }
+        },
         "examples": {
           "type": "array",
           "items": { "type": "string" },
@@ -86,6 +90,19 @@
             "loseta.utilities"
           ]
         }
+      }
+    },
+    "behavior": {
+      "type": "object",
+      "required": ["path", "target", "kind"],
+      "additionalProperties": false,
+      "properties": {
+        "path": { "type": "string", "minLength": 1 },
+        "target": {
+          "type": "string",
+          "pattern": "^behaviors/[a-z0-9-]+\\.js$"
+        },
+        "kind": { "enum": ["entry", "support"] }
       }
     }
   }

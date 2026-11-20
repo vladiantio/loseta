@@ -4,6 +4,7 @@ import type { LosetaConfig } from "./types.js";
 
 export const CONFIG_FILE = "loseta.json";
 export const DEFAULT_CSS_DIR = "src/styles/loseta";
+export const DEFAULT_BEHAVIOR_DIR = "behaviors";
 export const DEFAULT_STYLE = "nova";
 
 /** Raised when loseta.json cannot be used as written. */
@@ -49,6 +50,21 @@ export function fromProjectRoot(projectRoot: string, path: string): string {
 /** Absolute path to the generated index.css. */
 export function indexCssPath(projectRoot: string, config: LosetaConfig): string {
   return join(fromProjectRoot(projectRoot, config.cssDir), "index.css");
+}
+
+/** Config-relative directory that holds installed behavior modules. */
+export function behaviorDir(config: LosetaConfig): string {
+  return config.behaviorDir ?? DEFAULT_BEHAVIOR_DIR;
+}
+
+/** Absolute path to the behavior directory. */
+export function behaviorDirPath(projectRoot: string, config: LosetaConfig): string {
+  return fromProjectRoot(projectRoot, behaviorDir(config));
+}
+
+/** Absolute path to the generated behavior index. */
+export function behaviorIndexPath(projectRoot: string, config: LosetaConfig): string {
+  return join(behaviorDirPath(projectRoot, config), "index.js");
 }
 
 /** Detects a likely CSS entrypoint in the current project. */

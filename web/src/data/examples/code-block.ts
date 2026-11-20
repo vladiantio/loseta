@@ -1,5 +1,5 @@
 import type { Example } from "./types";
-import { copy, wrap } from "./icons";
+import { check, copy, wrap } from "./icons";
 
 export const codeBlockExamples: Example[] = [
     {
@@ -10,11 +10,11 @@ export const codeBlockExamples: Example[] = [
     },
     {
       title: "Header and actions",
-      html: `<div class="code-block" data-demo="code-block">
+      html: `<div class="code-block">
   <header>
     <span data-slot="title">app/api/chat/route.ts</span>
     <div data-slot="actions">
-      <button class="btn" data-variant="ghost" data-size="icon-xs" type="button" data-demo-copy aria-label="Copy code">${copy}</button>
+      <button class="btn" data-variant="ghost" data-size="icon-xs" type="button" data-slot="copy" aria-label="Copy code"><span data-slot="copy-icon">${copy}</span><span data-slot="check-icon">${check}</span></button>
     </div>
   </header>
   <pre dir="ltr" tabindex="0"><code>import { streamText } from "ai";
@@ -32,9 +32,12 @@ export async function POST(request: Request) {
     },
     {
       title: "Line numbers",
-      html: `<div class="code-block" data-demo="code-block">
+      html: `<div class="code-block">
   <header>
     <span data-slot="title">app/dashboard/page.tsx</span>
+    <div data-slot="actions">
+      <button class="btn" data-variant="ghost" data-size="icon-xs" type="button" data-slot="copy" aria-label="Copy code"><span data-slot="copy-icon">${copy}</span><span data-slot="check-icon">${check}</span></button>
+    </div>
   </header>
   <pre data-line-numbers style="--line-start: 12" dir="ltr" tabindex="0"><code><span data-slot="line"><span data-slot="line-content">  if (!session) {</span></span>
 <span data-slot="line"><span data-slot="line-content">    redirect("/login");</span></span>
@@ -50,9 +53,12 @@ export async function POST(request: Request) {
     },
     {
       title: "Diff and highlighted lines",
-      html: `<div class="code-block" data-demo="code-block">
+      html: `<div class="code-block">
   <header>
     <span data-slot="title">components/greeting.tsx</span>
+    <div data-slot="actions">
+      <button class="btn" data-variant="ghost" data-size="icon-xs" type="button" data-slot="copy" aria-label="Copy code"><span data-slot="copy-icon">${copy}</span><span data-slot="check-icon">${check}</span></button>
+    </div>
   </header>
   <pre dir="ltr" tabindex="0"><code><span data-slot="line"><span data-slot="line-content">export function Greeting({ name }: { name: string }) {</span></span>
 <span data-slot="line"><span data-slot="line-content">  return &lt;p&gt;Hello, {name}&lt;/p&gt;;</span></span>
@@ -64,12 +70,12 @@ export async function POST(request: Request) {
     },
     {
       title: "Small, wrapped and destructive",
-      html: `<div class="code-block" data-size="sm" data-variant="destructive" data-demo="code-block">
+      html: `<div class="code-block" data-size="sm" data-variant="destructive">
   <header>
     <span data-slot="title">Error</span>
     <div data-slot="actions">
-      <button class="btn" data-variant="ghost" data-size="icon-xs" type="button" data-demo-wrap aria-label="Wrap lines" aria-pressed="true">${wrap}</button>
-      <button class="btn" data-variant="ghost" data-size="icon-xs" type="button" data-demo-copy aria-label="Copy output">${copy}</button>
+      <button class="btn" data-variant="ghost" data-size="icon-xs" type="button" data-slot="wrap" aria-label="Wrap lines" aria-pressed="true">${wrap}</button>
+      <button class="btn" data-variant="ghost" data-size="icon-xs" type="button" data-slot="copy" aria-label="Copy output"><span data-slot="copy-icon">${copy}</span><span data-slot="check-icon">${check}</span></button>
     </div>
   </header>
   <pre data-wrap dir="ltr" tabindex="0"><code>TypeError: The model "anthropic/claude-sonnet-4.5" returned an error: Request too large. The prompt is 212,431 tokens but the context window is 200,000 tokens.</code></pre>
@@ -77,9 +83,9 @@ export async function POST(request: Request) {
     },
     {
       title: "Floating actions",
-      html: `<div class="code-block" data-demo="code-block">
+      html: `<div class="code-block">
   <div data-slot="actions">
-    <button class="btn" data-variant="ghost" data-size="icon-xs" type="button" data-demo-copy aria-label="Copy output">${copy}</button>
+    <button class="btn" data-variant="ghost" data-size="icon-xs" type="button" data-slot="copy" aria-label="Copy output"><span data-slot="copy-icon">${copy}</span><span data-slot="check-icon">${check}</span></button>
   </div>
   <pre dir="ltr" tabindex="0"><code>$ pnpm add ai @ai-sdk/react zod
 Packages: +14

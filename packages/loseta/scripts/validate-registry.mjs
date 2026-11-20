@@ -1,8 +1,9 @@
 import { readFileSync, existsSync, readdirSync } from "node:fs";
-import { dirname, join, resolve } from "node:path";
+import { basename, dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import Ajv2020 from "ajv/dist/2020.js";
 import { transform } from "lightningcss";
+import ts from "typescript";
 
 const here = dirname(fileURLToPath(import.meta.url));
 const packageRoot = resolve(here, "..");
@@ -211,6 +212,98 @@ function walk(dir, base = "") {
     }
   }
   return files;
+}
+
+const behaviorsRoot = join(registryDir, "behaviors");
+const referencedBehaviors = new Set();
+const behaviorSources = new Map();
+const behaviorImportPattern =
+  /\bimport\s+(?:[^'"]*?\s+from\s+)?["']([^"']+)["']/g;
+const forbiddenInBehaviors = [
+  { pattern: /data-state/g, message: "use the documented ARIA or data-* state" },
+  { pattern: /data-demo-/g, message: "demo hooks must not ship in behavior modules" },
+  { pattern: /\beval\s*\(/g, message: "eval is not allowed" },
+  { pattern: /new\s+Function\s*\(/g, message: "new Function is not allowed" },
+  { pattern: /\.innerHTML\b/g, message: "use DOM APIs instead of innerHTML" },
+  { pattern: /\.outerHTML\b/g, message: "use DOM APIs instead of outerHTML" },
+  { pattern: /document\.write\b/g, message: "document.write is not allowed" }
+];
+
+function validateBehavior(item, behavior) {
+  const absolute = join(registryDir, behavior.path);
+  if (!existsSync(absolute)) {
+    fail(`${item.name}: behavior not found: ${behavior.path}`);
+    return;
+  }
+
+  referencedBehaviors.add(behavior.path);
+
+  if (!behavior.target.startsWith("behaviors/")) {
+    fail(`${item.name}: behavior target must start with behaviors/: ${behavior.target}`);
+  }
+
+  const existingSource = behaviorSources.get(behavior.target);
+  if (existingSource !== undefined && existingSource !== behavior.path) {
+    fail(
+      `${item.name}: behavior target ${behavior.target} maps to both ${existingSource} and ${behavior.path}`
+    );
+  }
+  behaviorSources.set(behavior.target, behavior.path);
+
+  const source = readFileSync(absolute, "utf8");
+
+  for (const rule of forbiddenInBehaviors) {
+    if (rule.pattern.test(source)) {
+      fail(`${item.name}: ${behavior.path}: ${rule.message}`);
+    }
+    rule.pattern.lastIndex = 0;
+  }
+
+  const result = ts.transpileModule(source, {
+    fileName: behavior.path,
+    reportDiagnostics: true,
+    compilerOptions: {
+      target: ts.ScriptTarget.ES2022,
+      module: ts.ModuleKind.ESNext,
+      allowJs: true
+    }
+  });
+  for (const diagnostic of result.diagnostics ?? []) {
+    const message = ts.flattenDiagnosticMessageText(diagnostic.messageText, " ");
+    fail(`${item.name}: ${behavior.path}: ${message}`);
+  }
+
+  for (const match of source.matchAll(behaviorImportPattern)) {
+    const specifier = match[1];
+    if (!specifier) continue;
+    if (!specifier.startsWith("./") && !specifier.startsWith("../")) {
+      fail(`${item.name}: ${behavior.path}: behavior imports must be relative: ${specifier}`);
+      continue;
+    }
+    const resolved = resolve(dirname(absolute), specifier);
+    if (!resolved.startsWith(behaviorsRoot)) {
+      fail(`${item.name}: ${behavior.path}: import escapes behaviors/: ${specifier}`);
+      continue;
+    }
+    if (!existsSync(resolved)) {
+      fail(`${item.name}: ${behavior.path}: unresolved import: ${specifier}`);
+    }
+  }
+
+  if (behavior.kind === "entry") {
+    const spec = resolve(
+      packageRoot,
+      "..",
+      "..",
+      "web",
+      "tests",
+      "behaviors",
+      `${basename(behavior.path, ".js")}.spec.ts`
+    );
+    if (!existsSync(spec)) {
+      fail(`${item.name}: ${behavior.path}: missing behavior spec web/tests/behaviors/${basename(behavior.path, ".js")}.spec.ts`);
+    }
+  }
 }
 
 const idRefAttributes = [
@@ -506,6 +599,24 @@ for (const item of registry.items ?? []) {
     }
   }
 
+  const behaviorTargets = new Set();
+  for (const behavior of item.behaviors ?? []) {
+    if (behaviorTargets.has(behavior.target)) {
+      fail(`${item.name}: duplicate behavior target ${behavior.target}`);
+    }
+    behaviorTargets.add(behavior.target);
+    validateBehavior(item, behavior);
+  }
+
+  if (
+    (item.behaviors ?? []).length > 0 &&
+    !(item.behaviors ?? []).some(
+      (behavior) => behavior.path === "behaviors/core.js" && behavior.kind === "support"
+    )
+  ) {
+    fail(`${item.name}: behavior items must include behaviors/core.js as a support entry`);
+  }
+
   if (item.type === "component" || item.type === "primitive") {
     if (!roles.has("base")) {
       fail(`${item.name}: expected a base file`);
@@ -572,6 +683,27 @@ for (const item of registry.items ?? []) {
     validateExampleComposition(item, example, html);
     if (item.name === "popover") {
       validatePopoverContracts(item.name, example, html);
+    }
+  }
+}
+
+function walkBehaviors(dir, base = "") {
+  const files = [];
+  for (const entry of readdirSync(join(dir, base), { withFileTypes: true })) {
+    const relative = base ? `${base}/${entry.name}` : entry.name;
+    if (entry.isDirectory()) {
+      files.push(...walkBehaviors(dir, relative));
+    } else if (entry.name.endsWith(".js")) {
+      files.push(relative);
+    }
+  }
+  return files;
+}
+
+if (existsSync(behaviorsRoot)) {
+  for (const relative of walkBehaviors(behaviorsRoot)) {
+    if (!referencedBehaviors.has(`behaviors/${relative}`)) {
+      fail(`unreferenced behavior file: behaviors/${relative}`);
     }
   }
 }

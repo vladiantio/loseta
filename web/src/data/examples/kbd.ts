@@ -78,7 +78,7 @@ export const kbdExamples: Example[] = [
     {
       title: "In a menu",
       html: `<div class="dropdown-menu" data-demo="dropdown" style="width: 14rem">
-  <button type="button" class="btn" data-variant="outline" data-demo-trigger aria-haspopup="menu" aria-expanded="false">
+  <button type="button" class="btn" data-variant="outline" aria-haspopup="menu" aria-expanded="false">
     Open menu
   </button>
   <div data-popover data-side="bottom" aria-hidden="true">

@@ -17,6 +17,7 @@ const staticPages = [
   "/docs/installation",
   "/docs/theming",
   "/docs/styles",
+  "/docs/behavior",
   "/docs/components",
   "/docs/recipes",
   "/docs/recipes/form",
@@ -391,8 +392,8 @@ test("install command remembers the package manager", async ({ page }) => {
 
 test("code block wrap toggle updates the pre", async ({ page }) => {
   await page.goto("/docs/components/code-block");
-  const block = page.locator('[data-demo="code-block"]:has([data-demo-wrap])');
-  const toggle = block.locator("[data-demo-wrap]");
+  const block = page.locator('.code-block:has([data-slot="wrap"])');
+  const toggle = block.locator("[data-slot='wrap']");
   const pre = block.locator("pre");
 
   await expect(toggle).toHaveAttribute("aria-pressed", "true");
@@ -2136,7 +2137,7 @@ test("kbd groups keys and keeps tooltip keys on the inverted surface", async ({
   const menuExample = page
     .locator("section.example")
     .filter({ has: page.locator(".example-title", { hasText: /^In a menu$/ }) });
-  await menuExample.locator("[data-demo-trigger]").click();
+  await menuExample.locator("button[aria-haspopup='menu']").click();
   const menuItem = menuExample.getByRole("menuitem", {
     name: /Command palette/
   });
@@ -2168,7 +2169,7 @@ test("kbd groups keys and keeps tooltip keys on the inverted surface", async ({
 
 test("context menu opens at the pointer and closes with Escape", async ({ page }) => {
   await page.goto("/docs/components/context-menu");
-  const area = page.locator("[data-demo-context]").first();
+  const area = page.locator("[aria-haspopup='menu'][aria-controls]").first();
   const menu = area.locator(".context-menu");
 
   await expect(menu).toHaveAttribute("aria-hidden", "true");
@@ -2186,7 +2187,7 @@ test("context menu opens a nested panel beside its trigger", async ({ page }) =>
   const example = page
     .locator("section.example")
     .filter({ has: page.locator(".example-title", { hasText: /^Submenu$/ }) });
-  const area = example.locator("[data-demo-context]");
+  const area = example.locator("div[aria-haspopup='menu'][aria-controls]");
 
   await area.click({ button: "right" });
   const menu = area.locator(".context-menu");
@@ -2255,6 +2256,9 @@ test("menubar submenus keep the parent open and use menu typography", async ({
 
   await page.keyboard.press("Escape");
   await expect(submenu).toHaveAttribute("aria-hidden", "true");
+  await expect(file).toHaveAttribute("aria-hidden", "false");
+
+  await page.keyboard.press("Escape");
   await expect(file).toHaveAttribute("aria-hidden", "true");
 });
 
@@ -2485,7 +2489,13 @@ test("dropdown menu nested submenus keep their ancestors open", async ({ page })
 
   await page.keyboard.press("Escape");
   await expect(deeper).toHaveAttribute("aria-hidden", "true");
+  await expect(submenu).toHaveAttribute("aria-hidden", "false");
+
+  await page.keyboard.press("Escape");
   await expect(submenu).toHaveAttribute("aria-hidden", "true");
+  await expect(panel).toHaveAttribute("aria-hidden", "false");
+
+  await page.keyboard.press("Escape");
   await expect(panel).toHaveAttribute("aria-hidden", "true");
 });
 
@@ -2658,7 +2668,7 @@ test("button group keeps a nested picker above the preview chrome", async ({ pag
 test("combobox filters, selects, clears and shows an empty state", async ({ page }) => {
   await page.goto("/docs/components/combobox");
   const combobox = page.locator(".combobox:has(#combobox-fruit-panel)");
-  const input = combobox.locator("input");
+  const input = combobox.locator("input[role='combobox']");
   const panel = combobox.locator("[data-popover]");
 
   await input.click();
@@ -2680,7 +2690,7 @@ test("combobox filters, selects, clears and shows an empty state", async ({ page
   await expect(combobox.locator("[data-slot='empty']")).toBeVisible();
 
   const multiple = page.locator(".combobox:has(#combobox-tag-panel)");
-  const multipleInput = multiple.locator("input");
+  const multipleInput = multiple.locator("input[role='combobox']");
   await multipleInput.click();
   await multiple.getByRole("option", { name: "Engineering", exact: true }).click();
   await expect(
@@ -2692,7 +2702,7 @@ test("combobox filters, selects, clears and shows an empty state", async ({ page
 test("command filters groups, shows an empty state and closes on selection", async ({ page }) => {
   await page.goto("/docs/components/command");
   const dialog = page.locator("#demo-command");
-  const input = dialog.getByRole("textbox", { name: "Search commands" });
+  const input = dialog.getByRole("combobox", { name: "Search commands" });
 
   await page.getByRole("button", { name: "Open command", exact: true }).click();
   await expect(dialog).toHaveAttribute("open", "");
@@ -2716,6 +2726,9 @@ test("command filters groups, shows an empty state and closes on selection", asy
 
   await input.fill("set");
   await dialog.getByRole("option", { name: "Open settings" }).click();
+  await expect(dialog).toHaveAttribute("open", "");
+
+  await page.keyboard.press("Escape");
   await expect(dialog).not.toHaveAttribute("open", "");
 
   const scrollable = page.locator("#demo-command-scrollable");
@@ -2732,8 +2745,8 @@ test("command filters groups, shows an empty state and closes on selection", asy
   await trigger.click();
   await expect(popover).toHaveAttribute("aria-hidden", "false");
   await popover.getByRole("option", { name: "Settings" }).click();
-  await expect(popover).toHaveAttribute("aria-hidden", "true");
-  await expect(trigger).toHaveAttribute("aria-expanded", "false");
+  await expect(popover).toHaveAttribute("aria-hidden", "false");
+  await expect(trigger).toHaveAttribute("aria-expanded", "true");
 });
 
 test("calendar exposes a grid with a selected day", async ({ page }) => {
@@ -2825,6 +2838,20 @@ test("calendar date picker toggles its popover", async ({ page }) => {
   await expect(panel).toHaveAttribute("aria-hidden", "false");
 });
 
+test("date-picker recipe toggles its panel", async ({ page }) => {
+  await page.goto("/docs/recipes/date-picker");
+  const trigger = page.locator(
+    'button[aria-haspopup="dialog"][aria-controls="recipe-date-panel"]'
+  );
+  const panel = page.locator("#recipe-date-panel");
+
+  await expect(panel).toHaveAttribute("aria-hidden", "false");
+  await trigger.click();
+  await expect(panel).toHaveAttribute("aria-hidden", "true");
+  await trigger.click();
+  await expect(panel).toHaveAttribute("aria-hidden", "false");
+});
+
 test("calendar mirrors in right-to-left containers", async ({ page }) => {
   await page.goto("/docs/components/calendar");
 
@@ -2860,13 +2887,14 @@ test("carousel controls scroll the viewport and update indicators", async ({ pag
   ).toHaveAttribute("aria-current", "true");
 });
 
-test("toast dismissal removes the item", async ({ page }) => {
+test("toast dismissal hides the item", async ({ page }) => {
   await page.goto("/docs/components/toast");
   const toasts = page.locator(".toast");
 
-  await expect(toasts).toHaveCount(2);
+  await expect(toasts).toHaveCount(3);
   await toasts.first().getByRole("button", { name: "Dismiss" }).click();
-  await expect(toasts).toHaveCount(1);
+  await expect(toasts).toHaveCount(3);
+  await expect(toasts.first()).toHaveJSProperty("hidden", true);
 });
 
 test("questionnaire navigates between fieldset steps", async ({ page }) => {
@@ -3024,7 +3052,8 @@ test("component preview reveals cleaned example code", async ({ page }) => {
   await expect(source).toHaveAttribute("aria-hidden", "true");
   await expect(pre).toHaveAttribute("tabindex", "-1");
   await expect(pre).toHaveCSS("overflow-x", "hidden");
-  await expect(source.locator("code")).not.toContainText("data-open-dialog");
+  await expect(source.locator("code")).toContainText("data-open-dialog");
+  await expect(source.locator("code")).not.toContainText("data-demo");
 
   await toggle.click();
 
@@ -3056,8 +3085,8 @@ test("component preview copies the cleaned example markup", async ({ page }) => 
   const copied = await page.evaluate(
     () => (window as unknown as { copiedCode?: string }).copiedCode
   );
-  expect(copied).toContain('<button type="button" class="btn">Open dialog</button>');
-  expect(copied).not.toContain("data-open-dialog");
+  expect(copied).toContain('data-open-dialog="demo-dialog-default"');
+  expect(copied).not.toContain("data-demo");
   await expect(page.getByRole("status")).toHaveText("Copied");
 });
 

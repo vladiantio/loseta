@@ -104,7 +104,7 @@ export const tableExamples: Example[] = [
         <td style="text-align: end">$29.99</td>
         <td>
           <div class="dropdown-menu" data-demo="dropdown">
-            <button type="button" class="btn" data-variant="ghost" data-size="icon-sm" data-demo-trigger aria-haspopup="menu" aria-expanded="false" aria-label="Open menu for Wireless Mouse">${moreHorizontal}</button>
+            <button type="button" class="btn" data-variant="ghost" data-size="icon-sm" aria-haspopup="menu" aria-expanded="false" aria-label="Open menu for Wireless Mouse">${moreHorizontal}</button>
             <div data-popover data-side="top" data-align="end" aria-hidden="true">
               <div role="menu">
                 <button type="button" role="menuitem">Edit</button>
@@ -121,7 +121,7 @@ export const tableExamples: Example[] = [
         <td style="text-align: end">$129.99</td>
         <td>
           <div class="dropdown-menu" data-demo="dropdown">
-            <button type="button" class="btn" data-variant="ghost" data-size="icon-sm" data-demo-trigger aria-haspopup="menu" aria-expanded="false" aria-label="Open menu for Mechanical Keyboard">${moreHorizontal}</button>
+            <button type="button" class="btn" data-variant="ghost" data-size="icon-sm" aria-haspopup="menu" aria-expanded="false" aria-label="Open menu for Mechanical Keyboard">${moreHorizontal}</button>
             <div data-popover data-side="top" data-align="end" aria-hidden="true">
               <div role="menu">
                 <button type="button" role="menuitem">Edit</button>
@@ -138,7 +138,7 @@ export const tableExamples: Example[] = [
         <td style="text-align: end">$49.99</td>
         <td>
           <div class="dropdown-menu" data-demo="dropdown">
-            <button type="button" class="btn" data-variant="ghost" data-size="icon-sm" data-demo-trigger aria-haspopup="menu" aria-expanded="false" aria-label="Open menu for USB-C Hub">${moreHorizontal}</button>
+            <button type="button" class="btn" data-variant="ghost" data-size="icon-sm" aria-haspopup="menu" aria-expanded="false" aria-label="Open menu for USB-C Hub">${moreHorizontal}</button>
             <div data-popover data-side="top" data-align="end" aria-hidden="true">
               <div role="menu">
                 <button type="button" role="menuitem">Edit</button>

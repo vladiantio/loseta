@@ -3,7 +3,7 @@ import type { Example } from "./types";
 export const tabsExamples: Example[] = [
     {
       title: "Default",
-      html: `<div class="tabs" data-demo="tabs">
+      html: `<div class="tabs">
   <div role="tablist" aria-orientation="horizontal">
     <button type="button" role="tab" id="tab-account" aria-selected="true" aria-controls="panel-account">Account</button>
     <button type="button" role="tab" id="tab-password" aria-selected="false" aria-controls="panel-password" tabindex="-1">Password</button>
@@ -18,7 +18,7 @@ export const tabsExamples: Example[] = [
     },
     {
       title: "Line variant",
-      html: `<div class="tabs" data-demo="tabs">
+      html: `<div class="tabs">
   <div role="tablist" aria-orientation="horizontal" data-variant="line">
     <button type="button" role="tab" id="tab-overview" aria-selected="true" aria-controls="panel-overview">Overview</button>
     <button type="button" role="tab" id="tab-activity" aria-selected="false" aria-controls="panel-activity" tabindex="-1">Activity</button>

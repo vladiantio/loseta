@@ -1,7 +1,7 @@
 {
   "$schema": "./schema.json",
   "name": "loseta",
-  "version": "0.17.0",
+  "version": "0.18.0",
   "styles": [
     {
       "name": "nova",
@@ -524,6 +524,18 @@
       ],
       "examples": [
         "examples/alert-dialog.html"
+      ],
+      "behaviors": [
+        {
+          "path": "behaviors/core.js",
+          "target": "behaviors/core.js",
+          "kind": "support"
+        },
+        {
+          "path": "behaviors/dialog.js",
+          "target": "behaviors/dialog.js",
+          "kind": "entry"
+        }
       ]
     },
     {
@@ -986,6 +998,18 @@
       ],
       "examples": [
         "examples/code-block.html"
+      ],
+      "behaviors": [
+        {
+          "path": "behaviors/core.js",
+          "target": "behaviors/core.js",
+          "kind": "support"
+        },
+        {
+          "path": "behaviors/code-block.js",
+          "target": "behaviors/code-block.js",
+          "kind": "entry"
+        }
       ]
     },
     {
@@ -1065,6 +1089,18 @@
       ],
       "examples": [
         "examples/dialog.html"
+      ],
+      "behaviors": [
+        {
+          "path": "behaviors/core.js",
+          "target": "behaviors/core.js",
+          "kind": "support"
+        },
+        {
+          "path": "behaviors/dialog.js",
+          "target": "behaviors/dialog.js",
+          "kind": "entry"
+        }
       ]
     },
     {
@@ -1143,6 +1179,18 @@
       ],
       "examples": [
         "examples/dropdown-menu.html"
+      ],
+      "behaviors": [
+        {
+          "path": "behaviors/core.js",
+          "target": "behaviors/core.js",
+          "kind": "support"
+        },
+        {
+          "path": "behaviors/menu.js",
+          "target": "behaviors/menu.js",
+          "kind": "entry"
+        }
       ]
     },
     {
@@ -1766,6 +1814,18 @@
       ],
       "examples": [
         "examples/popover.html"
+      ],
+      "behaviors": [
+        {
+          "path": "behaviors/core.js",
+          "target": "behaviors/core.js",
+          "kind": "support"
+        },
+        {
+          "path": "behaviors/popover.js",
+          "target": "behaviors/popover.js",
+          "kind": "entry"
+        }
       ]
     },
     {
@@ -2138,6 +2198,18 @@
       ],
       "examples": [
         "examples/tabs.html"
+      ],
+      "behaviors": [
+        {
+          "path": "behaviors/core.js",
+          "target": "behaviors/core.js",
+          "kind": "support"
+        },
+        {
+          "path": "behaviors/tabs.js",
+          "target": "behaviors/tabs.js",
+          "kind": "entry"
+        }
       ]
     },
     {
@@ -3094,6 +3166,18 @@
       ],
       "examples": [
         "examples/context-menu.html"
+      ],
+      "behaviors": [
+        {
+          "path": "behaviors/core.js",
+          "target": "behaviors/core.js",
+          "kind": "support"
+        },
+        {
+          "path": "behaviors/menu.js",
+          "target": "behaviors/menu.js",
+          "kind": "entry"
+        }
       ]
     },
     {
@@ -3173,6 +3257,18 @@
       ],
       "examples": [
         "examples/drawer.html"
+      ],
+      "behaviors": [
+        {
+          "path": "behaviors/core.js",
+          "target": "behaviors/core.js",
+          "kind": "support"
+        },
+        {
+          "path": "behaviors/dialog.js",
+          "target": "behaviors/dialog.js",
+          "kind": "entry"
+        }
       ]
     },
     {
@@ -3322,6 +3418,18 @@
       ],
       "examples": [
         "examples/menubar.html"
+      ],
+      "behaviors": [
+        {
+          "path": "behaviors/core.js",
+          "target": "behaviors/core.js",
+          "kind": "support"
+        },
+        {
+          "path": "behaviors/menu.js",
+          "target": "behaviors/menu.js",
+          "kind": "entry"
+        }
       ]
     },
     {
@@ -3396,6 +3504,18 @@
       ],
       "examples": [
         "examples/navigation-menu.html"
+      ],
+      "behaviors": [
+        {
+          "path": "behaviors/core.js",
+          "target": "behaviors/core.js",
+          "kind": "support"
+        },
+        {
+          "path": "behaviors/menu.js",
+          "target": "behaviors/menu.js",
+          "kind": "entry"
+        }
       ]
     },
     {
@@ -3475,6 +3595,18 @@
       ],
       "examples": [
         "examples/sheet.html"
+      ],
+      "behaviors": [
+        {
+          "path": "behaviors/core.js",
+          "target": "behaviors/core.js",
+          "kind": "support"
+        },
+        {
+          "path": "behaviors/dialog.js",
+          "target": "behaviors/dialog.js",
+          "kind": "entry"
+        }
       ]
     },
     {
@@ -3931,6 +4063,23 @@
       ],
       "examples": [
         "examples/select.html"
+      ],
+      "behaviors": [
+        {
+          "path": "behaviors/core.js",
+          "target": "behaviors/core.js",
+          "kind": "support"
+        },
+        {
+          "path": "behaviors/listbox.js",
+          "target": "behaviors/listbox.js",
+          "kind": "support"
+        },
+        {
+          "path": "behaviors/select.js",
+          "target": "behaviors/select.js",
+          "kind": "entry"
+        }
       ]
     },
     {
@@ -4008,6 +4157,23 @@
       ],
       "examples": [
         "examples/combobox.html"
+      ],
+      "behaviors": [
+        {
+          "path": "behaviors/core.js",
+          "target": "behaviors/core.js",
+          "kind": "support"
+        },
+        {
+          "path": "behaviors/listbox.js",
+          "target": "behaviors/listbox.js",
+          "kind": "support"
+        },
+        {
+          "path": "behaviors/combobox.js",
+          "target": "behaviors/combobox.js",
+          "kind": "entry"
+        }
       ]
     },
     {
@@ -4091,6 +4257,23 @@
       ],
       "examples": [
         "examples/command.html"
+      ],
+      "behaviors": [
+        {
+          "path": "behaviors/core.js",
+          "target": "behaviors/core.js",
+          "kind": "support"
+        },
+        {
+          "path": "behaviors/listbox.js",
+          "target": "behaviors/listbox.js",
+          "kind": "support"
+        },
+        {
+          "path": "behaviors/command.js",
+          "target": "behaviors/command.js",
+          "kind": "entry"
+        }
       ]
     },
     {
@@ -4542,6 +4725,18 @@
       ],
       "examples": [
         "examples/toast.html"
+      ],
+      "behaviors": [
+        {
+          "path": "behaviors/core.js",
+          "target": "behaviors/core.js",
+          "kind": "support"
+        },
+        {
+          "path": "behaviors/toast.js",
+          "target": "behaviors/toast.js",
+          "kind": "entry"
+        }
       ]
     },
     {

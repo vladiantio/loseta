@@ -97,9 +97,12 @@ export default function ogImages() {
         const { renderOgCard } = await import("../src/lib/og-render.mjs");
         const { OG_SITE_DESCRIPTION } = await import("../src/lib/og-card.mjs");
 
-        const htmlFiles = (await findHtmlFiles(distDirectory)).filter(
-          (file) => path.basename(file) !== "404.html"
-        );
+        const htmlFiles = (await findHtmlFiles(distDirectory)).filter((file) => {
+          if (path.basename(file) === "404.html") return false;
+          return !path
+            .relative(distDirectory, file)
+            .startsWith(`fixtures${path.sep}`);
+        });
 
         let generated = 0;
 

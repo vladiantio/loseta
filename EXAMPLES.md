@@ -13,8 +13,17 @@ reference for this checklist.
 - `web/src/data/examples/icons.ts` — shared inline SVGs and example helpers.
   Import only the icons a component uses; add a new icon here when an example
   needs it.
-- `web/src/scripts/docs-client/demo.ts` — demo-only click, context-menu and
-  dialog behavior. The generator strips the hooks from installed examples.
+- `web/src/scripts/docs-client/demo.ts` — demo-only handlers for components
+  that do not ship behavior yet (questionnaire, message scroller, carousel,
+  toggle, indeterminate checkbox, install copy). The generator strips
+  `data-demo-*` hooks from installed examples.
+- `packages/loseta/registry/behaviors/` — shipped behavior modules. The docs
+  import the entry modules from
+  `web/src/scripts/docs-client/behaviors.ts`; do not duplicate them in `demo.ts`.
+- `web/tests/behaviors/` — Playwright specs for shipped behavior, run against
+  `web/src/pages/fixtures/behaviors.astro` outside `.component-preview`.
+- `web/src/pages/fixtures/behaviors.astro` — noindex behavior fixture route;
+  excluded from OG generation.
 - `web/src/data/components.ts` — `groupBy` (sidebar group) and `notesBy` (one
   contract note per item; plain text, escaped by Astro).
 - `packages/loseta/registry/registry.json` — `optionalDependencies` lists every
@@ -35,8 +44,9 @@ reference for this checklist.
 2. Add examples to `web/src/data/examples/<item>.ts` from simple to composed:
    default, vertical, horizontal, each control, groups, responsive, validation,
    RTL. Use unique `demo-<item>-*` ids, then add the import and record entry to
-   `web/src/data/examples/index.ts`. Add demo hooks only when the docs client
-   must demonstrate behavior; see "Demo hooks" below.
+   `web/src/data/examples/index.ts`. Components with shipped behavior use public
+   ARIA, slots and dialog action hooks; use demo hooks only for components that
+   do not ship behavior yet. See "Demo hooks" below.
 3. Run `pnpm registry:examples`. It regenerates the HTML and the item's
    `examples` field.
 4. Update the evidence around the examples:
@@ -47,7 +57,9 @@ reference for this checklist.
 5. Review visually (see below).
 6. Add a `docs.spec.ts` test for every behavior you fixed. Assert a relation
    for container-driven sizes (`width > 448`), never the docs column width:
-   the column is 622px at the default 1280px viewport.
+   the column is 622px at the default 1280px viewport. Behavior changes also
+   belong in `web/tests/behaviors/<entry>.spec.ts`; do not encode keyboard,
+   focus or dismissal checks only in the docs integration suite.
 7. Add a `style-matrix.spec.ts` case only when the style distance is part of
    the contract (for example the field row gap).
 8. Run `pnpm test`, then one build plus the focused suite:
@@ -57,34 +69,49 @@ reference for this checklist.
    `pnpm --filter web exec playwright test -g "axe: /docs/components/<item>"`.
    Overlay components also need the open-panel case:
    `pnpm --filter web exec playwright test -g "open overlay panels"`.
+   Behavior changes also need the fixture specs:
+   `pnpm --filter web exec playwright test tests/behaviors --project=chromium`.
    Run `pnpm --filter web test:e2e` once, when the diff is final.
 9. `git status` must show only source and regenerated files. Commit with
    `feat(registry): expand <item> examples and fix details`.
 
+## Public behavior hooks
+
+Components that ship behavior use only public contract: ARIA roles and states,
+`data-slot` parts, `aria-haspopup` / `aria-controls` and the dialog action
+attributes. `data-open-dialog="<id>"` and `data-close-dialog` are public and
+survive the generator; every other `data-demo-*` attribute is stripped from the
+installed example.
+
+- `data-open-dialog="<id>"` — open the referenced `<dialog>` with `showModal()`.
+- `data-close-dialog` — close the nearest dialog.
+- `[data-slot="input"]` — hidden value input on select and single combobox.
+- `[data-slot="copy"]` / `[data-slot="wrap"]` — Code Block copy and wrap
+  controls; `data-copied` is the transient copy state.
+- `[data-slot="close"]` — Toast dismissal.
+- `data-duration` — Toast timer in milliseconds (`0` is persistent).
+- Context menu areas use `aria-haspopup="menu"`, `aria-controls` and
+  `tabindex="0"`.
+
 ## Demo hooks
 
-The generator strips every `data-demo-*` attribute, `data-open-dialog` and
-`data-close-dialog` from the installed example, so these hooks only drive the
-docs client. The full set lives in `web/src/scripts/docs-client/demo.ts`; add a
-hook there when an example needs behavior the client does not provide.
+Hooks below are docs-only and are stripped by the generator. Use them only for
+components that do not ship behavior yet; the full set lives in
+`web/src/scripts/docs-client/demo.ts`.
 
-- `data-demo` — marks the root a demo is scoped to. Panels and triggers are
-  resolved inside it.
-- `data-demo-trigger` — toggles the example's `[data-popover]` and keeps
-  `aria-expanded` in sync.
-- `data-demo-menu-trigger` — opens the `[data-popover]` beside a nested menu
-  item and keeps ancestor panels open. Use it instead of `data-demo-trigger`
-  inside a menu.
-- `data-demo-select-trigger` / `data-demo-combobox-input` — open the select or
-  combobox panel.
+- `data-demo` — marks the root a demo is scoped to. Used by the message
+  scroller, questionnaire, toggle and carousel demos.
 - `data-demo-toggle` — toggles `aria-pressed` on a button.
-- `data-open-dialog="<id>"` / `data-close-dialog` — open a dialog by id or
-  close the ancestor dialog.
-- `data-demo-context` — marks a right-click area; the client opens its
-  `.context-menu` and sets `--context-x` and `--context-y`.
+- `data-demo-indeterminate` — sets the native indeterminate state.
+- `data-demo-questionnaire-next` / `data-demo-questionnaire-prev` — step the
+  questionnaire.
+- `data-demo-scroll-end` — scroll a message scroller to the end.
+- `data-demo-carousel-prev` / `data-demo-carousel-next` / `data-demo-carousel-go`
+  — move the docs carousel.
 
-Prefer a native control and event when it demonstrates the contract; add a
-demo hook only for the interaction the docs page must simulate.
+Prefer a native control and event, or the shipped behavior, when it
+demonstrates the contract; add a demo hook only for the interaction the docs
+page must simulate.
 
 ## Visual review
 
@@ -98,7 +125,7 @@ Start the preview once:
   `--all-examples` cover the rest. `el` is the `section.example` root.
   `--shot-el` is resolved inside the selected example, or inside `#probe-root`
   with `--html`.
-- Open overlays: `--eval "{ el.querySelector('[data-demo-trigger]').click(); }"`
+- Open overlays: `--eval "{ el.querySelector('[aria-haspopup]').click(); }"`
   with `--shot-el ".component-preview"` captures the panel over the code area;
   the default `--shot` captures `.docs-preview` only. `--all-examples` applies
   the same pass to every example. A panel that opens past the preview edge is

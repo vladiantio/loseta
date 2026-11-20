@@ -226,6 +226,12 @@ const ogType = pathname === "/" ? "website" : "article";
             <span class="docs-nav-title">Reference</span>
             <a
               class="docs-nav-link"
+              href="/docs/behavior"
+              aria-current={isActive("/docs/behavior") ? "page" : undefined}
+              >Behavior</a
+            >
+            <a
+              class="docs-nav-link"
               href="/docs/recipes"
               aria-current={isActive("/docs/recipes") ? "page" : undefined}
               >Recipes</a

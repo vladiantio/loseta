@@ -10,12 +10,23 @@ export type LayerName =
   | "loseta.style"
   | "loseta.utilities";
 
+export type BehaviorKind = "entry" | "support";
+
 export interface RegistryFile {
   path: string;
   target: string;
   role: FileRole;
   layer: LayerName;
 }
+
+export interface RegistryBehavior {
+  path: string;
+  target: string;
+  kind: BehaviorKind;
+}
+
+/** A file copied by `add`, CSS or behavior. */
+export type InstallableFile = RegistryFile | RegistryBehavior;
 
 export interface RegistryItem {
   name: string;
@@ -28,6 +39,7 @@ export interface RegistryItem {
   registryDependencies?: string[];
   optionalDependencies?: string[];
   files: RegistryFile[];
+  behaviors?: RegistryBehavior[];
   examples?: string[];
 }
 
@@ -48,6 +60,7 @@ export interface Registry {
 export interface LosetaConfig {
   $schema?: string;
   cssDir: string;
+  behaviorDir?: string;
   entrypoint?: string;
   style: string;
 }
@@ -66,4 +79,5 @@ export interface ManifestItem {
 export interface Manifest {
   version: string;
   items: ManifestItem[];
+  behaviors?: string[];
 }

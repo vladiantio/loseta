@@ -383,7 +383,7 @@ ${indent(
     title: "Date picker",
     html: `<div style="display: flex; align-items: flex-start; justify-content: center; min-height: 27rem">
   <div class="popover" data-demo="calendar" style="display: flex; flex-direction: column; align-items: stretch; width: 20rem">
-    <button type="button" class="btn" data-variant="outline" data-demo-trigger aria-haspopup="dialog" aria-expanded="true" aria-controls="demo-calendar-picker-panel" style="justify-content: space-between">
+    <button type="button" class="btn" data-variant="outline" aria-haspopup="dialog" aria-expanded="true" aria-controls="demo-calendar-picker-panel" style="justify-content: space-between">
       <span style="display: inline-flex; align-items: center; gap: 0.5rem">${calendarIcon} February 14, 2026</span>
       ${chevronDown}
     </button>

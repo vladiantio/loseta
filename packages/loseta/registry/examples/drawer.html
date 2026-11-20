@@ -1,5 +1,5 @@
 <!-- Default -->
-<button type="button" class="btn" data-variant="outline">
+<button type="button" class="btn" data-variant="outline" data-open-dialog="demo-drawer-default">
   Open drawer
 </button>
 
@@ -23,14 +23,14 @@
       </div>
     </section>
     <footer>
-      <button type="button" class="btn" data-variant="outline">Cancel</button>
-      <button type="button" class="btn">Save changes</button>
+      <button type="button" class="btn" data-variant="outline" data-close-dialog>Cancel</button>
+      <button type="button" class="btn" data-close-dialog>Save changes</button>
     </footer>
   </div>
 </dialog>
 
 <!-- Large -->
-<button type="button" class="btn" data-variant="outline">
+<button type="button" class="btn" data-variant="outline" data-open-dialog="demo-drawer-large">
   Open large drawer
 </button>
 
@@ -48,14 +48,14 @@
       </div>
     </section>
     <footer>
-      <button type="button" class="btn" data-variant="outline">Reset</button>
-      <button type="button" class="btn">Apply</button>
+      <button type="button" class="btn" data-variant="outline" data-close-dialog>Reset</button>
+      <button type="button" class="btn" data-close-dialog>Apply</button>
     </footer>
   </div>
 </dialog>
 
 <!-- Small -->
-<button type="button" class="btn" data-variant="outline">
+<button type="button" class="btn" data-variant="outline" data-open-dialog="demo-drawer-small">
   Open small drawer
 </button>
 
@@ -70,14 +70,14 @@
       <p>The small size keeps a short confirmation within reach.</p>
     </section>
     <footer>
-      <button type="button" class="btn" data-variant="outline">Cancel</button>
-      <button type="button" class="btn">Confirm</button>
+      <button type="button" class="btn" data-variant="outline" data-close-dialog>Cancel</button>
+      <button type="button" class="btn" data-close-dialog>Confirm</button>
     </footer>
   </div>
 </dialog>
 
 <!-- Top -->
-<button type="button" class="btn" data-variant="outline">
+<button type="button" class="btn" data-variant="outline" data-open-dialog="demo-drawer-top">
   Open top drawer
 </button>
 
@@ -91,14 +91,14 @@
       <p>Use a top drawer for a short announcement or a wide filter bar.</p>
     </section>
     <footer>
-      <button type="button" class="btn" data-variant="outline">Close</button>
+      <button type="button" class="btn" data-variant="outline" data-close-dialog>Close</button>
     </footer>
     <span data-slot="handle" aria-hidden="true"></span>
   </div>
 </dialog>
 
 <!-- Scrollable content -->
-<button type="button" class="btn" data-variant="outline">
+<button type="button" class="btn" data-variant="outline" data-open-dialog="demo-drawer-scrollable">
   Open scrollable drawer
 </button>
 
@@ -144,13 +144,13 @@
       <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
     </section>
     <footer>
-      <button type="button" class="btn" data-variant="outline">Close</button>
+      <button type="button" class="btn" data-variant="outline" data-close-dialog>Close</button>
     </footer>
   </div>
 </dialog>
 
 <!-- Nested -->
-<button type="button" class="btn" data-variant="outline">
+<button type="button" class="btn" data-variant="outline" data-open-dialog="demo-drawer-nested">
   Open drawer
 </button>
 
@@ -165,8 +165,8 @@
       <p>The parent drawer stays mounted behind the nested drawer.</p>
     </section>
     <footer>
-      <button type="button" class="btn" data-variant="outline">Open nested drawer</button>
-      <button type="button" class="btn">Close</button>
+      <button type="button" class="btn" data-variant="outline" data-open-dialog="demo-drawer-nested-child">Open nested drawer</button>
+      <button type="button" class="btn" data-close-dialog>Close</button>
     </footer>
     <dialog class="drawer" id="demo-drawer-nested-child" data-side="block-end" aria-labelledby="drawer-nested-child-title" aria-describedby="drawer-nested-child-description">
       <div>
@@ -179,7 +179,7 @@
           <p>Close this drawer to return to the parent.</p>
         </section>
         <footer>
-          <button type="button" class="btn">Close</button>
+          <button type="button" class="btn" data-close-dialog>Close</button>
         </footer>
       </div>
     </dialog>
@@ -187,7 +187,7 @@
 </dialog>
 
 <!-- Without handle -->
-<button type="button" class="btn" data-variant="outline">
+<button type="button" class="btn" data-variant="outline" data-open-dialog="demo-drawer-no-handle">
   Open drawer without handle
 </button>
 
@@ -201,14 +201,14 @@
       <p>Use the footer actions or Escape to dismiss the drawer.</p>
     </section>
     <footer>
-      <button type="button" class="btn">Close</button>
+      <button type="button" class="btn" data-close-dialog>Close</button>
     </footer>
   </div>
 </dialog>
 
 <!-- Right-to-left -->
 <div dir="rtl" lang="ar">
-  <button type="button" class="btn" data-variant="outline">
+  <button type="button" class="btn" data-variant="outline" data-open-dialog="demo-drawer-rtl">
     فتح الدرج
   </button>
 
@@ -226,8 +226,8 @@
         </div>
       </section>
       <footer>
-        <button type="button" class="btn" data-variant="outline">إلغاء</button>
-        <button type="button" class="btn">حفظ التغييرات</button>
+        <button type="button" class="btn" data-variant="outline" data-close-dialog>إلغاء</button>
+        <button type="button" class="btn" data-close-dialog>حفظ التغييرات</button>
       </footer>
     </div>
   </dialog>

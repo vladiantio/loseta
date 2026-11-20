@@ -1,0 +1,75 @@
+---
+import "@/styles/loseta.css";
+import { examples } from "@/data/examples";
+
+const fixtures = [
+  "dialog",
+  "alert-dialog",
+  "sheet",
+  "drawer",
+  "popover",
+  "dropdown-menu",
+  "context-menu",
+  "menubar",
+  "navigation-menu",
+  "tabs",
+  "select",
+  "combobox",
+  "command",
+  "toast",
+  "code-block"
+];
+---
+
+<!doctype html>
+<html lang="en" class="light">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="robots" content="noindex" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="/styles/nova.css" />
+    <title>Behavior fixtures</title>
+  </head>
+  <body>
+    <main>
+      {
+        fixtures.map((name) => (
+          <section data-fixture={name}>
+            <h2>{name}</h2>
+            {examples[name]?.map((example) => (
+              <section data-example={example.title} set:html={example.html} />
+            ))}
+          </section>
+        ))
+      }
+    </main>
+    <script>
+      import "@/scripts/docs-client/behaviors";
+    </script>
+    <style>
+      body {
+        margin: 0;
+        padding: 2rem;
+        background: var(--background);
+        color: var(--foreground);
+        font-family: var(--font-sans);
+      }
+
+      main > section {
+        margin-block-end: 4rem;
+      }
+
+      main > section > h2 {
+        margin-block: 0 1rem;
+        font-size: 1rem;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        color: var(--muted-foreground);
+      }
+
+      main > section > section {
+        margin-block-end: 2rem;
+      }
+    </style>
+  </body>
+</html>

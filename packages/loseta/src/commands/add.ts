@@ -2,9 +2,9 @@ import { defineCommand } from "citty";
 import { cancel, confirm, intro, isCancel, log, outro } from "@clack/prompts";
 import { join } from "node:path";
 import { resolveAddNames } from "../add-policy.js";
-import { ConfigError, readConfig } from "../config.js";
+import { behaviorDir, ConfigError, readConfig } from "../config.js";
 import { readTextIfExists } from "../fs.js";
-import { installItems } from "../install.js";
+import { installBehaviors, installItems } from "../install.js";
 import { installedNames, readManifest } from "../manifest.js";
 import {
   experimentalComponents,
@@ -33,6 +33,14 @@ export const addCommand = defineCommand({
     noDeps: {
       type: "boolean",
       description: "Do not install registry dependencies"
+    },
+    behavior: {
+      type: "boolean",
+      description: "Install missing behavior modules for already-installed items"
+    },
+    noBehavior: {
+      type: "boolean",
+      description: "Skip behavior modules and do not update behaviors/index.js"
     },
     experimental: {
       type: "boolean",
@@ -119,6 +127,12 @@ export const addCommand = defineCommand({
       return;
     }
 
+    if (args.behavior && args.noBehavior) {
+      log.error("`--behavior` and `--no-behavior` cannot be used together.");
+      process.exitCode = 1;
+      return;
+    }
+
     let resolved;
     if (args.noDeps) {
       resolved = selection.names.map((name) => findItem(registry, name));
@@ -141,6 +155,55 @@ export const addCommand = defineCommand({
       );
     }
 
+    const onConflict = async (file: { target: string }) => {
+      if (args.overwrite) return "overwrite" as const;
+      if (args.yes) {
+        log.warn(`Keeping modified file: ${file.target}`);
+        return "keep" as const;
+      }
+
+      const answer = await confirm({
+        message: `Overwrite ${file.target}?`,
+        initialValue: false
+      });
+      return !isCancel(answer) && Boolean(answer) ? "overwrite" as const : "keep" as const;
+    };
+
+    const behaviorOnly =
+      Boolean(args.behavior) &&
+      selection.names.every((name) => installed.has(name));
+
+    if (behaviorOnly) {
+      const result = await installBehaviors({
+        projectRoot,
+        config,
+        registry,
+        sourceRoot: registryDir,
+        manifest,
+        items: resolved,
+        onConflict
+      });
+      const withBehavior = resolved
+        .filter((item) => (item.behaviors ?? []).length > 0)
+        .filter((item) => item.type === "component")
+        .map((item) => item.name);
+
+      if (result.written.length === 0) {
+        log.info("Behavior is already installed.");
+      } else {
+        log.success(`Added behavior for ${installedSummary(withBehavior)}.`);
+        log.info(
+          `${result.written.length} behavior file(s) written, ${result.skipped.length} skipped.`
+        );
+        log.info(
+          `Add <script type="module" src="/${behaviorDir(config)}/index.js"></script> to your page.`
+        );
+      }
+
+      outro("Done.");
+      return;
+    }
+
     const result = await installItems({
       projectRoot,
       config,
@@ -148,19 +211,8 @@ export const addCommand = defineCommand({
       sourceRoot: registryDir,
       manifest,
       items: resolved,
-      onConflict: async (file) => {
-        if (args.overwrite) return "overwrite";
-        if (args.yes) {
-          log.warn(`Keeping modified file: ${file.target}`);
-          return "keep";
-        }
-
-        const answer = await confirm({
-          message: `Overwrite ${file.target}?`,
-          initialValue: false
-        });
-        return !isCancel(answer) && Boolean(answer) ? "overwrite" : "keep";
-      }
+      includeBehaviors: !args.noBehavior,
+      onConflict
     });
 
     const added = resolved.filter((item) => item.type === "component").map((item) => item.name);
@@ -173,6 +225,12 @@ export const addCommand = defineCommand({
       log.info(`Installed dependencies: ${primitives.join(", ")}.`);
     }
     log.info(`${result.written.length} file(s) written, ${result.skipped.length} skipped.`);
+
+    if (!args.noBehavior && result.behaviorsWritten.length > 0) {
+      log.info(
+        `Add <script type="module" src="/${behaviorDir(config)}/index.js"></script> to your page.`
+      );
+    }
 
     if (args.html) {
       for (const name of added) {

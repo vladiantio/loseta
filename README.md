@@ -2,9 +2,10 @@
 
 Native CSS component scaffolds with the shadcn feel.
 
-loseta is a registry of component CSS and markup contracts. The CLI copies
-readable, layered CSS files into your project, so you own the code and can edit
-anything. No Tailwind, no runtime, no framework lock-in.
+loseta is a registry of component CSS, markup contracts and optional behavior
+modules. The CLI copies readable, layered CSS and small ESM behavior files into
+your project, so you own the code and can edit anything. No Tailwind, no
+runtime, no framework lock-in.
 
 ## Quick start
 
@@ -16,30 +17,41 @@ npx loseta add button card field
 ```
 
 `init` creates the foundation files (tokens, reset, base, utilities) and a
-generated `index.css`. `add` copies the structural CSS, the selected style file
-and any primitive dependency.
+generated `index.css`. `add` copies the structural CSS, the selected style file,
+any primitive dependency and the component's behavior modules.
 
 ```bash
 npx loseta init --style vega  # choose a style (default: nova)
 npx loseta style vega         # switch an installed project
 npx loseta add all            # every stable component
+npx loseta add button --no-behavior # CSS only
+npx loseta add dialog --behavior    # backfill behavior later
 npx loseta list               # available components
 npx loseta list --experimental # experimental items, when present
 npx loseta list --all         # include experimental, primitives and foundation
 npx loseta add button --html  # print the example markup
 ```
 
+Components that ship behavior print the generated index snippet after an add.
+Load it once per page:
+
+```html
+<script type="module" src="/behaviors/index.js"></script>
+```
+
 ## What you get
 
 - **Native CSS**: nesting, `@layer`, `:has()`, `color-mix()`, logical
   properties, `@starting-style` and `field-sizing`.
-- **Copy-paste ownership**: the CLI writes plain CSS files into your project.
+- **Copy-paste ownership**: the CLI writes plain CSS and ESM files into your
+  project.
 - **Tokens and styles**: shadcn-compatible CSS variables, system-driven
   light/dark with `.dark` / `.light` overrides, and eight visual styles: Vega,
   Nova, Maia, Lyra, Mira, Luma, Sera and Rhea.
-- **CSS-only**: behavior stays yours. Components document the required ARIA and
-  data-attribute contract; the docs use a small demo-only script to keep the
-  examples interactive.
+- **CSS-first, behavior optional**: structural and style CSS never depend on
+  JavaScript. Components that need interaction ship a readable ESM module with
+  the same copy-paste ownership; `--no-behavior` keeps the CSS-only install.
+  The docs run the shipped modules directly.
 
 The v1 registry includes 62 stable components: accordion, alert, alert-dialog,
 aspect-ratio, attachment, avatar, badge, breadcrumb, bubble, button,
@@ -53,6 +65,21 @@ tabs, textarea, toast, toggle, toggle-group, tooltip and trace.
 
 No experimental components ship in this release. The experimental pipeline,
 CLI flag and Nova-only rule remain for future items.
+
+## Behavior
+
+Fifteen stable components ship a behavior module: dialog, alert-dialog, sheet,
+drawer, popover, dropdown-menu, context-menu, menubar, navigation-menu, tabs,
+select, combobox, command, toast and code-block. The modules are plain ESM with
+JSDoc types, no dependencies and no build step; they self-initialize on import
+and expose `init(root)` for scoped mounts. Selection widgets dispatch `change`,
+overlays dispatch `toggle` and toasts dispatch `dismiss`. Markup stays the
+source of truth at rest; behavior only toggles ARIA state, focus and the
+transient `data-highlighted` / `data-copied` attributes.
+
+Static content and the page's own navigation stay readable without JavaScript.
+Overlay panels and selection widgets are behavior-dependent and documented as
+such. See the docs Behavior page for the event contract, flags and limits.
 
 ## Repository
 

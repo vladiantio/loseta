@@ -1,5 +1,47 @@
 # Changelog
 
+## 0.18.0 - 2026-11-20
+
+### Added
+
+- Optional behavior modules for dialog, alert-dialog, sheet, drawer, popover,
+  dropdown-menu, context-menu, menubar, navigation-menu, tabs, select,
+  combobox, command, toast and code-block. Modules are plain ESM with JSDoc
+  types, no dependencies and no build step. Entry modules self-initialize;
+  `core.js` and `listbox.js` are support modules.
+- `loseta add` installs behavior by default; `--no-behavior` keeps the
+  CSS-only install and `--behavior` backfills missing modules for installed
+  items. The manifest tracks behavior targets and the CLI generates
+  `behaviors/index.js` from the installed entry modules.
+- Per-item `behaviors` metadata in `registry.json` with `entry` / `support`
+  kinds; the registry validator checks target declarations, ESM parsing,
+  relative imports, unreferenced modules and a Playwright spec per entry.
+- A docs Behavior page, per-component behavior sections and a noindex
+  `/fixtures/behaviors` route. Playwright covers the behavior specs in
+  Chromium, WebKit and Firefox plus a no-JavaScript project.
+
+### Changed
+
+- Dialog, alert-dialog, sheet and drawer use the shipped dialog behavior.
+  `data-open-dialog` and `data-close-dialog` are now public action hooks and
+  survive example generation.
+- Context-menu areas use `aria-haspopup="menu"`, `aria-controls` and
+  `tabindex="0"`; the behavior sets the coordinates and manages focus.
+- Command inputs use `role="combobox"`, `aria-controls`, `aria-expanded` and
+  `aria-autocomplete="list"`; the behavior filters and activates options but
+  leaves closing the containing surface app-owned.
+- Select and single-combobox examples include a `[data-slot="input"]` hidden
+  input; the behavior syncs it and dispatches `change` with `detail`.
+- Code Block copy/wrap controls use `[data-slot="copy"]` and
+  `[data-slot="wrap"]`; copies expose transient `data-copied`, and the base
+  style swaps the copy glyph for a check.
+- Menus, popovers, select, combobox and toast no longer rely on docs demo
+  hooks; the docs site imports the shipped modules directly.
+- The registry positioning is now CSS-first with optional behavior rather than
+  CSS-only. The docs and this baseline describe the no-JavaScript contract:
+  static content and page navigation stay readable, while overlays and
+  selection widgets may be inert.
+
 ## 0.17.0 - 2026-11-20
 
 ### Added

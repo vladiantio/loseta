@@ -1,5 +1,5 @@
 <!-- Default -->
-<button type="button" class="btn">Open dialog</button>
+<button type="button" class="btn" data-open-dialog="demo-dialog-default">Open dialog</button>
 
 <dialog class="dialog" id="demo-dialog-default" aria-labelledby="dialog-default-title" aria-describedby="dialog-default-description">
   <div>
@@ -10,8 +10,8 @@
       </p>
     </header>
     <footer>
-      <button type="button" class="btn" data-variant="outline">Cancel</button>
-      <button type="button" class="btn">Continue</button>
+      <button type="button" class="btn" data-variant="outline" data-close-dialog>Cancel</button>
+      <button type="button" class="btn" data-close-dialog>Continue</button>
     </footer>
     <form method="dialog">
       <button class="btn" data-variant="ghost" data-size="icon-sm" aria-label="Close"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></button>
@@ -20,7 +20,7 @@
 </dialog>
 
 <!-- Edit profile -->
-<button type="button" class="btn">Open profile dialog</button>
+<button type="button" class="btn" data-open-dialog="demo-dialog">Open profile dialog</button>
 
 <dialog class="dialog" id="demo-dialog" aria-labelledby="dialog-title" aria-describedby="dialog-description">
   <div>
@@ -43,8 +43,8 @@
       </div>
     </section>
     <footer>
-      <button type="button" class="btn" data-variant="outline">Cancel</button>
-      <button type="button" class="btn">Save changes</button>
+      <button type="button" class="btn" data-variant="outline" data-close-dialog>Cancel</button>
+      <button type="button" class="btn" data-close-dialog>Save changes</button>
     </footer>
     <form method="dialog">
       <button class="btn" data-variant="ghost" data-size="icon-sm" aria-label="Close"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></button>
@@ -53,7 +53,7 @@
 </dialog>
 
 <!-- Custom close button -->
-<button type="button" class="btn" data-variant="outline">
+<button type="button" class="btn" data-variant="outline" data-open-dialog="demo-dialog-close-button">
   Open share dialog
 </button>
 
@@ -72,13 +72,13 @@
       </div>
     </section>
     <footer data-align="start">
-      <button type="button" class="btn" data-variant="outline">Close</button>
+      <button type="button" class="btn" data-variant="outline" data-close-dialog>Close</button>
     </footer>
   </div>
 </dialog>
 
 <!-- No close button -->
-<button type="button" class="btn" data-variant="outline">
+<button type="button" class="btn" data-variant="outline" data-open-dialog="demo-dialog-no-close">
   Open dialog without close
 </button>
 
@@ -94,7 +94,7 @@
 </dialog>
 
 <!-- Scrollable content -->
-<button type="button" class="btn" data-variant="outline">
+<button type="button" class="btn" data-variant="outline" data-open-dialog="demo-dialog-scrollable">
   Open scrollable dialog
 </button>
 
@@ -123,7 +123,7 @@
 </dialog>
 
 <!-- Sticky footer -->
-<button type="button" class="btn" data-variant="outline">
+<button type="button" class="btn" data-variant="outline" data-open-dialog="demo-dialog-sticky-footer">
   Open sticky footer dialog
 </button>
 
@@ -146,14 +146,14 @@
       <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
     </section>
     <footer>
-      <button type="button" class="btn" data-variant="outline">Close</button>
+      <button type="button" class="btn" data-variant="outline" data-close-dialog>Close</button>
     </footer>
   </div>
 </dialog>
 
 <!-- Right-to-left -->
 <div dir="rtl" lang="ar" style="display: flex; flex-wrap: wrap; gap: 0.5rem">
-  <button type="button" class="btn">فتح الحوار</button>
+  <button type="button" class="btn" data-open-dialog="demo-dialog-rtl">فتح الحوار</button>
 
   <dialog class="dialog" id="demo-dialog-rtl" aria-labelledby="dialog-rtl-title" aria-describedby="dialog-rtl-description">
     <div>
@@ -176,8 +176,8 @@
         </div>
       </section>
       <footer>
-        <button type="button" class="btn" data-variant="outline">إلغاء</button>
-        <button type="button" class="btn">حفظ التغييرات</button>
+        <button type="button" class="btn" data-variant="outline" data-close-dialog>إلغاء</button>
+        <button type="button" class="btn" data-close-dialog>حفظ التغييرات</button>
       </footer>
       <form method="dialog">
         <button class="btn" data-variant="ghost" data-size="icon-sm" aria-label="إغلاق"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></button>

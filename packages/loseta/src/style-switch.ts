@@ -107,8 +107,9 @@ export async function applyStyleSwitch(input: {
     sourceRoot: input.sourceRoot,
     manifest: input.manifest,
     items: input.plan.items,
+    includeBehaviors: false,
     onConflict: (file) => {
-      if (file.role === "style") return "overwrite";
+      if ("role" in file && file.role === "style") return "overwrite";
       kept.push(file.target);
       return "keep";
     }

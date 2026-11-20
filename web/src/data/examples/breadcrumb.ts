@@ -47,7 +47,7 @@ export const breadcrumbExamples: Example[] = [
       <li role="presentation" aria-hidden="true">${separator}</li>
       <li>
         <div class="dropdown-menu" data-demo="dropdown">
-          <button type="button" class="btn" data-variant="ghost" data-size="icon-sm" data-demo-trigger aria-haspopup="menu" aria-expanded="false" aria-controls="demo-breadcrumb-ellipsis-panel" aria-label="Show more breadcrumb items">
+          <button type="button" class="btn" data-variant="ghost" data-size="icon-sm" aria-haspopup="menu" aria-expanded="false" aria-controls="demo-breadcrumb-ellipsis-panel" aria-label="Show more breadcrumb items">
             <span data-slot="ellipsis" aria-hidden="true">${moreHorizontal}</span>
           </button>
           <div data-popover data-side="bottom" data-align="start" id="demo-breadcrumb-ellipsis-panel" aria-hidden="true">
@@ -76,7 +76,7 @@ export const breadcrumbExamples: Example[] = [
       <li role="presentation" aria-hidden="true">${separator}</li>
       <li>
         <div class="dropdown-menu" data-demo="dropdown">
-          <button type="button" data-demo-trigger aria-haspopup="menu" aria-expanded="false" aria-controls="demo-breadcrumb-dropdown-panel">
+          <button type="button" aria-haspopup="menu" aria-expanded="false" aria-controls="demo-breadcrumb-dropdown-panel">
             Components ${menuIcon}
           </button>
           <div data-popover data-side="bottom" data-align="start" id="demo-breadcrumb-dropdown-panel" aria-hidden="true">

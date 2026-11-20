@@ -1,0 +1,105 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import pageMeta from "@/data/page-meta.json";
+
+const meta = pageMeta["/docs/behavior"];
+---
+
+<Layout title={meta.title} description={meta.description}>
+  <div class="docs-content">
+    <p class="docs-eyebrow">Reference</p>
+    <h1>Behavior</h1>
+    <p class="docs-lead">
+      loseta ships small, readable behavior modules next to the CSS. The CSS stays
+      optional and the behavior stays yours to edit.
+    </p>
+
+    <h2>What installs</h2>
+    <p>
+      <code>loseta add</code> copies the component CSS and any behavior modules
+      declared by the item. Entry modules self-initialize on import; shared
+      support modules (<code>core.js</code>, <code>listbox.js</code>) provide
+      focus, dismissal, filtering and typeahead helpers.
+    </p>
+    <p>
+      Pass <code>--no-behavior</code> to keep the CSS-only install. Backfill the
+      modules later with <code>loseta add &lt;item&gt; --behavior</code>.
+    </p>
+
+    <h2>The generated index</h2>
+    <p>
+      The CLI regenerates <code>behaviors/index.js</code> from the installed
+      behavior files, just like <code>index.css</code>. Load it once per page:
+    </p>
+    <pre><code>{`<script type="module" src="/behaviors/index.js"></script>`}</code></pre>
+    <p>
+      Change the directory with <code>behaviorDir</code> in
+      <code>loseta.json</code>; the generated index moves with it.
+    </p>
+
+    <h2>Scoped mounting</h2>
+    <p>
+      Each entry module imports <code>core.js</code> and registers delegated
+      document listeners. Dynamically inserted markup works without a second
+      init call. For a scoped root or a late mount, import the support module and
+      call <code>init(root)</code>:
+    </p>
+    <pre><code>{`import { init } from "./behaviors/core.js";\nimport "./behaviors/dialog.js";\n\ninit(document.querySelector("#app"));`}</code></pre>
+
+    <h2>Events</h2>
+    <p>Behavior events bubble from the component root:</p>
+    <ul>
+      <li>
+        <code>change</code> — selection changes. <code>detail.value</code> or
+        <code>detail.values</code> for select and combobox;
+        <code>detail.value</code> (the tab id) for tabs; <code>detail.checked</code>
+        for menu checkbox and radio items.
+      </li>
+      <li>
+        <code>toggle</code> — dialogs, popovers and menus; <code>detail.open</code>
+        is a boolean.
+      </li>
+      <li>
+        <code>dismiss</code> — toast items; <code>detail.reason</code> is
+        <code>"timeout"</code> or <code>"close"</code>.
+      </li>
+    </ul>
+
+    <h2>State</h2>
+    <p>
+      Markup is the source of truth at rest. Behavior toggles
+      <code>aria-expanded</code>, <code>aria-hidden</code>,
+      <code>aria-selected</code>, <code>aria-checked</code>,
+      <code>tabindex</code>, <code>hidden</code> and focus. The only transient
+      data states are <code>data-highlighted</code> on the active option and
+      <code>data-copied</code> on a copy control. There is no
+      <code>data-state</code> mirror.
+    </p>
+
+    <h2>Without JavaScript</h2>
+    <p>
+      Static content stays readable and the page's own navigation keeps working.
+      Overlay panels, menus and selection widgets stay closed and are documented
+      as behavior-dependent. There are no <code>&lt;noscript&gt;</code> blocks;
+      the CSS keeps its native fallbacks where they exist.
+    </p>
+
+    <h2>Browser support</h2>
+    <p>
+      Behavior uses the same fidelity target as the CSS: Chrome/Edge 125+,
+      Safari 26+ and Firefox 147+. It relies on native
+      <code>&lt;dialog&gt;</code>, <code>showModal()</code>,
+      <code>aria-activedescendant</code> and <code>:has()</code>; there is no
+      transpilation or polyfill layer.
+    </p>
+
+    <h2>Limits</h2>
+    <ul>
+      <li>Combobox filtering is client-side; async search edits the copied module.</li>
+      <li>Multiple combobox chips stay app-rendered.</li>
+      <li>Tabs use automatic activation; there is no manual mode.</li>
+      <li>Toasts hide immediately; there is no exit animation.</li>
+      <li>Calendar, carousel, resizable and the other tranche-two components keep consumer-owned behavior for now.</li>
+    </ul>
+  </div>
+</Layout>

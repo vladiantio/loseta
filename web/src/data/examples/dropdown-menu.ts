@@ -4,8 +4,8 @@ import { bell, building, check, creditCard, logOut, mail, messageSquare, monitor
 export const dropdownMenuExamples: Example[] = [
     {
       title: "Default",
-      html: `<div class="dropdown-menu" data-demo="dropdown">
-  <button type="button" class="btn" data-variant="outline" data-demo-trigger aria-haspopup="menu" aria-expanded="false">
+      html: `<div class="dropdown-menu">
+  <button type="button" class="btn" data-variant="outline" aria-haspopup="menu" aria-expanded="false">
     Open menu
   </button>
   <div data-popover data-side="bottom" aria-hidden="true">
@@ -25,15 +25,15 @@ export const dropdownMenuExamples: Example[] = [
     {
       title: "Submenu",
       html: `<div style="display: flex; width: 100%; align-items: flex-start; justify-content: flex-start; min-height: 24rem; padding-top: 1rem">
-  <div class="dropdown-menu" data-demo="dropdown">
-    <button type="button" class="btn" data-variant="outline" data-demo-trigger aria-haspopup="menu" aria-expanded="false">
+  <div class="dropdown-menu">
+    <button type="button" class="btn" data-variant="outline" aria-haspopup="menu" aria-expanded="false">
       Open team menu
     </button>
     <div data-popover data-side="bottom" aria-hidden="true" style="min-width: 10rem">
       <div role="menu">
         <button type="button" role="menuitem">Team</button>
         <div role="none">
-          <button type="button" role="menuitem" aria-haspopup="menu" aria-expanded="false" aria-controls="demo-dropdown-submenu-invite" data-demo-menu-trigger>
+          <button type="button" role="menuitem" aria-haspopup="menu" aria-expanded="false" aria-controls="demo-dropdown-submenu-invite">
             Invite users
             ${submenuIcon}
           </button>
@@ -42,7 +42,7 @@ export const dropdownMenuExamples: Example[] = [
               <button type="button" role="menuitem">Email</button>
               <button type="button" role="menuitem">Message</button>
               <div role="none">
-                <button type="button" role="menuitem" aria-haspopup="menu" aria-expanded="false" aria-controls="demo-dropdown-submenu-more" data-demo-menu-trigger>
+                <button type="button" role="menuitem" aria-haspopup="menu" aria-expanded="false" aria-controls="demo-dropdown-submenu-more">
                   More options
                   ${submenuIcon}
                 </button>
@@ -68,8 +68,8 @@ export const dropdownMenuExamples: Example[] = [
     },
     {
       title: "Shortcuts",
-      html: `<div class="dropdown-menu" data-demo="dropdown">
-  <button type="button" class="btn" data-variant="outline" data-demo-trigger aria-haspopup="menu" aria-expanded="false">
+      html: `<div class="dropdown-menu">
+  <button type="button" class="btn" data-variant="outline" aria-haspopup="menu" aria-expanded="false">
     Open shortcuts
   </button>
   <div data-popover data-side="bottom" aria-hidden="true">
@@ -86,8 +86,8 @@ export const dropdownMenuExamples: Example[] = [
     },
     {
       title: "Icons",
-      html: `<div class="dropdown-menu" data-demo="dropdown">
-  <button type="button" class="btn" data-variant="outline" data-demo-trigger aria-haspopup="menu" aria-expanded="false">
+      html: `<div class="dropdown-menu">
+  <button type="button" class="btn" data-variant="outline" aria-haspopup="menu" aria-expanded="false">
     Open account actions
   </button>
   <div data-popover data-side="bottom" aria-hidden="true">
@@ -103,8 +103,8 @@ export const dropdownMenuExamples: Example[] = [
     },
     {
       title: "Checkboxes",
-      html: `<div class="dropdown-menu" data-demo="dropdown">
-  <button type="button" class="btn" data-variant="outline" data-demo-trigger aria-haspopup="menu" aria-expanded="false">
+      html: `<div class="dropdown-menu">
+  <button type="button" class="btn" data-variant="outline" aria-haspopup="menu" aria-expanded="false">
     Open appearance
   </button>
   <div data-popover data-side="bottom" aria-hidden="true">
@@ -128,8 +128,8 @@ export const dropdownMenuExamples: Example[] = [
     },
     {
       title: "Checkboxes icons",
-      html: `<div class="dropdown-menu" data-demo="dropdown">
-  <button type="button" class="btn" data-variant="outline" data-demo-trigger aria-haspopup="menu" aria-expanded="false">
+      html: `<div class="dropdown-menu">
+  <button type="button" class="btn" data-variant="outline" aria-haspopup="menu" aria-expanded="false">
     Notifications
   </button>
   <div data-popover data-side="bottom" aria-hidden="true" style="min-width: 12rem">
@@ -153,8 +153,8 @@ export const dropdownMenuExamples: Example[] = [
     },
     {
       title: "Radio group",
-      html: `<div class="dropdown-menu" data-demo="dropdown">
-  <button type="button" class="btn" data-variant="outline" data-demo-trigger aria-haspopup="menu" aria-expanded="false">
+      html: `<div class="dropdown-menu">
+  <button type="button" class="btn" data-variant="outline" aria-haspopup="menu" aria-expanded="false">
     Open panel position
   </button>
   <div data-popover data-side="bottom" aria-hidden="true">
@@ -180,8 +180,8 @@ export const dropdownMenuExamples: Example[] = [
     },
     {
       title: "Radio icons",
-      html: `<div class="dropdown-menu" data-demo="dropdown">
-  <button type="button" class="btn" data-variant="outline" data-demo-trigger aria-haspopup="menu" aria-expanded="false">
+      html: `<div class="dropdown-menu">
+  <button type="button" class="btn" data-variant="outline" aria-haspopup="menu" aria-expanded="false">
     Payment method
   </button>
   <div data-popover data-side="bottom" aria-hidden="true" style="min-width: 11rem">
@@ -207,8 +207,8 @@ export const dropdownMenuExamples: Example[] = [
     },
     {
       title: "Destructive",
-      html: `<div class="dropdown-menu" data-demo="dropdown">
-  <button type="button" class="btn" data-variant="outline" data-demo-trigger aria-haspopup="menu" aria-expanded="false">
+      html: `<div class="dropdown-menu">
+  <button type="button" class="btn" data-variant="outline" aria-haspopup="menu" aria-expanded="false">
     Actions
   </button>
   <div data-popover data-side="bottom" aria-hidden="true">
@@ -223,8 +223,8 @@ export const dropdownMenuExamples: Example[] = [
     },
     {
       title: "Avatar",
-      html: `<div class="dropdown-menu" data-demo="dropdown">
-  <button type="button" class="btn" data-variant="ghost" data-size="icon" data-demo-trigger aria-haspopup="menu" aria-expanded="false" aria-label="Open account menu for LR" style="border-radius: var(--radius-full)">
+      html: `<div class="dropdown-menu">
+  <button type="button" class="btn" data-variant="ghost" data-size="icon" aria-haspopup="menu" aria-expanded="false" aria-label="Open account menu for LR" style="border-radius: var(--radius-full)">
     <span class="avatar" aria-hidden="true"><span data-slot="fallback">LR</span></span>
   </button>
   <div data-popover data-side="bottom" data-align="end" aria-hidden="true">
@@ -242,15 +242,15 @@ export const dropdownMenuExamples: Example[] = [
     {
       title: "Right-to-left",
       html: `<div style="display: flex; width: 100%; align-items: flex-start; justify-content: flex-start; min-height: 24rem; padding-top: 1rem" dir="rtl">
-  <div class="dropdown-menu" dir="rtl" lang="ar" data-demo="dropdown">
-    <button type="button" class="btn" data-variant="outline" data-demo-trigger aria-haspopup="menu" aria-expanded="false">
+  <div class="dropdown-menu" dir="rtl" lang="ar">
+    <button type="button" class="btn" data-variant="outline" aria-haspopup="menu" aria-expanded="false">
       افتح القائمة
     </button>
     <div data-popover data-side="bottom" aria-hidden="true" style="min-width: 12rem">
       <div role="menu">
         <div role="heading" aria-level="2">الحساب</div>
         <div role="none">
-          <button type="button" role="menuitem" aria-haspopup="menu" aria-expanded="false" aria-controls="demo-dropdown-rtl-settings" data-demo-menu-trigger>
+          <button type="button" role="menuitem" aria-haspopup="menu" aria-expanded="false" aria-controls="demo-dropdown-rtl-settings">
             ${settings} الإعدادات
             ${submenuIcon}
           </button>

@@ -1,8 +1,8 @@
 # Agent guide
 
 loseta is a copy-paste registry of native CSS components with a documented
-markup contract. The registry is the product; the docs site renders the same
-files consumers install.
+markup contract and optional ESM behavior modules. The registry is the product;
+the docs site renders the same files consumers install.
 
 For "component examples and fixes" requests, start with `EXAMPLES.md`; it is
 the runbook for the workflow, tests and upstream paths.
@@ -34,9 +34,11 @@ and `read`.
 
 - Native CSS only: no Tailwind, CSS-in-JS, preprocessor or framework
   dependency in the registry.
-- The registry is CSS-only: loseta ships styling, not behavior. The docs client
-  demo behavior in `web/src/scripts/docs-client/demo.ts` must not become a
-  registry dependency.
+- CSS never depends on behavior. Behavior modules are optional ESM files:
+  plain JavaScript, JSDoc types, no dependencies, no build step, no framework.
+  `--no-behavior` must always leave a valid CSS-only install.
+- Behavior is source-owned and copy-paste; there is no runtime package. The
+  docs must import the shipped modules, not a parallel implementation.
 - `.sr-only` is the only utility.
 - Class names and tokens are prefix-free.
 - The layer order is fixed: `loseta.tokens`, `loseta.reset`, `loseta.base`,
@@ -47,7 +49,9 @@ and `read`.
 ## Layout
 
 - `packages/loseta/registry/` — published catalog: foundations, primitives,
-  components, Nova style, examples and `registry.json`.
+  components, behavior modules, Nova style, examples and `registry.json`.
+- `packages/loseta/registry/behaviors/` — optional ESM behavior modules.
+  `core.js` and `listbox.js` are support modules; the rest are entry modules.
 - `packages/loseta/src/` — CLI (`init`, `add`, `list`, `style`).
 - `packages/loseta/test/` — CLI tests (`node:test`); keep flag and config
   resolution in testable modules rather than prompt handlers.
@@ -61,14 +65,17 @@ and `read`.
 
 ## Base/style split
 
-Every component and primitive ships two files:
+Every component and primitive ships two CSS files:
 
 - **Base** (`components/`, `primitives/`): anatomy, layout and behavior hooks.
 - **Style** (`styles/<name>/`): color, typography, spacing, radii, surfaces,
   shadows and motion.
 
-Base files may use tokens for structural state semantics (for example invalid
-text or a selected row), but prefer the style file for visual treatment.
+Items that need interaction also ship behavior modules in
+`registry/behaviors/`. Behavior is style-independent: a module is declared once
+per item and never duplicated per style. Base files may use tokens for
+structural state semantics (for example invalid text or a selected row), but
+prefer the style file for visual treatment.
 Dark color values and the `.dark` / `.light` contract: see `DESIGN.md`,
 "Light and dark". Nova is the default style; Vega, Maia, Lyra, Mira, Luma,
 Sera and Rhea ship alongside it.
@@ -83,16 +90,25 @@ rules.
    matching role recipe in `STYLE-GUIDE.md` before changing a style file.
 2. Update the item in `registry.json`: `title`, `description`, `root`, `files`
    (one style file per declared style for stable items, one Nova file for
-   experimental items), dependencies, `status`, `docs` and `examples` as
-   applicable.
-3. Edit example markup in `web/src/data/examples/<item>.ts`. Demo hooks live in
-   `web/src/scripts/docs-client/demo.ts`; use only the hook an example needs to
-   demonstrate behavior, and the generator strips it. `EXAMPLES.md`,
-   "Demo hooks", lists the common hooks.
+   experimental items), `behaviors` (entry and support modules), dependencies,
+   `status`, `docs` and `examples` as applicable.
+3. Edit example markup in `web/src/data/examples/<item>.ts`. Shipped behavior
+   uses public ARIA, slots and the dialog action hooks; the generator keeps
+   those. Docs-only hooks live in `web/src/scripts/docs-client/demo.ts` for
+   components that do not ship behavior yet. `EXAMPLES.md`, "Demo hooks", lists
+   the remaining hooks.
 4. Run `pnpm registry:examples` to regenerate
    `packages/loseta/registry/examples/` and the `examples` fields.
-5. Run `pnpm test` and `pnpm docs:css`. For visual or docs changes, run
-   `pnpm --filter web test:e2e`.
+5. Run `pnpm test` and `pnpm docs:css`. For visual, behavior or docs changes,
+   run `pnpm --filter web test:e2e`.
+
+When adding behavior, add the module under `registry/behaviors/`, declare it in
+`behaviors` with `kind: "entry"` or `"support"`, include `behaviors/core.js` as
+support, and add `web/tests/behaviors/<name>.spec.ts`. The validator requires
+the spec and parses every module as ESM. The docs import the shipped entry
+modules from `web/src/scripts/docs-client/behaviors.ts`; do not add a parallel
+implementation. The fixture route `web/src/pages/fixtures/behaviors.astro`
+renders the public examples for Playwright and is excluded from OG generation.
 
 When adding a component, also add its group and any contract note in
 `web/src/data/components.ts`. Experimental components are published and
@@ -115,9 +131,10 @@ Nova-only until they are promoted.
   `:indeterminate`, `:focus-visible`, `[open]`, `inert`, `aria-invalid`,
   `aria-selected`, `aria-checked`, `aria-pressed`, `aria-current`,
   `aria-disabled`, `aria-expanded`, `aria-hidden`.
-- `data-highlighted` is the only public data-driven state beyond variant, size,
-  orientation, spacing, fit and placement attributes. Express everything else
-  with the hooks above.
+- `data-highlighted` (active option) and transient `data-copied` (copy feedback)
+  are the only public data-driven states beyond variant, size, orientation,
+  spacing, fit and placement attributes. `data-duration` is the toast timer
+  configuration. Express everything else with the hooks above.
 - Name parts with `data-slot` when no semantic element already carries the
   role; prefer `header`, `section`, `footer`, `figure` and `aside` where the
   anatomy provides them.
@@ -126,6 +143,28 @@ Nova-only until they are promoted.
 - No `!important`. Derive transparency with
   `color-mix(in oklab, var(--token) N%, transparent)`; raw palette colors are
   limited to SVG data URIs and the dialog backdrop.
+
+## Behavior rules
+
+- Plain ESM `.js` with `// @ts-check` and JSDoc. No imports outside
+  `registry/behaviors/`, no package imports, no build step, no transpilation.
+- Markup is the source of truth at rest; behavior toggles ARIA, focus,
+  `tabindex`, `hidden`, `inert`, `data-highlighted` and transient
+  `data-copied`. No `data-state`, no new wrappers, no `innerHTML`.
+- Entry modules call `init()` and self-initialize on import; support modules
+  (`core.js`, `listbox.js`) export helpers and never auto-init. Guard SSR with
+  `typeof document`.
+- Use the delegated dispatcher in `core.js`; do not add per-module document
+  listeners. Keep the event contract: `change`, `toggle`, `dismiss`.
+- Behavior must not be required to read static content or the page's own
+  navigation. Overlay panels and selection widgets may be inert without JS.
+- Toast is the only module allowed a scoped `MutationObserver` (inserted
+  toasts). No other observers without a new decision.
+- RTL: horizontal menu arrows follow computed direction; context-menu
+  coordinates stay physical.
+- Every entry module needs a Playwright spec in `web/tests/behaviors/`.
+  Clip-sensitive overlays are tested on the fixture route, not inside
+  `.component-preview`.
 
 ## Generated files
 
@@ -145,13 +184,14 @@ CI fails when either generated artifact differs from the committed files.
 
 ## Verification
 
-`pnpm test` is the default gate: it builds the CLI, validates the registry and
-runs `astro check`.
+`pnpm test` is the default gate: it builds the CLI, validates the registry,
+type-checks the behavior modules and runs `astro check`.
 
 ```bash
 pnpm install
 pnpm test
-pnpm registry:check      # fast registry and CSS validation
+pnpm registry:check      # fast registry, CSS and behavior validation
+pnpm --filter loseta behaviors:check # JSDoc type-check of registry/behaviors
 pnpm cli:smoke           # interactive init prompt smoke test
 pnpm web:dev             # docs at http://localhost:4321
 pnpm --filter web test:e2e
@@ -170,8 +210,9 @@ dependency resolution and cycles, exact layer wrapping, forbidden patterns
 style completeness, the experimental Nova-only rule and CSS parseability. It
 also checks example ID and ARIA-reference integrity, the popover dialog
 contract, the shared overlay recipe and that every component root used by an
-example is declared in `optionalDependencies`. Fix the source rather than
-bypassing it.
+example is declared in `optionalDependencies`. Behavior checks cover target
+declarations, ESM parsing, relative imports, unreferenced modules and a
+Playwright spec for every entry module. Fix the source rather than bypassing it.
 
 For visual work, use Astro's preview lifecycle instead of keeping a server by
 hand: `pnpm --filter web astro preview status`,

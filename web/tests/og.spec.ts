@@ -99,9 +99,10 @@ test("component page exposes Open Graph metadata and serves its image", async ({
 test("every built page has a 1200x630 Open Graph image", async ({ browserName }) => {
   test.skip(browserName !== "chromium", "Build artifact check runs once.");
 
-  const htmlFiles = (await findFiles(distRoot, ".html")).filter(
-    (file) => path.basename(file) !== "404.html"
-  );
+  const htmlFiles = (await findFiles(distRoot, ".html")).filter((file) => {
+    if (path.basename(file) === "404.html") return false;
+    return !path.relative(distRoot, file).startsWith("fixtures/");
+  });
   const imageFiles = [
     ...(await findFiles(path.join(distRoot, "og"), ".png")),
     path.join(distRoot, "og.png")

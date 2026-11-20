@@ -5,9 +5,9 @@ export const menubarExamples: Example[] = [
     {
       title: "Default",
       html: `<div style="display: flex; align-items: flex-start; justify-content: center; min-height: 16rem; padding-top: 1rem">
-  <div class="menubar" role="menubar" aria-label="Main" data-demo="menubar">
+  <div class="menubar" role="menubar" aria-label="Main">
     <div class="menubar-item" role="none">
-      <button type="button" role="menuitem" aria-haspopup="menu" aria-expanded="false" data-demo-menu-trigger>File</button>
+      <button type="button" role="menuitem" aria-haspopup="menu" aria-expanded="false">File</button>
       <div data-popover data-side="bottom" aria-hidden="true">
         <div role="menu">
           <div role="group" aria-label="File">
@@ -17,7 +17,7 @@ export const menubarExamples: Example[] = [
           </div>
           <div role="separator"></div>
           <div role="none">
-            <button type="button" role="menuitem" aria-haspopup="menu" aria-expanded="false" aria-controls="demo-menubar-file-share" data-demo-menu-trigger>
+            <button type="button" role="menuitem" aria-haspopup="menu" aria-expanded="false" aria-controls="demo-menubar-file-share">
               Share
               ${submenuIcon}
             </button>
@@ -35,14 +35,14 @@ export const menubarExamples: Example[] = [
       </div>
     </div>
     <div class="menubar-item" role="none">
-      <button type="button" role="menuitem" aria-haspopup="menu" aria-expanded="false" data-demo-menu-trigger>Edit</button>
+      <button type="button" role="menuitem" aria-haspopup="menu" aria-expanded="false">Edit</button>
       <div data-popover data-side="bottom" aria-hidden="true">
         <div role="menu">
           <button type="button" role="menuitem">Undo <span data-slot="shortcut">⌘Z</span></button>
           <button type="button" role="menuitem">Redo <span data-slot="shortcut">⇧⌘Z</span></button>
           <div role="separator"></div>
           <div role="none">
-            <button type="button" role="menuitem" aria-haspopup="menu" aria-expanded="false" aria-controls="demo-menubar-edit-find" data-demo-menu-trigger>
+            <button type="button" role="menuitem" aria-haspopup="menu" aria-expanded="false" aria-controls="demo-menubar-edit-find">
               Find
               ${submenuIcon}
             </button>
@@ -64,7 +64,7 @@ export const menubarExamples: Example[] = [
       </div>
     </div>
     <div class="menubar-item" role="none">
-      <button type="button" role="menuitem" aria-haspopup="menu" aria-expanded="false" data-demo-menu-trigger>View</button>
+      <button type="button" role="menuitem" aria-haspopup="menu" aria-expanded="false">View</button>
       <div data-popover data-side="bottom" aria-hidden="true">
         <div role="menu">
           <button type="button" role="menuitemcheckbox" aria-checked="false">
@@ -84,7 +84,7 @@ export const menubarExamples: Example[] = [
       </div>
     </div>
     <div class="menubar-item" role="none">
-      <button type="button" role="menuitem" aria-haspopup="menu" aria-expanded="false" data-demo-menu-trigger>Profiles</button>
+      <button type="button" role="menuitem" aria-haspopup="menu" aria-expanded="false">Profiles</button>
       <div data-popover data-side="bottom" aria-hidden="true">
         <div role="menu">
           <div role="group" aria-label="Profiles">
@@ -113,9 +113,9 @@ export const menubarExamples: Example[] = [
     {
       title: "Checkbox",
       html: `<div style="display: flex; align-items: flex-start; justify-content: center; min-height: 16rem; padding-top: 1rem">
-  <div class="menubar" role="menubar" aria-label="Editor" data-demo="menubar">
+  <div class="menubar" role="menubar" aria-label="Editor">
     <div class="menubar-item" role="none">
-      <button type="button" role="menuitem" aria-haspopup="menu" aria-expanded="false" data-demo-menu-trigger>View</button>
+      <button type="button" role="menuitem" aria-haspopup="menu" aria-expanded="false">View</button>
       <div data-popover data-side="bottom" aria-hidden="true">
         <div role="menu">
           <button type="button" role="menuitemcheckbox" aria-checked="false">
@@ -133,7 +133,7 @@ export const menubarExamples: Example[] = [
       </div>
     </div>
     <div class="menubar-item" role="none">
-      <button type="button" role="menuitem" aria-haspopup="menu" aria-expanded="false" data-demo-menu-trigger>Format</button>
+      <button type="button" role="menuitem" aria-haspopup="menu" aria-expanded="false">Format</button>
       <div data-popover data-side="bottom" aria-hidden="true">
         <div role="menu">
           <button type="button" role="menuitemcheckbox" aria-checked="true">
@@ -157,9 +157,9 @@ export const menubarExamples: Example[] = [
     {
       title: "Radio",
       html: `<div style="display: flex; align-items: flex-start; justify-content: center; min-height: 16rem; padding-top: 1rem">
-  <div class="menubar" role="menubar" aria-label="Profile" data-demo="menubar">
+  <div class="menubar" role="menubar" aria-label="Profile">
     <div class="menubar-item" role="none">
-      <button type="button" role="menuitem" aria-haspopup="menu" aria-expanded="false" data-demo-menu-trigger>Profiles</button>
+      <button type="button" role="menuitem" aria-haspopup="menu" aria-expanded="false">Profiles</button>
       <div data-popover data-side="bottom" aria-hidden="true">
         <div role="menu">
           <div role="group" aria-label="Profiles">
@@ -183,7 +183,7 @@ export const menubarExamples: Example[] = [
       </div>
     </div>
     <div class="menubar-item" role="none">
-      <button type="button" role="menuitem" aria-haspopup="menu" aria-expanded="false" data-demo-menu-trigger>Theme</button>
+      <button type="button" role="menuitem" aria-haspopup="menu" aria-expanded="false">Theme</button>
       <div data-popover data-side="bottom" aria-hidden="true">
         <div role="menu">
           <div role="group" aria-label="Theme">
@@ -209,13 +209,13 @@ export const menubarExamples: Example[] = [
     {
       title: "Submenu",
       html: `<div style="display: flex; align-items: flex-start; justify-content: center; min-height: 16rem; padding-top: 1rem">
-  <div class="menubar" role="menubar" aria-label="Main" data-demo="menubar">
+  <div class="menubar" role="menubar" aria-label="Main">
     <div class="menubar-item" role="none">
-      <button type="button" role="menuitem" aria-haspopup="menu" aria-expanded="false" data-demo-menu-trigger>File</button>
+      <button type="button" role="menuitem" aria-haspopup="menu" aria-expanded="false">File</button>
       <div data-popover data-side="bottom" aria-hidden="true">
         <div role="menu">
           <div role="none">
-            <button type="button" role="menuitem" aria-haspopup="menu" aria-expanded="false" aria-controls="demo-menubar-submenu-share" data-demo-menu-trigger>
+            <button type="button" role="menuitem" aria-haspopup="menu" aria-expanded="false" aria-controls="demo-menubar-submenu-share">
               Share
               ${submenuIcon}
             </button>
@@ -233,14 +233,14 @@ export const menubarExamples: Example[] = [
       </div>
     </div>
     <div class="menubar-item" role="none">
-      <button type="button" role="menuitem" aria-haspopup="menu" aria-expanded="false" data-demo-menu-trigger>Edit</button>
+      <button type="button" role="menuitem" aria-haspopup="menu" aria-expanded="false">Edit</button>
       <div data-popover data-side="bottom" aria-hidden="true">
         <div role="menu">
           <button type="button" role="menuitem">Undo <span data-slot="shortcut">⌘Z</span></button>
           <button type="button" role="menuitem">Redo <span data-slot="shortcut">⇧⌘Z</span></button>
           <div role="separator"></div>
           <div role="none">
-            <button type="button" role="menuitem" aria-haspopup="menu" aria-expanded="false" aria-controls="demo-menubar-submenu-find" data-demo-menu-trigger>
+            <button type="button" role="menuitem" aria-haspopup="menu" aria-expanded="false" aria-controls="demo-menubar-submenu-find">
               Find
               ${submenuIcon}
             </button>
@@ -265,9 +265,9 @@ export const menubarExamples: Example[] = [
     {
       title: "With icons",
       html: `<div style="display: flex; align-items: flex-start; justify-content: center; min-height: 16rem; padding-top: 1rem">
-  <div class="menubar" role="menubar" aria-label="Files" data-demo="menubar">
+  <div class="menubar" role="menubar" aria-label="Files">
     <div class="menubar-item" role="none">
-      <button type="button" role="menuitem" aria-haspopup="menu" aria-expanded="false" data-demo-menu-trigger>File</button>
+      <button type="button" role="menuitem" aria-haspopup="menu" aria-expanded="false">File</button>
       <div data-popover data-side="bottom" aria-hidden="true">
         <div role="menu">
           <button type="button" role="menuitem">${file} New File <span data-slot="shortcut">⌘N</span></button>
@@ -278,7 +278,7 @@ export const menubarExamples: Example[] = [
       </div>
     </div>
     <div class="menubar-item" role="none">
-      <button type="button" role="menuitem" aria-haspopup="menu" aria-expanded="false" data-demo-menu-trigger>More</button>
+      <button type="button" role="menuitem" aria-haspopup="menu" aria-expanded="false">More</button>
       <div data-popover data-side="bottom" aria-hidden="true">
         <div role="menu">
           <button type="button" role="menuitem">${settings} Settings</button>
@@ -294,9 +294,9 @@ export const menubarExamples: Example[] = [
     {
       title: "Right-to-left",
       html: `<div style="display: flex; align-items: flex-start; justify-content: center; min-height: 16rem; padding-top: 1rem">
-  <div class="menubar" role="menubar" aria-label="القائمة الرئيسية" dir="rtl" lang="ar" data-demo="menubar">
+  <div class="menubar" role="menubar" aria-label="القائمة الرئيسية" dir="rtl" lang="ar">
     <div class="menubar-item" role="none">
-      <button type="button" role="menuitem" aria-haspopup="menu" aria-expanded="false" data-demo-menu-trigger>ملف</button>
+      <button type="button" role="menuitem" aria-haspopup="menu" aria-expanded="false">ملف</button>
       <div data-popover data-side="bottom" aria-hidden="true">
         <div role="menu">
           <button type="button" role="menuitem">علامة تبويب جديدة <span data-slot="shortcut">⌘T</span></button>
@@ -304,7 +304,7 @@ export const menubarExamples: Example[] = [
           <button type="button" role="menuitem" disabled>نافذة التصفح المتخفي الجديدة</button>
           <div role="separator"></div>
           <div role="none">
-            <button type="button" role="menuitem" aria-haspopup="menu" aria-expanded="false" aria-controls="demo-menubar-rtl-share" data-demo-menu-trigger>
+            <button type="button" role="menuitem" aria-haspopup="menu" aria-expanded="false" aria-controls="demo-menubar-rtl-share">
               مشاركة
               ${submenuIcon}
             </button>
@@ -322,7 +322,7 @@ export const menubarExamples: Example[] = [
       </div>
     </div>
     <div class="menubar-item" role="none">
-      <button type="button" role="menuitem" aria-haspopup="menu" aria-expanded="false" data-demo-menu-trigger>تعديل</button>
+      <button type="button" role="menuitem" aria-haspopup="menu" aria-expanded="false">تعديل</button>
       <div data-popover data-side="bottom" aria-hidden="true">
         <div role="menu">
           <button type="button" role="menuitem">تراجع <span data-slot="shortcut">⌘Z</span></button>
@@ -335,7 +335,7 @@ export const menubarExamples: Example[] = [
       </div>
     </div>
     <div class="menubar-item" role="none">
-      <button type="button" role="menuitem" aria-haspopup="menu" aria-expanded="false" data-demo-menu-trigger>عرض</button>
+      <button type="button" role="menuitem" aria-haspopup="menu" aria-expanded="false">عرض</button>
       <div data-popover data-side="bottom" aria-hidden="true">
         <div role="menu">
           <button type="button" role="menuitemcheckbox" aria-checked="false">
@@ -355,7 +355,7 @@ export const menubarExamples: Example[] = [
       </div>
     </div>
     <div class="menubar-item" role="none">
-      <button type="button" role="menuitem" aria-haspopup="menu" aria-expanded="false" data-demo-menu-trigger>الملفات الشخصية</button>
+      <button type="button" role="menuitem" aria-haspopup="menu" aria-expanded="false">الملفات الشخصية</button>
       <div data-popover data-side="bottom" aria-hidden="true">
         <div role="menu">
           <div role="group" aria-label="الملفات الشخصية">

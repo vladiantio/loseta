@@ -1,4 +1,4 @@
-const demoAttribute = /\sdata-(?:demo(?:-[a-z-]+)?|open-dialog|close-dialog)(?:="[^"]*")?/g;
+const demoAttribute = /\sdata-demo(?:-[a-z-]+)?(?:="[^"]*")?/g;
 
 /**
  * Removes docs-only hooks from example markup. The docs preview keeps the

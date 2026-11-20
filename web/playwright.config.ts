@@ -14,11 +14,24 @@ export default defineConfig({
   projects: [
     {
       name: "chromium",
-      use: { ...devices["Desktop Chrome"] }
+      use: { ...devices["Desktop Chrome"] },
+      testIgnore: /behaviors\/no-js\.spec\.ts/
     },
     {
       name: "webkit",
-      use: { ...devices["Desktop Safari"] }
+      use: { ...devices["Desktop Safari"] },
+      testIgnore: /behaviors\/no-js\.spec\.ts/
+    },
+    {
+      name: "firefox",
+      use: { ...devices["Desktop Firefox"] },
+      testMatch: /behaviors\/.*\.spec\.ts/,
+      testIgnore: /behaviors\/no-js\.spec\.ts/
+    },
+    {
+      name: "no-js",
+      use: { ...devices["Desktop Chrome"], javaScriptEnabled: false },
+      testMatch: /behaviors\/no-js\.spec\.ts/
     }
   ],
   webServer: {

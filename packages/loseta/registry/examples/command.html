@@ -1,10 +1,10 @@
 <!-- Default -->
 <div class="command" style="width: 100%; max-width: 24rem">
   <div class="input-group" role="group" aria-label="Search commands">
-    <input class="input" type="text" placeholder="Type a command..." aria-label="Search commands">
+    <input class="input" type="text" role="combobox" aria-controls="demo-command-listbox-1" aria-expanded="true" aria-autocomplete="list" placeholder="Type a command..." aria-label="Search commands">
     <span data-slot="addon" data-align="inline-start" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg></span>
   </div>
-  <div role="listbox" aria-label="Commands">
+  <div role="listbox" id="demo-command-listbox-1" aria-label="Commands">
     <div role="group" aria-labelledby="demo-command-default-suggestions">
       <div data-slot="label" id="demo-command-default-suggestions">Suggestions</div>
       <div role="option">
@@ -45,7 +45,7 @@
 </div>
 
 <!-- Dialog -->
-<button type="button" class="btn" data-variant="outline">
+<button type="button" class="btn" data-variant="outline" data-open-dialog="demo-command">
   Open command
 </button>
 
@@ -58,10 +58,10 @@
     <section>
       <div class="command">
         <div class="input-group" role="group" aria-label="Search commands">
-          <input class="input" type="text" placeholder="Type a command..." aria-label="Search commands" autofocus>
+          <input class="input" type="text" role="combobox" aria-controls="demo-command-listbox-2" aria-expanded="true" aria-autocomplete="list" placeholder="Type a command..." aria-label="Search commands" autofocus>
           <span data-slot="addon" data-align="inline-start" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg></span>
         </div>
-        <div role="listbox" aria-label="Commands">
+        <div role="listbox" id="demo-command-listbox-2" aria-label="Commands">
           <div role="group" aria-labelledby="command-group-navigation">
             <div data-slot="label" id="command-group-navigation">Navigation</div>
             <div role="option">
@@ -119,7 +119,7 @@
 </dialog>
 
 <!-- Shortcuts -->
-<button type="button" class="btn" data-variant="outline">
+<button type="button" class="btn" data-variant="outline" data-open-dialog="demo-command-shortcuts">
   Open shortcuts
 </button>
 
@@ -132,10 +132,10 @@
     <section>
       <div class="command">
         <div class="input-group" role="group" aria-label="Search shortcuts">
-          <input class="input" type="text" placeholder="Search shortcuts..." aria-label="Search shortcuts" autofocus>
+          <input class="input" type="text" role="combobox" aria-controls="demo-command-listbox-3" aria-expanded="true" aria-autocomplete="list" placeholder="Search shortcuts..." aria-label="Search shortcuts" autofocus>
           <span data-slot="addon" data-align="inline-start" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg></span>
         </div>
-        <div role="listbox" aria-label="Shortcuts">
+        <div role="listbox" id="demo-command-listbox-3" aria-label="Shortcuts">
           <div role="group" aria-labelledby="command-shortcuts-navigation">
             <div data-slot="label" id="command-shortcuts-navigation">Navigation</div>
             <div role="option">
@@ -179,7 +179,7 @@
 </dialog>
 
 <!-- Scrollable -->
-<button type="button" class="btn" data-variant="outline">
+<button type="button" class="btn" data-variant="outline" data-open-dialog="demo-command-scrollable">
   Open all commands
 </button>
 
@@ -192,10 +192,10 @@
     <section>
       <div class="command">
         <div class="input-group" role="group" aria-label="Search commands">
-          <input class="input" type="text" placeholder="Type a command..." aria-label="Search commands" autofocus>
+          <input class="input" type="text" role="combobox" aria-controls="demo-command-listbox-4" aria-expanded="true" aria-autocomplete="list" placeholder="Type a command..." aria-label="Search commands" autofocus>
           <span data-slot="addon" data-align="inline-start" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg></span>
         </div>
-        <div role="listbox" aria-label="Commands">
+        <div role="listbox" id="demo-command-listbox-4" aria-label="Commands">
           <div role="group" aria-labelledby="command-scrollable-navigation">
             <div data-slot="label" id="command-scrollable-navigation">Navigation</div>
             <div role="option"><span data-slot="text">Go home</span><span data-slot="shortcut">⌘H</span></div>
@@ -246,10 +246,10 @@
   <section>
     <div class="command">
       <div class="input-group" role="group" aria-label="Search commands">
-        <input class="input" type="text" placeholder="Type a command..." aria-label="Search commands">
+        <input class="input" type="text" role="combobox" aria-controls="demo-command-listbox-5" aria-expanded="true" aria-autocomplete="list" placeholder="Type a command..." aria-label="Search commands">
         <span data-slot="addon" data-align="inline-start" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg></span>
       </div>
-      <div role="listbox" aria-label="Commands">
+      <div role="listbox" id="demo-command-listbox-5" aria-label="Commands">
         <div role="group" aria-labelledby="command-card-files">
           <div data-slot="label" id="command-card-files">Files</div>
           <div role="option">
@@ -294,10 +294,10 @@
       </header>
       <div class="command">
         <div class="input-group" role="group" aria-label="Search commands">
-          <input class="input" type="text" placeholder="Type a command..." aria-label="Search commands">
+          <input class="input" type="text" role="combobox" aria-controls="demo-command-listbox-6" aria-expanded="true" aria-autocomplete="list" placeholder="Type a command..." aria-label="Search commands">
           <span data-slot="addon" data-align="inline-start" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg></span>
         </div>
-        <div role="listbox" aria-label="Commands">
+        <div role="listbox" id="demo-command-listbox-6" aria-label="Commands">
           <div role="group" aria-labelledby="command-popover-files">
             <div data-slot="label" id="command-popover-files">Files</div>
             <div role="option">
@@ -329,10 +329,10 @@
 <div dir="rtl" lang="ar" style="width: 100%; max-width: 24rem">
   <div class="command">
     <div class="input-group" role="group" aria-label="ابحث عن الأوامر">
-      <input class="input" type="text" placeholder="اكتب أمرًا..." aria-label="ابحث عن الأوامر">
+      <input class="input" type="text" role="combobox" aria-controls="demo-command-listbox-7" aria-expanded="true" aria-autocomplete="list" placeholder="اكتب أمرًا..." aria-label="ابحث عن الأوامر">
       <span data-slot="addon" data-align="inline-start" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg></span>
     </div>
-    <div role="listbox" aria-label="الأوامر">
+    <div role="listbox" id="demo-command-listbox-7" aria-label="الأوامر">
       <div role="group" aria-labelledby="command-rtl-suggestions">
         <div data-slot="label" id="command-rtl-suggestions">اقتراحات</div>
         <div role="option">

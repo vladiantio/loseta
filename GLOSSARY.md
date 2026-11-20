@@ -5,7 +5,8 @@ loseta is a copy-paste registry of native CSS component styles with a documented
 ## Distribution
 
 **Registry**:
-The catalog of installable CSS items that the CLI reads and writes into a project.
+The catalog of installable CSS items and optional behavior modules that the CLI
+reads and writes into a project.
 _Avoid_: package, bundle, library
 
 **Item**:
@@ -83,6 +84,36 @@ _Avoid_: palette entry, color name
 **Color scheme**:
 The light or dark rendering of the same tokens. It follows the OS preference by default; `.dark` or `.light` on any element forces it.
 _Avoid_: theme, mode, appearance
+
+**Behavior module**:
+An optional, copy-paste ESM file that supplies interaction the CSS cannot
+express, such as focus management, keyboard navigation or dismissal.
+_Avoid_: script, runtime, plugin
+
+**Entry module**:
+A behavior module that self-initializes on import and registers delegated
+handlers with `core.js`.
+_Avoid_: controller, initializer
+
+**Support module**:
+A behavior module that exports helpers and never auto-initializes, such as
+`core.js` and `listbox.js`.
+_Avoid_: utility, helper library
+
+**Behavior index**:
+The generated `behaviors/index.js` that imports the installed entry modules so
+the consumer loads one script per page.
+_Avoid_: bundle, manifest, entrypoint
+
+**Action hook**:
+A public attribute that names an imperative action with no semantic carrier,
+currently `data-open-dialog` and `data-close-dialog`.
+_Avoid_: state attribute, behavior attribute
+
+**Demo hook**:
+A `data-demo-*` attribute used only by the docs site; the generator strips it
+from installed examples.
+_Avoid_: public hook, fixture hook
 
 **Registry dependency**:
 A hard dependency that the CLI installs automatically because the item cannot work without it.
@@ -173,6 +204,11 @@ _Avoid_: state API, props
 The transient highlight on the item a menu or listbox-like composite is about
 to activate through keyboard or pointer.
 _Avoid_: active, hovered, focused
+
+**Copied**:
+The transient confirmation state on a copy control, expressed with
+`data-copied` and cleared by the behavior after the feedback interval.
+_Avoid_: copied state, success class
 
 **Pressed**:
 The on state of a toggle button, expressed with `aria-pressed`.

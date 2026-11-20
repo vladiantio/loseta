@@ -95,17 +95,17 @@ const notesBy: Record<string, string> = {
     "Use role=\"group\" with an aria-label on the root. data-orientation=\"horizontal|vertical\" controls the layout; horizontal is the default. Compose buttons, inputs, dropdown-menu, popover or select wrappers, span/label/output text and hr[role=\"separator\"]. Use a toggle-group when the buttons toggle state instead of performing actions.",
   card: "Use data-slot=\"title\", \"description\" and \"action\" for parts. data-size=\"sm\" tightens spacing and data-separator=\"bottom\" adds a header divider. --card-spacing on the root overrides the section gap and inline inset; a direct leading or trailing image runs edge to edge.",
   "code-block":
-    "Use [data-slot=\"actions\"] for copy and wrap controls; it floats when it is a direct child of the root. Add data-line-numbers to the pre; line numbers need explicit [data-slot=\"line\"] elements. Set style=\"--line-start: 42\" to change the first number and data-wrap to wrap long lines. Copy and wrap behavior is consumer JavaScript; the pre is dir=\"ltr\" and focusable. Syntax highlighting is not included; put token spans inside [data-slot=\"line-content\"]. Use footer for controls below the code; Show More needs your own JavaScript.",
+    "Use [data-slot=\"actions\"] for copy and wrap controls; it floats when it is a direct child of the root. Add data-line-numbers to the pre; line numbers need explicit [data-slot=\"line\"] elements. Set style=\"--line-start: 42\" to change the first number and data-wrap to wrap long lines. Copy and wrap controls use the shipped behavior module: [data-slot=\"copy\"] copies the code and [data-slot=\"wrap\"] toggles data-wrap and aria-pressed. The pre is dir=\"ltr\" and focusable. Syntax highlighting is not included; put token spans inside [data-slot=\"line-content\"]. Use footer for controls below the code; Show More needs your own JavaScript.",
   checkbox:
     "The .checkbox class is required. Use native checked/disabled and aria-invalid=\"true\"; set the indeterminate property from JavaScript. Groups compose with .fieldset, a legend and [data-slot=\"checkbox-group\"].",
   dialog:
-    "Uses native <dialog>. CSS only handles presentation and section scrolling; call showModal() and close() from your JavaScript. The close control is a direct child button or form[method=\"dialog\"]; icon-only controls need an accessible label. A section scrolls between the header and footer, and footer data-align=\"start\" moves the actions to the inline start. A scrolling section without focusable content needs role=\"region\", an accessible name and tabindex=\"0\".",
+    "Uses native <dialog>. The shipped behavior opens with data-open-dialog=\"<id>\", closes with data-close-dialog, returns focus to the opener and closes on backdrop click and Escape. The close control is a direct child button or form[method=\"dialog\"]; icon-only controls need an accessible label. A section scrolls between the header and footer, and footer data-align=\"start\" moves the actions to the inline start. A scrolling section without focusable content needs role=\"region\", an accessible name and tabindex=\"0\".",
   "alert-dialog":
     "Uses native <dialog>. CSS only handles presentation; call showModal() and close() from your JavaScript. data-size=\"sm\" on the dialog or panel keeps the narrow layout centered. Put an icon or image in header > figure; data-variant=\"destructive\" tints the figure.",
   "dropdown-menu":
-    "Requires JavaScript for open/close and keyboard navigation. Toggle aria-hidden on [data-popover] and aria-expanded on the trigger. Group labels use role=\"heading\" with aria-level; checkable items use role=\"menuitemcheckbox\" or role=\"menuitemradio\" with aria-checked. A submenu wraps its trigger and nested [data-popover] in a role=\"none\" element; the trigger carries aria-haspopup=\"menu\" and aria-expanded and the panel opens with data-side=\"inline-end\". Shortcuts use [data-slot=\"shortcut\"], indicators [data-slot=\"indicator\"].",
+    "The shipped menu behavior handles open/close, roving focus, typeahead, submenus and checkable items. Toggle aria-hidden on [data-popover] and aria-expanded on the trigger only when you replace it. Group labels use role=\"heading\" with aria-level; checkable items use role=\"menuitemcheckbox\" or role=\"menuitemradio\" with aria-checked. A submenu wraps its trigger and nested [data-popover] in a role=\"none\" element; the trigger carries aria-haspopup=\"menu\" and aria-expanded and the panel opens with data-side=\"inline-end\". Shortcuts use [data-slot=\"shortcut\"], indicators [data-slot=\"indicator\"].",
   popover:
-    "Requires JavaScript for open/close and focus management. The trigger uses aria-haspopup=\"dialog\", aria-expanded and aria-controls; toggle aria-hidden on the panel, name the role=\"dialog\" panel with aria-labelledby (add aria-describedby when it has a description), make the panel focusable with tabindex=\"-1\", move focus into it on open and restore the trigger on close.",
+    "The shipped popover behavior handles open/close, outside dismissal and focus return. The trigger uses aria-haspopup=\"dialog\", aria-expanded and aria-controls; toggle aria-hidden on the panel, name the role=\"dialog\" panel with aria-labelledby (add aria-describedby when it has a description), make the panel focusable with tabindex=\"-1\", move focus into it on open and restore the trigger on close.",
   pagination:
     "Use nav[aria-label=\"pagination\"] and .btn links. The current page uses aria-current=\"page\"; the ellipsis is decorative. Button is optional composition, not a hard dependency.",
   progress:
@@ -113,7 +113,7 @@ const notesBy: Record<string, string> = {
   separator:
     "Use <hr class=\"separator\"> for a semantic horizontal separator. For vertical use <div role=\"separator\" data-orientation=\"vertical\">; decorative separators use role=\"presentation\" or aria-hidden.",
   "context-menu":
-    "CSS cannot follow the pointer. Set --context-x and --context-y on the panel (physical left/top, even in RTL), toggle aria-hidden and manage roving focus. The panel scrolls when it would leave the viewport. Items use role=\"menuitem\", role=\"menuitemcheckbox\" or role=\"menuitemradio\" with aria-checked. A nested menu wraps its trigger and [data-popover] panel in a role=\"none\" element; the sub-trigger carries aria-haspopup=\"menu\" and aria-expanded.",
+    "The shipped menu behavior sets --context-x and --context-y from the pointer (physical left/top, even in RTL), manages focus and closes on Escape or an outside click. The area uses aria-haspopup=\"menu\", aria-controls and tabindex=\"0\". The panel scrolls when it would leave the viewport. Items use role=\"menuitem\", role=\"menuitemcheckbox\" or role=\"menuitemradio\" with aria-checked. A nested menu wraps its trigger and [data-popover] panel in a role=\"none\" element; the sub-trigger carries aria-haspopup=\"menu\" and aria-expanded.",
   calendar:
     "A native table month grid. Day cells use aria-selected; day buttons use aria-current=\"date\" and aria-disabled. Grids with aria-multiselectable=\"true\" mark every day in a range and style selected cells as a continuous band. The header uses [data-slot=\"title\"], or [data-slot=\"caption\"] with native month and year selects inside [data-slot=\"dropdown\"]; week numbers use row headers. Month navigation, selection and keyboard grid movement are consumer JavaScript.",
   carousel:
@@ -123,11 +123,11 @@ const notesBy: Record<string, string> = {
   collapsible:
     "Native <details> with <summary> as the trigger and content directly after it. Use [open] and inert; no JavaScript is required. For exclusive groups, use several details with the same name.",
   combobox:
-    "An input with role=\"combobox\", aria-expanded and aria-controls. The panel is a [data-popover] containing a [role=\"listbox\"]. Add aria-multiselectable=\"true\" for multiple selection. Filtering, selection and keyboard navigation are consumer JavaScript; selected chips are composed with badges.",
+    "An input with role=\"combobox\", aria-expanded and aria-controls. The panel is a [data-popover] containing a [role=\"listbox\"]. Add aria-multiselectable=\"true\" for multiple selection. The shipped behavior filters options, moves the highlight, selects and clears; selected chips stay app-rendered with badges.",
   command:
-    "Content-only: a search field composed with input-group and a listbox of commands. Group labels use [data-slot=\"label\"], dividers use [role=\"separator\"] and the list scrolls at 20rem. Place it inside a dialog, popover or card. Filtering, keyboard navigation and closing on selection are consumer JavaScript. Shortcuts use [data-slot=\"shortcut\"] and stay left-to-right in RTL containers.",
+    "Content-only: a search field composed with input-group and a listbox of commands. Group labels use [data-slot=\"label\"], dividers use [role=\"separator\"] and the list scrolls at 20rem. Place it inside a dialog, popover or card. The shipped behavior filters, highlights and activates the focused command; closing the containing dialog stays app-owned. Shortcuts use [data-slot=\"shortcut\"] and stay left-to-right in RTL containers.",
   drawer:
-    "Native <dialog> with data-side=\"block-end\" or \"block-start\". CSS only handles presentation; call showModal() and close(). The handle is optional [data-slot=\"handle\"]; drag gestures are consumer JavaScript. data-size=\"sm\" and \"lg\" set a 50vh or 90vh height; the default sizes to content up to 80vh. A section scrolls between the header and footer; a scrolling section without focusable content needs role=\"region\", an accessible name and tabindex=\"0\".",
+    "Native <dialog> with data-side=\"block-end\" or \"block-start\". The shipped behavior opens with data-open-dialog=\"<id>\" and closes with data-close-dialog. The handle is optional [data-slot=\"handle\"]; drag gestures are consumer JavaScript. data-size=\"sm\" and \"lg\" set a 50vh or 90vh height; the default sizes to content up to 80vh. A section scrolls between the header and footer; a scrolling section without focusable content needs role=\"region\", an accessible name and tabindex=\"0\".",
   "input-group":
     "role=\"group\" root. Place addons after the input or textarea in the DOM so the control keeps its tab order; data-align=\"inline-start|inline-end|block-start|block-end\" positions them visually and defaults to inline-start. Addons use [data-slot=\"addon\"]; custom controls opt into the group geometry and focus ring with data-slot=\"input-group-control\". The group owns the border, disabled tint and focus ring; inner controls are borderless and addon buttons keep their own focus ring. Clicking an addon does not focus the control; that is consumer JavaScript.",
   "input-otp":
@@ -135,7 +135,7 @@ const notesBy: Record<string, string> = {
   "scroll-area":
     "Put .scroll-area on the scroll container and size it with your own layout or inline styles. Native scrollbars follow the --scrollbar-* tokens; data-orientation limits the axis and data-size=\"sm\" narrows the scrollbar. A scrollable region needs tabindex=\"0\" and an accessible name.",
   select:
-    "A button with role=\"combobox\", aria-haspopup=\"listbox\", aria-expanded and aria-controls. The panel is a [data-popover] containing a [role=\"listbox\"] and caps at 18rem with vertical scrolling. Single-select only. Group options with [role=\"group\"] and [data-slot=\"label\"]; dividers are [role=\"separator\"] marked aria-hidden. data-size=\"sm\" shrinks the trigger and aria-invalid=\"true\" marks it invalid. Open/close, selection and keyboard navigation are consumer JavaScript; update [data-slot=\"value\"] and remove data-placeholder when a value is selected.",
+    "A button with role=\"combobox\", aria-haspopup=\"listbox\", aria-expanded and aria-controls. The panel is a [data-popover] containing a [role=\"listbox\"] and caps at 18rem with vertical scrolling. Single-select only. Group options with [role=\"group\"] and [data-slot=\"label\"]; dividers are [role=\"separator\"] marked aria-hidden. data-size=\"sm\" shrinks the trigger and aria-invalid=\"true\" marks it invalid. The shipped behavior opens the panel, moves the highlight, selects, updates [data-slot=\"value\"] and [data-slot=\"input\"], and removes data-placeholder.",
   resizable:
     "Flex layout with panels sized by --panel-size flex-grow. Handles use role=\"separator\" with aria-orientation and aria-valuenow/min/max; drag and keyboard resizing are consumer JavaScript.",
   sidebar:
@@ -147,15 +147,15 @@ const notesBy: Record<string, string> = {
   marker:
     "Use data-variant=\"separator\" for a divider and \"border\" for a trailing rule. The icon is decorative; put the status in the content text and use role=\"status\" for live updates.",
   menubar:
-    "role=\"menubar\" with .menubar-item wrappers (role=\"none\"). Each trigger is role=\"menuitem\" with aria-haspopup=\"menu\" and aria-expanded; panels are [data-popover] with [role=\"menu\"]. Nested submenus use a role=\"none\" wrapper inside the menu and data-side=\"inline-end\" panels. Roving focus and arrow keys are consumer JavaScript; there is no built-in mobile layout.",
+    "role=\"menubar\" with .menubar-item wrappers (role=\"none\"). Each trigger is role=\"menuitem\" with aria-haspopup=\"menu\" and aria-expanded; panels are [data-popover] with [role=\"menu\"]. Nested submenus use a role=\"none\" wrapper inside the menu and data-side=\"inline-end\" panels. The shipped menu behavior provides roving focus, arrow keys and hover switching while a menu is open; there is no built-in mobile layout.",
   "navigation-menu":
-    "nav > ul > li. Triggers use aria-expanded and aria-controls; panels are [data-popover] with links. Link parts use [data-slot=\"icon\"], [data-slot=\"title\"] and [data-slot=\"description\"]. The trigger chevron rotates while expanded. Open/close and keyboard navigation are consumer JavaScript; there is no built-in mobile layout.",
+    "nav > ul > li. Triggers use aria-expanded and aria-controls; panels are [data-popover] with links. Link parts use [data-slot=\"icon\"], [data-slot=\"title\"] and [data-slot=\"description\"]. The trigger chevron rotates while expanded. The shipped menu behavior opens and closes panels and supports ArrowDown, Escape and Tab; there is no built-in mobile layout.",
   sheet:
-    "Native <dialog> with data-side=\"inline-start|inline-end\" for side sheets or \"block-start|block-end\" for top and bottom sheets. CSS only handles presentation; call showModal() and close(). Use header/section/footer inside the panel. data-size sm/default/lg changes the width, or the height on a top or bottom sheet. The optional close control is a direct child form[method=\"dialog\"] wrapping an icon .btn; give it an accessible label. A section scrolls between the header and footer.",
+    "Native <dialog> with data-side=\"inline-start|inline-end\" for side sheets or \"block-start|block-end\" for top and bottom sheets. The shipped behavior opens with data-open-dialog=\"<id>\" and closes with data-close-dialog. Use header/section/footer inside the panel. data-size sm/default/lg changes the width, or the height on a top or bottom sheet. The optional close control is a direct child form[method=\"dialog\"] wrapping an icon .btn; give it an accessible label. A section scrolls between the header and footer.",
   spinner:
     "The spinner is a span; add role=\"status\" and a .sr-only label for standalone use. data-size picks sm, default or lg. Motion slows under prefers-reduced-motion.",
   tabs:
-    "Requires JavaScript to switch aria-selected and the hidden attribute. CSS styles the visual states.",
+    "The shipped behavior switches aria-selected, roving tabindex and the hidden attribute with automatic activation. CSS styles the visual states.",
   toggle:
     "Use a button with aria-pressed=\"true|false\". CSS styles aria-pressed, not a data-state alias. data-variant=\"outline\" and data-size=\"sm|lg\" are optional. Pair an icon with visible text; icon-only toggles need an aria-label and a decorative SVG with aria-hidden=\"true\".",
   "toggle-group":
@@ -172,7 +172,7 @@ const notesBy: Record<string, string> = {
   textarea:
     "Pair every textarea with a label; a placeholder is not a label. Use native required and disabled states and aria-invalid=\"true\" for the invalid state. Compose labels and descriptions with .field. The control grows with its content and resizes vertically by default.",
   toast:
-    "Wrap toasts in .toaster for fixed positioning. Items use role=\"status\" or role=\"alert\"; timing and dismissal are consumer JavaScript. Sonner is a compatibility note, not a registry item; keep the toast markup and add Sonner in consumer code when you need its queue.",
+    "Wrap toasts in .toaster for fixed positioning. Items use role=\"status\" or role=\"alert\"; the shipped behavior auto-dismisses after 5000ms (data-duration overrides it), pauses on hover/focus and dismisses from [data-slot=\"close\"]. Sonner is a compatibility note, not a registry item; keep the toast markup and add Sonner in consumer code when you need its queue.",
   message:
     "A presentational row. Avatar, header, content and footer use data-slot; data-align=\"start|end\" controls the side. Compose the surface with bubble and give a message group an accessible name.",
   "message-scroller":
@@ -214,6 +214,11 @@ export interface ComponentDoc {
     title: string;
     html: string;
   }[];
+  behaviors: {
+    path: string;
+    target: string;
+    kind: string;
+  }[];
   notes: string[];
 }
 
@@ -233,6 +238,7 @@ export const components: ComponentDoc[] = registry.items
     optional: item.optionalDependencies ?? [],
     files: item.files,
     examples: examples[item.name] ?? [],
+    behaviors: item.behaviors ?? [],
     notes: notesBy[item.name] ? [notesBy[item.name]] : []
   }))
   .sort((a, b) => a.title.localeCompare(b.title));

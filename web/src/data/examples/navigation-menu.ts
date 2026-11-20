@@ -5,10 +5,10 @@ export const navigationMenuExamples: Example[] = [
     {
       title: "Default",
       html: `<div style="display: flex; width: 100%; align-items: flex-start; justify-content: flex-start; min-height: 20rem; padding-top: 1rem">
-  <nav class="navigation-menu" aria-label="Main" data-demo="navigation-menu">
+  <nav class="navigation-menu" aria-label="Main">
     <ul>
       <li>
-        <button type="button" aria-expanded="false" aria-controls="demo-nav-starting" data-demo-menu-trigger>
+        <button type="button" aria-expanded="false" aria-controls="demo-nav-starting">
           Getting started
           ${chevronDown}
         </button>
@@ -36,7 +36,7 @@ export const navigationMenuExamples: Example[] = [
         </div>
       </li>
       <li>
-        <button type="button" aria-expanded="false" aria-controls="demo-nav-components" data-demo-menu-trigger>
+        <button type="button" aria-expanded="false" aria-controls="demo-nav-components">
           Components
           ${chevronDown}
         </button>
@@ -89,10 +89,10 @@ export const navigationMenuExamples: Example[] = [
     {
       title: "With icons",
       html: `<div style="display: flex; justify-content: center; min-height: 16rem; padding-top: 1rem">
-  <nav class="navigation-menu" aria-label="Task views" data-demo="navigation-menu">
+  <nav class="navigation-menu" aria-label="Task views">
     <ul>
       <li>
-        <button type="button" aria-expanded="false" aria-controls="demo-nav-status" data-demo-menu-trigger>
+        <button type="button" aria-expanded="false" aria-controls="demo-nav-status">
           Status
           ${chevronDown}
         </button>
@@ -127,10 +127,10 @@ export const navigationMenuExamples: Example[] = [
     {
       title: "Links",
       html: `<div style="display: flex; justify-content: center; min-height: 16rem; padding-top: 1rem">
-  <nav class="navigation-menu" aria-label="Resources" data-demo="navigation-menu">
+  <nav class="navigation-menu" aria-label="Resources">
     <ul>
       <li>
-        <button type="button" aria-expanded="false" aria-controls="demo-nav-resources" data-demo-menu-trigger>
+        <button type="button" aria-expanded="false" aria-controls="demo-nav-resources">
           Resources
           ${chevronDown}
         </button>
@@ -151,10 +151,10 @@ export const navigationMenuExamples: Example[] = [
     {
       title: "Right-to-left",
       html: `<div style="display: flex; justify-content: center; min-height: 20rem; padding-top: 1rem">
-  <nav class="navigation-menu" aria-label="القائمة الرئيسية" dir="rtl" lang="ar" data-demo="navigation-menu">
+  <nav class="navigation-menu" aria-label="القائمة الرئيسية" dir="rtl" lang="ar">
     <ul>
       <li>
-        <button type="button" aria-expanded="false" aria-controls="demo-nav-rtl-start" data-demo-menu-trigger>
+        <button type="button" aria-expanded="false" aria-controls="demo-nav-rtl-start">
           البدء
           ${chevronDown}
         </button>
@@ -182,7 +182,7 @@ export const navigationMenuExamples: Example[] = [
         </div>
       </li>
       <li>
-        <button type="button" aria-expanded="false" aria-controls="demo-nav-rtl-components" data-demo-menu-trigger>
+        <button type="button" aria-expanded="false" aria-controls="demo-nav-rtl-components">
           المكونات
           ${chevronDown}
         </button>

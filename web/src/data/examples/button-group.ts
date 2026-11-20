@@ -78,7 +78,7 @@ export const buttonGroupExamples: Example[] = [
       html: `<div class="btn-group" role="group" aria-label="Conversation actions">
   <button type="button" class="btn" data-variant="outline">Follow</button>
   <div class="dropdown-menu" data-demo="dropdown">
-    <button type="button" class="btn" data-variant="outline" data-size="icon" data-demo-trigger aria-haspopup="menu" aria-expanded="false" aria-label="More conversation actions">${chevronDown}</button>
+    <button type="button" class="btn" data-variant="outline" data-size="icon" aria-haspopup="menu" aria-expanded="false" aria-label="More conversation actions">${chevronDown}</button>
     <div data-popover data-side="bottom" data-align="end" aria-hidden="true" style="width: 11rem">
       <div role="menu">
         <button type="button" role="menuitem">Mute conversation</button>
@@ -96,10 +96,10 @@ export const buttonGroupExamples: Example[] = [
       html: `<div class="btn-group" role="group" aria-label="Copilot">
   <button type="button" class="btn" data-variant="outline">${bot}Copilot</button>
   <div class="popover" data-demo="popover">
-    <button type="button" class="btn" data-variant="outline" data-size="icon" data-demo-trigger aria-expanded="false" aria-label="Start a new task">${chevronDown}</button>
-    <div data-popover data-side="bottom" data-align="end" aria-hidden="true">
+    <button type="button" class="btn" data-variant="outline" data-size="icon" aria-haspopup="dialog" aria-expanded="false" aria-controls="demo-button-group-task-panel" aria-label="Start a new task">${chevronDown}</button>
+    <div data-popover data-side="bottom" data-align="end" id="demo-button-group-task-panel" role="dialog" tabindex="-1" aria-hidden="true" aria-labelledby="demo-button-group-task-title">
       <header>
-        <h3 data-slot="title">Start a new task</h3>
+        <h3 data-slot="title" id="demo-button-group-task-title">Start a new task</h3>
         <p data-slot="description">Describe your task in natural language.</p>
       </header>
       <div class="field">
@@ -115,21 +115,21 @@ export const buttonGroupExamples: Example[] = [
       html: `<div class="btn-group" role="group" aria-label="Send amount">
   <div class="btn-group" role="group" aria-label="Amount">
     <div class="select" data-demo="select">
-      <button type="button" role="combobox" aria-haspopup="listbox" aria-expanded="false" aria-controls="demo-button-group-currency" aria-label="Currency" data-demo-select-trigger>
+      <button type="button" role="combobox" aria-haspopup="listbox" aria-expanded="false" aria-controls="demo-button-group-currency" aria-label="Currency">
         <span data-slot="value">$</span>
         ${chevronDown}
       </button>
       <div data-popover data-side="bottom" aria-hidden="true" id="demo-button-group-currency">
         <div role="listbox" aria-label="Currency">
-          <div role="option" aria-selected="true" aria-label="US Dollar" data-demo-option>
+          <div role="option" aria-selected="true" aria-label="US Dollar">
             <span data-slot="text">$</span>
             <span data-slot="indicator" aria-hidden="true">✓</span>
           </div>
-          <div role="option" aria-selected="false" aria-label="Euro" data-demo-option>
+          <div role="option" aria-selected="false" aria-label="Euro">
             <span data-slot="text">€</span>
             <span data-slot="indicator" aria-hidden="true">✓</span>
           </div>
-          <div role="option" aria-selected="false" aria-label="British Pound" data-demo-option>
+          <div role="option" aria-selected="false" aria-label="British Pound">
             <span data-slot="text">£</span>
             <span data-slot="indicator" aria-hidden="true">✓</span>
           </div>

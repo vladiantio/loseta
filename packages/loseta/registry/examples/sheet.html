@@ -1,5 +1,5 @@
 <!-- Default -->
-<button type="button" class="btn" data-variant="outline">
+<button type="button" class="btn" data-variant="outline" data-open-dialog="demo-sheet-default">
   Open sheet
 </button>
 
@@ -22,8 +22,8 @@
       </div>
     </section>
     <footer>
-      <button type="button" class="btn" data-variant="outline">Cancel</button>
-      <button type="button" class="btn">Save changes</button>
+      <button type="button" class="btn" data-variant="outline" data-close-dialog>Cancel</button>
+      <button type="button" class="btn" data-close-dialog>Save changes</button>
     </footer>
     <form method="dialog">
       <button class="btn" data-variant="ghost" data-size="icon-sm" aria-label="Close"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></button>
@@ -33,10 +33,10 @@
 
 <!-- Sides -->
 <div style="display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 0.5rem">
-  <button type="button" class="btn" data-variant="outline" data-size="sm">Top</button>
-  <button type="button" class="btn" data-variant="outline" data-size="sm">Right</button>
-  <button type="button" class="btn" data-variant="outline" data-size="sm">Bottom</button>
-  <button type="button" class="btn" data-variant="outline" data-size="sm">Left</button>
+  <button type="button" class="btn" data-variant="outline" data-size="sm" data-open-dialog="demo-sheet-side-top">Top</button>
+  <button type="button" class="btn" data-variant="outline" data-size="sm" data-open-dialog="demo-sheet-side-right">Right</button>
+  <button type="button" class="btn" data-variant="outline" data-size="sm" data-open-dialog="demo-sheet-side-bottom">Bottom</button>
+  <button type="button" class="btn" data-variant="outline" data-size="sm" data-open-dialog="demo-sheet-side-left">Left</button>
 </div>
 
 <dialog class="sheet" id="demo-sheet-side-top" data-side="block-start" aria-labelledby="sheet-side-top-title">
@@ -49,7 +49,7 @@
       <p>Use a top sheet for a short announcement or a wide filter bar.</p>
     </section>
     <footer>
-      <button type="button" class="btn" data-variant="outline">Close</button>
+      <button type="button" class="btn" data-variant="outline" data-close-dialog>Close</button>
     </footer>
     <form method="dialog">
       <button class="btn" data-variant="ghost" data-size="icon-sm" aria-label="Close top sheet"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></button>
@@ -67,7 +67,7 @@
       <p>Use a side sheet for details that complement the page.</p>
     </section>
     <footer>
-      <button type="button" class="btn" data-variant="outline">Close</button>
+      <button type="button" class="btn" data-variant="outline" data-close-dialog>Close</button>
     </footer>
     <form method="dialog">
       <button class="btn" data-variant="ghost" data-size="icon-sm" aria-label="Close right sheet"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></button>
@@ -85,7 +85,7 @@
       <p>Use a bottom sheet for actions that relate to the current view.</p>
     </section>
     <footer>
-      <button type="button" class="btn" data-variant="outline">Close</button>
+      <button type="button" class="btn" data-variant="outline" data-close-dialog>Close</button>
     </footer>
     <form method="dialog">
       <button class="btn" data-variant="ghost" data-size="icon-sm" aria-label="Close bottom sheet"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></button>
@@ -103,7 +103,7 @@
       <p>Use a left sheet for navigation or secondary controls.</p>
     </section>
     <footer>
-      <button type="button" class="btn" data-variant="outline">Close</button>
+      <button type="button" class="btn" data-variant="outline" data-close-dialog>Close</button>
     </footer>
     <form method="dialog">
       <button class="btn" data-variant="ghost" data-size="icon-sm" aria-label="Close left sheet"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></button>
@@ -112,7 +112,7 @@
 </dialog>
 
 <!-- No close button -->
-<button type="button" class="btn" data-variant="outline">
+<button type="button" class="btn" data-variant="outline" data-open-dialog="demo-sheet-no-close">
   Open sheet without close
 </button>
 
@@ -126,13 +126,13 @@
       <p>Omit the close form when the footer already provides a clear exit.</p>
     </section>
     <footer>
-      <button type="button" class="btn">Close</button>
+      <button type="button" class="btn" data-close-dialog>Close</button>
     </footer>
   </div>
 </dialog>
 
 <!-- Scrollable content -->
-<button type="button" class="btn" data-variant="outline">
+<button type="button" class="btn" data-variant="outline" data-open-dialog="demo-sheet-scrollable">
   Open scrollable sheet
 </button>
 
@@ -153,7 +153,7 @@
       <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
     </section>
     <footer>
-      <button type="button" class="btn" data-variant="outline">Close</button>
+      <button type="button" class="btn" data-variant="outline" data-close-dialog>Close</button>
     </footer>
     <form method="dialog">
       <button class="btn" data-variant="ghost" data-size="icon-sm" aria-label="Close scrollable sheet"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></button>
@@ -162,7 +162,7 @@
 </dialog>
 
 <!-- Left, small -->
-<button type="button" class="btn" data-variant="outline">
+<button type="button" class="btn" data-variant="outline" data-open-dialog="demo-sheet-left">
   Open left sheet
 </button>
 
@@ -175,7 +175,7 @@
       <p>Use the left sheet for navigation or secondary controls.</p>
     </section>
     <footer>
-      <button type="button" class="btn" data-variant="outline">Close</button>
+      <button type="button" class="btn" data-variant="outline" data-close-dialog>Close</button>
     </footer>
     <form method="dialog">
       <button class="btn" data-variant="ghost" data-size="icon-sm" aria-label="Close left sheet"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></button>
@@ -184,7 +184,7 @@
 </dialog>
 
 <!-- Large -->
-<button type="button" class="btn" data-variant="outline">
+<button type="button" class="btn" data-variant="outline" data-open-dialog="demo-sheet-large">
   Open large sheet
 </button>
 
@@ -201,8 +201,8 @@
       </div>
     </section>
     <footer>
-      <button type="button" class="btn" data-variant="outline">Reset</button>
-      <button type="button" class="btn">Apply</button>
+      <button type="button" class="btn" data-variant="outline" data-close-dialog>Reset</button>
+      <button type="button" class="btn" data-close-dialog>Apply</button>
     </footer>
     <form method="dialog">
       <button class="btn" data-variant="ghost" data-size="icon-sm" aria-label="Close large sheet"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></button>
@@ -212,7 +212,7 @@
 
 <!-- Right-to-left -->
 <div dir="rtl" lang="ar">
-  <button type="button" class="btn" data-variant="outline">
+  <button type="button" class="btn" data-variant="outline" data-open-dialog="demo-sheet-rtl">
     فتح اللوحة
   </button>
 
@@ -229,8 +229,8 @@
         </div>
       </section>
       <footer>
-        <button type="button" class="btn" data-variant="outline">إلغاء</button>
-        <button type="button" class="btn">حفظ التغييرات</button>
+        <button type="button" class="btn" data-variant="outline" data-close-dialog>إلغاء</button>
+        <button type="button" class="btn" data-close-dialog>حفظ التغييرات</button>
       </footer>
       <form method="dialog">
         <button class="btn" data-variant="ghost" data-size="icon-sm" aria-label="إغلاق"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></button>

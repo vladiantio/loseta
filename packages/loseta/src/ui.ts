@@ -6,7 +6,10 @@ export function printItems(items: RegistryItem[]): void {
   for (const item of items) {
     const name = pc.cyan(item.name.padEnd(18));
     const kind = pc.dim(item.type.padEnd(11));
-    console.log(`${name} ${kind} ${item.description}`);
+    const behavior = (item.behaviors ?? []).some((entry) => entry.kind === "entry")
+      ? pc.green("js")
+      : pc.dim("  ");
+    console.log(`${name} ${kind} ${behavior} ${item.description}`);
   }
 }
 

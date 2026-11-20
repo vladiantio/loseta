@@ -1,3 +1,4 @@
+import "./behaviors";
 import { componentPreview } from "./component-preview";
 import { controls } from "./controls";
 import { mountDemo } from "./demo";

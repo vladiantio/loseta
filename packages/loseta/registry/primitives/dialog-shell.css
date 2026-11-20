@@ -121,4 +121,9 @@
       max-height: var(--drawer-height, 80vh);
     }
   }
+
+  html:has(dialog[open]) {
+    overflow: hidden;
+    scrollbar-gutter: stable;
+  }
 }

@@ -1,6 +1,6 @@
 {
   "name": "loseta",
-  "version": "0.17.0",
+  "version": "0.18.0",
   "description": "Native CSS component scaffolds with the shadcn feel.",
   "type": "module",
   "license": "MIT",
@@ -41,10 +41,11 @@
     "smoke": "bash scripts/smoke-init.sh",
     "validate": "node scripts/validate-registry.mjs",
     "examples": "tsx scripts/generate-examples.ts",
-    "check": "pnpm build && pnpm validate",
+    "check": "pnpm build && pnpm validate && pnpm behaviors:check",
     "test": "tsx --test test/*.test.ts",
     "prepack": "pnpm build",
-    "prepublishOnly": "pnpm validate"
+    "prepublishOnly": "pnpm validate",
+    "behaviors:check": "tsc -p tsconfig.behaviors.json"
   },
   "dependencies": {
     "@clack/prompts": "^1.8.1",

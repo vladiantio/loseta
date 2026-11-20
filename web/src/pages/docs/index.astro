@@ -71,9 +71,10 @@ src/styles/loseta/
     />
 
     <div class="docs-callout">
-      <strong>CSS only.</strong> Components that need interaction, such as dropdown menus and tabs,
-      document the required state contract but do not ship JavaScript. The docs demos use a small
-      demo-only script to keep the examples interactive.
+      <strong>CSS-first.</strong> Components that need interaction ship optional ESM behavior
+      modules alongside the CSS; <code>--no-behavior</code> keeps the CSS-only install. The docs
+      run the shipped modules directly, so the examples exercise the same files consumers install.
+      <a href="/docs/behavior">Read the behavior contract</a>.
     </div>
   </div>
 </Layout>

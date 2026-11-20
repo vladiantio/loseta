@@ -8,6 +8,25 @@
     flex-direction: column;
     overflow: hidden;
 
+    [data-slot='copy-icon'],
+    [data-slot='check-icon'] {
+      display: inline-flex;
+    }
+
+    [data-slot='check-icon'] {
+      display: none;
+    }
+
+    [data-slot='copy'][data-copied] {
+      [data-slot='copy-icon'] {
+        display: none;
+      }
+
+      [data-slot='check-icon'] {
+        display: inline-flex;
+      }
+    }
+
     > header {
       display: flex;
       min-width: 0;

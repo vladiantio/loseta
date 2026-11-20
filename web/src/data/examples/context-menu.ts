@@ -4,9 +4,9 @@ import { check, clipboardPaste, copy, pencil, scissors, share, submenuIcon, tras
 export const contextMenuExamples: Example[] = [
     {
       title: "Default",
-      html: `<div data-demo="context-menu" data-demo-context style="display: grid; place-items: center; min-height: 10rem; border: 1px dashed var(--border); border-radius: var(--radius-lg)">
+      html: `<div tabindex="0" aria-haspopup="menu" aria-controls="demo-context-1" style="display: grid; place-items: center; min-height: 10rem; border: 1px dashed var(--border); border-radius: var(--radius-lg)">
   <p>Right-click anywhere in this area.</p>
-  <div class="context-menu" role="menu" aria-hidden="true" style="--context-x: 0px; --context-y: 0px">
+  <div class="context-menu" id="demo-context-1" role="menu" aria-hidden="true" style="--context-x: 0px; --context-y: 0px">
     <button type="button" role="menuitem">Profile</button>
     <button type="button" role="menuitem">Billing</button>
     <button type="button" role="menuitem">Team</button>
@@ -16,13 +16,13 @@ export const contextMenuExamples: Example[] = [
     },
     {
       title: "Submenu",
-      html: `<div data-demo="context-menu" data-demo-context style="display: grid; place-items: center; min-height: 10rem; border: 1px dashed var(--border); border-radius: var(--radius-lg)">
+      html: `<div tabindex="0" aria-haspopup="menu" aria-controls="demo-context-2" style="display: grid; place-items: center; min-height: 10rem; border: 1px dashed var(--border); border-radius: var(--radius-lg)">
   <p>Right-click anywhere in this area.</p>
-  <div class="context-menu" role="menu" aria-hidden="true" style="--context-x: 0px; --context-y: 0px">
+  <div class="context-menu" id="demo-context-2" role="menu" aria-hidden="true" style="--context-x: 0px; --context-y: 0px">
     <button type="button" role="menuitem">Copy <span data-slot="shortcut">⌘C</span></button>
     <button type="button" role="menuitem">Cut <span data-slot="shortcut">⌘X</span></button>
     <div role="none">
-      <button type="button" role="menuitem" aria-haspopup="menu" aria-expanded="false" aria-controls="demo-context-submenu-more" data-demo-menu-trigger>
+      <button type="button" role="menuitem" aria-haspopup="menu" aria-expanded="false" aria-controls="demo-context-submenu-more">
         More tools
         ${submenuIcon}
       </button>
@@ -43,9 +43,9 @@ export const contextMenuExamples: Example[] = [
     },
     {
       title: "Shortcuts",
-      html: `<div data-demo="context-menu" data-demo-context style="display: grid; place-items: center; min-height: 10rem; border: 1px dashed var(--border); border-radius: var(--radius-lg)">
+      html: `<div tabindex="0" aria-haspopup="menu" aria-controls="demo-context-3" style="display: grid; place-items: center; min-height: 10rem; border: 1px dashed var(--border); border-radius: var(--radius-lg)">
   <p>Right-click anywhere in this area.</p>
-  <div class="context-menu" role="menu" aria-hidden="true" style="--context-x: 0px; --context-y: 0px">
+  <div class="context-menu" id="demo-context-3" role="menu" aria-hidden="true" style="--context-x: 0px; --context-y: 0px">
     <button type="button" role="menuitem">Back <span data-slot="shortcut">⌘[</span></button>
     <button type="button" role="menuitem" disabled>Forward <span data-slot="shortcut">⌘]</span></button>
     <button type="button" role="menuitem">Reload <span data-slot="shortcut">⌘R</span></button>
@@ -57,9 +57,9 @@ export const contextMenuExamples: Example[] = [
     },
     {
       title: "Groups",
-      html: `<div data-demo="context-menu" data-demo-context style="display: grid; place-items: center; min-height: 10rem; border: 1px dashed var(--border); border-radius: var(--radius-lg)">
+      html: `<div tabindex="0" aria-haspopup="menu" aria-controls="demo-context-4" style="display: grid; place-items: center; min-height: 10rem; border: 1px dashed var(--border); border-radius: var(--radius-lg)">
   <p>Right-click anywhere in this area.</p>
-  <div class="context-menu" role="menu" aria-hidden="true" style="--context-x: 0px; --context-y: 0px">
+  <div class="context-menu" id="demo-context-4" role="menu" aria-hidden="true" style="--context-x: 0px; --context-y: 0px">
     <div role="group" aria-label="File">
       <div role="heading" aria-level="2">File</div>
       <button type="button" role="menuitem">New file <span data-slot="shortcut">⌘N</span></button>
@@ -85,9 +85,9 @@ export const contextMenuExamples: Example[] = [
     },
     {
       title: "Icons",
-      html: `<div data-demo="context-menu" data-demo-context style="display: grid; place-items: center; min-height: 10rem; border: 1px dashed var(--border); border-radius: var(--radius-lg)">
+      html: `<div tabindex="0" aria-haspopup="menu" aria-controls="demo-context-5" style="display: grid; place-items: center; min-height: 10rem; border: 1px dashed var(--border); border-radius: var(--radius-lg)">
   <p>Right-click anywhere in this area.</p>
-  <div class="context-menu" role="menu" aria-hidden="true" style="--context-x: 0px; --context-y: 0px">
+  <div class="context-menu" id="demo-context-5" role="menu" aria-hidden="true" style="--context-x: 0px; --context-y: 0px">
     <button type="button" role="menuitem">${copy} Copy</button>
     <button type="button" role="menuitem">${scissors} Cut</button>
     <button type="button" role="menuitem">${clipboardPaste} Paste</button>
@@ -98,9 +98,9 @@ export const contextMenuExamples: Example[] = [
     },
     {
       title: "Checkboxes",
-      html: `<div data-demo="context-menu" data-demo-context style="display: grid; place-items: center; min-height: 10rem; border: 1px dashed var(--border); border-radius: var(--radius-lg)">
+      html: `<div tabindex="0" aria-haspopup="menu" aria-controls="demo-context-6" style="display: grid; place-items: center; min-height: 10rem; border: 1px dashed var(--border); border-radius: var(--radius-lg)">
   <p>Right-click anywhere in this area.</p>
-  <div class="context-menu" role="menu" aria-hidden="true" style="--context-x: 0px; --context-y: 0px">
+  <div class="context-menu" id="demo-context-6" role="menu" aria-hidden="true" style="--context-x: 0px; --context-y: 0px">
     <button type="button" role="menuitemcheckbox" aria-checked="true">
       Show bookmarks bar
       <span data-slot="indicator" aria-hidden="true">${check}</span>
@@ -118,9 +118,9 @@ export const contextMenuExamples: Example[] = [
     },
     {
       title: "Radio",
-      html: `<div data-demo="context-menu" data-demo-context style="display: grid; place-items: center; min-height: 10rem; border: 1px dashed var(--border); border-radius: var(--radius-lg)">
+      html: `<div tabindex="0" aria-haspopup="menu" aria-controls="demo-context-7" style="display: grid; place-items: center; min-height: 10rem; border: 1px dashed var(--border); border-radius: var(--radius-lg)">
   <p>Right-click anywhere in this area.</p>
-  <div class="context-menu" role="menu" aria-hidden="true" style="--context-x: 0px; --context-y: 0px">
+  <div class="context-menu" id="demo-context-7" role="menu" aria-hidden="true" style="--context-x: 0px; --context-y: 0px">
     <div role="group" aria-label="People">
       <div role="heading" aria-level="2">People</div>
       <button type="button" role="menuitemradio" aria-checked="true">
@@ -153,9 +153,9 @@ export const contextMenuExamples: Example[] = [
     },
     {
       title: "Destructive",
-      html: `<div data-demo="context-menu" data-demo-context style="display: grid; place-items: center; min-height: 10rem; border: 1px dashed var(--border); border-radius: var(--radius-lg)">
+      html: `<div tabindex="0" aria-haspopup="menu" aria-controls="demo-context-8" style="display: grid; place-items: center; min-height: 10rem; border: 1px dashed var(--border); border-radius: var(--radius-lg)">
   <p>Right-click anywhere in this area.</p>
-  <div class="context-menu" role="menu" aria-hidden="true" style="--context-x: 0px; --context-y: 0px">
+  <div class="context-menu" id="demo-context-8" role="menu" aria-hidden="true" style="--context-x: 0px; --context-y: 0px">
     <button type="button" role="menuitem">${pencil} Edit</button>
     <button type="button" role="menuitem">${share} Share</button>
     <div role="separator"></div>
@@ -165,9 +165,9 @@ export const contextMenuExamples: Example[] = [
     },
     {
       title: "Right-to-left",
-      html: `<div data-demo="context-menu" data-demo-context dir="rtl" lang="ar" style="display: grid; place-items: center; min-height: 10rem; border: 1px dashed var(--border); border-radius: var(--radius-lg)">
+      html: `<div tabindex="0" aria-haspopup="menu" aria-controls="demo-context-9" dir="rtl" lang="ar" style="display: grid; place-items: center; min-height: 10rem; border: 1px dashed var(--border); border-radius: var(--radius-lg)">
   <p>انقر بزر الماوس الأيمن هنا.</p>
-  <div class="context-menu" role="menu" aria-hidden="true" style="--context-x: 0px; --context-y: 0px">
+  <div class="context-menu" id="demo-context-9" role="menu" aria-hidden="true" style="--context-x: 0px; --context-y: 0px">
     <button type="button" role="menuitem">رجوع <span data-slot="shortcut">⌘[</span></button>
     <button type="button" role="menuitem" disabled>تقدم <span data-slot="shortcut">⌘]</span></button>
     <button type="button" role="menuitem">إعادة تحميل <span data-slot="shortcut">⌘R</span></button>

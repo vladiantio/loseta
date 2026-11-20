@@ -91,6 +91,33 @@ const examples = component.examples.filter(
     }
 
     {
+      component.behaviors.length > 0 && (
+        <>
+          <h2>Behavior</h2>
+          <p>
+            The installed module handles opening, keyboard navigation, focus and
+            dismissal for this component. Load the generated index once per page;
+            the CLI prints this snippet after an add:
+          </p>
+          <pre><code>{`<script type="module" src="/behaviors/index.js"></script>`}</code></pre>
+          <ul>
+            {component.behaviors.map((behavior) => (
+              <li>
+                <code>{behavior.target}</code>{" "}
+                <span class="docs-badge">{behavior.kind}</span>
+              </li>
+            ))}
+          </ul>
+          <p>
+            Behavior is installed by default. Pass <code>--no-behavior</code> to
+            keep the CSS-only install, or <code>--behavior</code> to backfill it
+            later.
+          </p>
+        </>
+      )
+    }
+
+    {
       component.notes.length > 0 && (
         <>
           <h2>Accessibility and behavior</h2>
@@ -123,9 +150,10 @@ const examples = component.examples.filter(
     <h2>Install contract</h2>
     <p>
       The CLI writes the base file under <code>components/</code>, the visual file for the
-      selected style under <code>styles/&lt;name&gt;/</code>, and any primitive dependency under
-      <code>primitives/</code>. The generated <code>index.css</code> imports them in the right
-      layer order.
+      selected style under <code>styles/&lt;name&gt;/</code>, any primitive dependency under
+      <code>primitives/</code>, and behavior modules under <code>behaviors/</code>. The
+      generated <code>index.css</code> imports the CSS in the right layer order and
+      <code>behaviors/index.js</code> imports the installed entry modules.
     </p>
 
     {

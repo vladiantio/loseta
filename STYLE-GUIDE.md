@@ -65,8 +65,8 @@ header arrows and calendar day cells.
 - Pressed/active: follow the reference button, including the 1px active
   translate where the base supports it.
 
-Calendar day cells use the control height and radius. Header arrows use the
-`sm` control size.
+Calendar day cells use the control height and radius. Header arrows and caption
+dropdowns use the `sm` control size.
 
 ### Field
 

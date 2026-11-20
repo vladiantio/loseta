@@ -2550,10 +2550,108 @@ test("command filters groups, shows an empty state and closes on selection", asy
 test("calendar exposes a grid with a selected day", async ({ page }) => {
   await page.goto("/docs/components/calendar");
 
-  const grid = page.getByRole("grid");
+  const grid = page.locator(".example").first().getByRole("grid");
   await expect(grid).toBeVisible();
   await expect(grid.locator('td[aria-selected="true"]')).toHaveCount(1);
-  await expect(page.getByRole("button", { name: "February 14, 2026" })).toBeVisible();
+  await expect(
+    grid.getByRole("button", { name: "February 14, 2026" })
+  ).toBeVisible();
+});
+
+test("calendar month and year selector exposes native selects", async ({
+  page
+}) => {
+  await page.goto("/docs/components/calendar");
+
+  const example = page.locator(".example").filter({
+    has: page.locator(".example-title", {
+      hasText: /^Month and year selector$/
+    })
+  });
+  await expect(example.getByRole("combobox", { name: "Month" })).toHaveValue(
+    "2"
+  );
+  await expect(example.getByRole("combobox", { name: "Year" })).toHaveValue(
+    "2026"
+  );
+});
+
+test("calendar range marks every day and the grid as multiselectable", async ({
+  page
+}) => {
+  await page.goto("/docs/components/calendar");
+
+  const example = page.locator(".example").filter({
+    has: page.locator(".example-title", { hasText: /^Range$/ })
+  });
+  const grid = example.getByRole("grid").first();
+  await expect(grid).toHaveAttribute("aria-multiselectable", "true");
+  await expect(example.locator('td[aria-selected="true"]')).toHaveCount(32);
+  await expect(
+    example.locator(
+      'td[aria-selected="true"] button[aria-label="January 12, 2026"]'
+    )
+  ).toHaveCount(1);
+});
+
+test("calendar week numbers use row headers", async ({ page }) => {
+  await page.goto("/docs/components/calendar");
+
+  const example = page.locator(".example").filter({
+    has: page.locator(".example-title", { hasText: /^Week numbers$/ })
+  });
+  await expect(
+    example.getByRole("columnheader", { name: "Week" })
+  ).toBeVisible();
+  await expect(example.getByRole("rowheader", { name: "Week 5" })).toBeVisible();
+});
+
+test("calendar marks unavailable days as aria-disabled", async ({ page }) => {
+  await page.goto("/docs/components/calendar");
+
+  const example = page.locator(".example").filter({
+    has: page.locator(".example-title", { hasText: /^Unavailable dates$/ })
+  });
+  await expect(
+    example.getByRole("button", { name: "March 15, 2026" })
+  ).toHaveAttribute("aria-disabled", "true");
+  await expect(
+    example.getByRole("button", { name: "March 6, 2026" })
+  ).not.toHaveAttribute("aria-disabled", "true");
+});
+
+test("calendar date picker toggles its popover", async ({ page }) => {
+  await page.goto("/docs/components/calendar");
+
+  const example = page.locator(".example").filter({
+    has: page.locator(".example-title", { hasText: /^Date picker$/ })
+  });
+  const trigger = example.locator(".docs-preview .btn");
+  const panel = example.locator("#demo-calendar-picker-panel");
+
+  await expect(panel).toHaveAttribute("aria-hidden", "false");
+  await trigger.click();
+  await expect(panel).toHaveAttribute("aria-hidden", "true");
+  await trigger.click();
+  await expect(panel).toHaveAttribute("aria-hidden", "false");
+});
+
+test("calendar mirrors in right-to-left containers", async ({ page }) => {
+  await page.goto("/docs/components/calendar");
+
+  const example = page.locator(".example").filter({
+    has: page.locator(".example-title", { hasText: /^Right-to-left$/ })
+  });
+  const calendar = example.locator(".calendar");
+
+  await expect(calendar).toHaveAttribute("dir", "rtl");
+  await expect(calendar).toHaveCSS("direction", "rtl");
+  await expect(
+    example.getByRole("button", { name: "14 فبراير 2026" })
+  ).toBeVisible();
+  await expect(
+    example.getByRole("button", { name: "الشهر السابق" }).locator("svg")
+  ).toHaveCSS("rotate", "180deg");
 });
 
 test("carousel controls scroll the viewport and update indicators", async ({ page }) => {

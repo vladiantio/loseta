@@ -3669,6 +3669,40 @@
       }
     }
 
+    > header > [data-slot='caption'] {
+      gap: 0.25rem;
+      font-size: var(--text-sm);
+      line-height: var(--text-sm--line-height);
+      font-weight: 500;
+    }
+
+    > header [data-slot='dropdown'] > select {
+      height: 1.75rem;
+      padding-inline: 0.375rem 1.25rem;
+      border-radius: var(--radius-md);
+      color: var(--foreground);
+      font-size: var(--text-sm);
+      line-height: var(--text-sm--line-height);
+      font-weight: 500;
+      transition-property: color, background-color, box-shadow;
+      transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+      transition-duration: 150ms;
+
+      &:hover {
+        background-color: var(--muted);
+      }
+
+      &:focus-visible {
+        box-shadow: 0 0 0 3px color-mix(in oklab, var(--ring) 50%, transparent);
+      }
+    }
+
+    > header [data-slot='dropdown'] > svg {
+      width: 0.75rem;
+      height: 0.75rem;
+      color: var(--muted-foreground);
+    }
+
     [data-slot='title'] {
       font-size: var(--text-sm);
       line-height: var(--text-sm--line-height);
@@ -3709,6 +3743,34 @@
     td[aria-selected='true'] > button {
       background-color: var(--primary);
       color: var(--primary-foreground);
+    }
+
+    table[aria-multiselectable='true'] td[aria-selected='true'] {
+      border-radius: var(--radius-md);
+      background-color: var(--muted);
+      color: var(--foreground);
+    }
+
+    table[aria-multiselectable='true']
+      td[aria-selected='true']
+      + td[aria-selected='true'] {
+      border-start-start-radius: 0;
+      border-end-start-radius: 0;
+    }
+
+    table[aria-multiselectable='true']
+      td[aria-selected='true']:has(+ td[aria-selected='true']) {
+      border-start-end-radius: 0;
+      border-end-end-radius: 0;
+    }
+
+    table[aria-multiselectable='true'] td[aria-selected='true'] > button {
+      background-color: transparent;
+      color: inherit;
+
+      &:hover {
+        background-color: color-mix(in oklab, var(--foreground) 6%, transparent);
+      }
     }
 
     td > button[aria-current='date'] {

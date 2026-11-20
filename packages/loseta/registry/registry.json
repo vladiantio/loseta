@@ -4095,7 +4095,14 @@
         ".calendar"
       ],
       "registryDependencies": [],
-      "optionalDependencies": [],
+      "optionalDependencies": [
+        "card",
+        "button",
+        "popover",
+        "field",
+        "label",
+        "input"
+      ],
       "files": [
         {
           "path": "components/calendar.css",

@@ -282,7 +282,7 @@ file they own, not by expecting a spacing API.
 | Questionnaire | Choice cards use the `--border` outline and a primary tint when checked; the progress track uses primary at 20%. |
 | Trace | Bottom `--border` divider per row; body text is muted; status pills use `--muted`, destructive or primary tints. |
 | Avatar | `--muted` fallback and group count, `--primary` badge and a 1px `--border` ring. |
-| Calendar | Selected day uses `--primary` / `--primary-foreground`; today uses an inset `--ring`. |
+| Calendar | Selected day uses `--primary` / `--primary-foreground`; ranges and multiple selection use a `--muted` band; today uses an inset `--ring`. |
 | Carousel | Controls use `--border`; active indicators use `--primary`. |
 | Chart | Legend swatches use `--chart-*`; tooltips use the popover surface. |
 | Context menu | `--popover` surface, foreground-at-10% ring and `--shadow-md`. |
@@ -427,7 +427,7 @@ on an RTL page; its header follows the page direction.
 | Bubble | `.bubble`, `.bubble-group` | `[data-slot="content"]` surface and optional `[data-slot="reactions"]` containing `[data-slot="reaction"]` buttons. | `data-variant="default|secondary|muted|tinted|outline|ghost|destructive"`; `data-align="start|end"`; reaction `aria-pressed` |
 | Button | `.btn` | Text, optional SVG and inline spinner; `data-icon="inline-start|inline-end"` marks inline icons for padding. Use on `button` or `a`; icon-only buttons need an accessible name. | `data-variant="default|primary|secondary|outline|destructive|ghost|link"`; `data-size="default|xs|sm|lg|icon|icon-xs|icon-sm|icon-lg"` |
 | Button group | `.btn-group` | Buttons, inputs, dropdown/popover/select wrappers, `span`/`label`/`output` and `hr[role="separator"]`. | `data-orientation="horizontal|vertical"` (horizontal by default) |
-| Calendar | `.calendar` | Header with `[data-slot="title"]` and nav buttons; native `<table role="grid">` with column headers and `td[role="gridcell"]` day cells. | Cell `aria-selected`; day `aria-current="date"` and `aria-disabled` |
+| Calendar | `.calendar` | Header with `[data-slot="title"]` or `[data-slot="caption"]` containing month and year selects in `[data-slot="dropdown"]`; native `<table role="grid">` with column headers and `td[role="gridcell"]` day cells. Week numbers use `th[scope="row"]`. | Cell `aria-selected`; grid `aria-multiselectable="true"` for ranges and multiple selection; day `aria-current="date"` and `aria-disabled` |
 | Card | `.card` | `header` with title/description/action, `section`, `footer`, optional leading/trailing image. | `data-size="default|sm"`; `data-separator="bottom"` on the header |
 | Carousel | `.carousel` | `.carousel-viewport`, `.carousel-track`, `.carousel-item` slides, `.carousel-controls`, `.carousel-button` and `.carousel-indicator`. | `data-orientation="horizontal|vertical"`; indicator `aria-current` |
 | Chart | `.chart` | `[data-slot="plot"]`, legend with `[data-slot="legend-item"]`/`[data-slot="swatch"]` and `[data-slot="tooltip"]`. | `data-series="1"`–`"5"` |
@@ -496,6 +496,7 @@ The public slot vocabulary is shared across components:
 - `data-slot="content"` — attachment, bubble, marker, message, message-scroller and the tooltip's rich bubble.
 - `data-slot="action"` — card.
 - `data-slot="actions"` — code block.
+- `data-slot="caption"`, `data-slot="dropdown"` — calendar month and year selectors.
 - `data-slot="line"`, `data-slot="line-content"` — code block.
 - `data-slot="header"` — popover.
 - `data-slot="shortcut"` — dropdown menu, context menu, menubar and command.
@@ -579,7 +580,7 @@ public state hooks:
 | --- | --- | --- |
 | Invalid | `aria-invalid="true"` | Inputs, textareas, native selects, checkbox, radio, switch, buttons, badges and `.field` (including descendants). |
 | Disabled | Native `:disabled` | Buttons, inputs, textareas, selects, menu items and native controls. |
-| Disabled, non-native | `aria-disabled="true"` | Tabs, menu items, listbox options and other elements that cannot use `:disabled`. |
+| Disabled, non-native | `aria-disabled="true"` | Tabs, menu items, listbox options, calendar day buttons and other elements that cannot use `:disabled`. |
 | Selected | `aria-selected="true"` | Tabs, selectable table rows, listbox options and calendar day cells. |
 | Checked, native | `:checked` | Checkbox, radio and switch. |
 | Checked, menu item | `aria-checked="true"` | `menuitemcheckbox` and `menuitemradio`. |
@@ -663,8 +664,10 @@ Notes:
   `form[method="dialog"]` or `button` at the inline end; style its button with
   `.btn` and give icon-only controls an accessible label.
 - Calendar day cells use `aria-selected`; day buttons use `aria-current="date"`
-  and `aria-disabled`. Month navigation and keyboard grid movement are
-  consumer JavaScript.
+  and `aria-disabled`. A range or multiple selection sets
+  `aria-multiselectable="true"` on the grid and marks every selected day. The
+  header uses `[data-slot="caption"]` with native month and year selects;
+  month navigation and keyboard grid movement are consumer JavaScript.
 - Carousel indicators use `aria-current="true"`; consumers manage offscreen
   slides with `aria-hidden` or `inert` and own scrolling and autoplay.
 - Resizable handles are `role="separator"` with `aria-orientation` and
@@ -753,7 +756,8 @@ progress sweep slow down instead of stopping. This remains a known gap.
   unavailable options with `aria-disabled="true"`.
 - Calendar uses a native `<table role="grid">` with column headers and
   `gridcell` day cells. The grid needs an accessible name; day buttons need
-  full-date labels; focus moves inside the grid in consumer JavaScript.
+  full-date labels; week numbers use row headers; focus moves inside the grid
+  in consumer JavaScript.
 - Carousel slides need an accessible label and `aria-roledescription="slide"`;
   the viewport is focusable so keyboard users can scroll. Controls and
   indicators need labels; indicators use `aria-current`.

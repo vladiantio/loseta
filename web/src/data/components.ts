@@ -113,7 +113,7 @@ const notesBy: Record<string, string> = {
   "context-menu":
     "CSS cannot follow the pointer. Set --context-x and --context-y on the panel (physical left/top, even in RTL), toggle aria-hidden and manage roving focus. The panel scrolls when it would leave the viewport. Items use role=\"menuitem\", role=\"menuitemcheckbox\" or role=\"menuitemradio\" with aria-checked. A nested menu wraps its trigger and [data-popover] panel in a role=\"none\" element; the sub-trigger carries aria-haspopup=\"menu\" and aria-expanded.",
   calendar:
-    "A native table month grid. Day cells use aria-selected; day buttons use aria-current=\"date\" and aria-disabled. Month navigation, selection and keyboard grid movement are consumer JavaScript.",
+    "A native table month grid. Day cells use aria-selected; day buttons use aria-current=\"date\" and aria-disabled. Grids with aria-multiselectable=\"true\" mark every day in a range and style selected cells as a continuous band. The header uses [data-slot=\"title\"], or [data-slot=\"caption\"] with native month and year selects inside [data-slot=\"dropdown\"]; week numbers use row headers. Month navigation, selection and keyboard grid movement are consumer JavaScript.",
   carousel:
     "A scroll-snap viewport and track. Items use scroll-snap-align. Consumers own scrolling, aria-current on indicators, aria-hidden/inert on offscreen slides and any autoplay.",
   chart:

@@ -22,6 +22,45 @@
       }
     }
 
+    > header > [data-slot='caption'] {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    > header [data-slot='dropdown'] {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+    }
+
+    > header [data-slot='dropdown'] > select {
+      appearance: none;
+      border: 0;
+      background-color: transparent;
+      color: inherit;
+      font: inherit;
+      cursor: pointer;
+      outline-style: none;
+
+      @media (forced-colors: active) {
+        outline: 2px solid transparent;
+        outline-offset: 2px;
+      }
+    }
+
+    > header [data-slot='dropdown'] > svg {
+      position: absolute;
+      inset-block-start: 50%;
+      inset-inline-end: 0.375rem;
+      translate: 0 -50%;
+      pointer-events: none;
+    }
+
+    &:dir(rtl) > header > button > svg {
+      rotate: 180deg;
+    }
+
     table {
       width: 100%;
       table-layout: fixed;

@@ -100,7 +100,7 @@ rules.
 4. Run `pnpm registry:examples` to regenerate
    `packages/loseta/registry/examples/` and the `examples` fields.
 5. Run `pnpm test` and `pnpm docs:css`. For visual, behavior or docs changes,
-   run `pnpm --filter web test:e2e`.
+   run `pnpm gate:e2e`.
 
 When adding behavior, add the module under `registry/behaviors/`, declare it in
 `behaviors` with `kind: "entry"` or `"support"`, include `behaviors/core.js` as
@@ -194,7 +194,7 @@ pnpm registry:check      # fast registry, CSS and behavior validation
 pnpm --filter loseta behaviors:check # JSDoc type-check of registry/behaviors
 pnpm cli:smoke           # interactive init prompt smoke test
 pnpm web:dev             # docs at http://localhost:4321
-pnpm --filter web test:e2e
+pnpm gate:e2e
 ```
 
 `pnpm test` runs the default gate through `scripts/gate.mjs`: it prints the
@@ -235,8 +235,8 @@ For a contact sheet across styles, use
 
 Review `git diff` before the full suite. To iterate, build once
 (`pnpm --filter web build`) and run
-`pnpm --filter web exec playwright test -g <name>`; `pnpm --filter web test:e2e`
-builds the site itself, so run it once, after the diff is final.
+`pnpm --filter web exec playwright test -g <name>`; `pnpm gate:e2e` builds the
+site itself, so run it once, after the diff is final.
 
 Before calling a change done, `pnpm test` must pass and `git status` must show
 only the intended source and regenerated files. Write docs, comments and commit

@@ -94,7 +94,7 @@ pnpm registry:examples
 pnpm docs:css
 pnpm registry:check
 pnpm test
-pnpm --filter web test:e2e
+pnpm gate:e2e
 pnpm cli:smoke
 ```
 
@@ -163,7 +163,7 @@ Dependency notes:
 
 - [ ] `pnpm registry:check`
 - [ ] `pnpm test`
-- [ ] `pnpm --filter web test:e2e`
+- [ ] `pnpm gate:e2e`
 - [ ] `pnpm cli:smoke`
 - [ ] `pnpm registry:examples && pnpm docs:css` produces no diff
 - [ ] Visual contact sheets reviewed for every item × 8 styles

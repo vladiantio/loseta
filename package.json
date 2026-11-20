@@ -13,6 +13,7 @@
     "cli:smoke": "pnpm --filter=loseta smoke",
     "registry:check": "pnpm --filter=loseta validate",
     "registry:examples": "pnpm --filter=loseta examples",
+    "release:check": "node scripts/verify-release.mjs",
     "gate": "node scripts/gate.mjs",
     "gate:test": "pnpm test",
     "gate:registry": "node scripts/gate.mjs pnpm registry:check",

@@ -30,13 +30,8 @@ jobs:
 
       - run: pnpm install --frozen-lockfile
 
-      - name: Verify release tag matches package version
-        run: |
-          package_version="$(node -p "require('./packages/loseta/package.json').version")"
-          if [ "v$package_version" != "$GITHUB_REF_NAME" ]; then
-            echo "::error::Release tag $GITHUB_REF_NAME does not match packages/loseta version $package_version"
-            exit 1
-          fi
+      - name: Verify release metadata
+        run: pnpm release:check --ci
 
       - name: Validate registry and build CLI
         run: pnpm --filter loseta check

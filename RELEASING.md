@@ -38,35 +38,55 @@ not through a repository secret.
 
 ## Subsequent releases
 
-1. Bump `packages/loseta/package.json` and add a `CHANGELOG.md` section. Keep
-   one changelog section per published version; if planned releases are
-   collapsed into one, fold their entries into the released version instead of
-   leaving sections for versions npm never received.
-2. Run the full gate and regenerate artifacts if needed:
+1. Ensure `packages/loseta/package.json` and
+   `packages/loseta/registry/registry.json` carry the target version, and add
+   one dated `CHANGELOG.md` section for it. The version bump and changelog may
+   already be part of a feature commit; do not rewrite unpushed history just to
+   separate them. Keep one changelog section per published version; if planned
+   releases are collapsed into one, fold their entries into the released
+   version instead of leaving sections for versions npm never received.
+2. Run the full gate and regenerate artifacts:
 
    ```bash
    pnpm test
    pnpm registry:examples
    pnpm docs:css
-   git diff --exit-code web/src/styles/loseta.css packages/loseta/registry
+   git diff --exit-code web/src/styles/loseta.css web/public/styles packages/loseta/registry
    ```
 
-3. Commit, tag and push:
+   For visual, behavior or docs changes, run `pnpm gate:e2e` once after the
+   diff is final.
+3. Commit any release-only changes (regenerated examples, changelog or version
+   updates that are not already committed):
 
    ```bash
    git commit -am "chore(release): 0.2.0"
-   git tag -a v0.2.0 -m "loseta 0.2.0"
-   git push origin main
-   git push origin v0.2.0
    ```
 
-4. Publish the GitHub release:
+   If the tree is already clean, skip this commit and tag the current `HEAD`.
+   The sidebar example version labels follow `registry.json`, so regenerating
+   examples is enough; do not edit them by hand.
+4. Verify the release metadata, then tag:
 
    ```bash
-   gh release create v0.2.0 --title "loseta 0.2.0" --generate-notes
+   pnpm release:check
+   git tag -a v0.2.0 -m "loseta 0.2.0"
+   pnpm release:check
    ```
 
-5. Watch the **Publish** workflow and verify the result:
+   The first check requires `main`, a clean tree, matching `package.json` and
+   `registry.json` versions, a dated changelog section and current example
+   labels; it reports when the repository is ready to tag. The second verifies
+   that the annotated tag points at `HEAD`. Preparation ends here; the
+   remaining steps push and publish.
+5. Push and publish:
+
+   ```bash
+   git push origin main
+   git push origin v0.2.0
+   gh release create v0.2.0 --title "v0.2.0" --generate-notes
+   ```
+6. Watch the **Publish** workflow and verify the result:
 
    ```bash
    npm view loseta version
@@ -74,4 +94,5 @@ not through a repository secret.
    ```
 
 The workflow skips publishing when the version already exists, so a re-run after
-a partial failure is safe.
+a partial failure is safe. It also runs `pnpm release:check --ci` against the
+release tag before publishing.

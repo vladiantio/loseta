@@ -1,3 +1,4 @@
+import registry from "../../../../packages/loseta/registry/registry.json" with { type: "json" };
 import type { Example } from "./types";
 import {
   bot,
@@ -13,6 +14,8 @@ import {
   settings,
   terminal
 } from "./icons";
+
+const version = registry.version;
 
 export const sidebarExamples: Example[] = [
     {
@@ -44,7 +47,7 @@ export const sidebarExamples: Example[] = [
     </nav>
   </section>
   <footer>
-    <span>v0.18.0</span>
+    <span>v${version}</span>
   </footer>
 </aside>`
     },
@@ -78,7 +81,7 @@ export const sidebarExamples: Example[] = [
     </nav>
   </section>
   <footer>
-    <span>v0.18.0</span>
+    <span>v${version}</span>
   </footer>
 </aside>`
     },
@@ -130,7 +133,7 @@ export const sidebarExamples: Example[] = [
     </nav>
   </section>
   <footer>
-    <span>v0.18.0</span>
+    <span>v${version}</span>
   </footer>
 </aside>`
     },
@@ -169,7 +172,7 @@ export const sidebarExamples: Example[] = [
     </details>
   </section>
   <footer>
-    <span>v0.18.0</span>
+    <span>v${version}</span>
   </footer>
 </aside>`
     },
@@ -215,7 +218,7 @@ export const sidebarExamples: Example[] = [
     </nav>
   </section>
   <footer>
-    <span>v0.18.0</span>
+    <span>v${version}</span>
   </footer>
 </aside>`
     },
@@ -248,7 +251,7 @@ export const sidebarExamples: Example[] = [
     </nav>
   </section>
   <footer>
-    <span>v0.18.0</span>
+    <span>v${version}</span>
   </footer>
 </aside>`
     },
@@ -273,7 +276,7 @@ export const sidebarExamples: Example[] = [
     </nav>
   </section>
   <footer>
-    <span>v0.18.0</span>
+    <span>v${version}</span>
   </footer>
 </aside>`
     },
@@ -305,7 +308,7 @@ export const sidebarExamples: Example[] = [
     </nav>
   </section>
   <footer>
-    <span>v0.18.0</span>
+    <span>v${version}</span>
   </footer>
 </aside>`
     },
@@ -390,7 +393,7 @@ export const sidebarExamples: Example[] = [
         </nav>
       </section>
       <footer>
-        <span>v0.18.0</span>
+        <span>v${version}</span>
       </footer>
     </aside>
   </div>
@@ -432,7 +435,7 @@ export const sidebarExamples: Example[] = [
     </nav>
   </section>
   <footer>
-    <span>الإصدار 0.18.0</span>
+    <span>الإصدار ${version}</span>
   </footer>
 </aside>`
     }

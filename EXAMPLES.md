@@ -71,7 +71,7 @@ reference for this checklist.
    `pnpm --filter web exec playwright test -g "open overlay panels"`.
    Behavior changes also need the fixture specs:
    `pnpm --filter web exec playwright test tests/behaviors --project=chromium`.
-   Run `pnpm --filter web test:e2e` once, when the diff is final.
+   Run `pnpm gate:e2e` once, when the diff is final.
 9. `git status` must show only source and regenerated files. Commit with
    `feat(registry): expand <item> examples and fix details`.
 

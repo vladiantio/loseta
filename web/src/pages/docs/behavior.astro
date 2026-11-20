@@ -10,8 +10,10 @@ const meta = pageMeta["/docs/behavior"];
     <p class="docs-eyebrow">Reference</p>
     <h1>Behavior</h1>
     <p class="docs-lead">
-      loseta ships small, readable behavior modules next to the CSS. The CSS stays
-      optional and the behavior stays yours to edit.
+      loseta ships small, readable behavior modules next to the CSS. Twenty-two
+      components include one, including all seven tranche-two additions. Input
+      OTP, slider, scroll-area and sidebar stay CSS-only by design. The CSS
+      stays optional and the behavior stays yours to edit.
     </p>
 
     <h2>What installs</h2>
@@ -45,19 +47,77 @@ const meta = pageMeta["/docs/behavior"];
       call <code>init(root)</code>:
     </p>
     <pre><code>{`import { init } from "./behaviors/core.js";\nimport "./behaviors/dialog.js";\n\ninit(document.querySelector("#app"));`}</code></pre>
+    <p>
+      Message scrollers are the exception: their entry module exports
+      <code>mount(root)</code> for a late-mounted subtree because each list owns a
+      scoped observer.
+    </p>
+
+    <h2>Component contracts</h2>
+    <ul>
+      <li>
+        <strong>Calendar.</strong> The module renders the month, updates the
+        title or native month/year selects, and handles single, range and
+        multiple selection. Configure it with
+        <code>data-selection="single|range|multiple"</code>, <code>data-min</code>,
+        <code>data-max</code>, <code>data-unavailable</code>,
+        <code>data-month</code> and <code>data-date</code> on each day button.
+        Range uses first click for the start, second for the end, Shift-click to
+        extend and a third click to start over. Custom day content, presets,
+        date-time inputs and coordination between separate calendars stay
+        app-owned.
+      </li>
+      <li>
+        <strong>Carousel.</strong> Previous/next, indicators, keyboard
+        arrows/Home/End, <code>aria-current</code> and
+        <code>aria-hidden</code>/<code>inert</code> on fully offscreen slides,
+        with vertical and RTL support. There is no autoplay or looping; the
+        controls clamp at the ends.
+      </li>
+      <li>
+        <strong>Resizable.</strong> One handle between two adjacent panels,
+        pointer capture, arrow/Home/End keys, a percentage split through
+        <code>--panel-size</code>, and <code>change</code> with
+        <code>detail.sizes</code>. There is no persistence or nested layout.
+      </li>
+      <li>
+        <strong>Questionnaire.</strong> The module owns
+        <code>[data-slot="previous"]</code> and <code>[data-slot="next"]</code>,
+        step visibility, <code>aria-current="step"</code>, the native progress
+        value/text, disabled end states and focus into the new step. Validation,
+        completion and a final submit stay app-owned.
+      </li>
+      <li>
+        <strong>Message scroller.</strong> Tracks whether the user is at the
+        bottom, follows inserted messages, preserves the reading position when
+        they are not following, toggles <code>[data-slot="jump"]</code> and
+        dispatches <code>change</code> with <code>detail.following</code>.
+      </li>
+      <li>
+        <strong>Tooltip and hover card.</strong> Both use
+        <code>hover-overlay.js</code>: it toggles <code>aria-hidden</code>,
+        handles Escape and returns focus to the trigger. The CSS hover and
+        focus-within rules remain the no-JS fallback. The tooltip
+        <code>data-tooltip</code> shorthand stays CSS-only and visual-only.
+      </li>
+    </ul>
 
     <h2>Events</h2>
     <p>Behavior events bubble from the component root:</p>
     <ul>
       <li>
-        <code>change</code> — selection changes. <code>detail.value</code> or
-        <code>detail.values</code> for select and combobox;
-        <code>detail.value</code> (the tab id) for tabs; <code>detail.checked</code>
-        for menu checkbox and radio items.
+        <code>change</code> — selection or position changes.
+        <code>detail.value</code> / <code>detail.values</code> /
+        <code>detail.range</code> for select, combobox and calendar;
+        <code>detail.index</code> for carousel; <code>detail.sizes</code> for
+        resizable; <code>detail.step</code> / <code>detail.total</code> for
+        questionnaire; <code>detail.following</code> for message scroller;
+        <code>detail.checked</code> for menu checkbox and radio items;
+        <code>detail.value</code> (the tab id) for tabs.
       </li>
       <li>
-        <code>toggle</code> — dialogs, popovers and menus; <code>detail.open</code>
-        is a boolean.
+        <code>toggle</code> — dialogs, popovers, menus, tooltips and hover
+        cards; <code>detail.open</code> is a boolean.
       </li>
       <li>
         <code>dismiss</code> — toast items; <code>detail.reason</code> is
@@ -70,18 +130,42 @@ const meta = pageMeta["/docs/behavior"];
       Markup is the source of truth at rest. Behavior toggles
       <code>aria-expanded</code>, <code>aria-hidden</code>,
       <code>aria-selected</code>, <code>aria-checked</code>,
+      <code>aria-current</code>, <code>aria-valuenow</code>,
       <code>tabindex</code>, <code>hidden</code> and focus. The only transient
       data states are <code>data-highlighted</code> on the active option and
       <code>data-copied</code> on a copy control. There is no
-      <code>data-state</code> mirror.
+      <code>data-state</code> mirror. Calendar options such as
+      <code>data-selection</code>, <code>data-month</code> and
+      <code>data-date</code> are configuration and data, not visual states.
     </p>
+
+    <h2>CSS-only by design</h2>
+    <ul>
+      <li>
+        <strong>Input OTP</strong> is one native input with decorative cells;
+        typing, paste, mobile one-time-code autofill and validation stay native.
+        Per-digit focus and auto-advance are intentionally outside the contract.
+      </li>
+      <li>
+        <strong>Slider</strong> is a native range control; a custom thumb or
+        multiple thumbs would need a different control.
+      </li>
+      <li>
+        <strong>Scroll area</strong> is a native overflow container with native
+        scrollbars and keyboard scrolling.
+      </li>
+      <li>
+        <strong>Sidebar</strong> uses <code>aria-current="page"</code> for active
+        navigation and the shipped dialog behavior for the mobile sheet.
+      </li>
+    </ul>
 
     <h2>Without JavaScript</h2>
     <p>
       Static content stays readable and the page's own navigation keeps working.
-      Overlay panels, menus and selection widgets stay closed and are documented
-      as behavior-dependent. There are no <code>&lt;noscript&gt;</code> blocks;
-      the CSS keeps its native fallbacks where they exist.
+      Overlay panels, menus and selection widgets stay closed; the tooltip and
+      hover-card CSS fallbacks still open on hover or focus. There are no
+      <code>&lt;noscript&gt;</code> blocks.
     </p>
 
     <h2>Browser support</h2>
@@ -89,8 +173,8 @@ const meta = pageMeta["/docs/behavior"];
       Behavior uses the same fidelity target as the CSS: Chrome/Edge 125+,
       Safari 26+ and Firefox 147+. It relies on native
       <code>&lt;dialog&gt;</code>, <code>showModal()</code>,
-      <code>aria-activedescendant</code> and <code>:has()</code>; there is no
-      transpilation or polyfill layer.
+      <code>aria-activedescendant</code>, <code>Intl</code> and
+      <code>:has()</code>; there is no transpilation or polyfill layer.
     </p>
 
     <h2>Limits</h2>
@@ -99,7 +183,14 @@ const meta = pageMeta["/docs/behavior"];
       <li>Multiple combobox chips stay app-rendered.</li>
       <li>Tabs use automatic activation; there is no manual mode.</li>
       <li>Toasts hide immediately; there is no exit animation.</li>
-      <li>Calendar, carousel, resizable and the other tranche-two components keep consumer-owned behavior for now.</li>
+      <li>Calendar custom day content, presets, date-time logic and multi-calendar range coordination stay app-owned.</li>
+      <li>Carousel autoplay and looping are not included.</li>
+      <li>Resizable layouts are limited to one handle between two panels, with no persistence.</li>
+      <li>Questionnaire validation, completion and final submit stay app-owned.</li>
+      <li>
+        Message scroller and toast are the only modules allowed a scoped
+        <code>MutationObserver</code>.
+      </li>
     </ul>
   </div>
 </Layout>

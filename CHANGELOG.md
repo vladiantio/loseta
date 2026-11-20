@@ -1,5 +1,56 @@
 # Changelog
 
+## 0.19.0 - 2026-11-20
+
+### Added
+
+- Behavior modules for calendar, carousel, resizable, questionnaire,
+  message-scroller, tooltip and hover-card. Tooltip and hover-card share
+  `hover-overlay.js`; all six entry modules are plain ESM with JSDoc types, no
+  dependencies and no build step.
+- Calendar renders the month, updates the title or native month/year selects,
+  and handles single, range and multiple selection, unavailable dates, week
+  numbers, RTL and keyboard grid movement. New public configuration:
+  `data-selection="single|range|multiple"`, `data-min`, `data-max`,
+  `data-unavailable`, `data-month` and `data-date` on standard day buttons.
+- Carousel previous/next buttons, indicator clicks, keyboard
+  arrows/Home/End, `aria-current` and `aria-hidden`/`inert` on fully offscreen
+  slides, including vertical and RTL layouts. There is no autoplay or loop.
+- Resizable pointer dragging and keyboard resizing for one handle between two
+  adjacent panels, with live `aria-valuenow` and `change` detail
+  `{ sizes }`. There is no persistence or nested layout.
+- Questionnaire navigation with `[data-slot="previous"]` and
+  `[data-slot="next"]`, step visibility, `aria-current="step"`, progress
+  value/text, disabled end states and focus into the new step. Validation and
+  completion stay app-owned.
+- Message-scroller following, reading-position preservation, jump-button
+  visibility and `change` detail `{ following }`. It uses the second and final
+  scoped `MutationObserver` on `[data-slot="content"]` and exports
+  `mount(root)` for late-mounted lists.
+- Tooltip and hover-card Escape dismissal, `aria-hidden` state and focus
+  return through the shared `hover-overlay.js` module. The CSS hover and
+  focus-within rules remain the no-JS fallback; the tooltip `data-tooltip`
+  shorthand stays CSS-only.
+- Six Playwright behavior specs, carousel vertical and RTL examples, a calendar
+  multiple-selection example, and no-JS coverage for the new controls.
+
+### Changed
+
+- Calendar examples carry `data-month`, `data-date`, `data-selection` and
+  `data-unavailable`; the header buttons use `[data-slot="previous"]`/`next`
+  and the selects use `[data-slot="month"]`/`year`.
+- Carousel, questionnaire and message-scroller examples no longer use
+  `data-demo-*` hooks; the shipped modules own their interaction.
+- Tooltip and hover-card CSS open selectors respect
+  `[aria-hidden="true"]` so Escape can close behavior-managed content.
+- `/docs/behavior` now documents 22 behavior-bearing components, the calendar
+  contract, the message-scroller observer exception and the four CSS-only
+  components.
+- Calendar custom day content, presets, date-time logic and multi-calendar
+  range coordination remain app-owned; carousel autoplay/looping, resizable
+  persistence/nesting, questionnaire validation/completion and per-digit OTP
+  focus remain out of scope.
+
 ## 0.18.0 - 2026-11-20
 
 ### Added

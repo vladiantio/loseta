@@ -91,13 +91,12 @@ const examples = component.examples.filter(
     }
 
     {
-      component.behaviors.length > 0 && (
+      component.behaviors.length > 0 ? (
         <>
           <h2>Behavior</h2>
           <p>
-            The installed module handles opening, keyboard navigation, focus and
-            dismissal for this component. Load the generated index once per page;
-            the CLI prints this snippet after an add:
+            The installed module handles interaction for this component. Load the
+            generated index once per page; the CLI prints this snippet after an add:
           </p>
           <pre><code>{`<script type="module" src="/behaviors/index.js"></script>`}</code></pre>
           <ul>
@@ -114,7 +113,16 @@ const examples = component.examples.filter(
             later.
           </p>
         </>
-      )
+      ) : component.behaviorNote ? (
+        <>
+          <h2>Behavior</h2>
+          <p>{component.behaviorNote}</p>
+          <p>
+            Behavior is optional. Pass <code>--no-behavior</code> when adding to
+            keep the install CSS-only.
+          </p>
+        </>
+      ) : null
     }
 
     {

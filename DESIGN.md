@@ -61,11 +61,15 @@ foundations:
   All four are stable. Primitives are installed automatically as dependencies
   and are not consumer-facing components.
 - **4 foundations**: tokens, reset, base and utilities.
-- **15 behavior-bearing components**: dialog, alert-dialog, sheet, drawer,
+- **22 behavior-bearing components**: dialog, alert-dialog, sheet, drawer,
   popover, dropdown-menu, context-menu, menubar, navigation-menu, tabs, select,
-  combobox, command, toast and code-block. Their modules live in
+  combobox, command, toast, code-block, calendar, carousel, resizable,
+  questionnaire, message-scroller, tooltip and hover-card. Their modules live in
   `registry/behaviors/` and are optional; the CSS contract does not depend on
   them.
+- **4 CSS-only by design**: input-otp, slider, scroll-area and sidebar. Their
+  interactions are native or compose the dialog behavior; no module is
+  installed for them.
 
 No experimental components ship in this release. The experimental pipeline
 remains for future items.
@@ -442,9 +446,9 @@ direction.
 | Bubble | `.bubble`, `.bubble-group` | `[data-slot="content"]` surface and optional `[data-slot="reactions"]` containing `[data-slot="reaction"]` buttons. | `data-variant="default|secondary|muted|tinted|outline|ghost|destructive"`; `data-align="start|end"`; reaction `aria-pressed` |
 | Button | `.btn` | Text, optional SVG and inline spinner; `data-icon="inline-start|inline-end"` marks inline icons for padding. Use on `button` or `a`; icon-only buttons need an accessible name. | `data-variant="default|primary|secondary|outline|destructive|ghost|link"`; `data-size="default|xs|sm|lg|icon|icon-xs|icon-sm|icon-lg"` |
 | Button group | `.btn-group` | Buttons, inputs, dropdown/popover/select wrappers, `span`/`label`/`output` and `hr[role="separator"]`. | `data-orientation="horizontal|vertical"` (horizontal by default) |
-| Calendar | `.calendar` | Header with `[data-slot="title"]` or `[data-slot="caption"]` containing month and year selects in `[data-slot="dropdown"]`; native `<table role="grid">` with column headers and `td[role="gridcell"]` day cells. Week numbers use `th[scope="row"]`. | Cell `aria-selected`; grid `aria-multiselectable="true"` for ranges and multiple selection; day `aria-current="date"` and `aria-disabled` |
+| Calendar | `.calendar` | Header with `[data-slot="previous"]`, `[data-slot="next"]` and `[data-slot="title"]` or `[data-slot="caption"]` containing `[data-slot="month"]`/`[data-slot="year"]` selects in `[data-slot="dropdown"]`; native `<table role="grid">` with column headers and `td[role="gridcell"]` day cells carrying `[data-date]` buttons. Week numbers use `th[scope="row"]`. | Cell `aria-selected`; grid `aria-multiselectable="true"` for ranges and multiple selection; day `aria-current="date"` and `aria-disabled`; `data-selection="single|range|multiple"`, `data-min`, `data-max`, `data-unavailable`, `data-month` |
 | Card | `.card` | `header` with title/description/action, `section`, `footer`, optional leading/trailing image. | `data-size="default|sm"`; `data-separator="bottom"` on the header; `--card-spacing` overrides the section gap and inline inset |
-| Carousel | `.carousel` | `.carousel-viewport`, `.carousel-track`, `.carousel-item` slides, `.carousel-controls`, `.carousel-button` and `.carousel-indicator`. | `data-orientation="horizontal|vertical"`; indicator `aria-current` |
+| Carousel | `.carousel` | `.carousel-viewport`, `.carousel-track`, `.carousel-item` slides, `.carousel-controls`, `[data-slot="previous"]`/`[data-slot="next"]` buttons and `.carousel-indicator` buttons. | `data-orientation="horizontal|vertical"`; indicator `aria-current`; offscreen slides `aria-hidden` and `inert` |
 | Chart | `.chart` | `[data-slot="plot"]`, legend with `[data-slot="legend-item"]`/`[data-slot="swatch"]` and `[data-slot="tooltip"]`. | `data-series="1"`–`"5"` |
 | Checkbox | `.checkbox` | Native `input[type="checkbox"]`; must not carry `role="switch"`. Checked draws a check; indeterminate draws a dash. | — |
 | Code Block | `.code-block` | Optional `header` with `[data-slot="title"]` and `[data-slot="actions"]`; required `pre` containing `code`; optional `footer`; line parts `[data-slot="line"]` wrapping `[data-slot="line-content"]`. Copy controls use `[data-slot="copy"]` with copy/check icons; wrap controls use `[data-slot="wrap"]`. | `data-size="default|sm"`; `data-variant="default|destructive"`; `pre` `data-line-numbers`, `data-wrap`, `--line-start`; line `data-variant="added|removed|highlighted"`; transient `data-copied` |
@@ -457,7 +461,7 @@ direction.
 | Dropdown menu | `.dropdown-menu` | Trigger, `[data-popover]` panel, `[role="menu"]`, menu item roles, `[role="separator"]`, `[role="heading"]`, shortcut and indicator slots; nested menus use a `role="none"` wrapper around the sub-trigger and its panel. | Item `data-variant="destructive"`; default by omission; placement attributes; `data-inset`; `data-rtl-flip`; `aria-checked` on checkable items |
 | Empty | `.empty` | `header` with optional `figure` (a single SVG becomes the icon box; image, avatar or avatar-group markup is used as-is), title (`h2`–`h4`) and description `p`; `section`; `footer`. | — |
 | Field | `.field`, `.fieldset` | Label or legend, control, content `section` for a label/description pair, description `p`, error `[role="alert"]`, group/radiogroup container and `.field-separator` with an `hr`. | Legend `data-variant="label|legend"`; field `data-orientation="horizontal|responsive"`; group `data-slot="checkbox-group|radio-group"` |
-| Hover card | `.hover-card` | Trigger and `[data-popover]` panel; CSS-only open on hover and focus-within. | Placement attributes; no open state |
+| Hover card | `.hover-card` | Trigger and `[data-popover]` panel; the shipped behavior opens on hover or focus and dismisses with Escape, with the CSS hover/focus-within rules as the no-JS fallback. | Placement attributes; panel `aria-hidden` |
 | Input | `.input` | Native `<input>`. | — |
 | Input group | `.input-group` | `role="group"` with semantic `input`/`textarea` and `[data-slot="addon"]` parts. Custom controls opt in with `data-slot="input-group-control"`. | Addon `data-align="inline-start|inline-end|block-start|block-end"`, default `inline-start` |
 | Input OTP | `.input-otp` | Label wrapper with one `[data-slot="cell"]` span per code position and a `[data-slot="entry"]` around the native `<input>`; keep the cell count equal to `maxlength` and `pattern`, add `required` with a full-length pattern, and give the input an accessible name. The row stays LTR; the active cell indicator follows the end of the value, and a completed code rings all cells. | `data-spacing="default|joined"`; `data-size="default|sm|lg"`; input `required`, `aria-invalid`, `disabled` |
@@ -467,15 +471,15 @@ direction.
 | Marker | `.marker` | `[data-slot="icon"]` and `[data-slot="content"]`. | `data-variant="default|separator|border"` |
 | Menubar | `.menubar`, `.menubar-item` | `role="menubar"`, `role="none"` item wrappers, `role="menuitem"` triggers with `aria-haspopup`/`aria-expanded`, and `[data-popover]` submenus with `role="menu"`. | Placement attributes on submenu panels; nested menus use a `role="none"` wrapper around the sub-trigger and its panel |
 | Message | `.message`, `.message-group` | Row with `[data-slot="avatar"]` and `[data-slot="content"]` containing header, bubble and footer slots. | `data-align="start|end"` |
-| Message scroller | `.message-scroller` | `.message-scroller-viewport` scroll container, `[data-slot="content"]` and optional `[data-slot="jump"]` button. | Consumer-sized; `hidden` toggles the jump button |
+| Message scroller | `.message-scroller` | `.message-scroller-viewport` scroll container, `[data-slot="content"]` and optional `[data-slot="jump"]` button. The shipped behavior follows inserted messages and toggles the jump button. | Consumer-sized; `hidden` toggles the jump button; `change` reports `detail.following` |
 | Native select | `.native-select` | Native `<select>`; `optgroup` groups options. | `data-size="default|sm"`; native `required` and `disabled`; `aria-invalid` |
 | Navigation menu | `.navigation-menu` | `nav` with `ul`/`li`, trigger buttons or links, and `[data-popover]` panels with link lists and `[data-slot="icon"]`/`[data-slot="title"]`/`[data-slot="description"]` inside links. | Placement attributes on panels; the trigger chevron rotates while `aria-expanded="true"` |
 | Pagination | `.pagination` | `nav` with `ul`/`li`; links compose with `.btn`; `[data-slot="ellipsis"]` and `[data-slot="label"]` parts. | `aria-current="page"` on the active link |
 | Popover | `.popover` | Trigger with `aria-haspopup="dialog"`, `aria-expanded` and `aria-controls`, plus a `[data-popover]` `role="dialog"` panel named by `aria-labelledby`; optional header, title and description. | Placement attributes |
 | Progress | `.progress` | Native `<progress>` with fallback text. | `value`/`max`; omit `value` for indeterminate |
-| Questionnaire | `.questionnaire` | `[data-slot="progress"]`, fieldset steps with legends, `[data-slot="choices"]`, native inputs and `[data-slot="actions"]`. | `aria-current="step"` on the active step; `hidden` on inactive steps; native radio/checkbox/input |
+| Questionnaire | `.questionnaire` | `[data-slot="progress"]`, fieldset steps with legends, `[data-slot="choices"]`, native inputs, `[data-slot="actions"]` and `[data-slot="previous"]`/`[data-slot="next"]` buttons. | `aria-current="step"` on the active step; `hidden` on inactive steps; native radio/checkbox/input |
 | Radio | `.radio` | Native `input[type="radio"]`, normally inside `role="radiogroup"`. Compose rows with `.field` and a label, and group them with `[data-slot="radio-group"]` inside a `.fieldset`. | — |
-| Resizable | `.resizable` | `.resizable-panel` panes and `[data-slot="handle"]` separators. | `data-orientation="horizontal|vertical"`; panel `--panel-size`; handle `aria-valuenow/min/max` |
+| Resizable | `.resizable` | `.resizable-panel` panes and `[data-slot="handle"]` separators. The shipped behavior drags one handle between two adjacent panels and supports keyboard resizing. | `data-orientation="horizontal|vertical"`; panel `--panel-size`; handle `aria-valuenow/min/max`; `change` reports `detail.sizes` |
 | Scroll area | `.scroll-area` | Scroll container; the consumer sets dimensions and content. | `data-orientation="horizontal|vertical"`; `data-size="default|sm"` |
 | Select | `.select` | Trigger with `role="combobox"`, `[data-slot="value"]`, optional `[data-slot="input"]` hidden input and a `[data-popover] > [role="listbox"]` panel. Group labels use `[data-slot="label"]`, dividers use `[role="separator"]` and the panel scrolls at `18rem`. | `data-size="default|sm"`; `data-placeholder` on the value; `aria-invalid` on the trigger |
 | Separator | `.separator` | `<hr>` or `[role="separator"]`. | `data-orientation="horizontal|vertical"`; `aria-orientation` is also recognized |
@@ -491,7 +495,7 @@ direction.
 | Toast | `.toaster`, `.toast` | Fixed stack with `.toast` items; a `section` with title/description and a close button. | `data-variant="default|destructive"`; `data-duration` in milliseconds; `role="status"` or `role="alert"`; `[data-slot="close"]` |
 | Toggle | `.toggle` | Native `<button type="button">`; text and optional SVG. | `aria-pressed="true|false"`; `data-variant="default|outline"`; `data-size="default|sm|lg"` |
 | Toggle group | `.toggle-group` | `role="group"` container of `.toggle` children. | `data-orientation="horizontal|vertical"`; `data-spacing="default|joined"`; group `data-variant`/`data-size` apply to children without their own |
-| Tooltip | `.tooltip` | Wrapper around the trigger; `data-tooltip` for the text bubble or a direct `[data-slot="content"]` child with `role="tooltip"`; always-on tail. | `data-side`, `data-align` |
+| Tooltip | `.tooltip` | Wrapper around the trigger; `data-tooltip` for the text bubble or a direct `[data-slot="content"]` child with `role="tooltip"`; always-on tail. The shipped behavior adds Escape dismissal for content children; the shorthand stays CSS-only. | `data-side`, `data-align`; content `aria-hidden` |
 | Trace | `.trace` | Native `<details>` with a `<summary>` line (`[data-slot="icon"]`, title and status) and `[data-slot="body"]`; `[data-slot="source"]` links compose inside the body. | `[open]`; `aria-busy="true"` while running; status `data-variant="error|success"` |
 
 On buttons, `default` and `primary` are aliases; omitting `data-variant` is
@@ -620,8 +624,10 @@ The state contract is deliberately small. Do **not** use `.active`,
 `data-state="selected"` or similar class/data aliases. Beyond variant, size,
 orientation, spacing, fit and placement attributes, `data-highlighted` (active
 option) and the transient `data-copied` (copy feedback) are the only public
-data-driven states; `data-duration` configures the toast timer. Any other state
-must be expressible with a native pseudo-class or ARIA.
+data-driven states; `data-duration` configures the toast timer. Calendar also
+uses `data-selection`, `data-min`, `data-max`, `data-unavailable`, `data-month`
+and `data-date` as configuration and data; they are not visual states. Any
+other state must be expressible with a native pseudo-class or ARIA.
 
 Notes:
 
@@ -633,8 +639,10 @@ Notes:
 - `data-dropdown-menu-initialized` is an internal behavior hook set by the
   shipped menu module to disable the CSS-only hover fallback once JavaScript
   takes over keyboard navigation. It is not part of the public state contract.
-- The CSS-only tooltip opens on wrapper `:hover` and `:has(:focus-visible)`; it
-  has no JavaScript open state. Empty content does not open the bubble.
+- Tooltips with a content child keep the CSS `:hover` / `:has(:focus-visible)`
+  fallback; the shipped hover-overlay behavior adds `aria-hidden` and Escape
+  dismissal. The `data-tooltip` shorthand has no element to manage and stays
+  CSS-only. Empty content does not open the bubble.
 - Code Block's `data-line-numbers`, `data-wrap` and line `data-variant` are
   presentation modifiers, not states. `--line-start` on the `pre` is a local
   customization property, not a global token.
@@ -656,9 +664,10 @@ Notes:
   `aria-expanded="true"`. A menu surface that contains a submenu keeps its
   overflow visible so the nested panel is not clipped; keep those menus short
   instead of relying on their scroll container.
-- Hover cards have no open state: CSS shows the panel on `:hover` and
-  `:focus-within`. They are not a substitute for a popover that needs explicit
-  dismissal.
+- Hover cards use the CSS `:hover` / `:focus-within` rules as the no-JS
+  fallback; the shipped hover-overlay behavior adds `aria-hidden`, Escape
+  dismissal and focus return. They are not a substitute for a popover that
+  needs to stay open for interactive content.
 - Context menus use `aria-hidden` on the panel. The shipped menu behavior sets
   `--context-x` and `--context-y`, manages focus and opens on right-click or
   Shift+F10; the CSS does not track the pointer. The area uses
@@ -690,13 +699,15 @@ Notes:
 - Calendar day cells use `aria-selected`; day buttons use `aria-current="date"`
   and `aria-disabled`. A range or multiple selection sets
   `aria-multiselectable="true"` on the grid and marks every selected day. The
-  header uses `[data-slot="caption"]` with native month and year selects;
-  month navigation and keyboard grid movement are consumer JavaScript.
-- Carousel indicators use `aria-current="true"`; consumers manage offscreen
-  slides with `aria-hidden` or `inert` and own scrolling and autoplay.
+  shipped calendar behavior reads `data-selection`, `data-min`, `data-max`,
+  `data-unavailable`, `data-month` and `data-date`, renders standard day
+  buttons and owns month navigation, selection and keyboard grid movement.
+- Carousel indicators use `aria-current="true"`; the shipped behavior moves
+  between slides, updates indicators and manages `aria-hidden`/`inert` on
+  offscreen slides. Autoplay and looping are not included.
 - Resizable handles are `role="separator"` with `aria-orientation` and
-  `aria-valuenow`/`aria-valuemin`/`aria-valuemax`; consumers update the values
-  while dragging.
+  `aria-valuenow`/`aria-valuemin`/`aria-valuemax`; the shipped behavior updates
+  the values during pointer drag and keyboard resizing.
 - Chart `data-series` values map to `--chart-*` tokens and are presentation
   modifiers, not states.
 - Attachment state uses `aria-busy="true"` for uploading or processing and a
@@ -731,18 +742,36 @@ complete without them; `--no-behavior` must always produce a valid install.
   `tabindex`, `hidden`, `inert`, `data-highlighted` and transient
   `data-copied`. No `data-state`, no extra wrappers and no `innerHTML`.
 - Events bubble from the component root: `change` (`detail.value`,
-  `detail.values` or `detail.checked`), `toggle` (`detail.open`) and
-  `dismiss` (`detail.reason`).
+  `detail.values`, `detail.range`, `detail.index`, `detail.sizes`,
+  `detail.step`/`detail.total`, `detail.following` or `detail.checked`),
+  `toggle` (`detail.open`) and `dismiss` (`detail.reason`).
 - Static content and the page's own navigation stay readable without
   JavaScript. Overlay panels and selection widgets may be inert and are
   documented as behavior-dependent. Tooltip and hover-card keep their CSS
-  fallbacks.
+  hover/focus fallbacks; the tooltip `data-tooltip` shorthand stays
+  visual-only.
 - The modules are: `dialog` (dialog, alert-dialog, sheet, drawer), `popover`,
   `menu` (dropdown-menu, context-menu, menubar, navigation-menu), `tabs`,
-  `listbox` plus `select`, `combobox` and `command`, `toast` and `code-block`.
+  `listbox` plus `select`, `combobox` and `command`, `toast`, `code-block`,
+  `calendar`, `carousel`, `resizable`, `questionnaire`, `message-scroller` and
+  `hover-overlay` (tooltip and hover-card).
+- Calendar reads `data-selection="single|range|multiple"`, `data-min`,
+  `data-max`, `data-unavailable`, `data-month` and `data-date`, renders standard
+  day buttons and uses `Intl` for labels and week numbers. Range uses two
+  clicks (normalized), Shift-click extends and a third click starts over.
+- Carousel ships controls, keyboard and offscreen state; it does not autoplay
+  or loop. Resizable ships one handle between two adjacent panels with
+  percentage sizes and no persistence or nesting. Questionnaire owns
+  `[data-slot="previous"]`/`[data-slot="next"]`, progress and focus; validation
+  and completion stay app-owned.
+- Message-scroller follows inserted messages and preserves the reading position
+  when the user is not following. Toast and message-scroller are the only
+  modules allowed a scoped `MutationObserver`; message-scroller observes
+  `[data-slot="content"]` child additions only.
 - Dialog actions use `data-open-dialog="<id>"` and `data-close-dialog`. Select
   and single-combobox forms sync a `[data-slot="input"]` hidden input. Toast
-  reads `data-duration` and Code Block uses `data-copied` for its transient
+  reads `data-duration`, Message scroller exposes `mount(root)` for a
+  late-mounted subtree and Code Block uses `data-copied` for its transient
   check state.
 - Behavior relies on the same browser target as the CSS: Chrome/Edge 125+,
   Safari 26+ and Firefox 147+.
@@ -817,20 +846,25 @@ progress sweep slow down instead of stopping. This remains a known gap.
   `aria-disabled="true"`; consumers driving the primitive directly own them.
 - Calendar uses a native `<table role="grid">` with column headers and
   `gridcell` day cells. The grid needs an accessible name; day buttons need
-  full-date labels; week numbers use row headers; focus moves inside the grid
-  in consumer JavaScript.
+  full-date labels; week numbers use row headers. The shipped behavior renders
+  the month, moves focus with arrow/Home/End/PageUp/PageDown, selects with
+  Enter/Space and manages `aria-selected`, `aria-current="date"` and
+  `aria-disabled`. Calendars with custom day content opt out and stay CSS-only.
 - Carousel slides need an accessible label and `aria-roledescription="slide"`;
   the viewport is focusable so keyboard users can scroll. Controls and
-  indicators need labels; indicators use `aria-current`.
+  indicators need labels; indicators use `aria-current`. The shipped behavior
+  moves between slides, updates indicators and marks fully offscreen slides
+  `aria-hidden` and `inert`.
 - Charts need a text alternative on the SVG or canvas and a visible legend.
   Tooltips are supplementary and must not be the only source of the values.
 - Resizable handles are focusable separators with live
-  `aria-valuenow`/`aria-valuemin`/`aria-valuemax`; keyboard resizing is consumer
-  JavaScript.
+  `aria-valuenow`/`aria-valuemin`/`aria-valuemax`. The shipped behavior handles
+  pointer drag, arrow/Home/End keys and `change` with `detail.sizes`.
 - Sidebar navigation needs a `nav` label and `aria-current="page"` on the active
   link. Label each group with a heading or `[data-slot="group-label"]`; give
   icon-only group and row actions an accessible name. The mobile composition
-  uses a labelled sheet or dialog.
+  uses a labelled sheet or dialog; active navigation stays app-owned and the
+  shipped dialog behavior opens the sheet with `data-open-dialog`.
 - Alerts do not add live-region behavior. Use `role="alert"` when the message
   appears after load; mark decorative icons `aria-hidden` and give an action in
   the footer an accessible name.
@@ -845,16 +879,19 @@ progress sweep slow down instead of stopping. This remains a known gap.
 - Bubble reactions are buttons with accessible labels and `aria-pressed`; do not
   rely on the emoji alone to convey the reaction.
 - Questionnaire steps are fieldsets with legends. The progress element needs an
-  accessible name; move focus to the new step after navigation. Inactive steps
-  are removed from rendering and the accessibility tree with `hidden`.
+  accessible name. The shipped behavior owns previous/next, focus into the new
+  step, `aria-current="step"` and the `hidden` state; validation and completion
+  stay app-owned.
 - Trace rows take their accessible name from the summary text. Decorative icons
   are `aria-hidden`; say what happened in the title, and repeat the status in
   words rather than relying on color. The summary is the native keyboard target.
 - Message scroller viewports need `tabindex="0"` and an accessible name. The
-  jump button needs a label and must be hidden when it has no effect.
+  jump button needs a label and must be hidden when it has no effect. The
+  shipped behavior follows inserted messages and toggles the button.
 - OTP inputs need an accessible label, `inputmode="numeric"`,
-  `autocomplete="one-time-code"`, `maxlength` and optionally `pattern`. CSS
-  does not auto-advance or draw per-digit slots.
+  `autocomplete="one-time-code"`, `maxlength` and optionally `pattern`. There
+  is no behavior module: the single native input is intentional, and per-digit
+  focus/auto-advance is outside the contract.
 - Scroll areas need `tabindex="0"` and an accessible name so keyboard users can
   scroll them.
 - Sliders are native range inputs and need a label; keep min, max and value in
@@ -871,7 +908,12 @@ progress sweep slow down instead of stopping. This remains a known gap.
   `role="region"`, an accessible name and `tabindex="0"`.
 - Hover-card triggers need `aria-describedby` pointing at the panel. The panel
   is a non-modal preview; interactive content that must stay open belongs in a
-  popover.
+  popover. The shipped hover-overlay behavior adds Escape dismissal and
+  `aria-hidden`; the CSS hover/focus-within rules remain the fallback.
+- Tooltips with a `[data-slot="content"]` child use `aria-describedby` pointing
+  at `role="tooltip"`. The shipped hover-overlay behavior adds Escape dismissal
+  and `aria-hidden`; the `data-tooltip` shorthand stays visual-only and
+  CSS-only.
 - Context menus must move focus into the menu, return it on close and support
   arrow-key navigation. The shipped menu behavior owns the right-click and
   Shift+F10 handlers, the `--context-x`/`--context-y` coordinates and focus.
@@ -1008,7 +1050,14 @@ The following are public API and require a breaking-change note when changed:
 - the `change`, `toggle` and `dismiss` event contract;
 - `data-open-dialog` / `data-close-dialog` and the `[data-slot="input"]` hidden
   input on select and single combobox;
-- `data-duration` on toast and transient `data-copied` on copy controls;
+- `data-duration` on toast, transient `data-copied` on copy controls and the
+  calendar `data-selection`, `data-min`, `data-max`, `data-unavailable`,
+  `data-month` and `data-date` configuration;
+- carousel `[data-slot="previous"]`/`[data-slot="next"]`, questionnaire
+  `[data-slot="previous"]`/`[data-slot="next"]`, message-scroller
+  `[data-slot="jump"]` and `mount(root)`;
+- the shared `hover-overlay.js` module and `aria-hidden` on tooltip content and
+  hover-card panels;
 - the context-menu area's `aria-haspopup`, `aria-controls` and `tabindex`.
 
 Additive changes (a new optional part, a new variant, a new token with a
@@ -1031,16 +1080,18 @@ semantic versioning.
 
 - Most motion has no `prefers-reduced-motion` guard. The spinner rotation and
   the progress sweep slow down instead of stopping.
-- Tooltips are CSS-only; they cannot be dismissed with Escape and cannot stay
-  open when the pointer leaves the trigger. Rich content is non-interactive.
+- Tooltip content children are behavior-managed, but the `data-tooltip`
+  shorthand stays CSS-only and cannot be dismissed with Escape. Rich content
+  remains non-interactive.
 - Nova, Vega, Maia, Lyra, Mira, Luma, Sera and Rhea are the only shipped
   styles; style-specific visual regression snapshots are not part of CI.
 - Toggle and toggle-group remain consumer-driven in this release.
 - Combobox filtering is client-side; async search requires editing the copied
   module. Multiple combobox chips are app-rendered.
 - Tabs use automatic activation only; there is no manual mode.
-- Toasts hide immediately; there is no exit animation. Toast timers use the one
-  scoped `MutationObserver` in the behavior layer.
+- Toasts hide immediately; there is no exit animation. Toast timers and message
+  scrollers use the two scoped `MutationObserver`s in the behavior layer; no
+  other module observes the DOM.
 - There is no behavior teardown API; `init(root)` only adds roots.
 - Code Block does not ship syntax highlighting, ANSI rendering, streaming or a
   Show More interaction; syntax highlighting stays in the consumer's
@@ -1055,8 +1106,8 @@ semantic versioning.
 - Drawers ship no swipe or drag behavior; the handle is a visual affordance.
 - Menubars and navigation menus ship keyboard navigation; the mobile layout
   remains consumer work.
-- Hover cards are CSS-only previews. They cannot be dismissed explicitly and
-  should not wrap interactive content that needs to stay open.
+- Hover cards are previews. They can be dismissed with Escape, but should not
+  wrap interactive content that needs to stay open; use popover for that.
 - The `menu` primitive styles every `[role="menu"]` in the project.
 - There is no `loseta remove` command; removing an experimental item before a
   style switch is a manual file and manifest edit.
@@ -1064,7 +1115,8 @@ semantic versioning.
   `calc-size()`; older engines in the support window open and close instantly.
 - Sliders use native tracks and thumbs. A custom thumb needs `appearance: none`
   and consumer-managed fill.
-- OTP inputs do not auto-advance or draw per-digit slots.
+- OTP inputs use one native field; per-digit focus and auto-advance are not
+  included.
 - Input-group addons do not focus the control when clicked; that is consumer
   JavaScript. Place addons after the control in the DOM so the control keeps
   its tab order.
@@ -1077,20 +1129,20 @@ semantic versioning.
   Its group dividers are decorative and its list scrolls at `20rem`.
 - Multiple combobox selections are not rendered as chips; compose them with
   badges in consumer markup.
-- Calendar day navigation, selection and keyboard grid movement are consumer
-  JavaScript.
-- Carousel scrolling, offscreen slide state and autoplay are consumer
-  JavaScript.
+- Calendar custom day content, presets, date-time inputs and coordination
+  between separate calendars stay app-owned.
+- Carousel autoplay and looping are not included.
 - Chart rendering, data and tooltip positioning are consumer responsibilities;
   the registry provides chrome only.
-- Resizable drag and keyboard resizing are consumer JavaScript.
-- Sidebar mobile composition and active-navigation behavior are consumer
-  JavaScript.
+- Resizable supports one handle between two adjacent panels; persistence and
+  nested layouts are not included.
+- Sidebar active navigation remains app-owned; the mobile sheet uses the
+  shipped dialog behavior.
 - Toast timing and dismissal ship in the behavior module; `sonner` is
   documented as a compatibility note, not a registry item.
-- Message rendering, reactions, attachments, trace status, questionnaire
-  validation and message-scroller following/anchor behavior are consumer
-  JavaScript.
+- Message rendering, reactions, attachments, trace status and questionnaire
+  validation/completion are consumer JavaScript. Message scroller follows
+  appended content; prepended content relies on native scroll anchoring.
 - Form, data-table, date-picker and typography are docs recipes, not registry
   items. Direction maps to the native `dir` attribute; Sonner maps to the toast
   compatibility note.

@@ -2872,18 +2872,19 @@ test("calendar mirrors in right-to-left containers", async ({ page }) => {
 
 test("carousel controls scroll the viewport and update indicators", async ({ page }) => {
   await page.goto("/docs/components/carousel");
-  const viewport = page.locator(".carousel-viewport");
+  const carousel = page.locator(".carousel").first();
+  const viewport = carousel.locator(".carousel-viewport");
   const scrollLeft = () =>
     viewport.evaluate((element) => element.scrollLeft);
 
   expect(await scrollLeft()).toBe(0);
 
-  await page.getByRole("button", { name: "Next slide" }).click();
+  await carousel.getByRole("button", { name: "Next slide" }).click();
   await expect.poll(scrollLeft).toBeGreaterThan(0);
 
-  await page.getByRole("button", { name: "Go to slide 3" }).click();
+  await carousel.getByRole("button", { name: "Go to slide 3" }).click();
   await expect(
-    page.getByRole("button", { name: "Go to slide 3" })
+    carousel.getByRole("button", { name: "Go to slide 3" })
   ).toHaveAttribute("aria-current", "true");
 });
 
@@ -2899,7 +2900,10 @@ test("toast dismissal hides the item", async ({ page }) => {
 
 test("questionnaire navigates between fieldset steps", async ({ page }) => {
   await page.goto("/docs/components/questionnaire");
-  const questionnaire = page.locator(".questionnaire[data-demo='questionnaire']");
+  const questionnaire = page
+    .locator("section.example")
+    .filter({ has: page.locator(".example-title", { hasText: /^Steps$/ }) })
+    .locator(".questionnaire");
   const label = questionnaire.locator("[data-slot='progress-label']");
   const steps = questionnaire.locator("[data-slot='item']");
 
@@ -2920,6 +2924,21 @@ test("questionnaire navigates between fieldset steps", async ({ page }) => {
   await questionnaire.getByRole("button", { name: "Previous" }).click();
   await expect(label).toHaveText("Question 1 of 2");
   await expect(steps.first()).toBeVisible();
+});
+
+test("CSS-only components explain their no-module decision", async ({ page }) => {
+  for (const id of ["input-otp", "slider", "scroll-area", "sidebar"]) {
+    await page.goto(`/docs/components/${id}`);
+    await expect(
+      page.getByRole("heading", { name: "Behavior", exact: true })
+    ).toBeVisible();
+    await expect(page.getByText("No behavior module")).toBeVisible();
+  }
+
+  await page.goto("/docs/behavior");
+  await expect(
+    page.getByRole("heading", { name: "CSS-only by design" })
+  ).toBeVisible();
 });
 
 test("progress mirrors its indeterminate sweep in right-to-left", async ({ page }) => {

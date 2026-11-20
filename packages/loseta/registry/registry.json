@@ -1,7 +1,7 @@
 {
   "$schema": "./schema.json",
   "name": "loseta",
-  "version": "0.18.0",
+  "version": "0.19.0",
   "styles": [
     {
       "name": "nova",
@@ -2361,6 +2361,18 @@
       ],
       "examples": [
         "examples/tooltip.html"
+      ],
+      "behaviors": [
+        {
+          "path": "behaviors/core.js",
+          "target": "behaviors/core.js",
+          "kind": "support"
+        },
+        {
+          "path": "behaviors/hover-overlay.js",
+          "target": "behaviors/hover-overlay.js",
+          "kind": "entry"
+        }
       ]
     },
     {
@@ -3343,6 +3355,18 @@
       ],
       "examples": [
         "examples/hover-card.html"
+      ],
+      "behaviors": [
+        {
+          "path": "behaviors/core.js",
+          "target": "behaviors/core.js",
+          "kind": "support"
+        },
+        {
+          "path": "behaviors/hover-overlay.js",
+          "target": "behaviors/hover-overlay.js",
+          "kind": "entry"
+        }
       ]
     },
     {
@@ -4353,6 +4377,18 @@
       ],
       "examples": [
         "examples/calendar.html"
+      ],
+      "behaviors": [
+        {
+          "path": "behaviors/core.js",
+          "target": "behaviors/core.js",
+          "kind": "support"
+        },
+        {
+          "path": "behaviors/calendar.js",
+          "target": "behaviors/calendar.js",
+          "kind": "entry"
+        }
       ]
     },
     {
@@ -4427,6 +4463,18 @@
       ],
       "examples": [
         "examples/carousel.html"
+      ],
+      "behaviors": [
+        {
+          "path": "behaviors/core.js",
+          "target": "behaviors/core.js",
+          "kind": "support"
+        },
+        {
+          "path": "behaviors/carousel.js",
+          "target": "behaviors/carousel.js",
+          "kind": "entry"
+        }
       ]
     },
     {
@@ -4573,6 +4621,18 @@
       ],
       "examples": [
         "examples/resizable.html"
+      ],
+      "behaviors": [
+        {
+          "path": "behaviors/core.js",
+          "target": "behaviors/core.js",
+          "kind": "support"
+        },
+        {
+          "path": "behaviors/resizable.js",
+          "target": "behaviors/resizable.js",
+          "kind": "entry"
+        }
       ]
     },
     {
@@ -5110,6 +5170,18 @@
       ],
       "examples": [
         "examples/message-scroller.html"
+      ],
+      "behaviors": [
+        {
+          "path": "behaviors/core.js",
+          "target": "behaviors/core.js",
+          "kind": "support"
+        },
+        {
+          "path": "behaviors/message-scroller.js",
+          "target": "behaviors/message-scroller.js",
+          "kind": "entry"
+        }
       ]
     },
     {
@@ -5184,6 +5256,18 @@
       ],
       "examples": [
         "examples/questionnaire.html"
+      ],
+      "behaviors": [
+        {
+          "path": "behaviors/core.js",
+          "target": "behaviors/core.js",
+          "kind": "support"
+        },
+        {
+          "path": "behaviors/questionnaire.js",
+          "target": "behaviors/questionnaire.js",
+          "kind": "entry"
+        }
       ]
     },
     {

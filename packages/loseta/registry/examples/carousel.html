@@ -38,12 +38,90 @@
     </div>
   </div>
   <div class="carousel-controls">
-    <button type="button" class="carousel-button" aria-label="Previous slide"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg></button>
+    <button type="button" class="carousel-button" data-slot="previous" aria-label="Previous slide"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg></button>
     <div class="carousel-indicators" role="group" aria-label="Slides">
       <button type="button" class="carousel-indicator" aria-label="Go to slide 1" aria-current="true"></button>
       <button type="button" class="carousel-indicator" aria-label="Go to slide 2"></button>
       <button type="button" class="carousel-indicator" aria-label="Go to slide 3"></button>
     </div>
-    <button type="button" class="carousel-button" aria-label="Next slide"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg></button>
+    <button type="button" class="carousel-button" data-slot="next" aria-label="Next slide"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg></button>
   </div>
 </section>
+
+<!-- Vertical -->
+<section class="carousel" data-orientation="vertical" aria-roledescription="carousel" aria-label="Release notes">
+  <div class="carousel-viewport" tabindex="0" style="height: 14rem">
+    <div class="carousel-track">
+      <div class="carousel-item" role="group" aria-roledescription="slide" aria-label="1 of 2">
+        <div class="card">
+          <header>
+            <h3 data-slot="title">Registry</h3>
+            <p data-slot="description">Ship the files you read</p>
+          </header>
+          <section>
+            <p>The same CSS and behavior files power the docs and the install.</p>
+          </section>
+        </div>
+      </div>
+      <div class="carousel-item" role="group" aria-roledescription="slide" aria-label="2 of 2">
+        <div class="card">
+          <header>
+            <h3 data-slot="title">Layers</h3>
+            <p data-slot="description">Keep the cascade boring</p>
+          </header>
+          <section>
+            <p>Tokens, reset, base, components, style and utilities stay in order.</p>
+          </section>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="carousel-controls">
+    <button type="button" class="carousel-button" data-slot="previous" aria-label="Previous slide"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg></button>
+    <div class="carousel-indicators" role="group" aria-label="Slides">
+      <button type="button" class="carousel-indicator" aria-label="Go to slide 1" aria-current="true"></button>
+      <button type="button" class="carousel-indicator" aria-label="Go to slide 2"></button>
+    </div>
+    <button type="button" class="carousel-button" data-slot="next" aria-label="Next slide"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg></button>
+  </div>
+</section>
+
+<!-- Right-to-left -->
+<div dir="rtl" lang="ar">
+  <section class="carousel" data-orientation="horizontal" aria-roledescription="carousel" aria-label="مكونات مميزة">
+    <div class="carousel-viewport" tabindex="0">
+      <div class="carousel-track">
+        <div class="carousel-item" role="group" aria-roledescription="slide" aria-label="1 من 2">
+          <div class="card">
+            <header>
+              <h3 data-slot="title">لوحة</h3>
+              <p data-slot="description">سطح واضح</p>
+            </header>
+            <section>
+              <p>تتبع الشرائح اتجاه الصفحة وتعمل بمفاتيح الأسهم.</p>
+            </section>
+          </div>
+        </div>
+        <div class="carousel-item" role="group" aria-roledescription="slide" aria-label="2 من 2">
+          <div class="card">
+            <header>
+              <h3 data-slot="title">حوار</h3>
+              <p data-slot="description">تركيز محفوظ</p>
+            </header>
+            <section>
+              <p>تعيد الطبقات ترتيب نفس العناصر دون تغيير الترميز.</p>
+            </section>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="carousel-controls">
+      <button type="button" class="carousel-button" data-slot="previous" aria-label="الشريحة السابقة"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg></button>
+      <div class="carousel-indicators" role="group" aria-label="الشرائح">
+        <button type="button" class="carousel-indicator" aria-label="الانتقال إلى الشريحة 1" aria-current="true"></button>
+        <button type="button" class="carousel-indicator" aria-label="الانتقال إلى الشريحة 2"></button>
+      </div>
+      <button type="button" class="carousel-button" data-slot="next" aria-label="الشريحة التالية"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg></button>
+    </div>
+  </section>
+</div>

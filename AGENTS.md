@@ -105,7 +105,9 @@ rules.
 When adding behavior, add the module under `registry/behaviors/`, declare it in
 `behaviors` with `kind: "entry"` or `"support"`, include `behaviors/core.js` as
 support, and add `web/tests/behaviors/<name>.spec.ts`. The validator requires
-the spec and parses every module as ESM. The docs import the shipped entry
+the spec and parses every module as ESM. Calendar uses the documented data
+attributes and standard day buttons; a calendar with custom day content opts
+out. The docs import the shipped entry
 modules from `web/src/scripts/docs-client/behaviors.ts`; do not add a parallel
 implementation. The fixture route `web/src/pages/fixtures/behaviors.astro`
 renders the public examples for Playwright and is excluded from OG generation.
@@ -134,7 +136,9 @@ Nova-only until they are promoted.
 - `data-highlighted` (active option) and transient `data-copied` (copy feedback)
   are the only public data-driven states beyond variant, size, orientation,
   spacing, fit and placement attributes. `data-duration` is the toast timer
-  configuration. Express everything else with the hooks above.
+  configuration; calendar `data-selection`, `data-min`, `data-max`,
+  `data-unavailable`, `data-month` and `data-date` are configuration and data,
+  not visual states. Express everything else with the hooks above.
 - Name parts with `data-slot` when no semantic element already carries the
   role; prefer `header`, `section`, `footer`, `figure` and `aside` where the
   anatomy provides them.
@@ -158,13 +162,21 @@ Nova-only until they are promoted.
   listeners. Keep the event contract: `change`, `toggle`, `dismiss`.
 - Behavior must not be required to read static content or the page's own
   navigation. Overlay panels and selection widgets may be inert without JS.
-- Toast is the only module allowed a scoped `MutationObserver` (inserted
-  toasts). No other observers without a new decision.
-- RTL: horizontal menu arrows follow computed direction; context-menu
-  coordinates stay physical.
+- Toast and message-scroller are the only modules allowed a scoped
+  `MutationObserver` (inserted toasts and inserted messages). Message-scroller
+  observes only `[data-slot="content"]` child additions. No other observers
+  without a new decision.
+- RTL: horizontal menu and carousel arrows follow computed direction; calendar
+  arrows follow the grid direction; context-menu coordinates stay physical.
 - Every entry module needs a Playwright spec in `web/tests/behaviors/`.
   Clip-sensitive overlays are tested on the fixture route, not inside
   `.component-preview`.
+
+Behavior-bearing items: the original fifteen plus calendar, carousel,
+resizable, questionnaire, message-scroller, tooltip and hover-card. Tooltip and
+hover-card share `hover-overlay.js`; message-scroller exports `mount(root)` for
+late-mounted lists. Input OTP, slider, scroll-area and sidebar stay CSS-only by
+design; do not add modules for them without revisiting the contract.
 
 ## Generated files
 

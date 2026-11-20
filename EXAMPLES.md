@@ -13,10 +13,9 @@ reference for this checklist.
 - `web/src/data/examples/icons.ts` — shared inline SVGs and example helpers.
   Import only the icons a component uses; add a new icon here when an example
   needs it.
-- `web/src/scripts/docs-client/demo.ts` — demo-only handlers for components
-  that do not ship behavior yet (questionnaire, message scroller, carousel,
-  toggle, indeterminate checkbox, install copy). The generator strips
-  `data-demo-*` hooks from installed examples.
+- `web/src/scripts/docs-client/demo.ts` — remaining demo-only handlers for
+  toggle state, the indeterminate checkbox and install/code copy. The generator
+  strips `data-demo-*` hooks from installed examples.
 - `packages/loseta/registry/behaviors/` — shipped behavior modules. The docs
   import the entry modules from
   `web/src/scripts/docs-client/behaviors.ts`; do not duplicate them in `demo.ts`.
@@ -92,6 +91,13 @@ installed example.
 - `data-duration` — Toast timer in milliseconds (`0` is persistent).
 - Context menu areas use `aria-haspopup="menu"`, `aria-controls` and
   `tabindex="0"`.
+- Calendar uses `data-selection`, `data-min`, `data-max`, `data-unavailable`,
+  `data-month` and `data-date` on standard day buttons.
+- Carousel controls use `[data-slot="previous"]` and `[data-slot="next"]`;
+  indicators stay in DOM order.
+- Questionnaire navigation uses `[data-slot="previous"]` and
+  `[data-slot="next"]`.
+- Message-scroller uses `[data-slot="jump"]`; the module owns `hidden`.
 
 ## Demo hooks
 
@@ -99,15 +105,10 @@ Hooks below are docs-only and are stripped by the generator. Use them only for
 components that do not ship behavior yet; the full set lives in
 `web/src/scripts/docs-client/demo.ts`.
 
-- `data-demo` — marks the root a demo is scoped to. Used by the message
-  scroller, questionnaire, toggle and carousel demos.
+- `data-demo` — legacy scope marker retained in a few examples; the generator
+  strips it and the docs client no longer reads it.
 - `data-demo-toggle` — toggles `aria-pressed` on a button.
 - `data-demo-indeterminate` — sets the native indeterminate state.
-- `data-demo-questionnaire-next` / `data-demo-questionnaire-prev` — step the
-  questionnaire.
-- `data-demo-scroll-end` — scroll a message scroller to the end.
-- `data-demo-carousel-prev` / `data-demo-carousel-next` / `data-demo-carousel-go`
-  — move the docs carousel.
 
 Prefer a native control and event, or the shipped behavior, when it
 demonstrates the contract; add a demo hook only for the interaction the docs

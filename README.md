@@ -68,14 +68,25 @@ CLI flag and Nova-only rule remain for future items.
 
 ## Behavior
 
-Fifteen stable components ship a behavior module: dialog, alert-dialog, sheet,
-drawer, popover, dropdown-menu, context-menu, menubar, navigation-menu, tabs,
-select, combobox, command, toast and code-block. The modules are plain ESM with
-JSDoc types, no dependencies and no build step; they self-initialize on import
-and expose `init(root)` for scoped mounts. Selection widgets dispatch `change`,
-overlays dispatch `toggle` and toasts dispatch `dismiss`. Markup stays the
-source of truth at rest; behavior only toggles ARIA state, focus and the
-transient `data-highlighted` / `data-copied` attributes.
+Twenty-two stable components ship a behavior module: the original fifteen
+(dialog, alert-dialog, sheet, drawer, popover, dropdown-menu, context-menu,
+menubar, navigation-menu, tabs, select, combobox, command, toast and code-block)
+plus calendar, carousel, resizable, questionnaire, message-scroller, tooltip
+and hover-card. Tooltip and hover-card share `hover-overlay.js`. The modules are
+plain ESM with JSDoc types, no dependencies and no build step; they
+self-initialize on import and expose `init(root)` for scoped mounts. Selection
+widgets, calendar, carousel, resizable, questionnaire and message-scroller
+dispatch `change`; overlays dispatch `toggle`; toasts dispatch `dismiss`.
+Markup stays the source of truth at rest; behavior only toggles ARIA state,
+focus and the transient `data-highlighted` / `data-copied` attributes.
+
+Calendar reads `data-selection`, `data-min`, `data-max`, `data-unavailable`,
+`data-month` and `data-date`. Carousel has no autoplay or loop; resizable
+handles one pair of panels; questionnaire leaves validation and completion
+app-owned; message-scroller uses one scoped `MutationObserver` on the message
+content. Four components are CSS-only by design: input-otp (one native field),
+slider (native range), scroll-area (native overflow) and sidebar
+(`aria-current` plus the dialog behavior for mobile).
 
 Static content and the page's own navigation stay readable without JavaScript.
 Overlay panels and selection widgets are behavior-dependent and documented as

@@ -115,6 +115,26 @@ A `data-demo-*` attribute used only by the docs site; the generator strips it
 from installed examples.
 _Avoid_: public hook, fixture hook
 
+**Configuration attribute**:
+A public data attribute that supplies behavior data or options rather than a
+visual state: `data-duration` on toast and `data-selection`, `data-min`,
+`data-max`, `data-unavailable`, `data-month` and `data-date` on calendar.
+_Avoid_: state attribute, data-state
+
+**Selection mode**:
+The calendar `data-selection` value: `single`, `range` or `multiple`.
+_Avoid_: selection state
+
+**Unavailable date**:
+A calendar date excluded from selection by `data-unavailable`, `data-min` or
+`data-max`; it renders `aria-disabled="true"`.
+_Avoid_: disabled date
+
+**Following**:
+The message-scroller state where the viewport is within the bottom threshold
+and new messages are scrolled into view.
+_Avoid_: auto-scroll state
+
 **Registry dependency**:
 A hard dependency that the CLI installs automatically because the item cannot work without it.
 _Avoid_: peer dependency, required package

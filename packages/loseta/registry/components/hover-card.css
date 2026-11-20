@@ -9,8 +9,8 @@
       opacity: 0%;
     }
 
-    &:hover > [data-popover],
-    &:focus-within > [data-popover] {
+    &:hover > [data-popover]:not([aria-hidden='true']),
+    &:focus-within > [data-popover]:not([aria-hidden='true']) {
       visibility: visible;
       opacity: 100%;
     }

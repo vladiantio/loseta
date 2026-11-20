@@ -118,6 +118,7 @@ type CalendarOptions = {
   weekNumbers?: boolean;
   dropdowns?: boolean;
   multiselectable?: boolean;
+  multiple?: boolean;
   width?: string;
   locale?: CalendarLocale;
   dir?: "rtl";
@@ -126,7 +127,7 @@ type CalendarOptions = {
 const dropdownCaption = (year: number, monthIndex: number): string => `\
 <span data-slot="caption">
     <span data-slot="dropdown">
-      <select aria-label="Month">
+      <select data-slot="month" aria-label="Month">
 ${MONTHS.map(
   (month, index) =>
     `        <option value="${index + 1}"${index === monthIndex ? " selected" : ""}>${month}</option>`
@@ -135,7 +136,7 @@ ${MONTHS.map(
       ${chevronDown}
     </span>
     <span data-slot="dropdown">
-      <select aria-label="Year">
+      <select data-slot="year" aria-label="Year">
 ${[2024, 2025, 2026, 2027, 2028]
   .map(
     (option) =>
@@ -162,6 +163,7 @@ const calendarTable = ({
   const cellCount = Math.ceil((firstWeekday + daysInMonth) / 7) * 7;
   const selectedDays = new Set(selected);
   const disabledDays = new Set(disabled);
+  const roving = selected[0] ?? today ?? isoDate(year, monthIndex, 1);
   const rows: string[] = [];
 
   for (let index = 0; index < cellCount; index += 7) {
@@ -180,6 +182,8 @@ const calendarTable = ({
       const isDisabled = !currentMonth || disabledDays.has(key);
       const attributes = [
         `type="button"`,
+        `data-date="${key}"`,
+        `tabindex="${key === roving ? "0" : "-1"}"`,
         `aria-label="${locale.dayLabel(cellYear, cellMonth, cellDay)}"`,
         isDisabled ? `aria-disabled="true"` : "",
         today === key ? `aria-current="date"` : ""
@@ -239,17 +243,33 @@ const calendar = (options: CalendarOptions): string => {
     ? dropdownCaption(year, monthIndex)
     : `<span data-slot="title" aria-live="polite">${monthLabel(year, monthIndex, locale)}</span>`;
   const attributes = [
+    `data-month="${year}-${pad(monthIndex + 1)}"`,
+    options.multiple
+      ? `data-selection="multiple"`
+      : options.multiselectable
+        ? `data-selection="range"`
+        : "",
+    options.disabled && options.disabled.length > 0
+      ? `data-unavailable="${options.disabled.join(",")}"`
+      : "",
     dir ? `dir="${dir}" lang="ar"` : "",
     width ? `style="width: ${width}"` : ""
   ].filter(Boolean);
 
   return `<div class="calendar"${attributes.length > 0 ? ` ${attributes.join(" ")}` : ""}>
   <header>
-    <button type="button" aria-label="${locale.previous}">${chevronLeft}</button>
+    <button type="button" data-slot="previous" aria-label="${locale.previous}">${chevronLeft}</button>
 ${indent(caption, 4)}
-    <button type="button" aria-label="${locale.next}">${chevronRight}</button>
+    <button type="button" data-slot="next" aria-label="${locale.next}">${chevronRight}</button>
   </header>
-${indent(calendarTable({ ...options, locale }), 2)}
+${indent(
+  calendarTable({
+    ...options,
+    locale,
+    multiselectable: options.multiselectable || options.multiple
+  }),
+  2
+)}
 </div>`;
 };
 
@@ -312,6 +332,16 @@ ${indent(
   2
 )}
 </div>`
+  },
+  {
+    title: "Multiple",
+    html: calendar({
+      year: 2026,
+      monthIndex: 1,
+      selected: ["2026-02-03", "2026-02-10", "2026-02-17"],
+      today: "2026-02-12",
+      multiple: true
+    })
   },
   {
     title: "Unavailable dates",
@@ -382,7 +412,7 @@ ${indent(
   {
     title: "Date picker",
     html: `<div style="display: flex; align-items: flex-start; justify-content: center; min-height: 27rem">
-  <div class="popover" data-demo="calendar" style="display: flex; flex-direction: column; align-items: stretch; width: 20rem">
+  <div class="popover" style="display: flex; flex-direction: column; align-items: stretch; width: 20rem">
     <button type="button" class="btn" data-variant="outline" aria-haspopup="dialog" aria-expanded="true" aria-controls="demo-calendar-picker-panel" style="justify-content: space-between">
       <span style="display: inline-flex; align-items: center; gap: 0.5rem">${calendarIcon} February 14, 2026</span>
       ${chevronDown}

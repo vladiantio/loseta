@@ -115,9 +115,9 @@ const notesBy: Record<string, string> = {
   "context-menu":
     "The shipped menu behavior sets --context-x and --context-y from the pointer (physical left/top, even in RTL), manages focus and closes on Escape or an outside click. The area uses aria-haspopup=\"menu\", aria-controls and tabindex=\"0\". The panel scrolls when it would leave the viewport. Items use role=\"menuitem\", role=\"menuitemcheckbox\" or role=\"menuitemradio\" with aria-checked. A nested menu wraps its trigger and [data-popover] panel in a role=\"none\" element; the sub-trigger carries aria-haspopup=\"menu\" and aria-expanded.",
   calendar:
-    "A native table month grid. Day cells use aria-selected; day buttons use aria-current=\"date\" and aria-disabled. Grids with aria-multiselectable=\"true\" mark every day in a range and style selected cells as a continuous band. The header uses [data-slot=\"title\"], or [data-slot=\"caption\"] with native month and year selects inside [data-slot=\"dropdown\"]; week numbers use row headers. Month navigation, selection and keyboard grid movement are consumer JavaScript.",
+    "A native table month grid. The shipped calendar behavior renders the month, updates the header title or month/year selects, and handles single, range and multiple selection, unavailable dates, week numbers, RTL and keyboard grid movement. Configure it with data-selection=\"single|range|multiple\", data-min, data-max, data-unavailable, data-month and data-date on each day button. Day cells use aria-selected; day buttons use aria-current=\"date\" and aria-disabled. The behavior renders standard day buttons only; calendars with custom day content stay CSS-only. Presets, date-time inputs and coordination between separate calendars stay app-owned.",
   carousel:
-    "A scroll-snap viewport and track. Items use scroll-snap-align. Consumers own scrolling, aria-current on indicators, aria-hidden/inert on offscreen slides and any autoplay.",
+    "A scroll-snap viewport and track. The shipped carousel behavior handles previous/next, indicators, keyboard arrows/Home/End, aria-current and aria-hidden/inert on offscreen slides, including vertical and RTL layouts. There is no autoplay or looping; the controls clamp at the ends.",
   chart:
     "CSS chrome only: container, plot, legend and tooltip. data-series=\"1\" through \"5\" map to --chart-1 through --chart-5; consumers render the SVG or canvas and position the tooltip.",
   collapsible:
@@ -137,13 +137,13 @@ const notesBy: Record<string, string> = {
   select:
     "A button with role=\"combobox\", aria-haspopup=\"listbox\", aria-expanded and aria-controls. The panel is a [data-popover] containing a [role=\"listbox\"] and caps at 18rem with vertical scrolling. Single-select only. Group options with [role=\"group\"] and [data-slot=\"label\"]; dividers are [role=\"separator\"] marked aria-hidden. data-size=\"sm\" shrinks the trigger and aria-invalid=\"true\" marks it invalid. The shipped behavior opens the panel, moves the highlight, selects, updates [data-slot=\"value\"] and [data-slot=\"input\"], and removes data-placeholder.",
   resizable:
-    "Flex layout with panels sized by --panel-size flex-grow. Handles use role=\"separator\" with aria-orientation and aria-valuenow/min/max; drag and keyboard resizing are consumer JavaScript.",
+    "Flex layout with panels sized by --panel-size flex-grow. The shipped resizable behavior drags one handle between two adjacent panels, supports arrow/Home/End keys, keeps aria-valuenow/min/max in sync and dispatches change with sizes. There is no persistence or nested resizable layout.",
   sidebar:
-    "Composition, not a stateful widget. Use an aside with header/section/footer; active links use aria-current=\"page\". Each nav group takes its name from a heading in its header or [data-slot=\"group-label\"], with an optional [data-slot=\"group-action\"] button. Rows accept one trailing [data-slot=\"menu-badge\"] or [data-slot=\"menu-action\"]; collapsible details and nested uls form submenus. The section scrolls, and the mobile composition uses a labelled sheet.",
+    "Composition, not a stateful widget. Use an aside with header/section/footer; active links use aria-current=\"page\". Each nav group takes its name from a heading in its header or [data-slot=\"group-label\"], with an optional [data-slot=\"group-action\"] button. Rows accept one trailing [data-slot=\"menu-badge\"] or [data-slot=\"menu-action\"]; collapsible details and nested uls form submenus. The section scrolls, and the mobile composition uses the shipped dialog behavior with data-open-dialog.",
   slider:
-    "Native input[type=\"range\"]. Pair it with a label or aria-label; accent-color draws the filled track and thumb, and data-size sm/default/lg changes the hit area. The control is horizontal and has one thumb, so vertical, range and multiple-thumb sliders need a custom control. A visible value readout is consumer JavaScript; set aria-valuetext when the displayed value carries a unit.",
+    "Native input[type=\"range\"]. Pair it with a label or aria-label; accent-color draws the filled track and thumb, and data-size sm/default/lg changes the hit area. The control is horizontal and has one thumb, so vertical, range and multiple-thumb sliders need a custom control. A visible value readout is app code; set aria-valuetext when the displayed value carries a unit.",
   "hover-card":
-    "CSS-only: opens on hover and focus-within with a 300ms delay. Point the trigger at the panel with aria-describedby. Use popover for interactive content that needs explicit dismissal.",
+    "The shipped hover-overlay behavior opens the panel on hover or focus, adds Escape dismissal and keeps aria-hidden in sync; the CSS hover/focus-within rules remain the no-JS fallback. Point the trigger at the panel with aria-describedby. This is a preview, not a disclosure: use popover for interactive content that needs explicit dismissal.",
   marker:
     "Use data-variant=\"separator\" for a divider and \"border\" for a trailing rule. The icon is decorative; put the status in the content text and use role=\"status\" for live updates.",
   menubar:
@@ -163,7 +163,7 @@ const notesBy: Record<string, string> = {
   trace:
     "A native details disclosure. Put the line in summary with data-slot icon, title and status, and the detail in data-slot body. Use data-variant=\"error\" or \"success\" on status; aria-busy=\"true\" marks a running step. Nested traces compose inside the body.",
   tooltip:
-    "Wrapper root around the trigger. Put data-tooltip on the wrapper for a text bubble, or a direct [data-slot=\"content\"] child with role=\"tooltip\" and an id, referenced by aria-describedby on the trigger; the child wins when both are present, and empty content does not open. Placement uses data-side (default top) and data-align (default center); the tail is always rendered. The data-tooltip shorthand is visual only, so keep an accessible name or description on the trigger. Rich content stays non-interactive and composes with kbd. Disabled triggers are pointer-only.",
+    "Wrapper root around the trigger. Put data-tooltip on the wrapper for a text bubble, or a direct [data-slot=\"content\"] child with role=\"tooltip\" and an id, referenced by aria-describedby on the trigger; the child wins when both are present, and empty content does not open. The shipped hover-overlay behavior adds Escape dismissal and aria-hidden state for content children; the data-tooltip shorthand stays CSS-only and visual-only. Placement uses data-side (default top) and data-align (default center); the tail is always rendered. Rich content stays non-interactive and composes with kbd. Disabled triggers are pointer-only.",
   field:
     "Compose one control per .field: label, control, optional p description and a [role=\"alert\"] error. Mark the control aria-invalid=\"true\" to turn the whole field destructive. Use <fieldset class=\"fieldset\"> with a <legend> for related controls and data-slot=\"checkbox-group|radio-group\" for checkbox and radio rows; a label wrapping a .field becomes a selectable card. data-orientation=\"horizontal\" aligns a row and \"responsive\" switches inside a group container at 28rem. Divide sections with .field-separator and an hr.",
   table: "Use aria-selected=\"true\" on selectable rows. Checkbox cells accept a native input[type=\"checkbox\"] or role=\"checkbox\". A row containing an expanded trigger keeps the muted highlight.",
@@ -176,13 +176,13 @@ const notesBy: Record<string, string> = {
   message:
     "A presentational row. Avatar, header, content and footer use data-slot; data-align=\"start|end\" controls the side. Compose the surface with bubble and give a message group an accessible name.",
   "message-scroller":
-    "The viewport is the scroll container and needs tabindex=\"0\" and an accessible name. Following new messages, anchoring, scroll position and showing [data-slot=\"jump\"] are consumer JavaScript; the jump button needs an accessible label.",
+    "The viewport is the scroll container and needs tabindex=\"0\" and an accessible name. The shipped message-scroller behavior tracks whether the user is at the bottom, follows inserted messages, preserves position when they are not following, toggles [data-slot=\"jump\"] and dispatches change with following. It uses one scoped MutationObserver on [data-slot=\"content\"]; the jump button needs an accessible label.",
   "native-select":
     ".native-select is the native select root. Pair it with a label or aria-label; native required and disabled states need no JavaScript, and aria-invalid=\"true\" marks the invalid state. data-size=\"sm\" shrinks the control and optgroup groups options. The custom Select is a separate component with its own install.",
   switch:
     "Use input[type=\"checkbox\"] with role=\"switch\" and the .switch class. Compose rows with .field[data-orientation=\"horizontal\"] and a label; a label wrapping a .field becomes a selectable card. data-size=\"sm\" shrinks the control and aria-invalid=\"true\" marks it invalid. Native checked and disabled states need no JavaScript.",
   questionnaire:
-    "A sequence of fieldset steps. Use aria-current=\"step\" on the active item and hidden on inactive ones, a native progress with an accessible name, and native radios, checkboxes and inputs for answers. Step changes, validation and completion are consumer JavaScript.",
+    "A sequence of fieldset steps. The shipped questionnaire behavior owns [data-slot=\"previous\"] and [data-slot=\"next\"], step visibility, aria-current=\"step\", the native progress value/text, disabled end states and focus into the new step. Native radios, checkboxes and inputs hold the answers. Validation, completion and a final submit stay app-owned.",
   radio:
     "The .radio class is required. Use native checked/disabled and aria-invalid=\"true\". Compose rows with .field[data-orientation=\"horizontal\"] and a label; group them with role=\"radiogroup\", using [data-slot=\"radio-group\"] inside a .fieldset.",
   label: "Use .label or a native <label> inside .field. A label wrapping a .field becomes a selectable card.",
@@ -194,6 +194,17 @@ const notesBy: Record<string, string> = {
   skeleton: "Set width and height inline or with your own layout classes.",
   alert:
     "Add role=\"alert\" for messages that appear after load. Mark a decorative direct SVG icon aria-hidden=\"true\". The title accepts h2–h6, strong or [data-slot=\"title\"]; the description is a section or [data-slot=\"description\"], and footer holds the action. Custom colors come from overriding --card, --border and --muted-foreground.",
+};
+
+const behaviorNoteBy: Record<string, string> = {
+  "input-otp":
+    "No behavior module. This is one native input with decorative cells; typing, paste, mobile one-time-code autofill and validation stay native. Per-digit focus and auto-advance are intentionally outside the contract.",
+  slider:
+    "No behavior module. Native input[type=\"range\"] already provides pointer, keyboard and assistive-technology support; a custom thumb or multiple thumbs would need a different control.",
+  "scroll-area":
+    "No behavior module. This is a native overflow container with native scrollbars and keyboard scrolling; size it and give it an accessible name.",
+  sidebar:
+    "No behavior module. Active navigation is aria-current=\"page\", and the mobile composition uses the shipped dialog behavior with data-open-dialog; there is no separate sidebar state to manage."
 };
 
 export interface ComponentDoc {
@@ -219,6 +230,7 @@ export interface ComponentDoc {
     target: string;
     kind: string;
   }[];
+  behaviorNote?: string;
   notes: string[];
 }
 
@@ -239,6 +251,7 @@ export const components: ComponentDoc[] = registry.items
     files: item.files,
     examples: examples[item.name] ?? [],
     behaviors: item.behaviors ?? [],
+    behaviorNote: behaviorNoteBy[item.name],
     notes: notesBy[item.name] ? [notesBy[item.name]] : []
   }))
   .sort((a, b) => a.title.localeCompare(b.title));

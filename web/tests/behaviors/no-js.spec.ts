@@ -18,4 +18,42 @@ test("content stays readable and overlays stay inert without JavaScript", async 
 
   const tabs = page.locator('[data-fixture="tabs"] [role="tabpanel"]').nth(1);
   await expect(tabs).toHaveJSProperty("hidden", true);
+
+  const calendar = page.locator(
+    '[data-fixture="calendar"] [data-example="Default"] .calendar'
+  );
+  await expect(calendar).toHaveAttribute("data-month", "2026-02");
+  await calendar.locator("[data-slot='next']").click();
+  await expect(calendar).toHaveAttribute("data-month", "2026-02");
+
+  const carousel = page.locator(
+    '[data-fixture="carousel"] [data-example="Default"] .carousel'
+  );
+  const viewport = carousel.locator(".carousel-viewport");
+  expect(await viewport.evaluate((element) => element.scrollLeft)).toBe(0);
+  await carousel.getByRole("button", { name: "Next slide" }).click();
+  expect(await viewport.evaluate((element) => element.scrollLeft)).toBe(0);
+
+  const questionnaire = page.locator(
+    '[data-fixture="questionnaire"] [data-example="Steps"] .questionnaire'
+  );
+  await expect(questionnaire.locator("[data-slot='item']").first()).toBeVisible();
+  await expect(questionnaire.locator("[data-slot='item']").nth(1)).toBeHidden();
+
+  const jump = page.locator(
+    '[data-fixture="message-scroller"] [data-slot="jump"]'
+  );
+  await expect(jump).toBeVisible();
+
+  const tooltip = page.locator(
+    '[data-fixture="tooltip"] [data-example="Default"] .tooltip'
+  );
+  await tooltip.getByRole("button", { name: "Hover" }).hover();
+  await expect(tooltip.locator("[data-slot='content']")).toBeVisible();
+
+  const hoverCard = page.locator(
+    '[data-fixture="hover-card"] [data-example="Default"] .hover-card'
+  );
+  await hoverCard.getByRole("link", { name: "@loseta" }).hover();
+  await expect(hoverCard.locator("[data-popover]")).toBeVisible();
 });

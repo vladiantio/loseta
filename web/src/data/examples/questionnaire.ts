@@ -37,7 +37,7 @@ export const questionnaireExamples: Example[] = [
     },
     {
       title: "Steps",
-      html: `<div class="questionnaire" data-demo="questionnaire">
+      html: `<div class="questionnaire">
   <div data-slot="progress">
     <span data-slot="progress-label" id="questionnaire-progress" aria-live="polite">Question 1 of 2</span>
     <progress aria-labelledby="questionnaire-progress" value="1" max="2">1 of 2</progress>
@@ -98,8 +98,8 @@ export const questionnaireExamples: Example[] = [
     </div>
   </fieldset>
   <div data-slot="actions">
-    <button type="button" class="btn" data-variant="outline" data-demo-questionnaire-prev disabled>Previous</button>
-    <button type="button" class="btn" data-demo-questionnaire-next>Next</button>
+    <button type="button" class="btn" data-variant="outline" data-slot="previous" disabled>Previous</button>
+    <button type="button" class="btn" data-slot="next">Next</button>
   </div>
 </div>`
     }

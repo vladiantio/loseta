@@ -75,7 +75,10 @@ them and regenerates `index.css`.
 
 Behavior files are installed under `behaviors/` (configurable with
 `behaviorDir` in `loseta.json`). Entry modules self-initialize on import; support
-modules (`core.js`, `listbox.js`) export helpers and never auto-init. The CLI
+modules (`core.js`, `listbox.js`) export helpers and never auto-init. Tooltip
+and hover-card share `hover-overlay.js`; message-scroller exports
+`mount(root)` for late-mounted lists and uses one scoped `MutationObserver`.
+Input OTP, slider, scroll-area and sidebar are CSS-only by design. The CLI
 generates `behaviors/index.js` from the installed entry modules:
 
 ```js

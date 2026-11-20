@@ -53,7 +53,10 @@
     &:is(
         :has(> [data-slot='content']:not(:empty)),
         :not(:has(> [data-slot='content']))[data-tooltip]:not([data-tooltip=''])
-      ):is(:hover, :has(:focus-visible)) {
+      ):not(:has(> [data-slot='content'][aria-hidden='true'])):is(
+        :hover,
+        :has(:focus-visible)
+      ) {
       &::before,
       & > [data-slot='content'] {
         visibility: visible;

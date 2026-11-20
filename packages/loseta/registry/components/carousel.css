@@ -37,6 +37,7 @@
 
       .carousel-track {
         flex-direction: column;
+        height: 100%;
       }
 
       .carousel-item {

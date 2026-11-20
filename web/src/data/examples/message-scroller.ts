@@ -4,7 +4,7 @@ import { arrowDown } from "./icons";
 export const messageScrollerExamples: Example[] = [
     {
       title: "Default",
-      html: `<div class="message-scroller" data-demo="message-scroller" style="height: 22rem">
+      html: `<div class="message-scroller" style="height: 22rem">
   <div class="message-scroller-viewport" tabindex="0" role="log" aria-label="Conversation">
     <div data-slot="content">
       <div class="marker" data-variant="separator">
@@ -55,7 +55,7 @@ export const messageScrollerExamples: Example[] = [
       </div>
     </div>
   </div>
-  <button type="button" data-slot="jump" data-demo-scroll-end aria-label="Jump to latest">${arrowDown}</button>
+  <button type="button" data-slot="jump" aria-label="Jump to latest">${arrowDown}</button>
 </div>`
     }
 ];

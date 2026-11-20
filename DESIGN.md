@@ -496,11 +496,11 @@ overridden on the card root; it controls the section gap and inline inset.
 The public slot vocabulary is shared across components:
 
 - `data-slot="title"` — alert, calendar, card, chart tooltip, code block, dialog, alert-dialog, popover.
+- `data-slot="caption"`, `data-slot="dropdown"` — calendar month and year selectors.
 - `data-slot="description"` — alert, card, chart tooltip, dialog, alert-dialog, popover.
 - `data-slot="content"` — attachment, bubble, marker, message, message-scroller and the tooltip's rich bubble.
 - `data-slot="action"` — card.
 - `data-slot="actions"` — code block.
-- `data-slot="caption"`, `data-slot="dropdown"` — calendar month and year selectors.
 - `data-slot="line"`, `data-slot="line-content"` — code block.
 - `data-slot="header"` — popover.
 - `data-slot="shortcut"` — dropdown menu, context menu, menubar and command.

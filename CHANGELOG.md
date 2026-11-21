@@ -1,6 +1,6 @@
 # Changelog
 
-## 0.19.0 - 2026-11-20
+## 0.19.0 - 2026-11-21
 
 ### Added
 
@@ -17,8 +17,13 @@
   arrows/Home/End, `aria-current` and `aria-hidden`/`inert` on fully offscreen
   slides, including vertical and RTL layouts. There is no autoplay or loop.
 - Resizable pointer dragging and keyboard resizing for one handle between two
-  adjacent panels, with live `aria-valuenow` and `change` detail
-  `{ sizes }`. There is no persistence or nested layout.
+  adjacent panels, with live `aria-valuenow`, clamping to
+  `aria-valuemin`/`aria-valuemax`, deferred pointer capture, missed-release
+  recovery, focus release after a drag and `change` detail `{ sizes }`. Arrow
+  keys move 5 percent, or 10 with Shift. Nested groups keep their own ratios,
+  an optional `[data-slot="grip"]` child renders a visible grip, and the
+  module exports `mount(root)` for late-mounted handles. There is no
+  persistence.
 - Questionnaire navigation with `[data-slot="previous"]` and
   `[data-slot="next"]`, step visibility, `aria-current="step"`, progress
   value/text, disabled end states and focus into the new step. Validation and
@@ -32,7 +37,9 @@
   focus-within rules remain the no-JS fallback; the tooltip `data-tooltip`
   shorthand stays CSS-only.
 - Six Playwright behavior specs, carousel vertical and RTL examples, a calendar
-  multiple-selection example, and no-JS coverage for the new controls.
+  multiple-selection example, resizable vertical, grip, initial-size,
+  constraint, RTL and nested examples, and no-JS coverage for the new
+  controls.
 
 ### Changed
 
@@ -48,8 +55,8 @@
   components.
 - Calendar custom day content, presets, date-time logic and multi-calendar
   range coordination remain app-owned; carousel autoplay/looping, resizable
-  persistence/nesting, questionnaire validation/completion and per-digit OTP
-  focus remain out of scope.
+  persistence, questionnaire validation/completion and per-digit OTP focus
+  remain out of scope.
 
 ## 0.18.0 - 2026-11-20
 

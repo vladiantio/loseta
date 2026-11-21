@@ -311,7 +311,7 @@ file they own, not by expecting a spacing API.
 | Menubar | `--background` bar with a 1px `--border` outline and `--shadow-xs`. |
 | Navigation menu | `--popover` panels through the popover primitive. |
 | Progress | `--primary` at 20% for the track and full `--primary` for the indicator. |
-| Resizable | `--border` outline and handle line; `--ring` on handle focus. |
+| Resizable | `--border` outline, handle line and grip; `--ring` on handle hover and focus. |
 | Scroll area | Native scrollbars from `--scrollbar-thumb`, `--scrollbar-track` and `--scrollbar-width`. |
 | Select, combobox | `--input` border; `--ring` focus and destructive invalid ring. |
 | Sheet, drawer | `--background` panel, `--border` side edge on sheets and `--shadow-lg`. |
@@ -371,7 +371,7 @@ visible. Progress uses a `Canvas` track with a `CanvasText` outline and a
 | Menubar trigger | `1.75rem` high | — |
 | Navigation trigger | `2rem` high | — |
 | Progress | `0.25rem` high | — |
-| Resizable | Consumer-sized | Panels use `--panel-size` |
+| Resizable | Consumer-sized | Panels use `--panel-size`; nested groups reset it |
 | Scroll area | Consumer-sized | `sm` narrower scrollbar |
 | Select trigger | `2rem` high | `sm` 1.75rem |
 | Sheet | `24rem` wide | `sm` 20rem, `lg` 28rem |
@@ -479,7 +479,7 @@ direction.
 | Progress | `.progress` | Native `<progress>` with fallback text. | `value`/`max`; omit `value` for indeterminate |
 | Questionnaire | `.questionnaire` | `[data-slot="progress"]`, fieldset steps with legends, `[data-slot="choices"]`, native inputs, `[data-slot="actions"]` and `[data-slot="previous"]`/`[data-slot="next"]` buttons. | `aria-current="step"` on the active step; `hidden` on inactive steps; native radio/checkbox/input |
 | Radio | `.radio` | Native `input[type="radio"]`, normally inside `role="radiogroup"`. Compose rows with `.field` and a label, and group them with `[data-slot="radio-group"]` inside a `.fieldset`. | — |
-| Resizable | `.resizable` | `.resizable-panel` panes and `[data-slot="handle"]` separators. The shipped behavior drags one handle between two adjacent panels and supports keyboard resizing. | `data-orientation="horizontal|vertical"`; panel `--panel-size`; handle `aria-valuenow/min/max`; `change` reports `detail.sizes` |
+| Resizable | `.resizable` | `.resizable-panel` panes and `[data-slot="handle"]` separators with an optional `[data-slot="grip"]` child. The shipped behavior drags one handle between two adjacent panels, supports keyboard resizing and keeps nested groups independent. | `data-orientation="horizontal|vertical"`; panel `--panel-size`; handle `aria-valuenow/min/max` and an accessible name; `change` reports `detail.sizes` |
 | Scroll area | `.scroll-area` | Scroll container; the consumer sets dimensions and content. | `data-orientation="horizontal|vertical"`; `data-size="default|sm"` |
 | Select | `.select` | Trigger with `role="combobox"`, `[data-slot="value"]`, optional `[data-slot="input"]` hidden input and a `[data-popover] > [role="listbox"]` panel. Group labels use `[data-slot="label"]`, dividers use `[role="separator"]` and the panel scrolls at `18rem`. | `data-size="default|sm"`; `data-placeholder` on the value; `aria-invalid` on the trigger |
 | Separator | `.separator` | `<hr>` or `[role="separator"]`. | `data-orientation="horizontal|vertical"`; `aria-orientation` is also recognized |
@@ -528,6 +528,7 @@ The public slot vocabulary is shared across components:
 - `data-slot="ellipsis"` — breadcrumb and pagination.
 - `data-slot="label"` — pagination previous/next text and listbox group labels.
 - `data-slot="handle"` — drawer and resizable.
+- `data-slot="grip"` — optional visible grip inside a resizable handle.
 - `data-slot="title"`, `data-slot="description"` — navigation menu panels.
 - `data-slot="addon"` — input group.
 - `data-slot="input-group-control"` — custom input group controls.
@@ -705,7 +706,7 @@ Notes:
 - Carousel indicators use `aria-current="true"`; the shipped behavior moves
   between slides, updates indicators and manages `aria-hidden`/`inert` on
   offscreen slides. Autoplay and looping are not included.
-- Resizable handles are `role="separator"` with `aria-orientation` and
+- Resizable handles are `role="separator"` with `aria-orientation`, a label and
   `aria-valuenow`/`aria-valuemin`/`aria-valuemax`; the shipped behavior updates
   the values during pointer drag and keyboard resizing.
 - Chart `data-series` values map to `--chart-*` tokens and are presentation
@@ -761,7 +762,9 @@ complete without them; `--no-behavior` must always produce a valid install.
   clicks (normalized), Shift-click extends and a third click starts over.
 - Carousel ships controls, keyboard and offscreen state; it does not autoplay
   or loop. Resizable ships one handle between two adjacent panels with
-  percentage sizes and no persistence or nesting. Questionnaire owns
+  percentage sizes, including nested groups, and no persistence. A nested group
+  resets `--panel-size` at its root so outer ratios do not leak into it.
+  Questionnaire owns
   `[data-slot="previous"]`/`[data-slot="next"]`, progress and focus; validation
   and completion stay app-owned.
 - Message-scroller follows inserted messages and preserves the reading position
@@ -857,9 +860,11 @@ progress sweep slow down instead of stopping. This remains a known gap.
   `aria-hidden` and `inert`.
 - Charts need a text alternative on the SVG or canvas and a visible legend.
   Tooltips are supplementary and must not be the only source of the values.
-- Resizable handles are focusable separators with live
+- Resizable handles are focusable separators with a label and live
   `aria-valuenow`/`aria-valuemin`/`aria-valuemax`. The shipped behavior handles
-  pointer drag, arrow/Home/End keys and `change` with `detail.sizes`.
+  pointer drag, arrow/Home/End keys and `change` with `detail.sizes`. Handles
+  focus on press and release focus after a drag; their pointer target is at
+  least `0.625rem` on fine pointers and `1.25rem` on coarse pointers.
 - Sidebar navigation needs a `nav` label and `aria-current="page"` on the active
   link. Label each group with a heading or `[data-slot="group-label"]`; give
   icon-only group and row actions an accessible name. The mobile composition
@@ -1134,8 +1139,8 @@ semantic versioning.
 - Carousel autoplay and looping are not included.
 - Chart rendering, data and tooltip positioning are consumer responsibilities;
   the registry provides chrome only.
-- Resizable supports one handle between two adjacent panels; persistence and
-  nested layouts are not included.
+- Resizable supports one handle between two adjacent panels, including nested
+  groups; persistence is not included.
 - Sidebar active navigation remains app-owned; the mobile sheet uses the
   shipped dialog behavior.
 - Toast timing and dismissal ship in the behavior module; `sonner` is

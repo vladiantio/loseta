@@ -106,6 +106,8 @@ surfaces, resizable panels and chart tooltips.
   `--shadow-sm`; Maia, Lyra and Mira ring only.
 - Borders: use `--border` for outlines; use the foreground-at-10% ring for cards
   where the reference card does.
+- Resizable separators draw the line and optional grip with `--border`; the
+  grip follows the drawer handle radius for the style.
 
 ### Overlay
 

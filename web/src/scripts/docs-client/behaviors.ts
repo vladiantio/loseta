@@ -10,7 +10,7 @@ import "../../../../packages/loseta/registry/behaviors/toast.js";
 import "../../../../packages/loseta/registry/behaviors/code-block.js";
 import "../../../../packages/loseta/registry/behaviors/calendar.js";
 import "../../../../packages/loseta/registry/behaviors/carousel.js";
-import "../../../../packages/loseta/registry/behaviors/resizable.js";
+import { mount as mountResizable } from "../../../../packages/loseta/registry/behaviors/resizable.js";
 import "../../../../packages/loseta/registry/behaviors/questionnaire.js";
 import { mount as mountMessageScrollers } from "../../../../packages/loseta/registry/behaviors/message-scroller.js";
 import "../../../../packages/loseta/registry/behaviors/hover-overlay.js";
@@ -18,5 +18,6 @@ import "../../../../packages/loseta/registry/behaviors/hover-overlay.js";
 if (typeof document !== "undefined") {
   document.addEventListener("astro:page-load", () => {
     mountMessageScrollers(document);
+    mountResizable(document);
   });
 }

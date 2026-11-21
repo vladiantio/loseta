@@ -48,9 +48,10 @@ const meta = pageMeta["/docs/behavior"];
     </p>
     <pre><code>{`import { init } from "./behaviors/core.js";\nimport "./behaviors/dialog.js";\n\ninit(document.querySelector("#app"));`}</code></pre>
     <p>
-      Message scrollers are the exception: their entry module exports
-      <code>mount(root)</code> for a late-mounted subtree because each list owns a
-      scoped observer.
+      Message scrollers and resizable groups also export
+      <code>mount(root)</code> for a late-mounted subtree: each list owns a
+      scoped observer, and resizable handles sync their reported values with the
+      panel sizes.
     </p>
 
     <h2>Component contracts</h2>
@@ -76,9 +77,12 @@ const meta = pageMeta["/docs/behavior"];
       </li>
       <li>
         <strong>Resizable.</strong> One handle between two adjacent panels,
-        pointer capture, arrow/Home/End keys, a percentage split through
-        <code>--panel-size</code>, and <code>change</code> with
-        <code>detail.sizes</code>. There is no persistence or nested layout.
+        pointer capture after movement, missed-release recovery,
+        arrow/Home/End keys, a percentage split through <code>--panel-size</code>,
+        <code>aria-valuemin</code>/<code>max</code> clamping, and
+        <code>change</code> with <code>detail.sizes</code>. Arrow keys move 5
+        percent, or 10 with Shift. Nested groups keep their own ratios. There is
+        no persistence.
       </li>
       <li>
         <strong>Questionnaire.</strong> The module owns
@@ -185,7 +189,7 @@ const meta = pageMeta["/docs/behavior"];
       <li>Toasts hide immediately; there is no exit animation.</li>
       <li>Calendar custom day content, presets, date-time logic and multi-calendar range coordination stay app-owned.</li>
       <li>Carousel autoplay and looping are not included.</li>
-      <li>Resizable layouts are limited to one handle between two panels, with no persistence.</li>
+      <li>Resizable groups use one handle between two panels; nested groups compose, with no persistence.</li>
       <li>Questionnaire validation, completion and final submit stay app-owned.</li>
       <li>
         Message scroller and toast are the only modules allowed a scoped

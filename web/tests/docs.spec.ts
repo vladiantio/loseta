@@ -2888,6 +2888,25 @@ test("carousel controls scroll the viewport and update indicators", async ({ pag
   ).toHaveAttribute("aria-current", "true");
 });
 
+test("resizable examples label handles and show the grip", async ({ page }) => {
+  await page.goto("/docs/components/resizable");
+
+  const handles = page.locator(".docs-preview [role='separator']");
+  const labels = await handles.evaluateAll((elements) =>
+    elements.map((element) => element.getAttribute("aria-label") ?? "")
+  );
+  expect(labels.length).toBeGreaterThanOrEqual(7);
+  expect(labels.every((label) => label.trim().length > 0)).toBe(true);
+
+  const example = page.locator("section.example").filter({
+    has: page.locator(".example-title", { hasText: /^Handle$/ })
+  });
+  const handle = example.locator("[data-slot='handle']");
+
+  await expect(handle).toHaveAttribute("aria-valuenow", "25");
+  await expect(handle.locator("[data-slot='grip']")).toHaveCount(1);
+});
+
 test("toast dismissal hides the item", async ({ page }) => {
   await page.goto("/docs/components/toast");
   const toasts = page.locator(".toast");

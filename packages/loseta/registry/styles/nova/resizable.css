@@ -28,6 +28,16 @@
       &:focus-visible {
         box-shadow: inset 0 0 0 1px var(--ring);
       }
+
+      > [data-slot='grip'] {
+        border-radius: var(--radius-full);
+        background-color: var(--border);
+      }
+
+      &:hover > [data-slot='grip'],
+      &:focus-visible > [data-slot='grip'] {
+        background-color: var(--ring);
+      }
     }
   }
 }

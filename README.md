@@ -17,8 +17,9 @@ npx loseta add button card field
 ```
 
 `init` creates the foundation files (tokens, reset, base, utilities) and a
-generated `index.css`. `add` copies the structural CSS, the selected style file,
-any primitive dependency and the component's behavior modules.
+generated `index.css`. `add` downloads the structural CSS, the selected style
+file, any primitive dependency and the component's behavior modules from the
+registry at `https://loseta.vladiantio.com/r`.
 
 ```bash
 npx loseta init --style vega  # choose a style (default: nova)
@@ -30,7 +31,14 @@ npx loseta list               # available components
 npx loseta list --experimental # experimental items, when present
 npx loseta list --all         # include experimental, primitives and foundation
 npx loseta add button --html  # print the example markup
+npx loseta add https://example.com/r/styles/nova/button.json
+npx loseta add button --registry https://mirror.example.com/r
 ```
+
+Registry content is mutable and fetched at install time. Responses are cached
+under the XDG cache directory; `--no-cache` bypasses the cache and a cold
+install needs network access. `--registry`, `LOSETA_REGISTRY` and the
+`registry` field in `loseta.json` point the CLI at a mirror, in that order.
 
 Components that ship behavior print the generated index snippet after an add.
 Load it once per page:
@@ -95,8 +103,8 @@ such. See the docs Behavior page for the event contract, flags and limits.
 ## Repository
 
 ```
-packages/loseta/    CLI, registry, JSON schema and examples
-web/                Astro docs site and component playground
+packages/loseta/    CLI, authored registry, wire schemas and examples
+web/                Astro docs site, remote registry output and playground
 ```
 
 See [`packages/loseta/README.md`](packages/loseta/README.md) for the CLI and
@@ -114,10 +122,11 @@ registry details.
 ```bash
 pnpm install
 pnpm cli:build        # compile the TypeScript CLI
-pnpm registry:check   # validate the registry and parse every CSS file
+pnpm registry:check   # validate the authored registry and parse every CSS file
+pnpm registry:remote  # generate and validate web/public/r + schema
 pnpm web:dev          # docs site at http://localhost:4321
 pnpm web:build        # static docs build
-pnpm test             # CLI build + registry validation + Astro check
+pnpm test             # CLI, registry, remote install smoke + Astro check
 ```
 
 The docs site imports the registry CSS directly, so the examples and the

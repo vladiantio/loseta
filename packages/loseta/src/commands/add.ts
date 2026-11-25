@@ -1,20 +1,18 @@
 import { defineCommand } from "citty";
 import { cancel, confirm, intro, isCancel, log, outro } from "@clack/prompts";
-import { join } from "node:path";
 import { resolveAddNames } from "../add-policy.js";
 import { behaviorDir, ConfigError, readConfig } from "../config.js";
-import { readTextIfExists } from "../fs.js";
+import { noCacheFlag, openRegistry } from "../command-context.js";
+import { reportCommandError } from "../command-errors.js";
 import { installBehaviors, installItems } from "../install.js";
 import { installedNames, readManifest } from "../manifest.js";
+import { isItemUrl } from "../registry-url.js";
 import {
   experimentalComponents,
-  findItem,
-  loadRegistry,
   missingFoundation,
-  registryDir,
-  resolveItems,
   stableComponents
 } from "../registry.js";
+import { resolveRegistryItems } from "../resolve.js";
 import { resolveAddStyle } from "../style-selection.js";
 import type { LosetaConfig } from "../types.js";
 import { installedSummary, printItems } from "../ui.js";
@@ -58,6 +56,14 @@ export const addCommand = defineCommand({
       type: "boolean",
       description: "Skip prompts; keep modified files untouched",
       alias: "y"
+    },
+    registry: {
+      type: "string",
+      description: "Registry base URL"
+    },
+    noCache: {
+      type: "boolean",
+      description: "Bypass the registry cache"
     }
   },
   async run({ args }) {
@@ -86,9 +92,21 @@ export const addCommand = defineCommand({
       return;
     }
 
-    const registry = loadRegistry();
+    let session;
+    try {
+      session = await openRegistry({
+        registry: args.registry,
+        noCache: noCacheFlag(args as unknown as Record<string, unknown>),
+        configRegistry: config.registry
+      });
+    } catch (error) {
+      reportCommandError(error);
+      return;
+    }
+    const { url: registryUrl, source, catalog } = session;
+
     const installed = installedNames(manifest);
-    const missing = missingFoundation(registry, installed);
+    const missing = missingFoundation(catalog, installed);
     if (missing.length > 0) {
       log.error(
         `The loseta foundation is incomplete (missing: ${missing.join(", ")}). Run \`loseta init\`.`
@@ -100,8 +118,8 @@ export const addCommand = defineCommand({
     const names = args._.map(String);
     if (names.length === 0) {
       intro("loseta add");
-      printItems(stableComponents(registry));
-      if (experimentalComponents(registry).length > 0) {
+      printItems(stableComponents(catalog));
+      if (experimentalComponents(catalog).length > 0) {
         log.info(
           "Experimental components are Nova-only. Run `loseta list --experimental` and add them with `--experimental`."
         );
@@ -110,49 +128,170 @@ export const addCommand = defineCommand({
       return;
     }
 
-    const selection = resolveAddNames(registry, names, {
-      experimental: Boolean(args.experimental),
-      style: config.style
-    });
-    if ("error" in selection) {
-      log.error(selection.error);
-      process.exitCode = 1;
-      return;
+    const urlNames = names.filter((name) => isItemUrl(name));
+    const bareNames = names.filter((name) => !isItemUrl(name));
+
+    let selection: { names: string[]; experimental: string[] } = {
+      names: [],
+      experimental: []
+    };
+    if (bareNames.length > 0) {
+      const hasExperimentalBare = bareNames.some(
+        (name) =>
+          catalog.items.find((item) => item.name === name)?.status ===
+          "experimental"
+      );
+      // `--experimental` may be aimed at a URL item; do not reject it just
+      // because the bare-name list happens to be stable.
+      const experimentalFlag =
+        Boolean(args.experimental) &&
+        (hasExperimentalBare || urlNames.length === 0);
+      const resolution = resolveAddNames(catalog, bareNames, {
+        experimental: experimentalFlag,
+        style: config.style
+      });
+      if ("error" in resolution) {
+        log.error(resolution.error);
+        process.exitCode = 1;
+        return;
+      }
+      selection = resolution;
     }
 
-    const styleResolution = resolveAddStyle(registry, config, args.style);
+    const styleResolution = resolveAddStyle(catalog, config, args.style);
     if ("error" in styleResolution) {
       log.error(styleResolution.error);
       process.exitCode = 1;
       return;
     }
 
-    if (args.behavior && args.noBehavior) {
+    const noBehavior = Boolean(args.noBehavior) || args.behavior === false;
+    const behaviorRequested = args.behavior === true;
+    const noDeps =
+      Boolean(args.noDeps) ||
+      (args as unknown as { deps?: boolean }).deps === false;
+    if (behaviorRequested && noBehavior) {
       log.error("`--behavior` and `--no-behavior` cannot be used together.");
       process.exitCode = 1;
       return;
     }
 
+    if (manifest.registry?.build && manifest.registry.build !== catalog.build) {
+      log.warn(
+        `The registry has changed since this project was installed (${manifest.registry.build} -> ${catalog.build}). Files you modified are kept unless you choose to overwrite them.`
+      );
+    }
+
+    const behaviorOnly =
+      behaviorRequested &&
+      urlNames.length === 0 &&
+      selection.names.length > 0 &&
+      selection.names.every((name) => installed.has(name));
+
+    const requested = behaviorOnly
+      ? selection.names.map(
+          (name) =>
+            manifest.items.find((item) => item.name === name)?.source ?? name
+        )
+      : [...selection.names, ...urlNames];
+
     let resolved;
-    if (args.noDeps) {
-      resolved = selection.names.map((name) => findItem(registry, name));
-      const missing = resolved
-        .flatMap((item) => item.registryDependencies ?? [])
-        .filter((dependency) => !installed.has(dependency));
-      if (missing.length > 0) {
-        log.warn(`--no-deps: missing ${[...new Set(missing)].join(", ")}. The component may not work.`);
+    try {
+      resolved = await resolveRegistryItems(requested, {
+        source,
+        catalog,
+        style: config.style,
+        experimental: Boolean(args.experimental),
+        includeDependencies: !noDeps
+      });
+    } catch (error) {
+      reportCommandError(error);
+      return;
+    }
+
+    if (noDeps) {
+      const resolvedNames = new Set(resolved.map(({ item }) => item.name));
+      const missingDependencies = [
+        ...new Set(
+          resolved.flatMap(({ item }) =>
+            (item.registryDependencies ?? []).filter(
+              (dependency) =>
+                !isItemUrl(dependency) &&
+                !resolvedNames.has(dependency) &&
+                !installed.has(dependency)
+            )
+          )
+        )
+      ];
+      if (missingDependencies.length > 0) {
+        log.warn(
+          `--no-deps: missing ${missingDependencies.join(", ")}. The component may not work.`
+        );
       }
-    } else {
-      resolved = resolveItems(registry, selection.names);
     }
 
     const experimentalResolved = resolved
-      .filter((item) => item.status === "experimental")
-      .map((item) => item.name);
+      .filter(({ item }) => item.status === "experimental")
+      .map(({ item }) => item.name);
     if (experimentalResolved.length > 0) {
       log.warn(
         `Experimental: ${experimentalResolved.join(", ")}. Nova-only and outside the v1 contract.`
       );
+    }
+
+    const urlItems = resolved.filter(({ source: itemSource }) => itemSource);
+    if (urlItems.length > 0) {
+      for (const { item, source: itemSource } of urlItems) {
+        log.info(`URL install: ${item.name} from ${itemSource}`);
+        log.info(`Files: ${item.files.map((file) => file.target).join(", ")}`);
+        if (!noBehavior && (item.behaviors ?? []).length > 0) {
+          log.info(
+            `Behavior: ${(item.behaviors ?? [])
+              .map((behavior) => behavior.target)
+              .join(", ")}`
+          );
+        }
+      }
+      if (!args.yes) {
+        const proceed = await confirm({
+          message: `Install ${urlItems.length} item(s) from external URLs?`,
+          initialValue: false
+        });
+        if (isCancel(proceed) || !proceed) {
+          cancel("Cancelled.");
+          return;
+        }
+      }
+    }
+
+    for (const resolvedItem of resolved) {
+      const installedItem = manifest.items.find(
+        (entry) => entry.name === resolvedItem.item.name
+      );
+      if (!installedItem) continue;
+      if ((installedItem.source ?? undefined) === (resolvedItem.source ?? undefined)) {
+        continue;
+      }
+      const from = installedItem.source ?? catalog.name;
+      const to = resolvedItem.source ?? catalog.name;
+      if (args.yes) {
+        if (!args.overwrite) {
+          log.error(
+            `${resolvedItem.item.name} is already installed from ${from}. Re-run with --overwrite to replace it with ${to}.`
+          );
+          process.exitCode = 1;
+          return;
+        }
+        continue;
+      }
+      const answer = await confirm({
+        message: `Replace ${resolvedItem.item.name} (${from}) with the version from ${to}?`,
+        initialValue: false
+      });
+      if (isCancel(answer) || !answer) {
+        cancel("Cancelled.");
+        return;
+      }
     }
 
     const onConflict = async (file: { target: string }) => {
@@ -169,24 +308,25 @@ export const addCommand = defineCommand({
       return !isCancel(answer) && Boolean(answer) ? "overwrite" as const : "keep" as const;
     };
 
-    const behaviorOnly =
-      Boolean(args.behavior) &&
-      selection.names.every((name) => installed.has(name));
-
     if (behaviorOnly) {
-      const result = await installBehaviors({
-        projectRoot,
-        config,
-        registry,
-        sourceRoot: registryDir,
-        manifest,
-        items: resolved,
-        onConflict
-      });
+      let result;
+      try {
+        result = await installBehaviors({
+          projectRoot,
+          config,
+          registry: catalog,
+          manifest,
+          items: resolved,
+          onConflict
+        });
+      } catch (error) {
+        reportCommandError(error);
+        return;
+      }
       const withBehavior = resolved
-        .filter((item) => (item.behaviors ?? []).length > 0)
-        .filter((item) => item.type === "component")
-        .map((item) => item.name);
+        .filter(({ item }) => (item.behaviors ?? []).length > 0)
+        .filter(({ item }) => item.type === "component")
+        .map(({ item }) => item.name);
 
       if (result.written.length === 0) {
         log.info("Behavior is already installed.");
@@ -204,21 +344,30 @@ export const addCommand = defineCommand({
       return;
     }
 
-    const result = await installItems({
-      projectRoot,
-      config,
-      registry,
-      sourceRoot: registryDir,
-      manifest,
-      items: resolved,
-      includeBehaviors: !args.noBehavior,
-      onConflict
-    });
+    let result;
+    try {
+      result = await installItems({
+        projectRoot,
+        config,
+        registry: catalog,
+        registryUrl,
+        build: catalog.build,
+        manifest,
+        items: resolved,
+        includeBehaviors: !noBehavior,
+        onConflict
+      });
+    } catch (error) {
+      reportCommandError(error);
+      return;
+    }
 
-    const added = resolved.filter((item) => item.type === "component").map((item) => item.name);
+    const added = resolved
+      .filter(({ item }) => item.type === "component")
+      .map(({ item }) => item.name);
     const primitives = resolved
-      .filter((item) => item.type === "primitive")
-      .map((item) => item.name);
+      .filter(({ item }) => item.type === "primitive")
+      .map(({ item }) => item.name);
 
     log.success(`Added ${installedSummary(added)}.`);
     if (primitives.length > 0) {
@@ -226,7 +375,7 @@ export const addCommand = defineCommand({
     }
     log.info(`${result.written.length} file(s) written, ${result.skipped.length} skipped.`);
 
-    if (!args.noBehavior && result.behaviorsWritten.length > 0) {
+    if (!noBehavior && result.behaviorsWritten.length > 0) {
       log.info(
         `Add <script type="module" src="/${behaviorDir(config)}/index.js"></script> to your page.`
       );
@@ -234,12 +383,15 @@ export const addCommand = defineCommand({
 
     if (args.html) {
       for (const name of added) {
-        const example = readTextIfExists(join(registryDir, "examples", `${name}.html`));
-        if (example === undefined) {
+        const payload = resolved.find(({ item }) => item.name === name)?.item;
+        const examples = payload?.examples ?? [];
+        if (examples.length === 0) {
           log.warn(`No example HTML for ${name} yet.`);
           continue;
         }
-        console.log(`\n<!-- ${name} -->\n${example.trim()}\n`);
+        for (const example of examples) {
+          console.log(`\n<!-- ${name}: ${example.title} -->\n${example.html.trim()}\n`);
+        }
       }
     }
 

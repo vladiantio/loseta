@@ -3,7 +3,7 @@
  * Verify the release metadata and tag.
  *
  * Local mode (default) checks that the repository is on `main` with a clean
- * tree, that the package, registry and changelog agree on the version, and
+ * tree, that the package and changelog agree on the version, and
  * that the generated sidebar examples show it. The tag may be absent (ready to
  * tag) or annotated at `HEAD` (tagged, ready to push).
  *
@@ -73,13 +73,27 @@ const registry = readJson("packages/loseta/registry/registry.json");
 const version = packageJson.version;
 const tag = `v${version}`;
 
+function compareVersions(left, right) {
+  const parse = (value) =>
+    String(value)
+      .replace(/^v/, "")
+      .split(/[.+\-]/)
+      .map((part) => {
+        const match = /^\d+/.exec(part);
+        return match ? Number(match[0]) : 0;
+      });
+  const a = parse(left);
+  const b = parse(right);
+  for (let index = 0; index < Math.max(a.length, b.length); index += 1) {
+    const difference = (a[index] ?? 0) - (b[index] ?? 0);
+    if (difference !== 0) return difference;
+  }
+  return 0;
+}
+
 check(
   typeof version === "string" && /^\d+\.\d+\.\d+(?:[-+][0-9A-Za-z.-]+)?$/.test(version),
   `packages/loseta/package.json has an invalid version: ${JSON.stringify(version)}`
-);
-check(
-  registry.version === version,
-  `registry.json is ${registry.version}, package.json is ${version}`
 );
 
 const changelog = readText("CHANGELOG.md");
@@ -148,7 +162,7 @@ const verifying = ci || tagged;
 const subject = verifying ? `tag ${tag}` : version;
 const state = verifying ? "verifies" : "is ready to tag";
 console.log(`release: ${subject} ${state}`);
-console.log(`  package.json and registry.json are at ${version}`);
+console.log(`  package.json is at ${version}`);
 console.log(`  CHANGELOG.md has a dated ${version} section`);
 console.log(`  examples/sidebar.html shows ${version}`);
 if (ci) {

@@ -11,57 +11,24 @@ const registryDir = join(packageRoot, "registry");
 const registryPath = join(registryDir, "registry.json");
 const schemaPath = join(registryDir, "schema.json");
 
-// Rules that apply to every registry file, base or style.
-const forbiddenEverywhere = [
-  { pattern: /!important/g, message: "!important is not allowed" },
-  {
-    pattern: /html\.dark/g,
-    message: "use .dark / .light on any container; html.dark blocks scoped overrides"
-  }
-];
+const validationRules = JSON.parse(
+  readFileSync(join(registryDir, "validation-rules.json"), "utf8")
+);
 
-// Rules for base-role files only. Style files own the visual treatment.
-const forbiddenInBase = [
-  { pattern: /\[class\*='size-'\]/g, message: "Tailwind size-* sniffing is not allowed" },
-  { pattern: /\.border-[bt]\b/g, message: "Tailwind border utilities are not allowed" },
-  { pattern: /\.peer\b/g, message: ".peer is a Tailwind dependency" },
-  { pattern: /\.active\b/g, message: ".active is replaced by data-highlighted / ARIA state" },
-  { pattern: /@layer components/g, message: "use loseta.* layers" },
-  { pattern: /\[data-state=['"]selected['"]\]/g, message: "use aria-selected" },
-  { pattern: /\[data-invalid\]/g, message: "use aria-invalid" },
-  { pattern: /\[data-disabled/g, message: "use :disabled or aria-disabled" },
-  { pattern: /\[data-selected/g, message: "use aria-selected" },
-  { pattern: /\[data-title\]/g, message: "use data-slot=\"title\"" },
-  { pattern: /\[data-description\]/g, message: "use data-slot=\"description\"" },
-  { pattern: /\[data-shortcut\]/g, message: "use data-slot=\"shortcut\"" },
-  { pattern: /\[data-indicator\]/g, message: "use data-slot=\"indicator\"" }
-];
+function compileRules(definitions) {
+  return definitions.map(({ pattern, flags, message }) => ({
+    pattern: new RegExp(pattern, flags),
+    message
+  }));
+}
 
-// Spacing and borders in the style layer follow the inline axis, so icon
-// padding and dividers mirror on RTL pages.
-const forbiddenInStyle = [
-  {
-    pattern: /(?:padding|margin|border)-(?:left|right)\b/g,
-    message:
-      "use logical properties (padding-inline-start/-end, margin-inline-start/-end, border-inline-start/-end)"
-  }
-];
-
-// Dark values live in the token and style layers. Keep light-dark() out of
-// base-role files, and keep the OS media query in the token layer only.
-const forbiddenInBaseColor = [
-  { pattern: /light-dark\(/g, message: "dark values belong in the style layer" }
-];
-
-const forbiddenOutsideTokens = [
-  {
-    pattern: /@media \(prefers-color-scheme/g,
-    message: "the OS color scheme belongs in the tokens layer"
-  }
-];
-
-// Stable style files must be differentiated before the item is promoted.
-const promotionScaffold = /\/\*\s*loseta:promotion-scaffold\s*\*\//;
+// Shared with the CLI so source validation and install-time validation agree.
+const forbiddenEverywhere = compileRules(validationRules.forbiddenEverywhere);
+const forbiddenInBase = compileRules(validationRules.forbiddenInBase);
+const forbiddenInStyle = compileRules(validationRules.forbiddenInStyle);
+const forbiddenInBaseColor = compileRules(validationRules.forbiddenInBaseColor);
+const forbiddenOutsideTokens = compileRules(validationRules.forbiddenOutsideTokens);
+const promotionScaffold = new RegExp(validationRules.promotionScaffold);
 
 const errors = [];
 
@@ -136,14 +103,7 @@ function readJson(file) {
 }
 
 const registry = readJson(registryPath);
-const packageJson = readJson(join(packageRoot, "package.json"));
 const schema = readJson(schemaPath);
-
-if (registry.version !== packageJson.version) {
-  fail(
-    `version mismatch: registry.json is ${registry.version}, package.json is ${packageJson.version}`
-  );
-}
 
 const ajv = new Ajv2020({ allErrors: true, strict: false });
 const validate = ajv.compile(schema);
@@ -217,17 +177,11 @@ function walk(dir, base = "") {
 const behaviorsRoot = join(registryDir, "behaviors");
 const referencedBehaviors = new Set();
 const behaviorSources = new Map();
-const behaviorImportPattern =
-  /\bimport\s+(?:[^'"]*?\s+from\s+)?["']([^"']+)["']/g;
-const forbiddenInBehaviors = [
-  { pattern: /data-state/g, message: "use the documented ARIA or data-* state" },
-  { pattern: /data-demo-/g, message: "demo hooks must not ship in behavior modules" },
-  { pattern: /\beval\s*\(/g, message: "eval is not allowed" },
-  { pattern: /new\s+Function\s*\(/g, message: "new Function is not allowed" },
-  { pattern: /\.innerHTML\b/g, message: "use DOM APIs instead of innerHTML" },
-  { pattern: /\.outerHTML\b/g, message: "use DOM APIs instead of outerHTML" },
-  { pattern: /document\.write\b/g, message: "document.write is not allowed" }
-];
+const behaviorImportPattern = new RegExp(
+  validationRules.behaviorImportPattern,
+  "g"
+);
+const forbiddenInBehaviors = compileRules(validationRules.forbiddenInBehaviors);
 
 function validateBehavior(item, behavior) {
   const absolute = join(registryDir, behavior.path);

@@ -9,8 +9,7 @@ the reference implementation: if this document and the registry disagree,
 [`packages/loseta/registry/tokens.css`](packages/loseta/registry/tokens.css),
 [`registry.json`](packages/loseta/registry/registry.json) and the files under
 [`packages/loseta/registry/behaviors/`](packages/loseta/registry/behaviors) win,
-and this document must be corrected. The baseline covers registry version
-`0.18.0`.
+and this document must be corrected. This baseline covers loseta `0.20.0`.
 
 Vocabulary is defined in [`GLOSSARY.md`](GLOSSARY.md). Style implementation
 guidance lives in [`STYLE-GUIDE.md`](STYLE-GUIDE.md).
@@ -1074,7 +1073,10 @@ release.
 
 Because distribution is copy-paste, installed files do not update
 automatically. Consumers receive changes only by installing or re-adding
-files. Local edits are outside the contract and should be treated as a fork.
+files; the registry is served as mutable content and `loseta add` is the update
+path. The manifest records the registry URL, build and installed file hashes so
+drift is visible. Local edits are outside the contract and should be treated as
+a fork.
 
 Until 1.0, the registry is explicitly pre-stable: breaking changes are still
 possible, but every one must be called out in [`CHANGELOG.md`](CHANGELOG.md)

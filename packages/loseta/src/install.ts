@@ -1,8 +1,9 @@
-import { basename, join, resolve } from "node:path";
+import { basename, join } from "node:path";
 import { behaviorDirPath } from "./config.js";
-import { copyFile, exists, hashFile } from "./fs.js";
+import { exists, hashContent, hashFile, writeText } from "./fs.js";
 import { writeBehaviorIndex, writeIndex } from "./imports.js";
-import { installedNames, upsertManifestItem, writeManifest } from "./manifest.js";
+import { upsertManifestItem, writeManifest } from "./manifest.js";
+import type { ResolvedRegistryItem } from "./source-types.js";
 import type {
   InstallableFile,
   LosetaConfig,
@@ -10,8 +11,7 @@ import type {
   ManifestFile,
   Registry,
   RegistryBehavior,
-  RegistryFile,
-  RegistryItem
+  RegistryItemPayload
 } from "./types.js";
 
 export type ConflictResolution = "overwrite" | "keep";
@@ -19,16 +19,19 @@ export type ConflictResolution = "overwrite" | "keep";
 export interface InstallOptions {
   projectRoot: string;
   config: LosetaConfig;
+  /** Catalog used for diagnostics; files come from the payloads. */
   registry: Registry;
-  /** Absolute path to the registry files. Injectable for tests. */
-  sourceRoot: string;
+  /** Base URL recorded on the manifest. */
+  registryUrl: string;
+  /** Registry build recorded on the manifest. */
+  build: string;
   manifest: Manifest;
-  items: RegistryItem[];
+  items: ResolvedRegistryItem[];
   /** Skip behavior files and the generated behavior index. */
   includeBehaviors?: boolean;
   onConflict(
     file: InstallableFile,
-    item: RegistryItem
+    item: RegistryItemPayload
   ): ConflictResolution | Promise<ConflictResolution>;
 }
 
@@ -45,12 +48,11 @@ export interface BehaviorInstallOptions {
   projectRoot: string;
   config: LosetaConfig;
   registry: Registry;
-  sourceRoot: string;
   manifest: Manifest;
-  items: RegistryItem[];
+  items: ResolvedRegistryItem[];
   onConflict(
     file: RegistryBehavior,
-    item: RegistryItem
+    item: RegistryItemPayload
   ): ConflictResolution | Promise<ConflictResolution>;
 }
 
@@ -68,25 +70,47 @@ function behaviorTargetPath(
   return join(behaviorDirPath(projectRoot, config), basename(behavior.target));
 }
 
+function initialBehaviorEntries(
+  manifest: Manifest,
+  registry: Registry
+): Set<string> {
+  if (manifest.behaviorEntries) {
+    return new Set(manifest.behaviorEntries);
+  }
+  const installed = new Set(manifest.behaviors ?? []);
+  const entries = new Set<string>();
+  for (const item of registry.items) {
+    for (const behavior of item.behaviors ?? []) {
+      if (behavior.kind === "entry" && installed.has(behavior.target)) {
+        entries.add(behavior.target);
+      }
+    }
+  }
+  return entries;
+}
+
 async function installBehaviorFiles(input: {
   projectRoot: string;
   config: LosetaConfig;
-  sourceRoot: string;
-  items: RegistryItem[];
+  items: ResolvedRegistryItem[];
   installed: Set<string>;
+  entries: Set<string>;
   onConflict(
     file: RegistryBehavior,
-    item: RegistryItem
+    item: RegistryItemPayload
   ): ConflictResolution | Promise<ConflictResolution>;
 }): Promise<{ written: string[]; skipped: string[] }> {
   const written: string[] = [];
   const skipped: string[] = [];
 
-  for (const item of input.items) {
+  for (const { item } of input.items) {
     for (const behavior of item.behaviors ?? []) {
-      const source = join(input.sourceRoot, behavior.path);
+      const content = behavior.content;
+      if (content === undefined) {
+        throw new Error(`${item.name}: behavior ${behavior.path} has no content`);
+      }
       const target = behaviorTargetPath(input.projectRoot, input.config, behavior);
-      const sourceHash = hashFile(source);
+      const sourceHash = hashContent(content);
       const targetHash = exists(target) ? hashFile(target) : undefined;
 
       let shouldCopy = true;
@@ -99,13 +123,16 @@ async function installBehaviorFiles(input: {
       }
 
       if (shouldCopy) {
-        copyFile(source, target);
+        writeText(target, content);
         written.push(behavior.target);
       } else {
         skipped.push(behavior.target);
       }
 
       input.installed.add(behavior.target);
+      if (behavior.kind === "entry") {
+        input.entries.add(behavior.target);
+      }
     }
   }
 
@@ -113,39 +140,42 @@ async function installBehaviorFiles(input: {
 }
 
 /**
- * Writes the resolved items, updates the manifest and regenerates index.css.
- * Identical files are skipped without consulting onConflict; a conflict is a
- * target whose hash differs from the registry source.
+ * Writes the resolved item payloads, updates the manifest and regenerates
+ * index.css. Identical files are skipped without consulting onConflict; a
+ * conflict is a target whose hash differs from the registry payload.
  */
 export async function installItems({
   projectRoot,
   config,
   registry,
-  sourceRoot,
+  registryUrl,
+  build,
   manifest: currentManifest,
   items,
   includeBehaviors = true,
   onConflict
 }: InstallOptions): Promise<InstallResult> {
+  const entries = initialBehaviorEntries(currentManifest, registry);
   const manifest: Manifest = {
-    version: registry.version,
+    registry: { url: registryUrl, build },
     items: [...currentManifest.items],
-    behaviors: [...(currentManifest.behaviors ?? [])]
+    behaviors: [...(currentManifest.behaviors ?? [])],
+    behaviorEntries: [...entries]
   };
-  const cssDirAbs = resolve(projectRoot, config.cssDir);
-  const stylePrefix = `styles/${config.style}/`;
   const written: string[] = [];
   const skipped: string[] = [];
 
-  for (const item of items) {
+  for (const resolved of items) {
+    const item = resolved.item;
     const files: ManifestFile[] = [];
 
     for (const file of item.files) {
-      if (file.role === "style" && !file.path.startsWith(stylePrefix)) continue;
-      const source = join(sourceRoot, file.path);
-      const target = join(cssDirAbs, file.target);
-      const sourceHash = hashFile(source);
-      const targetHash = exists(target) ? hashFile(target) : undefined;
+      if (file.content === undefined) {
+        throw new Error(`${item.name}: file ${file.path} has no content`);
+      }
+      const sourceHash = hashContent(file.content);
+      const absolute = join(projectRoot, config.cssDir, file.target);
+      const targetHash = exists(absolute) ? hashFile(absolute) : undefined;
 
       let shouldCopy = true;
       if (targetHash !== undefined) {
@@ -157,18 +187,18 @@ export async function installItems({
       }
 
       if (shouldCopy) {
-        copyFile(source, target);
+        writeText(absolute, file.content);
         written.push(file.target);
       } else {
         skipped.push(file.target);
       }
 
-      files.push({ path: file.target, hash: hashFile(target) });
+      files.push({ path: file.target, hash: hashFile(absolute) });
     }
 
     upsertManifestItem(manifest, {
       name: item.name,
-      version: registry.version,
+      ...(resolved.source ? { source: resolved.source } : {}),
       files
     });
   }
@@ -176,72 +206,69 @@ export async function installItems({
   let behaviorsWritten: string[] = [];
   let behaviorsSkipped: string[] = [];
   if (includeBehaviors) {
-    const installedBehaviors = new Set(manifest.behaviors ?? []);
+    const installed = new Set(manifest.behaviors ?? []);
     const result = await installBehaviorFiles({
       projectRoot,
       config,
-      sourceRoot,
       items,
-      installed: installedBehaviors,
+      installed,
+      entries,
       onConflict
     });
     behaviorsWritten = result.written;
     behaviorsSkipped = result.skipped;
     written.push(...result.written);
     skipped.push(...result.skipped);
-    manifest.behaviors = [...installedBehaviors].sort();
+    manifest.behaviors = [...installed].sort();
+    manifest.behaviorEntries = [...entries].sort();
   }
 
   writeManifest(projectRoot, manifest);
-  writeIndex(projectRoot, config, registry, installedNames(manifest));
+  writeIndex(projectRoot, config, manifest, registry);
   if (includeBehaviors) {
-    writeBehaviorIndex(
-      projectRoot,
-      config,
-      registry,
-      new Set(manifest.behaviors ?? [])
-    );
+    writeBehaviorIndex(projectRoot, config, manifest.behaviorEntries ?? []);
   }
 
   return {
     manifest,
     written,
     skipped,
-    installed: items.map((item) => item.name),
+    installed: items.map(({ item }) => item.name),
     behaviorsWritten,
     behaviorsSkipped
   };
 }
 
-/** Copies missing behavior files for already-installed items. */
+/** Backfills behavior files for items that are already tracked. */
 export async function installBehaviors({
   projectRoot,
   config,
   registry,
-  sourceRoot,
   manifest: currentManifest,
   items,
   onConflict
 }: BehaviorInstallOptions): Promise<BehaviorInstallResult> {
+  const entries = initialBehaviorEntries(currentManifest, registry);
   const manifest: Manifest = {
-    ...currentManifest,
-    version: registry.version,
-    behaviors: [...(currentManifest.behaviors ?? [])]
+    ...(currentManifest.registry ? { registry: currentManifest.registry } : {}),
+    items: [...currentManifest.items],
+    behaviors: [...(currentManifest.behaviors ?? [])],
+    behaviorEntries: [...entries]
   };
   const installed = new Set(manifest.behaviors ?? []);
-
-  const { written, skipped } = await installBehaviorFiles({
+  const result = await installBehaviorFiles({
     projectRoot,
     config,
-    sourceRoot,
     items,
     installed,
+    entries,
     onConflict
   });
 
   manifest.behaviors = [...installed].sort();
+  manifest.behaviorEntries = [...entries].sort();
   writeManifest(projectRoot, manifest);
-  writeBehaviorIndex(projectRoot, config, registry, installed);
+  writeBehaviorIndex(projectRoot, config, manifest.behaviorEntries ?? []);
 
-  return { manifest, written, skipped };
+  return { manifest, ...result };
 }

@@ -1,9 +1,9 @@
 import { defineCommand, runMain } from "citty";
-import { readFileSync } from "node:fs";
 import { addCommand } from "./commands/add.js";
 import { initCommand } from "./commands/init.js";
 import { listCommand } from "./commands/list.js";
 import { styleCommand } from "./commands/style.js";
+import { PACKAGE_DESCRIPTION, PACKAGE_VERSION } from "./package-info.js";
 
 process.stdout.on("error", (error: NodeJS.ErrnoException) => {
   if (error.code === "EPIPE") {
@@ -12,15 +12,11 @@ process.stdout.on("error", (error: NodeJS.ErrnoException) => {
   throw error;
 });
 
-const packageJson = JSON.parse(
-  readFileSync(new URL("../package.json", import.meta.url), "utf8")
-) as { version: string; description?: string };
-
 const main = defineCommand({
   meta: {
     name: "loseta",
-    version: packageJson.version,
-    description: packageJson.description ?? "Native CSS component scaffolds."
+    version: PACKAGE_VERSION,
+    description: PACKAGE_DESCRIPTION ?? "Native CSS component scaffolds."
   },
   subCommands: {
     init: initCommand,

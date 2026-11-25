@@ -1,5 +1,36 @@
 # Changelog
 
+## 0.20.0 - 2026-11-21
+
+### Changed
+
+- The registry is served remotely from `https://loseta.vladiantio.com/r` and is
+  no longer bundled in the npm tarball. `loseta` fetches the catalog and
+  per-style item payloads, verifies catalog hashes, caches responses under the
+  XDG cache directory and falls back to the cached catalog when the registry is
+  unreachable. A cold install now requires network access; published 0.19.0 and
+  earlier tarballs keep their bundled registries.
+- Registry content is mutable and no longer carries a semantic version. The
+  catalog reports `schemaVersion`, `minCliVersion` and a git `build`; an
+  incompatible catalog fails with an upgrade message instead of installing a
+  partial payload. `.loseta/manifest.json` records the registry URL, build and
+  per-item URL sources instead of version fields.
+- `loseta.json` accepts an optional `registry` URL. `--registry` and
+  `LOSETA_REGISTRY` override it, and `--no-cache` bypasses the cache.
+- `loseta add <url>` installs a style-bound component or primitive payload from
+  an absolute URL after confirmation. URL installs accept only component and
+  primitive items, resolve bare dependencies against the official registry,
+  record their source in the manifest, and prevent `loseta style` from
+  switching styles until they are removed.
+- The authored registry, wire schemas and shared validation rules remain in
+  `packages/loseta/registry/`; the docs build generates `/r/` and `/schema/v1/`
+  from them. The `registry.version === package.version` rule is gone.
+
+### Added
+
+- Catalog, item payload and foundation schemas, per-style catalog hashes,
+  remote registry and URL-install tests, and a local test registry server.
+
 ## 0.19.0 - 2026-11-21
 
 ### Added

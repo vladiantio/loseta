@@ -1,7 +1,8 @@
 import { defineCommand } from "citty";
 import { cancel, confirm, intro, isCancel, log, outro, select, text } from "@clack/prompts";
 import { existsSync } from "node:fs";
-import { join, resolve } from "node:path";
+import { join } from "node:path";
+import { addEntrypointImport } from "../imports.js";
 import {
   ConfigError,
   DEFAULT_BEHAVIOR_DIR,
@@ -10,17 +11,13 @@ import {
   readConfig,
   writeConfig
 } from "../config.js";
-import { addEntrypointImport } from "../imports.js";
 import { installItems } from "../install.js";
 import { readManifest } from "../manifest.js";
-import {
-  availableStyles,
-  isStyleName,
-  loadRegistry,
-  registryDir,
-  resolveItems,
-  stableFoundation
-} from "../registry.js";
+import { noCacheFlag, openRegistry } from "../command-context.js";
+import { reportCommandError } from "../command-errors.js";
+import { resolveRegistryItems } from "../resolve.js";
+import { isCustomRegistryUrl } from "../registry-url.js";
+import { availableStyles, isStyleName, stableFoundation } from "../registry.js";
 import { resolveInitStyle, styleOptions } from "../style-selection.js";
 import type { LosetaConfig } from "../types.js";
 
@@ -52,24 +49,19 @@ export const initCommand = defineCommand({
       type: "boolean",
       description: "Use defaults without prompting",
       alias: "y"
+    },
+    registry: {
+      type: "string",
+      description: "Registry base URL"
+    },
+    noCache: {
+      type: "boolean",
+      description: "Bypass the registry cache"
     }
   },
   async run({ args }) {
     const projectRoot = process.cwd();
     intro("loseta init");
-
-    const registry = loadRegistry();
-    const foundation = stableFoundation(registry);
-    const foundationNames = new Set(foundation.map((item) => item.name));
-    const existingManifest = readManifest(projectRoot);
-    const tracked =
-      existingManifest?.items.filter((item) => !foundationNames.has(item.name)) ?? [];
-
-    if (tracked.length > 0) {
-      log.warn(
-        `Reinitializing resets the manifest to the foundation. ${tracked.length} installed item(s) stay on disk but are no longer tracked; run \`loseta add all\` to restore them.`
-      );
-    }
 
     let existingConfig: LosetaConfig | undefined;
     try {
@@ -82,7 +74,40 @@ export const initCommand = defineCommand({
       }
       throw error;
     }
-    const styleResolution = resolveInitStyle(registry, args.style, existingConfig?.style);
+
+    let session;
+    try {
+      session = await openRegistry({
+        registry: args.registry,
+        noCache: noCacheFlag(args as unknown as Record<string, unknown>),
+        configRegistry: existingConfig?.registry
+      });
+    } catch (error) {
+      reportCommandError(error);
+      return;
+    }
+    const { url: registryUrl, source, catalog } = session;
+
+    const foundation = stableFoundation(catalog);
+    if (foundation.length === 0) {
+      log.error(
+        `The registry at ${registryUrl} does not declare stable foundation items.`
+      );
+      process.exitCode = 1;
+      return;
+    }
+    const foundationNames = new Set(foundation.map((item) => item.name));
+    const existingManifest = readManifest(projectRoot);
+    const tracked =
+      existingManifest?.items.filter((item) => !foundationNames.has(item.name)) ?? [];
+
+    if (tracked.length > 0) {
+      log.warn(
+        `Reinitializing resets the manifest to the foundation. ${tracked.length} installed item(s) stay on disk but are no longer tracked; run \`loseta add all\` to restore them.`
+      );
+    }
+
+    const styleResolution = resolveInitStyle(catalog, args.style, existingConfig?.style);
     if ("error" in styleResolution) {
       log.error(styleResolution.error);
       process.exitCode = 1;
@@ -105,7 +130,8 @@ export const initCommand = defineCommand({
 
     let cssDir = args.cssDir ?? existingConfig?.cssDir ?? DEFAULT_CSS_DIR;
     let style = styleResolution.style;
-    let entrypoint = args.entrypoint ?? existingConfig?.entrypoint ?? detectEntrypoint(projectRoot) ?? "";
+    let entrypoint =
+      args.entrypoint ?? existingConfig?.entrypoint ?? detectEntrypoint(projectRoot) ?? "";
 
     if (!args.yes) {
       const cssDirAnswer = await text({
@@ -121,7 +147,7 @@ export const initCommand = defineCommand({
 
       const styleAnswer = await select({
         message: "Style",
-        options: styleOptions(registry),
+        options: styleOptions(catalog),
         initialValue: style
       });
       if (isCancel(styleAnswer)) {
@@ -142,39 +168,52 @@ export const initCommand = defineCommand({
       entrypoint = String(entrypointAnswer);
     }
 
-    if (!isStyleName(registry, style)) {
+    if (!isStyleName(catalog, style)) {
       log.error(
-        `Unknown style: ${style}. Available styles: ${availableStyles(registry).join(", ")}.`
+        `Unknown style: ${style}. Available styles: ${availableStyles(catalog).join(", ")}.`
       );
       process.exitCode = 1;
       return;
     }
 
+    const customRegistry = isCustomRegistryUrl(registryUrl) ? registryUrl : undefined;
     const config: LosetaConfig = {
       cssDir,
       behaviorDir: existingConfig?.behaviorDir ?? DEFAULT_BEHAVIOR_DIR,
       style,
-      ...(entrypoint ? { entrypoint } : {})
+      ...(entrypoint ? { entrypoint } : {}),
+      ...(customRegistry ? { registry: customRegistry } : {})
     };
     writeConfig(projectRoot, config);
 
-    const items = resolveItems(
-      registry,
-      foundation.map((item) => item.name)
-    );
+    try {
+      const items = await resolveRegistryItems(
+        foundation.map((item) => item.name),
+        {
+          source,
+          catalog,
+          style,
+          experimental: false
+        }
+      );
 
-    await installItems({
-      projectRoot,
-      config,
-      registry,
-      sourceRoot: registryDir,
-      manifest: { version: registry.version, items: [] },
-      items,
-      onConflict: () => "overwrite"
-    });
+      await installItems({
+        projectRoot,
+        config,
+        registry: catalog,
+        registryUrl,
+        build: catalog.build,
+        manifest: { items: [] },
+        items,
+        onConflict: () => "overwrite"
+      });
+    } catch (error) {
+      reportCommandError(error);
+      return;
+    }
 
     if (config.entrypoint) {
-      const entrypointAbs = resolve(projectRoot, config.entrypoint);
+      const entrypointAbs = join(projectRoot, config.entrypoint);
       if (!existsSync(entrypointAbs)) {
         log.warn(
           `Entrypoint not found: ${config.entrypoint}. Import ${join(cssDir, "index.css")} manually.`

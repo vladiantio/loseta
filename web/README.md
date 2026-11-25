@@ -1,14 +1,15 @@
 # loseta docs
 
 Astro site for the loseta component docs and playground. The site imports the
-registry CSS directly from `packages/loseta/registry`, so the examples and the
-published files never drift.
+authored registry CSS directly from `packages/loseta/registry` and generates the
+served registry JSON under `public/r/` and `public/schema/v1/` during build, so
+the examples and the published files never drift.
 
 ## Commands
 
 ```bash
 pnpm dev          # start Astro
-pnpm build        # regenerate docs CSS + static build
+pnpm build        # regenerate docs CSS, remote registry + static build
 pnpm preview      # preview the build
 pnpm check        # astro check
 pnpm test:e2e     # build + Playwright + axe
@@ -44,4 +45,6 @@ small inline boot applies the stored color scheme before first paint.
 Demo interactions are docs-only. They must never become a registry dependency.
 
 The generated `web/src/styles/loseta.css` is committed. Run `pnpm docs:css`
-after adding or removing a registry item.
+after adding or removing a registry item. `public/r/` and `public/schema/v1/`
+are generated and gitignored; `public/_headers` configures CORS and cache
+revalidation for them on Netlify.

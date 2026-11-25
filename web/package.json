@@ -3,7 +3,9 @@
   "type": "module",
   "version": "0.0.1",
   "scripts": {
+    "predev": "node ../packages/loseta/scripts/build-remote-registry.mjs",
     "dev": "astro dev",
+    "prebuild": "node ../packages/loseta/scripts/build-remote-registry.mjs",
     "build": "node ../packages/loseta/scripts/generate-docs-css.mjs && astro build",
     "preview": "astro preview",
     "check": "astro check",

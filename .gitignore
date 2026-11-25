@@ -30,6 +30,10 @@ bun.lockb
 package-lock.json
 yarn.lock
 
+# Generated remote registry (rebuilt by web:build)
+web/public/r/
+web/public/schema/
+
 # Test output
 test-results/
 playwright-report/

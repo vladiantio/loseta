@@ -1,0 +1,119 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://loseta.vladiantio.com/schema/v1/registry-item.json",
+  "title": "loseta registry item payload",
+  "type": "object",
+  "required": [
+    "name",
+    "type",
+    "status",
+    "title",
+    "description",
+    "root",
+    "files",
+    "schemaVersion",
+    "minCliVersion",
+    "build"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "$schema": { "type": "string" },
+    "name": { "type": "string", "pattern": "^[a-z][a-z0-9-]*$" },
+    "type": { "enum": ["component", "primitive", "foundation", "style"] },
+    "status": { "enum": ["stable", "experimental"] },
+    "title": { "type": "string", "minLength": 1 },
+    "description": { "type": "string", "minLength": 1 },
+    "docs": { "type": "string" },
+    "root": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 },
+      "uniqueItems": true
+    },
+    "registryDependencies": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 },
+      "uniqueItems": true
+    },
+    "optionalDependencies": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 },
+      "uniqueItems": true
+    },
+    "files": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/file" }
+    },
+    "behaviors": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/behavior" }
+    },
+    "examples": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/example" }
+    },
+    "schemaVersion": { "type": "integer", "const": 1 },
+    "minCliVersion": {
+      "type": "string",
+      "pattern": "^\\d+\\.\\d+\\.\\d+$"
+    },
+    "build": { "type": "string", "minLength": 1 },
+    "style": { "type": "string", "pattern": "^[a-z][a-z0-9-]*$" }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": { "type": { "enum": ["component", "primitive"] } },
+        "required": ["type"]
+      },
+      "then": { "required": ["style"] },
+      "else": { "not": { "required": ["style"] } }
+    }
+  ],
+  "$defs": {
+    "file": {
+      "type": "object",
+      "required": ["path", "target", "role", "layer", "content"],
+      "additionalProperties": false,
+      "properties": {
+        "path": { "type": "string", "minLength": 1 },
+        "target": { "type": "string", "minLength": 1 },
+        "role": { "enum": ["base", "style"] },
+        "layer": {
+          "enum": [
+            "loseta.tokens",
+            "loseta.reset",
+            "loseta.base",
+            "loseta.components",
+            "loseta.style",
+            "loseta.utilities"
+          ]
+        },
+        "content": { "type": "string", "minLength": 1 }
+      }
+    },
+    "behavior": {
+      "type": "object",
+      "required": ["path", "target", "kind", "content"],
+      "additionalProperties": false,
+      "properties": {
+        "path": { "type": "string", "minLength": 1 },
+        "target": {
+          "type": "string",
+          "pattern": "^behaviors/[a-z0-9-]+\\.js$"
+        },
+        "kind": { "enum": ["entry", "support"] },
+        "content": { "type": "string", "minLength": 1 }
+      }
+    },
+    "example": {
+      "type": "object",
+      "required": ["title", "html"],
+      "additionalProperties": false,
+      "properties": {
+        "title": { "type": "string", "minLength": 1 },
+        "html": { "type": "string", "minLength": 1 }
+      }
+    }
+  }
+}

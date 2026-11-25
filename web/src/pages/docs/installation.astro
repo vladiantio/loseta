@@ -39,6 +39,23 @@ const meta = pageMeta["/docs/installation"];
     <InstallCommand command="loseta add button card field dialog" />
     <p>To install every stable component:</p>
     <InstallCommand command="loseta add all" />
+    <p>
+      The CLI downloads the catalog and the per-style item payloads from
+      <code>https://loseta.vladiantio.com/r</code>. The catalog is mutable: registry content can
+      change without a CLI release, and the recorded file hashes show what was installed.
+    </p>
+    <div class="docs-callout">
+      <strong>Custom registries and offline use.</strong> Point the CLI at a mirror with
+      <code>--registry &lt;url&gt;</code>, <code>LOSETA_REGISTRY</code> or a <code>registry</code>
+      field in <code>loseta.json</code> (precedence in that order). Responses are cached under
+      the XDG cache directory; <code>--no-cache</code> bypasses it. A cold install needs network
+      access.
+    </div>
+    <p>
+      You can also install a public item by URL. URL items are bound to the project style and
+      must be removed before <code>loseta style</code> can switch styles:
+    </p>
+    <InstallCommand command="loseta add https://example.com/r/styles/nova/button.json" />
     <div class="docs-callout">
       <strong>Experimental items.</strong> No experimental components ship in
       this release. The <code>--experimental</code> flag and the Nova-only rule
@@ -56,8 +73,8 @@ const meta = pageMeta["/docs/installation"];
     <h2>Project files</h2>
     <CodeBlock
       lang="text"
-      code={`loseta.json                 # cssDir, entrypoint and style
-.loseta/manifest.json       # installed items and file hashes
+      code={`loseta.json                 # cssDir, entrypoint, style and optional registry URL
+.loseta/manifest.json       # installed items, sources, registry build and file hashes
 src/styles/loseta/
   tokens.css                 # design tokens
   reset.css                  # minimal reset
@@ -81,7 +98,9 @@ pnpm dlx loseta list --experimental # experimental items, when present
 pnpm dlx loseta style vega         # switch an installed project
 pnpm dlx loseta list               # list components
 pnpm dlx loseta list --all         # include experimental, primitives and foundation
-pnpm dlx loseta add button --html  # print the example markup`}
+pnpm dlx loseta add button --html  # print the example markup
+pnpm dlx loseta add button --registry https://mirror.example.com/r
+pnpm dlx loseta list --registry https://mirror.example.com/r`}
     />
 
     <h2>Coexistence</h2>

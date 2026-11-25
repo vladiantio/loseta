@@ -1,8 +1,10 @@
 import { defineCommand } from "citty";
 import { intro, log, outro } from "@clack/prompts";
 import { ConfigError, readConfig } from "../config.js";
+import { noCacheFlag, openRegistry } from "../command-context.js";
+import { reportCommandError } from "../command-errors.js";
 import { readManifest } from "../manifest.js";
-import { loadRegistry, registryDir } from "../registry.js";
+import { resolveRegistryItems } from "../resolve.js";
 import { applyStyleSwitch, resolveStyleSwitch } from "../style-switch.js";
 import type { LosetaConfig } from "../types.js";
 
@@ -10,6 +12,16 @@ export const styleCommand = defineCommand({
   meta: {
     name: "style",
     description: "Switch the visual style of installed components."
+  },
+  args: {
+    registry: {
+      type: "string",
+      description: "Registry base URL"
+    },
+    noCache: {
+      type: "boolean",
+      description: "Bypass the registry cache"
+    }
   },
   async run({ args }) {
     const projectRoot = process.cwd();
@@ -37,9 +49,21 @@ export const styleCommand = defineCommand({
       return;
     }
 
-    const registry = loadRegistry();
+    let session;
+    try {
+      session = await openRegistry({
+        registry: args.registry,
+        noCache: noCacheFlag(args as unknown as Record<string, unknown>),
+        configRegistry: config.registry
+      });
+    } catch (error) {
+      reportCommandError(error);
+      return;
+    }
+    const { url: registryUrl, source, catalog } = session;
+
     const name = String(args._[0] ?? "");
-    const resolution = resolveStyleSwitch(registry, manifest, config, name);
+    const resolution = resolveStyleSwitch(catalog, manifest, config, name);
     if (resolution.status === "error") {
       log.error(resolution.message);
       process.exitCode = 1;
@@ -51,13 +75,39 @@ export const styleCommand = defineCommand({
     }
 
     intro(`loseta style ${resolution.plan.nextConfig.style}`);
-    const { result, kept } = await applyStyleSwitch({
-      projectRoot,
-      registry,
-      sourceRoot: registryDir,
-      manifest,
-      plan: resolution.plan
-    });
+    let items;
+    try {
+      items = await resolveRegistryItems(
+        resolution.plan.items.map((item) => item.name),
+        {
+          source,
+          catalog,
+          style: resolution.plan.nextConfig.style,
+          experimental: resolution.plan.nextConfig.style === "nova",
+          includeDependencies: false
+        }
+      );
+    } catch (error) {
+      reportCommandError(error);
+      return;
+    }
+
+    let applied;
+    try {
+      applied = await applyStyleSwitch({
+        projectRoot,
+        registry: catalog,
+        registryUrl,
+        build: catalog.build,
+        manifest,
+        plan: resolution.plan,
+        items
+      });
+    } catch (error) {
+      reportCommandError(error);
+      return;
+    }
+    const { result, kept } = applied;
 
     log.success(
       `Switched from "${resolution.plan.previous}" to "${resolution.plan.nextConfig.style}" (${result.written.length} file(s) written).`

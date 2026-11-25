@@ -1,14 +1,19 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://loseta.dev/schema/registry.json",
-  "title": "loseta registry",
+  "$id": "https://loseta.vladiantio.com/schema/v1/registry-source.json",
+  "title": "loseta registry source",
   "type": "object",
-  "required": ["name", "version", "styles", "items"],
+  "required": ["name", "schemaVersion", "minCliVersion", "styles", "items"],
   "additionalProperties": false,
   "properties": {
     "$schema": { "type": "string" },
     "name": { "type": "string", "minLength": 1 },
-    "version": { "type": "string", "pattern": "^\\d+\\.\\d+\\.\\d+" },
+    "homepage": { "type": "string" },
+    "schemaVersion": { "type": "integer", "const": 1 },
+    "minCliVersion": {
+      "type": "string",
+      "pattern": "^\\d+\\.\\d+\\.\\d+$"
+    },
     "styles": {
       "type": "array",
       "minItems": 1,

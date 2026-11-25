@@ -5,9 +5,36 @@ loseta is a copy-paste registry of native CSS component styles with a documented
 ## Distribution
 
 **Registry**:
-The catalog of installable CSS items and optional behavior modules that the CLI
-reads and writes into a project.
+The authored catalog of installable CSS items and optional behavior modules,
+served as static JSON and copied into a project by the CLI.
 _Avoid_: package, bundle, library
+
+**Catalog**:
+The content-free registry manifest served at `<registry>/registry.json`: wire
+schema version, minimum CLI version, build identifier, styles and per-item
+hashes.
+_Avoid_: index, package manifest
+
+**Item payload**:
+The installable JSON for one item and style, with CSS, behavior and example
+content inlined. Official payloads are hash-verified against the catalog.
+_Avoid_: item file, download
+
+**Registry URL**:
+The base URL the CLI reads the catalog and payloads from. It resolves from
+`--registry`, `LOSETA_REGISTRY`, `loseta.json`, then the default
+`https://loseta.vladiantio.com/r`.
+_Avoid_: endpoint, source URL
+
+**Build**:
+The git identifier the catalog reports for the content it serves. It is
+diagnostic: registry content is mutable and is not version-pinned.
+_Avoid_: version, release
+
+**URL install**:
+An item payload fetched from an absolute URL instead of the configured
+registry. It is style-bound, confirmed separately and recorded with its source.
+_Avoid_: external install, remote item
 
 **Item**:
 One named entry in the registry with its own files, root selectors and dependency metadata.
@@ -26,7 +53,8 @@ The consumer-owned directory that receives all installed files.
 _Avoid_: output folder, build directory
 
 **Manifest**:
-The record of installed items and file hashes that tracks what the CLI has written.
+The record of installed items, optional URL sources, the registry URL and build,
+and the hash of every installed file.
 _Avoid_: lockfile, state file
 
 **Generated entrypoint**:

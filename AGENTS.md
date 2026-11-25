@@ -1,8 +1,9 @@
 # Agent guide
 
 loseta is a copy-paste registry of native CSS components with a documented
-markup contract and optional ESM behavior modules. The registry is the product;
-the docs site renders the same files consumers install.
+markup contract and optional ESM behavior modules. The authored registry is the
+product; the docs build serves it as static JSON for the CLI and renders the
+same source files.
 
 For "component examples and fixes" requests, start with `EXAMPLES.md`; it is
 the runbook for the workflow, tests and upstream paths.
@@ -48,20 +49,24 @@ and `read`.
 
 ## Layout
 
-- `packages/loseta/registry/` — published catalog: foundations, primitives,
-  components, behavior modules, Nova style, examples and `registry.json`.
+- `packages/loseta/registry/` — authored registry source: foundations,
+  primitives, components, behavior modules, styles, examples, `registry.json`,
+  the wire schemas and the shared validation rules. It is not shipped in the
+  npm tarball.
 - `packages/loseta/registry/behaviors/` — optional ESM behavior modules.
   `core.js` and `listbox.js` are support modules; the rest are entry modules.
-- `packages/loseta/src/` — CLI (`init`, `add`, `list`, `style`).
+- `packages/loseta/src/` — CLI (`init`, `add`, `list`, `style`), the remote
+  registry source, cache, payload validation and the resolver.
 - `packages/loseta/test/` — CLI tests (`node:test`); keep flag and config
   resolution in testable modules rather than prompt handlers.
 - `packages/loseta/experimental/` — uncurated, unpublished drafts. Items become
   installable only after they move into `registry/` and are declared in
   `registry.json`, even while they remain experimental.
-- `web/` — Astro docs site; it imports the registry CSS directly. Component
-  pages are one dynamic route (`web/src/pages/docs/components/[id].astro`);
-  per-item copy lives in `web/src/data/components.ts` and example markup in
-  `web/src/data/examples/`.
+- `web/` — Astro docs site; it imports the authored registry CSS directly and
+  generates the served registry under `web/public/r/` and
+  `web/public/schema/v1/`. Component pages are one dynamic route
+  (`web/src/pages/docs/components/[id].astro`); per-item copy lives in
+  `web/src/data/components.ts` and example markup in `web/src/data/examples/`.
 
 ## Base/style split
 
@@ -99,7 +104,9 @@ rules.
    the remaining hooks.
 4. Run `pnpm registry:examples` to regenerate
    `packages/loseta/registry/examples/` and the `examples` fields.
-5. Run `pnpm test` and `pnpm docs:css`. For visual, behavior or docs changes,
+5. Run `pnpm registry:remote` to generate and validate the served catalog and
+   item payloads under `web/public/r/` and `web/public/schema/v1/`.
+6. Run `pnpm test` and `pnpm docs:css`. For visual, behavior or docs changes,
    run `pnpm gate:e2e`.
 
 When adding behavior, add the module under `registry/behaviors/`, declare it in
@@ -190,19 +197,27 @@ Regenerate these; do not edit them by hand:
   Nova style files (`pnpm docs:css`).
 - `web/public/styles/<name>.css` from the stable style files
   (`pnpm docs:css`).
+- `web/public/r/` and `web/public/schema/v1/` from the authored registry
+  (`pnpm registry:remote`, also run by `pnpm web:dev` and `pnpm web:build`).
+  These are generated and gitignored; CI validates them instead of diffing.
 
-CI fails when either generated artifact differs from the committed files.
+CI fails when a committed generated artifact differs from its source.
 `packages/loseta/dist/` and `web/.astro/` are build output and ignored.
 
 ## Verification
 
 `pnpm test` is the default gate: it builds the CLI, validates the registry,
-type-checks the behavior modules and runs `astro check`.
+type-checks the behavior modules, generates the remote payloads, installs them
+with the built CLI and runs `astro check`. CLI tests serve the authored and
+generated registries over local HTTP servers, so the default gate needs no
+external network.
 
 ```bash
 pnpm install
 pnpm test
-pnpm registry:check      # fast registry, CSS and behavior validation
+pnpm registry:check      # fast source registry, CSS and behavior validation
+pnpm registry:remote     # generate and validate the served registry payloads
+pnpm registry:remote:smoke # install the generated payloads with the built CLI
 pnpm --filter loseta behaviors:check # JSDoc type-check of registry/behaviors
 pnpm cli:smoke           # interactive init prompt smoke test
 pnpm web:dev             # docs at http://localhost:4321
@@ -224,7 +239,10 @@ also checks example ID and ARIA-reference integrity, the popover dialog
 contract, the shared overlay recipe and that every component root used by an
 example is declared in `optionalDependencies`. Behavior checks cover target
 declarations, ESM parsing, relative imports, unreferenced modules and a
-Playwright spec for every entry module. Fix the source rather than bypassing it.
+Playwright spec for every entry module. The remote generator additionally
+validates the catalog and every item payload against the published JSON
+Schemas, checks hashes, layer wrapping, path containment and behavior ESM.
+Fix the source rather than bypassing it.
 
 For visual work, use Astro's preview lifecycle instead of keeping a server by
 hand: `pnpm --filter web astro preview status`,

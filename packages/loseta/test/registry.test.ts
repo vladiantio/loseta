@@ -84,7 +84,8 @@ test("every stable component and primitive has one style file per style", () => 
 test("resolveItems fails on dependency cycles", () => {
   const registry: Registry = {
     name: "test",
-    version: "0.0.0",
+    schemaVersion: 1,
+    minCliVersion: "0.20.0",
     items: [
       {
         name: "a",

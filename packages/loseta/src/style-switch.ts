@@ -3,6 +3,7 @@ import { installItems } from "./install.js";
 import type { InstallResult } from "./install.js";
 import { installedNames } from "./manifest.js";
 import { availableStyles, isStyleName } from "./registry.js";
+import type { ResolvedRegistryItem } from "./source-types.js";
 import type { LosetaConfig, Manifest, Registry, RegistryItem } from "./types.js";
 
 export interface StyleSwitchPlan {
@@ -59,6 +60,18 @@ export function resolveStyleSwitch(
     };
   }
 
+  const urlItems = manifest.items
+    .filter((item) => item.source)
+    .map((item) => item.name);
+  if (urlItems.length > 0) {
+    return {
+      status: "error",
+      message: `Style switching is not available while URL-installed items are present: ${urlItems.join(
+        ", "
+      )}. Remove them or reinstall them from the official registry first.`
+    };
+  }
+
   if (name !== "nova") {
     const experimental = items
       .filter((item) => item.status === "experimental")
@@ -95,18 +108,21 @@ export interface StyleSwitchResult {
 export async function applyStyleSwitch(input: {
   projectRoot: string;
   registry: Registry;
-  sourceRoot: string;
+  registryUrl: string;
+  build: string;
   manifest: Manifest;
   plan: StyleSwitchPlan;
+  items: ResolvedRegistryItem[];
 }): Promise<StyleSwitchResult> {
   const kept: string[] = [];
   const result = await installItems({
     projectRoot: input.projectRoot,
     config: input.plan.nextConfig,
     registry: input.registry,
-    sourceRoot: input.sourceRoot,
+    registryUrl: input.registryUrl,
+    build: input.build,
     manifest: input.manifest,
-    items: input.plan.items,
+    items: input.items,
     includeBehaviors: false,
     onConflict: (file) => {
       if ("role" in file && file.role === "style") return "overwrite";

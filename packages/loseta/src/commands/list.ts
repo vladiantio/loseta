@@ -1,10 +1,9 @@
 import { defineCommand } from "citty";
 import pc from "picocolors";
-import {
-  experimentalComponents,
-  loadRegistry,
-  stableComponents
-} from "../registry.js";
+import { ConfigError, readConfig } from "../config.js";
+import { noCacheFlag, openRegistry } from "../command-context.js";
+import { reportCommandError } from "../command-errors.js";
+import { experimentalComponents, stableComponents } from "../registry.js";
 import { printItems } from "../ui.js";
 
 export const listCommand = defineCommand({
@@ -26,10 +25,46 @@ export const listCommand = defineCommand({
     json: {
       type: "boolean",
       description: "Print the registry as JSON"
+    },
+    registry: {
+      type: "string",
+      description: "Registry base URL"
+    },
+    noCache: {
+      type: "boolean",
+      description: "Bypass the registry cache"
     }
   },
-  run({ args }) {
-    const registry = loadRegistry();
+  async run({ args }) {
+    let config;
+    try {
+      config = readConfig(process.cwd());
+    } catch (error) {
+      if (error instanceof ConfigError) {
+        // `list` works without a project; only a broken config is fatal.
+        console.error(error.message);
+        process.exitCode = 1;
+        return;
+      }
+      throw error;
+    }
+
+    let session;
+    try {
+      session = await openRegistry({
+        registry: args.registry,
+        noCache: noCacheFlag(args as unknown as Record<string, unknown>),
+        configRegistry: config?.registry,
+        onWarning: args.json
+          ? (message) => console.error(message)
+          : undefined
+      });
+    } catch (error) {
+      reportCommandError(error);
+      return;
+    }
+
+    const registry = session.catalog;
     const stable = stableComponents(registry);
     const experimental = experimentalComponents(registry);
     const includeExperimental = Boolean(args.all || args.experimental);

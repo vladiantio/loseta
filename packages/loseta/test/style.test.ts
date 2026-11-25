@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { spawnSync } from "node:child_process";
+import { spawn } from "node:child_process";
 import {
   appendFileSync,
   existsSync,
@@ -13,11 +13,14 @@ import { test } from "node:test";
 import { fileURLToPath } from "node:url";
 import { readConfig } from "../src/config.js";
 import { installItems } from "../src/install.js";
-import { loadRegistry, registryDir, resolveItems } from "../src/registry.js";
+import { loadRegistry } from "../src/registry.js";
+import { resolveRegistryItems } from "../src/resolve.js";
 import { resolveAddStyle } from "../src/style-selection.js";
 import { applyStyleSwitch, resolveStyleSwitch } from "../src/style-switch.js";
 import type { LosetaConfig, Manifest } from "../src/types.js";
 import { fixtureManifest, fixtureRegistry } from "./fixtures.js";
+import { resolveFixture } from "./helpers.js";
+import { startTestRegistry } from "./registry-server.js";
 
 const packageRoot = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const tsxBin = join(
@@ -34,30 +37,84 @@ function project(): string {
 }
 
 function emptyManifest(): Manifest {
-  return { version: "0.0.0", items: [] };
+  return { items: [] };
 }
 
-function runCli(cwd: string, args: string[]) {
-  return spawnSync(tsxBin, [cliPath, ...args], {
-    cwd,
-    encoding: "utf8",
-    timeout: 30_000,
-    shell: process.platform === "win32"
+function runCli(
+  cwd: string,
+  args: string[],
+  registryUrl: string
+): Promise<{ status: number | null; stdout: string; stderr: string }> {
+  return new Promise((resolve, reject) => {
+    const child = spawn(tsxBin, [cliPath, ...args], {
+      cwd,
+      shell: process.platform === "win32",
+      env: { ...process.env, LOSETA_REGISTRY: registryUrl }
+    });
+    let stdout = "";
+    let stderr = "";
+    const timer = setTimeout(() => {
+      child.kill();
+      reject(new Error(`CLI timed out: loseta ${args.join(" ")}`));
+    }, 30_000);
+    child.stdout.on("data", (chunk) => {
+      stdout += String(chunk);
+    });
+    child.stderr.on("data", (chunk) => {
+      stderr += String(chunk);
+    });
+    child.on("error", (error) => {
+      clearTimeout(timer);
+      reject(error);
+    });
+    child.on("close", (status) => {
+      clearTimeout(timer);
+      resolve({ status, stdout, stderr });
+    });
   });
 }
 
 async function installButton(projectRoot: string) {
-  const registry = loadRegistry();
+  const { source, catalog, items } = await resolveFixture(["button"]);
   const result = await installItems({
     projectRoot,
     config,
-    registry,
-    sourceRoot: registryDir,
+    registry: catalog,
+    registryUrl: source.url,
+    build: catalog.build,
     manifest: emptyManifest(),
-    items: resolveItems(registry, ["button"]),
+    items,
     onConflict: () => "keep"
   });
-  return { registry, manifest: result.manifest };
+  return { source, catalog, manifest: result.manifest };
+}
+
+async function applyPlan(
+  projectRoot: string,
+  source: Awaited<ReturnType<typeof resolveFixture>>["source"],
+  catalog: Awaited<ReturnType<typeof resolveFixture>>["catalog"],
+  manifest: Manifest,
+  plan: Extract<ReturnType<typeof resolveStyleSwitch>, { status: "switch" }>["plan"]
+) {
+  const items = await resolveRegistryItems(
+    plan.items.map((item) => item.name),
+    {
+      source,
+      catalog,
+      style: plan.nextConfig.style,
+      experimental: plan.nextConfig.style === "nova",
+      includeDependencies: false
+    }
+  );
+  return applyStyleSwitch({
+    projectRoot,
+    registry: catalog,
+    registryUrl: source.url,
+    build: catalog.build,
+    manifest,
+    plan,
+    items
+  });
 }
 
 test("add style accepts the project style and rejects a mismatch", () => {
@@ -78,13 +135,10 @@ test("add style accepts the project style and rejects a mismatch", () => {
 test("style switch resolution validates the target and installed items", () => {
   const registry = loadRegistry();
   const manifest: Manifest = {
-    version: registry.version,
-    items: [
-      { name: "tokens", version: registry.version, files: [] },
-      { name: "button", version: registry.version, files: [] },
-      { name: "dialog", version: registry.version, files: [] },
-      { name: "dialog-shell", version: registry.version, files: [] }
-    ]
+    items: ["tokens", "button", "dialog", "dialog-shell"].map((name) => ({
+      name,
+      files: []
+    }))
   };
 
   const missing = resolveStyleSwitch(registry, manifest, config, "");
@@ -130,22 +184,37 @@ test("style switch refuses to abandon experimental components", () => {
   }
 });
 
+test("style switch refuses URL-installed items", () => {
+  const manifest: Manifest = {
+    items: [
+      { name: "button", files: [], source: "https://example.com/r/button.json" }
+    ]
+  };
+
+  const resolution = resolveStyleSwitch(loadRegistry(), manifest, config, "vega");
+  assert.equal(resolution.status, "error");
+  if (resolution.status === "error") {
+    assert.match(resolution.message, /URL-installed/);
+    assert.match(resolution.message, /button/);
+  }
+});
+
 test("style switch writes the selected style and keeps the old files", async (t) => {
   const projectRoot = project();
   t.after(() => rmSync(projectRoot, { recursive: true, force: true }));
 
-  const { registry, manifest } = await installButton(projectRoot);
-  const resolved = resolveStyleSwitch(registry, manifest, config, "vega");
+  const { source, catalog, manifest } = await installButton(projectRoot);
+  const resolved = resolveStyleSwitch(catalog, manifest, config, "vega");
   assert.equal(resolved.status, "switch");
   if (resolved.status !== "switch") return;
 
-  const { result, kept } = await applyStyleSwitch({
+  const { result, kept } = await applyPlan(
     projectRoot,
-    registry,
-    sourceRoot: registryDir,
+    source,
+    catalog,
     manifest,
-    plan: resolved.plan
-  });
+    resolved.plan
+  );
 
   assert.deepEqual(kept, []);
   assert.ok(result.written.includes("styles/vega/button.css"));
@@ -163,61 +232,59 @@ test("style switch keeps modified base files and overwrites style files", async 
   const projectRoot = project();
   t.after(() => rmSync(projectRoot, { recursive: true, force: true }));
 
-  const { registry, manifest } = await installButton(projectRoot);
+  const { source, catalog, manifest } = await installButton(projectRoot);
   const basePath = join(projectRoot, config.cssDir, "components", "button.css");
   const novaStylePath = join(projectRoot, config.cssDir, "styles", "nova", "button.css");
   appendFileSync(basePath, "\n/* local base */\n");
   appendFileSync(novaStylePath, "\n/* local style */\n");
 
-  const toVega = resolveStyleSwitch(registry, manifest, config, "vega");
+  const toVega = resolveStyleSwitch(catalog, manifest, config, "vega");
   assert.equal(toVega.status, "switch");
   if (toVega.status !== "switch") return;
 
-  const first = await applyStyleSwitch({
-    projectRoot,
-    registry,
-    sourceRoot: registryDir,
-    manifest,
-    plan: toVega.plan
-  });
+  const first = await applyPlan(projectRoot, source, catalog, manifest, toVega.plan);
   assert.deepEqual(first.kept, ["components/button.css"]);
   assert.match(readFileSync(basePath, "utf8"), /local base/);
 
   const vegaConfig = readConfig(projectRoot);
   assert.ok(vegaConfig);
-  const backToNova = resolveStyleSwitch(registry, first.result.manifest, vegaConfig, "nova");
+  const backToNova = resolveStyleSwitch(catalog, first.result.manifest, vegaConfig, "nova");
   assert.equal(backToNova.status, "switch");
   if (backToNova.status !== "switch") return;
 
-  const second = await applyStyleSwitch({
+  const second = await applyPlan(
     projectRoot,
-    registry,
-    sourceRoot: registryDir,
-    manifest: first.result.manifest,
-    plan: backToNova.plan
-  });
+    source,
+    catalog,
+    first.result.manifest,
+    backToNova.plan
+  );
   assert.deepEqual(second.kept, ["components/button.css"]);
   assert.ok(second.result.written.includes("styles/nova/button.css"));
   assert.match(readFileSync(basePath, "utf8"), /local base/);
   assert.doesNotMatch(readFileSync(novaStylePath, "utf8"), /local style/);
 });
 
-test("CLI: add --style guard and style switch", (t) => {
+test("CLI: add --style guard and style switch", async (t) => {
   const projectRoot = project();
-  t.after(() => rmSync(projectRoot, { recursive: true, force: true }));
+  const registry = await startTestRegistry();
+  t.after(async () => {
+    await registry.close();
+    rmSync(projectRoot, { recursive: true, force: true });
+  });
 
-  const init = runCli(projectRoot, ["init", "--yes"]);
-  assert.equal(init.status, 0, init.error?.message ?? init.stderr);
+  const init = await runCli(projectRoot, ["init", "--yes"], registry.url);
+  assert.equal(init.status, 0, init.stderr);
 
-  const add = runCli(projectRoot, ["add", "button", "--yes"]);
-  assert.equal(add.status, 0, add.error?.message ?? add.stderr);
+  const add = await runCli(projectRoot, ["add", "button", "--yes"], registry.url);
+  assert.equal(add.status, 0, add.stderr);
 
-  const guard = runCli(projectRoot, ["add", "card", "--style", "vega"]);
+  const guard = await runCli(projectRoot, ["add", "card", "--style", "vega"], registry.url);
   assert.equal(guard.status, 1);
   assert.match(`${guard.stdout}${guard.stderr}`, /loseta style vega/);
 
-  const switched = runCli(projectRoot, ["style", "vega"]);
-  assert.equal(switched.status, 0, switched.error?.message ?? switched.stderr);
+  const switched = await runCli(projectRoot, ["style", "vega"], registry.url);
+  assert.equal(switched.status, 0, switched.stderr);
 
   const projectConfig = readConfig(projectRoot);
   assert.ok(projectConfig);

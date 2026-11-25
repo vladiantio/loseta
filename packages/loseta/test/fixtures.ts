@@ -51,7 +51,8 @@ function component(
  */
 export const fixtureRegistry: Registry = {
   name: "fixture",
-  version: "0.0.0",
+  schemaVersion: 1,
+  minCliVersion: "0.20.0",
   styles: [
     { name: "nova", title: "Nova", description: "Default fixture style" },
     { name: "vega", title: "Vega", description: "Second fixture style" }
@@ -86,10 +87,11 @@ export function fixtureManifest(
   names: string[]
 ): Manifest {
   return {
-    version: registry.version,
+    ...(registry.build
+      ? { registry: { url: "local:fixture", build: registry.build } }
+      : {}),
     items: names.map((name) => ({
       name,
-      version: registry.version,
       files: []
     }))
   };

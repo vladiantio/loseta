@@ -1,0 +1,121 @@
+{
+  "forbiddenEverywhere": [
+    { "pattern": "!important", "flags": "g", "message": "!important is not allowed" },
+    {
+      "pattern": "html\\.dark",
+      "flags": "g",
+      "message": "use .dark / .light on any container; html.dark blocks scoped overrides"
+    }
+  ],
+  "forbiddenInBase": [
+    {
+      "pattern": "\\[class\\*='size-'\\]",
+      "flags": "g",
+      "message": "Tailwind size-* sniffing is not allowed"
+    },
+    {
+      "pattern": "\\.border-[bt]\\b",
+      "flags": "g",
+      "message": "Tailwind border utilities are not allowed"
+    },
+    {
+      "pattern": "\\.peer\\b",
+      "flags": "g",
+      "message": ".peer is a Tailwind dependency"
+    },
+    {
+      "pattern": "\\.active\\b",
+      "flags": "g",
+      "message": ".active is replaced by data-highlighted / ARIA state"
+    },
+    {
+      "pattern": "@layer components",
+      "flags": "g",
+      "message": "use loseta.* layers"
+    },
+    {
+      "pattern": "\\[data-state=['\"]selected['\"]\\]",
+      "flags": "g",
+      "message": "use aria-selected"
+    },
+    { "pattern": "\\[data-invalid\\]", "flags": "g", "message": "use aria-invalid" },
+    {
+      "pattern": "\\[data-disabled",
+      "flags": "g",
+      "message": "use :disabled or aria-disabled"
+    },
+    {
+      "pattern": "\\[data-selected",
+      "flags": "g",
+      "message": "use aria-selected"
+    },
+    {
+      "pattern": "\\[data-title\\]",
+      "flags": "g",
+      "message": "use data-slot=\"title\""
+    },
+    {
+      "pattern": "\\[data-description\\]",
+      "flags": "g",
+      "message": "use data-slot=\"description\""
+    },
+    {
+      "pattern": "\\[data-shortcut\\]",
+      "flags": "g",
+      "message": "use data-slot=\"shortcut\""
+    },
+    {
+      "pattern": "\\[data-indicator\\]",
+      "flags": "g",
+      "message": "use data-slot=\"indicator\""
+    }
+  ],
+  "forbiddenInStyle": [
+    {
+      "pattern": "(?:padding|margin|border)-(?:left|right)\\b",
+      "flags": "g",
+      "message": "use logical properties (padding-inline-start/-end, margin-inline-start/-end, border-inline-start/-end)"
+    }
+  ],
+  "forbiddenInBaseColor": [
+    { "pattern": "light-dark\\(", "flags": "g", "message": "dark values belong in the style layer" }
+  ],
+  "forbiddenOutsideTokens": [
+    {
+      "pattern": "@media \\(prefers-color-scheme",
+      "flags": "g",
+      "message": "the OS color scheme belongs in the tokens layer"
+    }
+  ],
+  "promotionScaffold": "/\\*\\s*loseta:promotion-scaffold\\s*\\*/",
+  "behaviorImportPattern": "\\bimport\\s+(?:[^'\"]*?\\s+from\\s+)?[\"']([^\"']+)[\"']",
+  "forbiddenInBehaviors": [
+    { "pattern": "data-state", "flags": "g", "message": "use the documented ARIA or data-* state" },
+    {
+      "pattern": "data-demo-",
+      "flags": "g",
+      "message": "demo hooks must not ship in behavior modules"
+    },
+    { "pattern": "\\beval\\s*\\(", "flags": "g", "message": "eval is not allowed" },
+    {
+      "pattern": "new\\s+Function\\s*\\(",
+      "flags": "g",
+      "message": "new Function is not allowed"
+    },
+    {
+      "pattern": "\\.innerHTML\\b",
+      "flags": "g",
+      "message": "use DOM APIs instead of innerHTML"
+    },
+    {
+      "pattern": "\\.outerHTML\\b",
+      "flags": "g",
+      "message": "use DOM APIs instead of outerHTML"
+    },
+    {
+      "pattern": "document\\.write\\b",
+      "flags": "g",
+      "message": "document.write is not allowed"
+    }
+  ]
+}

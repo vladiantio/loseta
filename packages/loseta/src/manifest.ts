@@ -9,11 +9,23 @@ export function manifestPath(projectRoot: string): string {
   return join(projectRoot, MANIFEST_FILE);
 }
 
-/** Reads .loseta/manifest.json when present. */
+/** Reads .loseta/manifest.json and drops fields from older manifests. */
 export function readManifest(projectRoot: string): Manifest | undefined {
   const raw = readTextIfExists(manifestPath(projectRoot));
   if (!raw) return undefined;
-  return JSON.parse(raw) as Manifest;
+  const parsed = JSON.parse(raw) as Manifest & { version?: unknown };
+  return {
+    ...(parsed.registry ? { registry: parsed.registry } : {}),
+    items: (parsed.items ?? []).map((item) => ({
+      name: item.name,
+      ...(item.source ? { source: item.source } : {}),
+      files: item.files ?? []
+    })),
+    ...(parsed.behaviors ? { behaviors: parsed.behaviors } : {}),
+    ...(parsed.behaviorEntries
+      ? { behaviorEntries: parsed.behaviorEntries }
+      : {})
+  };
 }
 
 /** Writes .loseta/manifest.json. */

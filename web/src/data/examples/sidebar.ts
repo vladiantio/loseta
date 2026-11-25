@@ -1,4 +1,4 @@
-import registry from "../../../../packages/loseta/registry/registry.json" with { type: "json" };
+import packageJson from "../../../../packages/loseta/package.json" with { type: "json" };
 import type { Example } from "./types";
 import {
   bot,
@@ -15,7 +15,7 @@ import {
   terminal
 } from "./icons";
 
-const version = registry.version;
+const version = packageJson.version;
 
 export const sidebarExamples: Example[] = [
     {

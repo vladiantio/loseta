@@ -1,6 +1,6 @@
 {
   "name": "loseta",
-  "version": "0.19.0",
+  "version": "0.20.0",
   "description": "Native CSS component scaffolds with the shadcn feel.",
   "type": "module",
   "license": "MIT",
@@ -29,14 +29,13 @@
   "files": [
     "bin",
     "dist",
-    "registry",
     "NOTICE"
   ],
   "engines": {
     "node": ">=20"
   },
   "scripts": {
-    "build": "tsc -p tsconfig.json",
+    "build": "tsc -p tsconfig.json && node scripts/copy-assets.mjs",
     "dev": "tsx src/cli.ts",
     "smoke": "bash scripts/smoke-init.sh",
     "validate": "node scripts/validate-registry.mjs",
@@ -49,12 +48,13 @@
   },
   "dependencies": {
     "@clack/prompts": "^1.8.1",
+    "acorn": "^8.15.0",
+    "ajv": "^8.20.0",
     "citty": "^0.2.2",
     "picocolors": "^1.1.1"
   },
   "devDependencies": {
     "@types/node": "^26.6.6",
-    "ajv": "^8.20.0",
     "lightningcss": "^1.33.0",
     "tsx": "^4.23.15",
     "typescript": "^5.9.3"

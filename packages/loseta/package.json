@@ -47,11 +47,9 @@
     "behaviors:check": "tsc -p tsconfig.behaviors.json"
   },
   "dependencies": {
-    "@clack/prompts": "^1.8.1",
+    "@topcli/prompts": "^2.4.1",
     "acorn": "^8.15.0",
-    "ajv": "^8.20.0",
-    "citty": "^0.2.2",
-    "picocolors": "^1.1.1"
+    "ajv": "^8.20.0"
   },
   "devDependencies": {
     "@types/node": "^26.6.6",

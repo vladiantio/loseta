@@ -1,4 +1,4 @@
-import { log } from "@clack/prompts";
+import { log } from "./prompts.js";
 import { ConfigError } from "./config.js";
 import { RegistryFetchError } from "./fetch.js";
 import {

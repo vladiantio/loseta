@@ -1,5 +1,5 @@
-import { defineCommand } from "citty";
-import { cancel, confirm, intro, isCancel, log, outro } from "@clack/prompts";
+import { defineCommand } from "../command.js";
+import { cancel, confirm, intro, isCancel, log, outro } from "../prompts.js";
 import { resolveAddNames } from "../add-policy.js";
 import { behaviorDir, ConfigError, readConfig } from "../config.js";
 import { noCacheFlag, openRegistry } from "../command-context.js";

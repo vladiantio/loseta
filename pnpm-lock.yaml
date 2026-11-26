@@ -168,21 +168,15 @@ importers:
 
   packages/loseta:
     dependencies:
-      '@clack/prompts':
-        specifier: ^1.8.1
-        version: 1.8.1
+      '@topcli/prompts':
+        specifier: ^2.4.1
+        version: 2.4.1
       acorn:
         specifier: ^8.15.0
         version: 8.19.0
       ajv:
         specifier: ^8.20.0
         version: 8.20.0
-      citty:
-        specifier: ^0.2.2
-        version: 0.2.2
-      picocolors:
-        specifier: ^1.1.1
-        version: 1.1.1
     devDependencies:
       '@types/node':
         specifier: ^26.6.6
@@ -1059,6 +1053,10 @@ packages:
       csstype:
         optional: true
 
+  '@topcli/prompts@2.4.1':
+    resolution: {integrity: sha512-os7UmxmMrXK/CFean6yA21gvXlVe/xKmgo1sygplT1HNDg88tHbwGfr70DZ4HOK3qNPj4dzRIwsLmcp8677aNw==}
+    engines: {node: ^20.12.0 || >=21.7.0}
+
   '@tybys/wasm-util@0.10.3':
     resolution: {integrity: sha512-F3fo1MYrRJYL3zER0OUOmkutjr1Vp23m7OsSgp7nq4SP6OqX6C/56XFIPAl5bt3zaBRjmW7SGz3u/6LwFpYcOg==}
 
@@ -1209,9 +1207,6 @@ packages:
   ci-info@4.4.0:
     resolution: {integrity: sha512-77PSwercCZU2Fc4sX94eF8k8Pxte6JAwL4/ICZLFjJLqegs7kCuAsqqj/70NQF6TvDpgFjkubQB2FW2ZZddvQg==}
     engines: {node: '>=8'}
-
-  citty@0.2.2:
-    resolution: {integrity: sha512-+6vJA3L98yv+IdfKGZHBNiGW5KHn22e/JwID0Strsz8h4S/csAu/OuICwxrg44k5MRiZHWIo8XXuJgQTriRP4w==}
 
   cliui@9.0.1:
     resolution: {integrity: sha512-k7ndgKhwoQveBL+/1tqGJYNz097I7WOvwbmmU2AR5+magtbjPWQTS1C5vzGkBC8Ym8UWRzfKUzUUqFLypY4Q+w==}
@@ -2761,6 +2756,8 @@ snapshots:
       - preact
       - react
 
+  '@topcli/prompts@2.4.1': {}
+
   '@tybys/wasm-util@0.10.3':
     dependencies:
       tslib: 2.8.1
@@ -2987,8 +2984,6 @@ snapshots:
       readdirp: 5.0.0
 
   ci-info@4.4.0: {}
-
-  citty@0.2.2: {}
 
   cliui@9.0.1:
     dependencies:

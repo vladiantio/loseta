@@ -28,7 +28,7 @@ for arg in "$@"; do
   cmd+=" $(printf '%q' "$arg")"
 done
 
-# clack reads one keypress per prompt; pace Enter so each prompt gets a turn.
+# TopCli reads one keypress per prompt; pace Enter so each prompt gets a turn.
 {
   sleep 1; printf '\r'
   sleep 1; printf '\r'

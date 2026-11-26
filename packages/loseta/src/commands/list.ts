@@ -1,5 +1,5 @@
-import { defineCommand } from "citty";
-import pc from "picocolors";
+import { defineCommand } from "../command.js";
+import { pc } from "../colors.js";
 import { ConfigError, readConfig } from "../config.js";
 import { noCacheFlag, openRegistry } from "../command-context.js";
 import { reportCommandError } from "../command-errors.js";

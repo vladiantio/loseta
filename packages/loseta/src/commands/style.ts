@@ -1,5 +1,5 @@
-import { defineCommand } from "citty";
-import { intro, log, outro } from "@clack/prompts";
+import { defineCommand } from "../command.js";
+import { intro, log, outro } from "../prompts.js";
 import { ConfigError, readConfig } from "../config.js";
 import { noCacheFlag, openRegistry } from "../command-context.js";
 import { reportCommandError } from "../command-errors.js";

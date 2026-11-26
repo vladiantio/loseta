@@ -1,12 +1,12 @@
-import { log } from "@clack/prompts";
+import { log } from "./prompts.js";
 import { resolveRegistryUrl } from "./registry-url.js";
 import { RemoteRegistrySource } from "./remote-registry.js";
 import type { RegistrySource } from "./source-types.js";
 import type { RegistryCatalog } from "./types.js";
 
 /**
- * citty implements `--no-X` by setting `X` to false rather than defining a
- * separate positive flag. Read both shapes so `--no-cache` works everywhere.
+ * `--no-cache` may be represented as `noCache: true` or `cache: false`.
+ * Read both shapes so the flag works with either parser representation.
  */
 export function noCacheFlag(args: Record<string, unknown>): boolean {
   return Boolean(args.noCache) || args.cache === false;

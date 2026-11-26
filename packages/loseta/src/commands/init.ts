@@ -1,5 +1,5 @@
-import { defineCommand } from "citty";
-import { cancel, confirm, intro, isCancel, log, outro, select, text } from "@clack/prompts";
+import { defineCommand } from "../command.js";
+import { cancel, confirm, intro, isCancel, log, outro, select, text } from "../prompts.js";
 import { existsSync } from "node:fs";
 import { join } from "node:path";
 import { addEntrypointImport } from "../imports.js";

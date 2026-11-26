@@ -1,4 +1,4 @@
-import pc from "picocolors";
+import { pc } from "./colors.js";
 import type { RegistryItem } from "./types.js";
 
 /** Prints a compact list of registry items. */

@@ -2,7 +2,7 @@ import { DEFAULT_STYLE } from "./config.js";
 import { availableStyles, isStyleName } from "./registry.js";
 import type { LosetaConfig, Registry } from "./types.js";
 
-/** Option shape expected by the `@clack/prompts` select prompt. */
+/** Option shape consumed by the local select prompt adapter. */
 export interface StyleOption {
   value: string;
   label: string;

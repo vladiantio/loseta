@@ -3,7 +3,7 @@
 The CLI and authored registry for [loseta](https://github.com/vladiantio/loseta).
 
 The registry is served remotely. The npm package ships the CLI and its runtime
-dependencies, not the registry files.
+dependencies, not the registry files. Requires Node 22+.
 
 ```bash
 npx loseta init

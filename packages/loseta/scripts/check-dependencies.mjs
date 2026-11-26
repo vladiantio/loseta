@@ -9,7 +9,7 @@ const packageJson = JSON.parse(
   readFileSync(join(packageRoot, "package.json"), "utf8")
 );
 const report = process.argv.includes("--report");
-const minimumNode = "20.12.0";
+const minimumNode = "22.0.0";
 const runtimePolicy = {
   "@topcli/prompts": "Interactive terminal prompts.",
   acorn: "Parses behavior modules as ESM before payload validation.",
@@ -130,8 +130,8 @@ try {
   fail(`could not read the installed @topcli/prompts manifest: ${error.message}`);
 }
 if (topCli) {
-  if (!topCli.version?.startsWith("2.")) {
-    fail(`@topcli/prompts must stay on 2.x for Node 20; found ${topCli.version}`);
+  if (!topCli.version?.startsWith("4.")) {
+    fail(`@topcli/prompts must stay on 4.x for Node 22; found ${topCli.version}`);
   }
   for (const field of [
     "dependencies",

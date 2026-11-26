@@ -1,6 +1,6 @@
 /**
- * TopCli 2.x renders prompts but leaves terminal lifecycle to the caller. Keep
- * Ctrl-C handling, raw-mode cleanup, zero-column fallback, placeholder and
+ * TopCli renders prompts but leaves terminal raw-mode restoration to the caller.
+ * Keep Ctrl-C handling, cleanup, zero-column fallback, placeholder and
  * initial-selection adaptation here; prompts-pty.test.ts covers the contract.
  */
 import {

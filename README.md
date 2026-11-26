@@ -9,7 +9,7 @@ runtime, no framework lock-in.
 
 ## Quick start
 
-Requires Node 20+.
+Requires Node 22+.
 
 ```bash
 npx loseta init

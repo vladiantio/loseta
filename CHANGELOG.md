@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.22.0 - 2026-11-25
+
+### Changed
+
+- Upgraded `@topcli/prompts` to 4.x and migrated the prompt tests to the v4
+  `PromptAgent` API.
+- Raised the minimum supported Node.js version to 22.0.0, matching
+  `@topcli/prompts` 4.x. Node 20 is no longer supported.
+
 ## 0.21.0 - 2026-11-25
 
 ### Added

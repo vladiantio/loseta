@@ -3,12 +3,12 @@ import { test } from "node:test";
 import { PromptAgent } from "@topcli/prompts";
 import { confirm, isCancel, select, text } from "../src/prompts.js";
 
-const agent = PromptAgent.agent<unknown>();
+const agent = PromptAgent.shared();
 
 function resetAgent(t: { after(fn: () => void): void }): void {
-  agent.nextAnswers.length = 0;
+  agent.clear();
   t.after(() => {
-    agent.nextAnswers.length = 0;
+    agent.clear();
   });
 }
 

@@ -169,8 +169,8 @@ importers:
   packages/loseta:
     dependencies:
       '@topcli/prompts':
-        specifier: ^2.4.1
-        version: 2.4.1
+        specifier: ^4.0.0
+        version: 4.0.0
       acorn:
         specifier: ^8.15.0
         version: 8.19.0
@@ -1053,9 +1053,9 @@ packages:
       csstype:
         optional: true
 
-  '@topcli/prompts@2.4.1':
-    resolution: {integrity: sha512-os7UmxmMrXK/CFean6yA21gvXlVe/xKmgo1sygplT1HNDg88tHbwGfr70DZ4HOK3qNPj4dzRIwsLmcp8677aNw==}
-    engines: {node: ^20.12.0 || >=21.7.0}
+  '@topcli/prompts@4.0.0':
+    resolution: {integrity: sha512-kkKYPb4k/6kRdnESt77B5vJrrYnYHIYczwv0P1c+tfN/IWEx3KZeKEHoUq7sImIyBEXWdA2uakIroD9pmRJziQ==}
+    engines: {node: '>=22.0.0'}
 
   '@tybys/wasm-util@0.10.3':
     resolution: {integrity: sha512-F3fo1MYrRJYL3zER0OUOmkutjr1Vp23m7OsSgp7nq4SP6OqX6C/56XFIPAl5bt3zaBRjmW7SGz3u/6LwFpYcOg==}
@@ -2756,7 +2756,7 @@ snapshots:
       - preact
       - react
 
-  '@topcli/prompts@2.4.1': {}
+  '@topcli/prompts@4.0.0': {}
 
   '@tybys/wasm-util@0.10.3':
     dependencies:

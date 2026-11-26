@@ -1,5 +1,11 @@
 import { defineConfig, devices } from "@playwright/test";
 
+// The docs suite asserts DOM, copy and accessibility contracts that do not
+// depend on the engine, so it runs once in Chromium. Behavior modules still
+// run in every browser. Set PW_FULL_WEBKIT=1 to repeat the whole suite in
+// WebKit when touching Safari-specific CSS.
+const fullWebKit = process.env.PW_FULL_WEBKIT === "1";
+
 export default defineConfig({
   testDir: "./tests",
   timeout: 60_000,
@@ -20,6 +26,7 @@ export default defineConfig({
     {
       name: "webkit",
       use: { ...devices["Desktop Safari"] },
+      testMatch: fullWebKit ? /.*\.spec\.ts/ : /behaviors\/.*\.spec\.ts/,
       testIgnore: /behaviors\/no-js\.spec\.ts/
     },
     {

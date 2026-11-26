@@ -269,7 +269,10 @@ test("axe: client navigation", async ({ page }) => {
     .getByRole("link", { name: "Theming" })
     .click();
   await expect(page).toHaveURL(/\/docs\/theming$/);
-  await page.waitForLoadState("networkidle");
+  await expect(
+    page.getByRole("heading", { level: 1, name: "Theming" })
+  ).toBeVisible();
+  await page.evaluate(() => document.fonts.ready);
   await page.addStyleTag({
     content: "*, *::before, *::after { transition: none !important; animation: none !important; }"
   });

@@ -35,5 +35,5 @@ jobs:
       - run: git diff --exit-code web/src/styles/loseta.css web/public/styles packages/loseta/registry
       - run: pnpm --filter web check
       - run: pnpm --filter web build
-      - run: pnpm --filter web exec playwright install --with-deps chromium webkit
+      - run: pnpm --filter web exec playwright install --with-deps chromium webkit firefox
       - run: pnpm --filter web exec playwright test

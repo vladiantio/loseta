@@ -568,22 +568,18 @@ async function waitForStyle(page: Page, style: string): Promise<void> {
   }, style);
 }
 
-test("style files change component geometry and pass axe", async ({ page }) => {
-  // Nine pages, eight style switches and sixteen full-page axe audits run in
-  // one test; a loaded CI runner needs more than the default 60s budget.
-  test.slow();
+async function disableMotion(page: Page): Promise<void> {
+  await page.addStyleTag({
+    content:
+      "*, *::before, *::after { transition: none !important; animation: none !important; }"
+  });
+}
 
-  await page.emulateMedia({ colorScheme: "light" });
-  const disableMotion = async () => {
-    await page.addStyleTag({
-      content:
-        "*, *::before, *::after { transition: none !important; animation: none !important; }"
-    });
-  };
-
-  for (const entry of cases) {
+for (const [index, entry] of cases.entries()) {
+  test(`style case ${index + 1}: ${entry.id} ${entry.property}`, async ({ page }) => {
+    await page.emulateMedia({ colorScheme: "light" });
     await page.goto(`/docs/components/${entry.id}`);
-    await disableMotion();
+    await disableMotion(page);
     const select = page.locator("[data-style-select]");
     const probe = page.locator(entry.selector).first();
 
@@ -592,13 +588,15 @@ test("style files change component geometry and pass axe", async ({ page }) => {
       await waitForStyle(page, style);
       await expect(probe).toHaveCSS(entry.property, entry.values[style]);
     }
-  }
+  });
+}
 
-  await page.goto("/docs/components/button");
-  await disableMotion();
-  const select = page.locator("[data-style-select]");
+for (const style of styleNames) {
+  test(`button passes axe in ${style}`, async ({ page }) => {
+    await page.goto("/docs/components/button");
+    await disableMotion(page);
+    const select = page.locator("[data-style-select]");
 
-  for (const style of styleNames) {
     await select.selectOption(style);
     await waitForStyle(page, style);
 
@@ -611,5 +609,5 @@ test("style files change component geometry and pass axe", async ({ page }) => {
         `${style} ${scheme}: ${JSON.stringify(violations, null, 2)}`
       ).toEqual([]);
     }
-  }
-});
+  });
+}

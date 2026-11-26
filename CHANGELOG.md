@@ -1,5 +1,19 @@
 # Changelog
 
+## Unreleased
+
+### Changed
+
+- **Breaking:** Command now owns a popover surface, uses an `18rem` list with a
+  hidden scrollbar and follows the current shadcn Base/Radix anatomy and Nova
+  geometry. The search field gains `data-slot="command-input"`, and
+  optional item indicators use `aria-selected="true"` independently of the
+  active highlight. The search input group keeps its resting border and draws
+  no focus shadow.
+- Command filtering now uses fuzzy ranking, clamps keyboard navigation at the
+  ends and supports group navigation. Disabled matches stay visible but are not
+  navigable; activation remains a click and dialog closing stays app-owned.
+
 ## 0.22.0 - 2026-11-25
 
 ### Changed

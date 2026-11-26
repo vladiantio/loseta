@@ -361,7 +361,7 @@ visible. Progress uses a `Canvas` track with a `CanvasText` outline and a
 | Avatar | `2rem` square | `sm` 1.5rem, `lg` 2.5rem |
 | Accordion summary | No fixed height | `0.625rem` block padding |
 | Collapsible summary | No fixed height | `0.25rem` block padding |
-| Command list | `20rem` maximum height | — |
+| Command list | `18rem` maximum height | — |
 | Context menu | `8rem`–`20rem` wide | — |
 | Drawer | `80vh` maximum height | `sm` 50vh, `lg` 90vh |
 | Hover card | `18rem` wide | — |
@@ -453,7 +453,7 @@ direction.
 | Code Block | `.code-block` | Optional `header` with `[data-slot="title"]` and `[data-slot="actions"]`; required `pre` containing `code`; optional `footer`; line parts `[data-slot="line"]` wrapping `[data-slot="line-content"]`. Copy controls use `[data-slot="copy"]` with copy/check icons; wrap controls use `[data-slot="wrap"]`. | `data-size="default|sm"`; `data-variant="default|destructive"`; `pre` `data-line-numbers`, `data-wrap`, `--line-start`; line `data-variant="added|removed|highlighted"`; transient `data-copied` |
 | Collapsible | `.collapsible` | Native `<details>` with a `<summary>` trigger and content directly after `summary`. | `[open]`; `inert` for disabled items |
 | Combobox | `.combobox` | Input with `role="combobox"`, optional `[data-slot="input"]` hidden input and a `[data-popover]` panel containing `[role="listbox"]`; optional `[data-slot="clear"]`. | Listbox `aria-multiselectable="true"` for multiple; placement attributes on the panel |
-| Command | `.command` | Search field composed with input-group and a `[role="listbox"]` with groups, labels, separators, shortcuts and an empty state. | `[data-slot="shortcut"]`, `[data-slot="empty"]`; `[role="separator"]` dividers; no surface |
+| Command | `.command` | Popover surface with `[data-slot="command-input"]`, an input-group search field and a `[role="listbox"]` with groups, labels, separators, shortcuts, optional indicators and an empty state. | `[data-slot="shortcut"]`, `[data-slot="empty"]`, `[data-slot="indicator"]`; `[role="separator"]` dividers; option `aria-disabled` and `aria-selected` |
 | Context menu | `.context-menu` | `[role="menu"]` panel with menu items, checkable items, headings, separators and shortcuts; nested menus use a `role="none"` wrapper around the trigger and its `[data-popover]` panel. | `--context-x`, `--context-y` on the panel; `aria-hidden="true|false"`; `aria-checked` on checkable items; the panel scrolls near the viewport edge |
 | Dialog | `.dialog` | Native `<dialog>` containing a panel; panel contains `header`, title, description, `section`, `footer` and a close button or `form[method="dialog"]`. Section content scrolls between a fixed header and footer. | Footer `data-align="start"` |
 | Drawer | `.drawer` | Native `<dialog>` with `data-side` and a panel containing an optional `[data-slot="handle"]`, `header`, `section` and `footer`. The section scrolls between the header and footer. | `data-side="block-start|block-end"`; `data-size="default|sm|lg"` sets the height |
@@ -521,7 +521,7 @@ The public slot vocabulary is shared across components:
 - `data-slot="line"`, `data-slot="line-content"` — code block.
 - `data-slot="header"` — popover.
 - `data-slot="shortcut"` — dropdown menu, context menu, menubar and command.
-- `data-slot="indicator"` — dropdown menu, context menu, menubar and listbox options.
+- `data-slot="indicator"` — dropdown menu, context menu, menubar and listbox options, including command items.
 - `data-slot="checkbox-group"`, `data-slot="radio-group"` — field.
 - `data-slot="fallback"`, `data-slot="badge"`, `data-slot="count"` — avatar.
 - `data-slot="ellipsis"` — breadcrumb and pagination.
@@ -531,6 +531,7 @@ The public slot vocabulary is shared across components:
 - `data-slot="title"`, `data-slot="description"` — navigation menu panels.
 - `data-slot="addon"` — input group.
 - `data-slot="input-group-control"` — custom input group controls.
+- `data-slot="command-input"` — command search-field wrapper.
 - `data-slot="text"` — select, combobox and command option labels.
 - `data-slot="empty"` — listbox and command empty state.
 - `data-slot="clear"` — combobox clear button.
@@ -682,14 +683,19 @@ Notes:
   `[role="group"]`, group labels, separators and the empty state. The shipped
   behavior sets `aria-selected`, `data-highlighted` and `aria-activedescendant`;
   consumers may still drive the primitive directly and own those attributes.
-- Select, combobox and command use the `listbox` helpers. The shipped modules
-  open, close, filter, select and move the highlight; the `aria-expanded` /
-  `aria-hidden` transitions are behavior-owned after install.
-- Command composes the input group and listbox with its own list chrome. Group
-  labels use `data-slot="label"`, dividers are `[role="separator"]` (mark them
-  `aria-hidden="true"` inside a listbox) and the list caps at `20rem` with
-  vertical scrolling. Shortcuts use `data-slot="shortcut"` and stay
-  left-to-right in RTL containers.
+- Select and combobox use the `listbox` helpers. Command uses the same ARIA and
+  highlight vocabulary with command-specific fuzzy filtering and ranking. The
+  shipped select and combobox modules open, close, filter, select and move the
+  highlight; the `aria-expanded` / `aria-hidden` transitions are behavior-owned
+  after install.
+- Command owns a popover surface and composes a wrapped input group with a
+  listbox. Group labels use `data-slot="label"`, dividers are
+  `[role="separator"]` (mark them `aria-hidden="true"` inside a listbox),
+  shortcuts use `data-slot="shortcut"` and stay left-to-right in RTL containers,
+  and optional `data-slot="indicator"` checks appear only with
+  `aria-selected="true"`. The list caps at `18rem`, hides its scrollbar and keeps
+  scroll padding. Active commands use `data-highlighted`, never `aria-selected`.
+  The search input group keeps its resting border and draws no focus shadow.
 - Sheets and drawers keep the footer at the bottom of the panel while the
   section scrolls. The shipped dialog behavior opens them with
   `data-open-dialog="<id>"` and closes them with `data-close-dialog`. The sheet
@@ -838,11 +844,14 @@ progress sweep slow down instead of stopping. This remains a known gap.
   `aria-controls` and `aria-autocomplete="list"`. Multiple lists also set
   `aria-multiselectable="true"`. The shipped behavior filters client-side,
   moves the highlight and selects; selected chips stay app-rendered.
-- Commands compose a labelled search field with a `[role="listbox"]`; place
-  them inside a labelled dialog, popover or card. The input uses
-  `role="combobox"`, `aria-controls`, `aria-expanded="true"` and
-  `aria-autocomplete="list"`. The shipped behavior filters, highlights and
-  activates the focused option; closing the containing surface stays app-owned.
+- Commands are popover surfaces with a labelled search field and a
+  `[role="listbox"]`; place them inside a labelled dialog when a modal palette
+  is needed. The input uses `role="combobox"`, `aria-controls`,
+  `aria-expanded="true"` and `aria-autocomplete="list"`. The shipped behavior
+  fuzzy-filters and ranks options, moves the highlight without looping, supports
+  group navigation and activates the focused option; closing the containing
+  dialog stays app-owned. Disabled options remain visible when they match but
+  are skipped by navigation.
 - Listbox options need an accessible name. The shipped behavior manages
   `aria-activedescendant`, `aria-selected`, `data-highlighted` and
   `aria-disabled="true"`; consumers driving the primitive directly own them.
@@ -1024,9 +1033,9 @@ button/input/select/popover/dropdown-menu, table with
 checkbox/badge/button/dropdown-menu, dropdown-menu with button/avatar,
 breadcrumb with dropdown-menu, pagination with button, sheet and drawer with
 button, input group with input/textarea/button/field/kbd/spinner, combobox
-with button, command with dialog-shell/popover-primitive/popover/card,
-carousel and chart with card, sidebar with sheet, toast with button, and code
-block with button for copy and wrap controls.
+with button, command with button/dialog/input, carousel and chart with card,
+sidebar with sheet, toast with button, and code block with button for copy and
+wrap controls.
 
 The `menu` primitive styles every `[role="menu"]` in the project. It owns the
 shared item, heading, separator, shortcut and indicator rules; `dropdown-menu`,
@@ -1129,11 +1138,14 @@ semantic versioning.
   its tab order.
 - Scroll areas use native scrollbars; there are no custom overlay thumb
   elements.
-- Select, combobox and command ship open/close, filtering, selection and
-  highlight handling; server-side filtering and app-specific side effects stay
-  consumer work.
-- Command has no surface of its own; place it inside a dialog, popover or card.
-  Its group dividers are decorative and its list scrolls at `20rem`.
+- Select and combobox ship open/close, filtering, selection and highlight
+  handling; Command ships fuzzy filtering/ranking, non-looping highlight
+  navigation and click activation. Server-side filtering, persistent command
+  selection and app-specific side effects stay consumer work.
+- Command owns its popover surface and can be placed directly in a dialog. Its
+  group dividers are decorative, its list scrolls at `18rem` with a hidden
+  scrollbar, and `aria-selected` controls the optional check indicator rather
+  than the active highlight.
 - Multiple combobox selections are not rendered as chips; compose them with
   badges in consumer markup.
 - Calendar custom day content, presets, date-time inputs and coordination

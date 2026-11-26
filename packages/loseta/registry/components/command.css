@@ -3,13 +3,18 @@
   .command {
     display: flex;
     width: 100%;
+    min-width: 0;
     flex-direction: column;
-    gap: 0.5rem;
 
     > [role='listbox'] {
-      max-height: 20rem;
+      max-height: 18rem;
       overflow-x: hidden;
       overflow-y: auto;
+      scrollbar-width: none;
+
+      &::-webkit-scrollbar {
+        display: none;
+      }
     }
 
     [role='listbox'] [role='separator'] {

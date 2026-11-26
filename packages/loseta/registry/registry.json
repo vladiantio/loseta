@@ -4216,10 +4216,6 @@
         "input-group"
       ],
       "optionalDependencies": [
-        "dialog-shell",
-        "popover-primitive",
-        "popover",
-        "card",
         "button",
         "dialog",
         "input"

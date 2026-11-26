@@ -1741,17 +1741,11 @@ test("open overlay panels pass axe in every color scheme", async ({ page }) => {
 
   await page.goto("/docs/components/command");
   await disableMotion();
-  await page.getByRole("button", { name: "Open command", exact: true }).click();
-  await expect(page.locator("#demo-command")).toHaveAttribute("open", "");
+  await page.locator('[data-open-dialog="demo-command-basic"]').click();
+  await expect(page.locator("#demo-command-basic")).toHaveAttribute("open", "");
   await audit("command dialog");
   await page.keyboard.press("Escape");
-
-  await page.getByRole("button", { name: "Open command menu" }).click();
-  const popover = page.locator("#demo-command-popover-panel");
-  await expect(popover).toHaveAttribute("aria-hidden", "false");
-  await audit("command popover");
-  await page.keyboard.press("Escape");
-  await expect(popover).toHaveAttribute("aria-hidden", "true");
+  await expect(page.locator("#demo-command-basic")).not.toHaveAttribute("open", "");
 
   await page.goto("/docs/components/select");
   await disableMotion();
@@ -2765,20 +2759,20 @@ test("combobox filters, selects, clears and shows an empty state", async ({ page
   await expect(multiple.locator("[data-popover]")).toHaveAttribute("aria-hidden", "false");
 });
 
-test("command filters groups, shows an empty state and closes on selection", async ({ page }) => {
+test("command filters groups, shows an empty state and stays open on activation", async ({ page }) => {
   await page.goto("/docs/components/command");
-  const dialog = page.locator("#demo-command");
+  const dialog = page.locator("#demo-command-groups");
   const input = dialog.getByRole("combobox", { name: "Search commands" });
 
-  await page.getByRole("button", { name: "Open command", exact: true }).click();
+  await page.locator('[data-open-dialog="demo-command-groups"]').click();
   await expect(dialog).toHaveAttribute("open", "");
   await expect(input).toBeFocused();
 
   await input.fill("set");
-  await expect(dialog.getByRole("option", { name: "Open settings" })).toBeVisible();
-  await expect(dialog.getByRole("option", { name: "Go home" })).toBeHidden();
+  await expect(dialog.getByRole("option", { name: "Settings" })).toBeVisible();
+  await expect(dialog.getByRole("option", { name: "Calendar", exact: true })).toBeHidden();
   await expect(
-    dialog.locator("[data-slot='label']", { hasText: "Actions" })
+    dialog.locator("[data-slot='label']", { hasText: "Suggestions" })
   ).toBeHidden();
   expect(
     await dialog
@@ -2791,7 +2785,7 @@ test("command filters groups, shows an empty state and closes on selection", asy
   await expect(dialog.locator(".command [data-slot='empty']")).toBeVisible();
 
   await input.fill("set");
-  await dialog.getByRole("option", { name: "Open settings" }).click();
+  await dialog.getByRole("option", { name: "Settings" }).click();
   await expect(dialog).toHaveAttribute("open", "");
 
   await page.keyboard.press("Escape");
@@ -2805,14 +2799,63 @@ test("command filters groups, shows an empty state and closes on selection", asy
   );
   await page.keyboard.press("Escape");
   await expect(scrollable).not.toHaveAttribute("open", "");
+});
 
-  const trigger = page.getByRole("button", { name: "Open command menu" });
-  const popover = page.locator("#demo-command-popover-panel");
-  await trigger.click();
-  await expect(popover).toHaveAttribute("aria-hidden", "false");
-  await popover.getByRole("option", { name: "Settings" }).click();
-  await expect(popover).toHaveAttribute("aria-hidden", "false");
-  await expect(trigger).toHaveAttribute("aria-expanded", "true");
+test("command renders the shadcn surface and selection anatomy", async ({ page }) => {
+  await page.goto("/docs/components/command");
+  await page.addStyleTag({
+    content:
+      "*, *::before, *::after { transition: none !important; animation: none !important; }"
+  });
+  const command = page.locator(".command").first();
+  const list = command.getByRole("listbox");
+  const input = command.getByRole("combobox", { name: "Search commands" });
+  const inputGroup = command.locator(".input-group");
+  const calendar = command.getByRole("option", { name: "Calendar", exact: true });
+  const profile = command.getByRole("option", { name: "Profile" });
+
+  const readInputGroup = () =>
+    inputGroup.evaluate((element) => {
+      const style = getComputedStyle(element);
+      return { borderColor: style.borderColor, boxShadow: style.boxShadow };
+    });
+  const restingInputGroup = await readInputGroup();
+  await input.focus();
+  expect(await input.evaluate((element) => element.matches(":focus-visible"))).toBe(
+    true
+  );
+  expect(await readInputGroup()).toEqual(restingInputGroup);
+  expect(restingInputGroup.boxShadow).toBe("none");
+
+  await expect(command.locator("[data-slot='command-input']")).toHaveCount(1);
+  await expect(command.getByRole("option")).toHaveCount(6);
+  await expect(
+    command.getByRole("option", { name: "Calculator", exact: true })
+  ).toHaveAttribute("aria-disabled", "true");
+
+  const surface = await command.evaluate((element) => {
+    const style = getComputedStyle(element);
+    const listbox = element.querySelector("[role='listbox']");
+    if (!listbox) throw new Error("Missing command listbox");
+    const listStyle = getComputedStyle(listbox);
+    return {
+      background: style.backgroundColor,
+      overflow: style.overflow,
+      maxHeight: listStyle.maxHeight,
+      scrollbar: listStyle.scrollbarWidth
+    };
+  });
+  expect(surface.background).not.toBe("rgba(0, 0, 0, 0)");
+  expect(surface.overflow).toBe("hidden");
+  expect(surface.maxHeight).toBe("288px");
+  expect(surface.scrollbar).toBe("none");
+  await expect(list).toBeVisible();
+
+  await expect(calendar.locator("[data-slot='indicator']")).toBeHidden();
+  await calendar.evaluate((element) => element.setAttribute("aria-selected", "true"));
+  await expect(calendar.locator("[data-slot='indicator']")).toBeVisible();
+  await profile.evaluate((element) => element.setAttribute("aria-selected", "true"));
+  await expect(profile.locator("[data-slot='indicator']")).toBeHidden();
 });
 
 test("calendar exposes a grid with a selected day", async ({ page }) => {

@@ -1,27 +1,129 @@
 /* Command */
 @layer loseta.style {
   .command {
-    gap: 0.5rem;
+    overflow: hidden;
+    border-radius: var(--radius-xl);
+    background-color: var(--popover);
+    padding: 0.25rem;
+    color: var(--popover-foreground);
+
+    [data-slot='command-input'] {
+      padding: 0.25rem;
+      padding-block-end: 0;
+    }
+
+    .input-group {
+      min-height: 2rem;
+      border-color: color-mix(in oklab, var(--input) 30%, transparent);
+      border-radius: var(--radius-md);
+      background-color: color-mix(in oklab, var(--input) 30%, transparent);
+      box-shadow: none;
+
+      &:has(> input:focus-visible) {
+        border-color: color-mix(in oklab, var(--input) 30%, transparent);
+        box-shadow: none;
+      }
+
+      > input {
+        width: 100%;
+        font-size: var(--text-sm);
+        line-height: var(--text-sm--line-height);
+
+        &:disabled {
+          cursor: not-allowed;
+          opacity: 50%;
+        }
+      }
+
+      > [data-slot='addon'] {
+        padding-inline-start: 0.5rem;
+
+        > svg {
+          inline-size: 1rem;
+          block-size: 1rem;
+          opacity: 50%;
+        }
+      }
+    }
+
+    [role='listbox'] {
+      scroll-padding-block: 0.25rem;
+
+      [role='group'] {
+        flex-shrink: 0;
+        overflow: hidden;
+        padding: 0.25rem;
+      }
+
+      [data-slot='label'] {
+        padding-inline: 0.5rem;
+        padding-block: 0.375rem;
+        font-size: var(--text-xs);
+        line-height: var(--text-xs--line-height);
+        font-weight: 500;
+        color: var(--muted-foreground);
+      }
+
+      [role='separator'] {
+        block-size: 1px;
+        margin-inline: -0.25rem;
+        margin-block: 0;
+        background-color: var(--border);
+      }
+
+      [role='option'] {
+        gap: 0.5rem;
+        border-radius: var(--radius-sm);
+        padding-inline: 0.5rem;
+        padding-block: 0.375rem;
+        font-size: var(--text-sm);
+        line-height: var(--text-sm--line-height);
+
+        & svg {
+          inline-size: 1rem;
+          block-size: 1rem;
+        }
+
+        &:is(:hover, [data-highlighted]):not([aria-disabled='true']):not(:disabled) {
+          background-color: var(--muted);
+          color: var(--foreground);
+        }
+
+        &:is(:hover, [data-highlighted]) :is(svg, [data-slot='shortcut']) {
+          color: var(--foreground);
+        }
+
+        [data-slot='indicator'] {
+          position: static;
+          display: flex;
+          inline-size: 1rem;
+          block-size: 1rem;
+          flex-shrink: 0;
+          margin-inline-start: auto;
+        }
+
+        &:has([data-slot='shortcut']) [data-slot='indicator'] {
+          display: none;
+        }
+      }
+
+      [data-slot='empty'] {
+        padding-block: 1.5rem;
+        text-align: center;
+        font-size: var(--text-sm);
+        line-height: var(--text-sm--line-height);
+      }
+    }
+
+    .dialog & [role='option'] {
+      border-radius: var(--radius-lg);
+    }
 
     [data-slot='shortcut'] {
       font-size: var(--text-xs);
       line-height: var(--text-xs--line-height);
       letter-spacing: 0.08em;
       color: var(--muted-foreground);
-    }
-
-    [role='listbox'] [role='separator'] {
-      block-size: 1px;
-      margin-block: 0.25rem;
-      background-color: var(--border);
-    }
-
-    [role='listbox'] [role='option'] {
-      padding-inline-end: 0.5rem;
-    }
-
-    [role='listbox'] [role='option']:is(:hover, [data-highlighted]) [data-slot='shortcut'] {
-      color: var(--accent-foreground);
     }
   }
 }

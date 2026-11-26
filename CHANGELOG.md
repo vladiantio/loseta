@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.22.1 - 2026-11-26
+
+### Fixed
+
+- The CLI now loads `@jetio/validator` through its CommonJS entry, so the
+  published package works on the declared Node 22.0.0 minimum. Node 22.0.0 to
+  22.6 parsed the dependency's ESM entry as CommonJS and failed with a missing
+  `JetValidator` export.
+
 ## 0.22.0 - 2026-11-26
 
 ### Added

@@ -110,6 +110,31 @@ test("menubar horizontal arrows follow RTL direction", async ({ page }) => {
   await expect(triggers.nth(1)).toBeFocused();
 });
 
+test("menubar submenu Escape cancels a pending hover open", async ({ page }) => {
+  const fixture = page.locator('[data-fixture="menubar"] [data-example="Default"]');
+  const triggers = fixture.locator(".menubar-item > button[aria-haspopup='menu']");
+  const file = fixture.locator("[data-popover]").first();
+  const share = file.getByRole("menuitem", { name: "Share", exact: true });
+  const submenu = page.locator("#demo-menubar-file-share");
+
+  await triggers.nth(0).click();
+  await share.click();
+  await expect(submenu).toHaveAttribute("aria-hidden", "false");
+
+  await page.keyboard.press("Escape");
+  await expect(submenu).toHaveAttribute("aria-hidden", "true");
+  await expect(share).toBeFocused();
+  await expect(file).toHaveAttribute("aria-hidden", "false");
+
+  // A hover timer armed before the click must not reopen the submenu.
+  await page.waitForTimeout(250);
+  await expect(submenu).toHaveAttribute("aria-hidden", "true");
+
+  await page.keyboard.press("Escape");
+  await expect(file).toHaveAttribute("aria-hidden", "true");
+  await expect(triggers.nth(0)).toBeFocused();
+});
+
 test("navigation menu opens with ArrowDown, tabs links and closes on Escape", async ({
   page
 }) => {

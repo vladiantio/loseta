@@ -114,6 +114,11 @@ function closeEntry(entry, focusTrigger) {
     }
   }
 
+  clearHover(entry.trigger);
+  for (const trigger of entry.panel.querySelectorAll("[aria-haspopup='menu']")) {
+    clearHover(trigger);
+  }
+
   openMenus.delete(entry.panel);
   setTriggerExpanded(entry.trigger, false);
   entry.panel.setAttribute("aria-hidden", "true");
@@ -240,6 +245,7 @@ on(
     const panel = menuPanel(target);
     if (!panel) return;
 
+    clearHover(target);
     const existing = openMenus.get(panel);
     if (existing) {
       closeEntry(existing, true);

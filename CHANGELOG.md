@@ -1,11 +1,29 @@
 # Changelog
 
-## Unreleased
+## 0.21.0 - 2026-11-25
+
+### Added
+
+- End-to-end installation guides for Vite, Astro and manual CSS setup,
+  covering scaffold paths, CSS imports, optional behavior loading and the
+  Astro ClientRouter lifecycle.
+- A pseudo-terminal test suite for interactive prompts, covering normal
+  completion, cancellation and terminal raw-mode restoration. CI also runs
+  the CLI tests on Node 20.12.0, the minimum supported version.
+- Runtime dependency checks and reporting to keep the CLI dependency policy
+  enforceable.
 
 ### Changed
 
+- Replaced `citty` and `picocolors` with local Node-based command parsing,
+  help formatting and terminal color helpers.
+- Replaced `@clack/prompts` with the zero-dependency `@topcli/prompts` 2.x
+  release and a local prompt adapter. Command behavior, help output and
+  Ctrl-C cancellation are covered by regression tests.
 - The CLI now declares Node 20.12.0 as its minimum supported version, matching
   `@topcli/prompts` 2.x. Node 20.0–20.11 is no longer supported.
+- Standard output pipes closed by the reader, such as `loseta --help | head`,
+  now exit cleanly instead of reporting an `EPIPE` error.
 
 ## 0.20.0 - 2026-11-21
 

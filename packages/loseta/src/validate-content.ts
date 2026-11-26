@@ -1,8 +1,11 @@
 import { existsSync, readFileSync } from "node:fs";
 import { posix } from "node:path";
 import { parse as parseModule } from "acorn";
-import Ajv2020Import from "ajv/dist/2020.js";
-import type { ErrorObject } from "ajv";
+import {
+  JetValidator,
+  type SchemaDefinition,
+  type ValidationError
+} from "@jetio/validator";
 import { SCHEMA_VERSION } from "./constants.js";
 import type {
   RegistryCatalog,
@@ -91,27 +94,16 @@ const itemSchema = readAsset("schema-item.json");
 const catalogSchema = readAsset("schema-catalog.json");
 const rules = loadRules();
 
-interface CompiledValidator {
-  (data: unknown): boolean;
-  errors?: ErrorObject[] | null;
-}
-
-interface AjvInstance {
-  compile(schema: object): CompiledValidator;
-}
-
-type AjvConstructor = new (options?: object) => AjvInstance;
-
-const ajv = new (Ajv2020Import as unknown as AjvConstructor)({
+const validator = new JetValidator({
   allErrors: true,
   strict: false
 });
-const validateItemSchema = ajv.compile(itemSchema as object);
-const validateCatalogSchema = ajv.compile(catalogSchema as object);
+const validateItemSchema = validator.compile(itemSchema as SchemaDefinition);
+const validateCatalogSchema = validator.compile(catalogSchema as SchemaDefinition);
 
-function formatSchemaErrors(errors: ErrorObject[] | null | undefined): string[] {
+function formatSchemaErrors(errors: ValidationError[] | null): string[] {
   return (errors ?? []).map(
-    (error) => `${error.instancePath || "/"} ${error.message ?? "is invalid"}`
+    (error) => `${error.dataPath || "/"} ${error.message}`
   );
 }
 

@@ -175,21 +175,21 @@ try {
   // Netlify builds the docs without the CLI's devDependencies, so dist may be
   // absent. Validate the wire shape here; the source validator and the remote
   // install smoke cover the semantic checks.
-  const { default: Ajv2020 } = await import("ajv/dist/2020.js");
-  const ajv = new Ajv2020({ allErrors: true, strict: false });
-  const itemValidator = ajv.compile(
+  const { JetValidator } = await import("@jetio/validator");
+  const validator = new JetValidator({ allErrors: true, strict: false });
+  const itemValidator = validator.compile(
     JSON.parse(
       readFileSync(join(registryDir, "schema-item.json"), "utf8")
     )
   );
-  const catalogValidator = ajv.compile(
+  const catalogValidator = validator.compile(
     JSON.parse(
       readFileSync(join(registryDir, "schema-catalog.json"), "utf8")
     )
   );
   const format = (errors) =>
     (errors ?? []).map(
-      (error) => `${error.instancePath || "/"} ${error.message}`
+      (error) => `${error.dataPath || "/"} ${error.message}`
     );
   validateItemPayload = (payload) => {
     if (!itemValidator(payload)) {

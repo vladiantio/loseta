@@ -1,7 +1,7 @@
 import { readFileSync, existsSync, readdirSync } from "node:fs";
 import { basename, dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
-import Ajv2020 from "ajv/dist/2020.js";
+import { JetValidator } from "@jetio/validator";
 import { transform } from "lightningcss";
 import ts from "typescript";
 
@@ -105,11 +105,11 @@ function readJson(file) {
 const registry = readJson(registryPath);
 const schema = readJson(schemaPath);
 
-const ajv = new Ajv2020({ allErrors: true, strict: false });
-const validate = ajv.compile(schema);
+const validator = new JetValidator({ allErrors: true, strict: false });
+const validate = validator.compile(schema);
 if (!validate(registry)) {
   for (const error of validate.errors ?? []) {
-    fail(`schema ${error.instancePath || "/"}: ${error.message}`);
+    fail(`schema ${error.dataPath || "/"}: ${error.message}`);
   }
 }
 

@@ -11,9 +11,9 @@ const packageJson = JSON.parse(
 const report = process.argv.includes("--report");
 const minimumNode = "22.0.0";
 const runtimePolicy = {
+  "@jetio/validator": "Validates registry catalogs and item payloads against JSON Schemas.",
   "@topcli/prompts": "Interactive terminal prompts.",
-  acorn: "Parses behavior modules as ESM before payload validation.",
-  ajv: "Validates registry catalogs and item payloads against JSON Schemas."
+  acorn: "Parses behavior modules as ESM before payload validation."
 };
 const developmentPurposes = {
   "@types/node": "Node.js type declarations.",

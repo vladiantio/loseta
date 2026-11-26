@@ -32,15 +32,17 @@
     "NOTICE"
   ],
   "engines": {
-    "node": ">=20"
+    "node": ">=20.12.0"
   },
   "scripts": {
     "build": "tsc -p tsconfig.json && node scripts/copy-assets.mjs",
     "dev": "tsx src/cli.ts",
+    "deps:check": "node scripts/check-dependencies.mjs",
+    "deps:report": "node scripts/check-dependencies.mjs --report",
     "smoke": "bash scripts/smoke-init.sh",
     "validate": "node scripts/validate-registry.mjs",
     "examples": "tsx scripts/generate-examples.ts",
-    "check": "pnpm build && pnpm validate && pnpm behaviors:check",
+    "check": "pnpm build && pnpm validate && pnpm deps:check && pnpm behaviors:check",
     "test": "tsx --test test/*.test.ts",
     "prepack": "pnpm build",
     "prepublishOnly": "pnpm validate",

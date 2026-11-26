@@ -1,5 +1,12 @@
 # Changelog
 
+## Unreleased
+
+### Changed
+
+- The CLI now declares Node 20.12.0 as its minimum supported version, matching
+  `@topcli/prompts` 2.x. Node 20.0–20.11 is no longer supported.
+
 ## 0.20.0 - 2026-11-21
 
 ### Changed

@@ -156,8 +156,10 @@ overwritten.
 ```bash
 pnpm install
 pnpm --filter loseta build       # tsc -> dist/ and copied schemas/rules
-pnpm --filter loseta test        # registry, install, remote and CLI tests
+pnpm --filter loseta test        # registry, install, remote, CLI and PTY tests
 pnpm --filter loseta smoke       # interactive init prompt smoke test
+pnpm --filter loseta deps:check  # enforce the runtime dependency policy
+pnpm --filter loseta deps:report # list dependencies, purposes and import sites
 pnpm --filter loseta validate    # source registry integrity and CSS parse
 pnpm --filter loseta behaviors:check # JSDoc type-check the behavior modules
 pnpm --filter loseta examples    # regenerate registry/examples from the docs
@@ -165,6 +167,11 @@ pnpm registry:remote             # generate web/public/r and schema, validate pa
 pnpm registry:remote:smoke       # install the generated payloads over HTTP
 pnpm --filter loseta dev         # run the CLI with tsx
 ```
+
+The prompt adapter in `src/prompts.ts` owns Ctrl-C cancellation, raw-mode
+restoration and the TopCli compatibility mappings. The test suite exercises
+normal completion and cancellation under a real pseudo-terminal, using the
+local test registry instead of the network.
 
 The source registry is validated for:
 

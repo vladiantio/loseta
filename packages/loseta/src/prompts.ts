@@ -1,3 +1,8 @@
+/**
+ * TopCli 2.x renders prompts but leaves terminal lifecycle to the caller. Keep
+ * Ctrl-C handling, raw-mode cleanup, zero-column fallback, placeholder and
+ * initial-selection adaptation here; prompts-pty.test.ts covers the contract.
+ */
 import {
   confirm as promptConfirm,
   question as promptQuestion,

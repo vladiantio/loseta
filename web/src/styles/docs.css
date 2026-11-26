@@ -394,6 +394,12 @@
       width: 100%;
       font-size: var(--text-sm);
       line-height: var(--text-sm--line-height);
+
+      &:focus-visible {
+        outline: none;
+        outline-offset: 0;
+        box-shadow: none;
+      }
     }
   }
 
@@ -492,32 +498,15 @@
   }
 
   .docs-search-option [data-slot="text"] {
-    display: flex;
     min-width: 0;
-    align-items: baseline;
-    gap: 0.5rem;
-  }
-
-  .docs-search-option-title,
-  .docs-search-option-context {
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
   }
 
   .docs-search-option-title {
-    min-width: 0;
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
     line-height: 1.25rem;
-  }
-
-  .docs-search-option-context {
-    max-width: 50%;
-    flex-shrink: 0;
-    margin-inline-start: auto;
-    font-family: var(--font-mono);
-    font-size: 0.6875rem;
-    line-height: 1rem;
-    color: color-mix(in oklab, var(--foreground) 75%, var(--muted-foreground));
   }
 
   .docs-search-footer {

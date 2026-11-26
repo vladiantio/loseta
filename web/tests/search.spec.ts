@@ -34,7 +34,7 @@ test("search index contains rendered pages and headings", async ({ request }) =>
 
 test("search opens with suggestions, fuzzy results and keyboard activation", async ({ page }) => {
   await page.goto("/docs");
-  const trigger = page.getByRole("button", { name: "Search documentation..." });
+  const trigger = page.getByRole("button", { name: "Search..." });
   await expect(trigger).toBeVisible();
   await trigger.click();
 
@@ -100,7 +100,7 @@ test("search shortcuts toggle the palette and ignore editable fields", async ({ 
 
 test("search finds heading anchors and clears an empty result state", async ({ page }) => {
   await page.goto("/docs/components/button");
-  await page.getByRole("button", { name: "Search documentation..." }).click();
+  await page.getByRole("button", { name: "Search..." }).click();
   const dialog = page.getByRole("dialog", { name: "Search documentation" });
   const input = dialog.getByRole("combobox", { name: "Search documentation" });
 
@@ -114,7 +114,7 @@ test("search finds heading anchors and clears an empty result state", async ({ p
   await expect(page).toHaveURL(/\/docs\/components\/button#rounded$/);
   await expect(dialog).toBeHidden();
 
-  await page.getByRole("button", { name: "Search documentation..." }).click();
+  await page.getByRole("button", { name: "Search..." }).click();
   await input.fill("zzzz-not-a-result");
   await expect(dialog.getByText(/No results for/)).toBeVisible();
   await dialog.getByRole("button", { name: "Clear search" }).click();
@@ -128,7 +128,7 @@ test.describe("mobile search", () => {
 
   test("icon trigger opens a contained modal and locks background scroll", async ({ page }) => {
     await page.goto("/docs");
-    const trigger = page.getByRole("button", { name: "Search documentation..." });
+    const trigger = page.getByRole("button", { name: "Search..." });
     await expect(trigger).toBeVisible();
     await expect(trigger.locator(".docs-search-trigger-label")).not.toBeVisible();
     await trigger.click();
@@ -147,7 +147,7 @@ test.describe("mobile search", () => {
 
 test("axe: open search palette", async ({ page }) => {
   await page.goto("/docs");
-  await page.getByRole("button", { name: "Search documentation..." }).click();
+  await page.getByRole("button", { name: "Search..." }).click();
   await expect(page.getByRole("dialog", { name: "Search documentation" })).toBeVisible();
   await page.addStyleTag({
     content: "*, *::before, *::after { transition: none !important; animation: none !important; }"

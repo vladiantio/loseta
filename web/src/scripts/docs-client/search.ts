@@ -164,8 +164,10 @@ export const search: PageBehavior = {
           const title = document.createElement("span");
           title.className = "docs-search-option-title";
           title.textContent = result.title;
+          // Keep the page context in the filter text without showing paths.
           const context = document.createElement("span");
           context.className = "docs-search-option-context";
+          context.hidden = true;
           context.textContent = result.context;
           text.append(title, " ", context);
           option.append(text);

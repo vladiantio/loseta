@@ -1,9 +1,14 @@
 import { readFileSync, existsSync, readdirSync } from "node:fs";
+import { createRequire } from "node:module";
 import { basename, dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
-import { JetValidator } from "@jetio/validator";
 import { transform } from "lightningcss";
 import ts from "typescript";
+
+// @jetio/validator publishes its ESM entry with a `.js` extension in a
+// CommonJS package, so Node 22.0.0 needs the CJS entry.
+const require = createRequire(import.meta.url);
+const { JetValidator } = require("@jetio/validator");
 
 const here = dirname(fileURLToPath(import.meta.url));
 const packageRoot = resolve(here, "..");

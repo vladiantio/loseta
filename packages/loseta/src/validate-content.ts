@@ -1,11 +1,8 @@
 import { existsSync, readFileSync } from "node:fs";
+import { createRequire } from "node:module";
 import { posix } from "node:path";
 import { parse as parseModule } from "acorn";
-import {
-  JetValidator,
-  type SchemaDefinition,
-  type ValidationError
-} from "@jetio/validator";
+import type { SchemaDefinition, ValidationError } from "@jetio/validator";
 import { SCHEMA_VERSION } from "./constants.js";
 import type {
   RegistryCatalog,
@@ -93,6 +90,12 @@ function loadRules(): ValidationRules {
 const itemSchema = readAsset("schema-item.json");
 const catalogSchema = readAsset("schema-catalog.json");
 const rules = loadRules();
+
+// @jetio/validator publishes its ESM entry as a `.js` file in a CommonJS
+// package. Node 22.0.0 parses it as CommonJS, so named ESM imports fail on the
+// minimum supported runtime; load the package's CJS entry instead.
+const require = createRequire(import.meta.url);
+const { JetValidator } = require("@jetio/validator") as typeof import("@jetio/validator");
 
 const validator = new JetValidator({
   allErrors: true,

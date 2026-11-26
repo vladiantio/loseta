@@ -6,8 +6,13 @@ import {
   rmSync,
   writeFileSync
 } from "node:fs";
+import { createRequire } from "node:module";
 import { dirname, join, resolve } from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
+
+// @jetio/validator publishes its ESM entry with a `.js` extension in a
+// CommonJS package, so Node 22.0.0 needs the CJS entry.
+const require = createRequire(import.meta.url);
 
 const here = dirname(fileURLToPath(import.meta.url));
 const packageRoot = resolve(here, "..");
@@ -175,7 +180,7 @@ try {
   // Netlify builds the docs without the CLI's devDependencies, so dist may be
   // absent. Validate the wire shape here; the source validator and the remote
   // install smoke cover the semantic checks.
-  const { JetValidator } = await import("@jetio/validator");
+  const { JetValidator } = require("@jetio/validator");
   const validator = new JetValidator({ allErrors: true, strict: false });
   const itemValidator = validator.compile(
     JSON.parse(

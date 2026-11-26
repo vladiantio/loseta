@@ -35,6 +35,26 @@
     "title": "Components",
     "description": "Browse the loseta component registry."
   },
+  "/blocks": {
+    "title": "Blocks",
+    "description": "Docs-only page compositions built from loseta components."
+  },
+  "/blocks/dashboard-01": {
+    "title": "Dashboard block",
+    "description": "A docs-only dashboard composition with navigation, metrics, chart and transactions."
+  },
+  "/blocks/sidebar-01": {
+    "title": "Sidebar block",
+    "description": "A docs-only workspace sidebar with collapsible groups and an account footer."
+  },
+  "/blocks/login-01": {
+    "title": "Login block",
+    "description": "A docs-only login composition with accessible fields and account actions."
+  },
+  "/blocks/signup-01": {
+    "title": "Signup block",
+    "description": "A docs-only signup composition with account fields and terms consent."
+  },
   "/docs/behavior": {
     "title": "Behavior",
     "description": "How loseta behavior modules install, initialize and integrate."

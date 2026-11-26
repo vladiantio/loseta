@@ -1,0 +1,54 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import { blocks } from "@/data/blocks";
+import pageMeta from "@/data/page-meta.json";
+
+const meta = pageMeta["/blocks"];
+---
+
+<Layout title={meta.title} description={meta.description}>
+  <div class="docs-content">
+    <p class="docs-eyebrow">Blocks</p>
+    <h1>Page compositions, built from the registry.</h1>
+    <p class="docs-lead">
+      Blocks combine loseta components into larger page and section layouts. Browse a
+      composition, install its pieces and copy the markup into your own application.
+    </p>
+
+    <h2>Browse blocks</h2>
+    <div class="blocks-grid">
+      {
+        blocks.map((block) => (
+          <article class="block-card">
+            <div class="block-card-preview" aria-hidden="true" inert data-toc-ignore>
+              <div class="block-card-preview-canvas" set:html={block.html} />
+            </div>
+            <div class="block-card-content">
+              <span class="block-card-category">{block.category}</span>
+              <h3 class="block-card-title">
+                <a href={`/blocks/${block.slug}`}>{block.title}</a>
+              </h3>
+              <p class="block-card-description">{block.description}</p>
+              <span class="block-card-meta">
+                {block.components.length}{" "}
+                {block.components.length === 1 ? "component" : "components"}
+              </span>
+            </div>
+          </article>
+        ))
+      }
+    </div>
+
+    <h2>How blocks work</h2>
+    <p>
+      A block is documentation, not a registry item. The command on each page installs
+      the listed components and their dependencies; it does not generate routes,
+      application files or data logic.
+    </p>
+    <div class="docs-callout" role="note">
+      <strong>Compose, then own it.</strong> Blocks use public classes, semantic markup
+      and shipped behavior modules. For smaller patterns, see
+      <a href="/docs/recipes">Recipes</a>.
+    </div>
+  </div>
+</Layout>

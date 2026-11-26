@@ -9,7 +9,9 @@ const isActiveNavLink = (target: string, pathname: string): boolean => {
     target === "/docs" ||
     target === "/docs/components" ||
     target === "/docs/installation" ||
-    target.startsWith("/docs/components/")
+    target === "/blocks" ||
+    target.startsWith("/docs/components/") ||
+    target.startsWith("/blocks/")
   ) {
     return pathname === target;
   }

@@ -10,6 +10,7 @@ import {
   experimentalComponents,
   stableComponentsInGroup
 } from "@/data/components";
+import { blocks } from "@/data/blocks";
 import { addHeadingAnchors } from "@/lib/toc";
 import registry from "../../../packages/loseta/registry/registry.json" with { type: "json" };
 
@@ -141,6 +142,14 @@ const ogType = pathname === "/" ? "website" : "article";
         <a class="docs-header-link" href="/docs">Docs</a>
         <a
           class="docs-header-link"
+          href="/blocks"
+          aria-current={
+            pathname === "/blocks" || pathname.startsWith("/blocks/") ? "page" : undefined
+          }
+          >Blocks</a
+        >
+        <a
+          class="docs-header-link"
           href="https://github.com/vladiantio/loseta"
           target="_blank"
           rel="noreferrer"
@@ -262,6 +271,28 @@ const ogType = pathname === "/" ? "website" : "article";
               aria-current={isActive("/docs/guidelines/typography") ? "page" : undefined}
               >Typography</a
             >
+          </div>
+          <div class="docs-nav-group">
+            <span class="docs-nav-title">Blocks</span>
+            <a
+              class="docs-nav-link"
+              href="/blocks"
+              aria-current={pathname === "/blocks" ? "page" : undefined}>Overview</a
+            >
+            <div class="docs-nav-children">
+              {
+                blocks.map((block) => (
+                  <a
+                    class="docs-nav-link"
+                    href={`/blocks/${block.slug}`}
+                    aria-current={
+                      pathname === `/blocks/${block.slug}` ? "page" : undefined
+                    }
+                    >{block.title}</a
+                  >
+                ))
+              }
+            </div>
           </div>
           {
             componentGroups

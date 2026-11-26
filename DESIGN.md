@@ -1150,9 +1150,12 @@ semantic versioning.
 - Message rendering, reactions, attachments, trace status and questionnaire
   validation/completion are consumer JavaScript. Message scroller follows
   appended content; prepended content relies on native scroll anchoring.
-- Form, data-table, date-picker and typography are docs recipes, not registry
-  items. Direction maps to the native `dir` attribute; Sonner maps to the toast
-  compatibility note.
+- Dashboard, sidebar, login and signup are docs blocks, not registry items.
+  Blocks compose existing public classes and shipped behavior; `loseta add`
+  installs the listed components, while consumers own application files, data and
+  authentication or navigation logic. Form, data-table, date-picker and typography
+  are docs recipes, not registry items. Direction maps to the native `dir`
+  attribute; Sonner maps to the toast compatibility note.
 - Uncurated drafts remain in `packages/loseta/experimental/` and are not
   published.
 - There is no spacing or motion token scale; spacing and durations are

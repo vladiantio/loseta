@@ -1,5 +1,6 @@
 import { expect, test } from "@playwright/test";
 import AxeBuilder from "@axe-core/playwright";
+import { blocks } from "../src/data/blocks";
 
 const tags = ["wcag2a", "wcag2aa", "wcag21a", "wcag21aa"];
 
@@ -63,6 +64,38 @@ test("installation child navigation marks only the current guide", async ({ page
 
   await page.reload();
   await expect(sidebar.getByRole("link", { name: "Astro", exact: true })).toHaveAttribute(
+    "aria-current",
+    "page"
+  );
+  await expect(sidebar.locator('[aria-current="page"]')).toHaveCount(1);
+});
+
+test("block child navigation marks only the current composition", async ({ page }) => {
+  await page.goto("/blocks");
+  const sidebar = page.getByRole("navigation", { name: "Documentation" });
+  const blocksNav = sidebar.locator(".docs-nav-group").filter({ hasText: "Blocks" });
+  const overview = blocksNav.getByRole("link", { name: "Overview", exact: true });
+
+  await expect(overview).toHaveAttribute("aria-current", "page");
+
+  for (const block of blocks) {
+    const link = blocksNav.getByRole("link", { name: block.title, exact: true });
+    await link.click();
+
+    await expect(page).toHaveURL(new RegExp(`/blocks/${block.slug}$`));
+    await expect(page.getByRole("heading", { level: 1, name: block.title })).toBeVisible();
+    await expect(link).toHaveAttribute("aria-current", "page");
+    await expect(overview).not.toHaveAttribute("aria-current", "page");
+    await expect(sidebar.locator('[aria-current="page"]')).toHaveCount(1);
+    await expect(
+      page
+        .getByRole("navigation", { name: "Main" })
+        .getByRole("link", { name: "Blocks" })
+    ).toHaveAttribute("aria-current", "page");
+  }
+
+  await page.reload();
+  await expect(blocksNav.getByRole("link", { name: "Signup", exact: true })).toHaveAttribute(
     "aria-current",
     "page"
   );

@@ -1,0 +1,72 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import ComponentPreview from "@/components/ComponentPreview.astro";
+import InstallCommand from "@/components/InstallCommand.astro";
+import { blocks, type Block } from "@/data/blocks";
+
+export function getStaticPaths() {
+  return blocks.map((block) => ({
+    params: { slug: block.slug },
+    props: { block }
+  }));
+}
+
+interface Props {
+  block: Block;
+}
+
+const { block } = Astro.props;
+const installCommand = `loseta add ${block.components.join(" ")}`;
+---
+
+<Layout title={block.title} description={block.description}>
+  <div class:list={["docs-content", { "docs-content-wide": block.wide }]}>
+    <p class="docs-eyebrow">Blocks / {block.category}</p>
+    <h1>{block.title}</h1>
+    <p class="docs-lead">{block.description}</p>
+
+    <div class="docs-meta">
+      <span class="docs-chip"><strong>Block</strong> <code>{block.slug}</code></span>
+      <span class="docs-chip">
+        <strong>Components</strong> {block.components.length}
+      </span>
+    </div>
+
+    <div class="docs-callout" role="note">
+      <strong>Docs-only composition.</strong> This block is not a registry item.
+      Install its components and copy the markup; application files, data and behavior
+      beyond the shipped modules remain yours.
+    </div>
+
+    <h2>Preview</h2>
+    <ComponentPreview id={`block-${block.slug}`} html={block.html} />
+
+    <h2>Installation</h2>
+    <p>Install every component used by this composition:</p>
+    <InstallCommand command={installCommand} />
+
+    <h2>Components</h2>
+    <ul>
+      {
+        block.components.map((component) => (
+          <li>
+            <a href={`/docs/components/${component}`}>
+              <code>{component}</code>
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+
+    <h2>Composition notes</h2>
+    <ul>
+      {
+        block.notes.map((note) => (
+          <li>{note}</li>
+        ))
+      }
+    </ul>
+
+    <p><a class="docs-header-link" href="/blocks">← Back to blocks</a></p>
+  </div>
+</Layout>

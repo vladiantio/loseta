@@ -305,6 +305,12 @@ _Avoid_: demo, snippet, sample
 The browser-side module of the docs site that applies stored preferences and mounts per-page behavior across client-side navigation.
 _Avoid_: docs runtime, docs shell
 
+**Block**:
+A docs-only page or section composition of multiple registry items, such as
+Dashboard, Sidebar, Login or Signup. Blocks are browsable in the docs but are not
+registry items and do not install application files.
+_Avoid_: component, registry item, installable template
+
 **Recipe**:
 A docs-only composition of registry items that is not installable and has no
 registry entry, such as Form, Data table or Date picker.

@@ -1,6 +1,7 @@
 import { readFileSync } from "node:fs";
 import { expect, test, type Locator, type Page } from "@playwright/test";
 import AxeBuilder from "@axe-core/playwright";
+import { blocks } from "../src/data/blocks";
 import { components, experimentalComponents } from "../src/data/components";
 
 const registry = JSON.parse(
@@ -22,6 +23,7 @@ const staticPages = [
   "/docs/styles",
   "/docs/behavior",
   "/docs/components",
+  "/blocks",
   "/docs/recipes",
   "/docs/recipes/form",
   "/docs/recipes/data-table",
@@ -30,6 +32,7 @@ const staticPages = [
 ];
 const pages = [
   ...staticPages,
+  ...blocks.map((block) => `/blocks/${block.slug}`),
   ...components.map((component) => `/docs/components/${component.id}`)
 ];
 
@@ -94,6 +97,57 @@ async function readScheme(
 test("home renders", async ({ page }) => {
   await page.goto("/");
   await expect(page.getByRole("heading", { level: 1 })).toContainText("Native CSS scaffolds");
+});
+
+test("blocks index links to every launch composition", async ({ page }) => {
+  await page.goto("/blocks");
+  await expect(page.locator(".block-card")).toHaveCount(blocks.length);
+
+  for (const block of blocks) {
+    const link = page.locator(".block-card").getByRole("link", {
+      name: block.title,
+      exact: true
+    });
+    await expect(link).toHaveAttribute("href", `/blocks/${block.slug}`);
+  }
+});
+
+test("block pages expose component install commands and copyable markup", async ({ page }) => {
+  for (const block of blocks) {
+    await page.goto(`/blocks/${block.slug}`);
+    await expect(page.getByRole("heading", { level: 1, name: block.title })).toBeVisible();
+    await expect(page.locator(".install-command-code")).toContainText(
+      `loseta add ${block.components.join(" ")}`
+    );
+    await expect(page.locator("[data-component-preview] .docs-preview")).toBeVisible();
+    await expect(page.locator("[data-preview-source] pre")).toContainText("<");
+  }
+});
+
+test("block pages do not overflow at narrow or wide viewports", async ({ page }) => {
+  for (const width of [375, 1440]) {
+    await page.setViewportSize({ width, height: 900 });
+    for (const block of blocks) {
+      await page.goto(`/blocks/${block.slug}`);
+      const overflow = await page.evaluate(
+        () => document.documentElement.scrollWidth - document.documentElement.clientWidth
+      );
+      expect(overflow, `${block.slug} at ${width}px`).toBeLessThanOrEqual(1);
+    }
+  }
+});
+
+test("dashboard block uses the shipped account menu behavior", async ({ page }) => {
+  await page.goto("/blocks/dashboard-01");
+  const trigger = page.getByRole("button", { name: "Account menu for Ada Lovelace (AL)" });
+
+  await trigger.click();
+  await expect(trigger).toHaveAttribute("aria-expanded", "true");
+  await expect(page.getByRole("menu")).toBeVisible();
+
+  await page.keyboard.press("Escape");
+  await expect(trigger).toHaveAttribute("aria-expanded", "false");
+  await expect(page.getByRole("menu")).toBeHidden();
 });
 
 test("color scheme switch supports system, light and dark", async ({ page }) => {
@@ -1706,6 +1760,15 @@ test("open overlay panels pass axe in every color scheme", async ({ page }) => {
   await expect(selectPanel).toHaveAttribute("aria-hidden", "false");
   await audit("select panel");
   await page.keyboard.press("Escape");
+
+  await page.goto("/blocks/dashboard-01");
+  await disableMotion();
+  await page.getByRole("button", { name: "Account menu for Ada Lovelace (AL)" }).click();
+  const accountPanel = page.locator("#block-dashboard-01-account-menu");
+  await expect(accountPanel).toHaveAttribute("aria-hidden", "false");
+  await audit("dashboard block account menu");
+  await page.keyboard.press("Escape");
+  await expect(accountPanel).toHaveAttribute("aria-hidden", "true");
 });
 
 test("dialog examples open, close and scroll", async ({ page }) => {
@@ -3201,6 +3264,17 @@ test.describe("without JavaScript", () => {
     await expect(preview.locator("[data-preview-source] pre")).toBeVisible();
     await expect(preview.locator("[data-preview-source] code")).toContainText(
       "Button"
+    );
+  });
+
+  test("block preview keeps code readable", async ({ page }) => {
+    await page.goto("/blocks/login-01");
+    const preview = page.locator("[data-component-preview]").first();
+
+    await expect(preview.locator("[data-preview-toggle]")).toBeHidden();
+    await expect(preview.locator("[data-preview-source] pre")).toBeVisible();
+    await expect(preview.locator("[data-preview-source] code")).toContainText(
+      "Welcome back"
     );
   });
 });

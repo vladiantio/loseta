@@ -1,0 +1,24 @@
+# loseta
+
+> loseta is a copy-paste registry of native CSS components, markup contracts, and optional ESM behavior modules. The CLI installs readable source files into your project; no runtime package or framework is required.
+
+## Start here
+
+- [Documentation](https://loseta.vladiantio.com/docs/): Install, configure, and customize loseta.
+- [Installation](https://loseta.vladiantio.com/docs/installation/): Initialize a project and add components with the CLI or manual setup.
+- [Components](https://loseta.vladiantio.com/docs/components/): Browse stable components, markup contracts, and examples.
+- [Styles](https://loseta.vladiantio.com/docs/styles/): Compare the eight visual styles and learn how to switch.
+- [Theming](https://loseta.vladiantio.com/docs/theming/): Tokens, layers, color schemes, and the public style contract.
+
+## Guides
+
+- [Behavior](https://loseta.vladiantio.com/docs/behavior/): Optional ESM behavior, initialization, events, and accessibility hooks.
+- [Recipes](https://loseta.vladiantio.com/docs/recipes/): Docs-only compositions for forms, data tables, and date pickers.
+- [Typography](https://loseta.vladiantio.com/docs/guidelines/typography/): The type scale, fonts, and prose rules.
+- [Blocks](https://loseta.vladiantio.com/blocks/): Dashboard, sidebar, login, and signup compositions.
+
+## Reference
+
+- [Button](https://loseta.vladiantio.com/docs/components/button/): A representative component contract with markup, styles, and behavior details.
+- [Registry catalog](https://loseta.vladiantio.com/r/registry.json): The machine-readable catalog of installable registry items.
+- [Source repository](https://github.com/vladiantio/loseta): Registry sources, CLI, documentation, and tests.

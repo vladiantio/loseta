@@ -1,0 +1,146 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import CodeBlock from "@/components/CodeBlock.astro";
+import pageMeta from "@/data/page-meta.json";
+
+const meta = pageMeta["/docs/installation/manual"];
+const releaseFiles = "https://github.com/vladiantio/loseta/blob/v0.20.0/packages/loseta/registry";
+---
+
+<Layout title={meta.title} description={meta.description}>
+  <div class="docs-content">
+    <p class="docs-eyebrow">Getting started</p>
+    <h1>Manual installation</h1>
+    <p class="docs-lead">
+      Copy loseta's CSS directly into a project without running the CLI. You own the files, the
+      layer order and the markup contract.
+    </p>
+
+    <h2>Choose the files</h2>
+    <p>
+      This example installs the Nova button in a plain HTML project. The source links are pinned to
+      <code>v0.20.0</code>; update them when you upgrade. To use another style, copy that style's
+      button file instead of the Nova file.
+    </p>
+
+    <h2>Create the directory structure</h2>
+    <CodeBlock
+      lang="text"
+      code={`styles/loseta/
+  tokens.css
+  reset.css
+  base.css
+  utilities.css
+  index.css
+  components/
+    button.css
+  styles/
+    nova/
+      button.css`}
+    />
+
+    <h2>Copy the foundation</h2>
+    <p>Copy the contents of each file into the matching path under <code>styles/loseta/</code>:</p>
+    <ul>
+      <li><a href={`${releaseFiles}/tokens.css`}>tokens.css</a></li>
+      <li><a href={`${releaseFiles}/reset.css`}>reset.css</a></li>
+      <li><a href={`${releaseFiles}/base.css`}>base.css</a></li>
+      <li><a href={`${releaseFiles}/utilities.css`}>utilities.css</a></li>
+    </ul>
+
+    <h2>Copy the button</h2>
+    <p>Button has no hard registry dependencies. Copy these two files:</p>
+    <ul>
+      <li>
+        <a href={`${releaseFiles}/components/button.css`}>components/button.css</a> — structural CSS
+      </li>
+      <li>
+        <a href={`${releaseFiles}/styles/nova/button.css`}>styles/nova/button.css</a> — Nova visual
+        style
+      </li>
+    </ul>
+    <div class="docs-callout" role="note">
+      <strong>Adding more components.</strong> Check the component page's dependencies before
+      copying files. Hard primitive dependencies need both their base CSS and the matching style
+      file. Behavior-bearing components also need their declared support and entry modules.
+    </div>
+
+    <h2>Create the entrypoint</h2>
+    <p>
+      Create <code>styles/loseta/index.css</code> with the fixed layer order, followed by imports
+      for the files you copied:
+    </p>
+    <CodeBlock
+      lang="css"
+      code={`@layer loseta.tokens, loseta.reset, loseta.base, loseta.components, loseta.style, loseta.utilities;
+
+@import "./tokens.css";
+@import "./reset.css";
+@import "./base.css";
+@import "./utilities.css";
+@import "./components/button.css";
+@import "./styles/nova/button.css";`}
+    />
+    <p>
+      Keep every source file's existing <code>@layer</code> wrapper. The generated entrypoint only
+      declares the order and imports the files; it does not replace their layer blocks.
+    </p>
+
+    <h2>Load the CSS and markup</h2>
+    <p>Serve the files at matching URLs and load the entrypoint from your HTML:</p>
+    <CodeBlock
+      lang="html"
+      code={`<link rel="stylesheet" href="/styles/loseta/index.css" />
+
+<button type="button" class="btn">Button</button>`}
+    />
+    <p>
+      No compilation or transpilation is required for the loseta files. Your static server or host
+      application still needs to serve them.
+    </p>
+
+    <h2>Add behavior manually</h2>
+    <p>
+      Button is CSS-only. For a behavior-bearing component, copy every declared module from
+      <a href={`${releaseFiles}/behaviors`}>behaviors/</a>, preserve the relative paths and load each
+      entry module once. Shared modules such as <code>core.js</code> are imported by the entries.
+    </p>
+    <p>
+      Read the <a href="/docs/behavior">behavior reference</a> for initialization, scoped mounting
+      and the CSS-only fallback contract.
+    </p>
+
+    <h2>Use the same files in Vite or Astro</h2>
+    <p>
+      Place the same tree under <code>src/styles/loseta/</code> and import its entrypoint from your
+      existing application stylesheet:
+    </p>
+    <CodeBlock
+      lang="css"
+      code={`/* src/index.css or src/style.css */
+@import "./styles/loseta/index.css";
+
+/* src/styles/global.css */
+@import "./loseta/index.css";`}
+    />
+    <p>
+      The import path is relative to the stylesheet that contains it. Keep behavior modules in a
+      source directory when importing them through the framework's module graph, or place them in
+      the framework's public directory when using a root-served script.
+    </p>
+
+    <h2>Registry payload alternative</h2>
+    <p>
+      Every installable item is also available as JSON with inline file contents. Open the
+      <a href="https://loseta.vladiantio.com/r/styles/nova/button.json">Nova button payload</a> and
+      copy each <code>files[].content</code> value to its declared
+      <code>files[].target</code> path. Foundation payloads live under
+      <code>/r/foundation/&lt;name&gt;.json</code>.
+    </p>
+    <p>
+      The <a href="https://loseta.vladiantio.com/r/registry.json">registry catalog</a> lists item
+      dependencies and hashes. This path is useful for scripted extraction, but the linked source
+      files are simpler for a manual install.
+    </p>
+  </div>
+</Layout>

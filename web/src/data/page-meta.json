@@ -11,6 +11,18 @@
     "title": "Installation",
     "description": "Install loseta in a native CSS project."
   },
+  "/docs/installation/vite": {
+    "title": "Vite",
+    "description": "Install loseta in a Vite project and load optional behavior through Vite."
+  },
+  "/docs/installation/astro": {
+    "title": "Astro",
+    "description": "Install loseta in an Astro project, including ClientRouter lifecycle guidance."
+  },
+  "/docs/installation/manual": {
+    "title": "Manual installation",
+    "description": "Copy loseta CSS into a project without running the CLI."
+  },
   "/docs/theming": {
     "title": "Theming",
     "description": "Tokens, layers, the color scheme and the public style contract."

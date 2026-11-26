@@ -452,6 +452,20 @@
     font-weight: 500;
   }
 
+  .docs-nav-children {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+    margin-inline-start: 0.75rem;
+    padding-inline-start: 0.75rem;
+    border-inline-start: 1px solid var(--border);
+  }
+
+  .docs-nav-children .docs-nav-link {
+    min-height: 1.65rem;
+    font-size: var(--text-xs);
+  }
+
   .docs-main {
     min-width: 0;
   }

@@ -8,6 +8,7 @@ const isActiveNavLink = (target: string, pathname: string): boolean => {
   if (
     target === "/docs" ||
     target === "/docs/components" ||
+    target === "/docs/installation" ||
     target.startsWith("/docs/components/")
   ) {
     return pathname === target;

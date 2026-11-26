@@ -1,0 +1,192 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import InstallCommand from "@/components/InstallCommand.astro";
+import CodeBlock from "@/components/CodeBlock.astro";
+import pageMeta from "@/data/page-meta.json";
+
+const meta = pageMeta["/docs/installation/astro"];
+---
+
+<Layout title={meta.title} description={meta.description}>
+  <div class="docs-content">
+    <p class="docs-eyebrow">Getting started</p>
+    <h1>Astro</h1>
+    <p class="docs-lead">
+      Install loseta in an Astro project, load the generated CSS from a shared layout and import
+      optional behavior through a processed client script.
+    </p>
+
+    <h2>Prerequisites</h2>
+    <p>
+      Current Astro releases require Node 22.23.4+ and do not support odd-numbered Node releases.
+      The loseta CLI itself requires Node 20+. These examples use pnpm; the loseta command blocks
+      also provide npm variants.
+    </p>
+    <p>
+      Scaffold commands use <code>@latest</code>, so generated files can change between Astro
+      releases. See the <a href="https://docs.astro.build/en/install-and-setup/">official Astro
+      setup guide</a> for current prerequisites.
+    </p>
+
+    <h2>Create an Astro project</h2>
+    <p>Create the minimal template and install its dependencies:</p>
+    <CodeBlock
+      lang="bash"
+      code={`pnpm create astro@latest my-astro-project --template minimal
+cd my-astro-project
+pnpm install`}
+    />
+    <p>
+      Accept the scaffolder's dependency and Git prompts as needed. If it installs dependencies for
+      you, the explicit <code>pnpm install</code> is harmless.
+    </p>
+
+    <h2>Create a global stylesheet</h2>
+    <p>
+      The minimal template does not create a CSS entrypoint. Create
+      <code>src/styles/global.css</code>; loseta will add its generated import to this file.
+    </p>
+    <p>Create a shared layout at <code>src/layouts/Layout.astro</code>:</p>
+    <CodeBlock
+      lang="html"
+      label="src/layouts/Layout.astro"
+      code={`---
+import "../styles/global.css";
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>My Astro site</title>
+  </head>
+  <body>
+    <slot />
+  </body>
+</html>`}
+    />
+    <p>Then use the layout from <code>src/pages/index.astro</code>:</p>
+    <CodeBlock
+      lang="html"
+      label="src/pages/index.astro"
+      code={`---
+import Layout from "../layouts/Layout.astro";
+---
+
+<Layout>
+  <h1>My Astro site</h1>
+</Layout>`}
+    />
+
+    <h2>Initialize loseta</h2>
+    <p>
+      Point <code>init</code> at the stylesheet you just created. <code>--yes</code> skips prompts
+      and <code>--import</code> inserts the generated stylesheet import:
+    </p>
+    <InstallCommand command="loseta init --yes --style nova --entrypoint src/styles/global.css --import" />
+    <p>
+      This creates <code>src/styles/loseta/index.css</code> and adds
+      <code>@import "./loseta/index.css";</code> to <code>src/styles/global.css</code>.
+    </p>
+
+    <h2>Add components</h2>
+    <p>Add a CSS-only button and a behavior-bearing dialog:</p>
+    <InstallCommand command="loseta add button dialog" />
+    <p>
+      The CLI installs the dialog's <code>dialog-shell</code> primitive and its behavior modules
+      automatically. Pass <code>--no-behavior</code> if you only need the CSS.
+    </p>
+
+    <h2>Use the components</h2>
+    <p>Add the markup to the layout's slot in <code>src/pages/index.astro</code>:</p>
+    <CodeBlock
+      lang="html"
+      code={`<button type="button" class="btn" data-open-dialog="welcome-dialog">Open dialog</button>
+
+<dialog
+  class="dialog"
+  id="welcome-dialog"
+  aria-labelledby="welcome-title"
+  aria-describedby="welcome-description"
+>
+  <div>
+    <header>
+      <h2 data-slot="title" id="welcome-title">Welcome</h2>
+      <p data-slot="description" id="welcome-description">
+        This dialog uses the CSS and behavior installed by loseta.
+      </p>
+    </header>
+    <footer>
+      <button type="button" class="btn" data-variant="outline" data-close-dialog>Cancel</button>
+      <button type="button" class="btn" data-close-dialog>Continue</button>
+    </footer>
+    <form method="dialog">
+      <button class="btn" data-variant="ghost" data-size="sm" data-close-dialog>Close</button>
+    </form>
+  </div>
+</dialog>`}
+    />
+
+    <h2>Load behavior</h2>
+    <p>
+      By default, the CLI writes <code>behaviors/index.js</code> at the project root. Astro does not
+      serve that directory at <code>/behaviors/index.js</code>, so import the generated index from a
+      processed <code>&lt;script&gt;</code> in the shared layout:
+    </p>
+    <CodeBlock
+      lang="js"
+      label="src/layouts/Layout.astro"
+      code={`<script>
+  import "../../behaviors/index.js";
+</script>`}
+    />
+    <p>
+      Use a processed client script, not component frontmatter. Astro bundles the import and sends
+      it to the browser as an ES module.
+    </p>
+
+    <div class="docs-callout" role="note">
+      <strong>Prefer a public script tag?</strong> Set <code>behaviorDir</code> to
+      <code>public/behaviors</code> in <code>loseta.json</code> before adding behavior-bearing
+      components, then load <code>/behaviors/index.js</code> from the layout. Changing the directory
+      does not move files that were already installed.
+    </div>
+
+    <h2>ClientRouter and view transitions</h2>
+    <p>
+      Most loseta modules register delegated document listeners, so swapped-in markup works without
+      re-importing the module. <code>message-scroller</code> and <code>resizable</code> also export
+      <code>mount(root)</code> for late-mounted subtrees.
+    </p>
+    <p>
+      With Astro's <code>&lt;ClientRouter /&gt;</code>, bundled module scripts execute only once.
+      If you install either of those components, add these imports and the lifecycle listener to
+      the same processed script. <code>astro:page-load</code> fires after the initial load and every
+      client-side navigation:
+    </p>
+    <CodeBlock
+      lang="js"
+      code={`import { mount as mountMessageScroller } from "../../behaviors/message-scroller.js";
+import { mount as mountResizable } from "../../behaviors/resizable.js";
+
+document.addEventListener("astro:page-load", () => {
+  mountMessageScroller(document);
+  mountResizable(document);
+});`}
+    />
+    <p>Only import modules that your project has installed.</p>
+
+    <h2>Run the project</h2>
+    <p>Start Astro and open the local URL printed in your terminal:</p>
+    <CodeBlock lang="bash" code={`pnpm run dev`} />
+
+    <h2>Next steps</h2>
+    <ul>
+      <li><a href="/docs/styles">Choose or switch visual styles</a>.</li>
+      <li><a href="/docs/behavior">Read the behavior and lifecycle contract</a>.</li>
+      <li><a href="/docs/components">Browse component markup and install commands</a>.</li>
+      <li><a href="/docs/installation">Use the CLI reference for registry and cache options</a>.</li>
+    </ul>
+  </div>
+</Layout>

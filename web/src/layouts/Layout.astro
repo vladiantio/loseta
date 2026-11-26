@@ -202,9 +202,29 @@ const ogType = pathname === "/" ? "website" : "article";
             <a
               class="docs-nav-link"
               href="/docs/installation"
-              aria-current={isActive("/docs/installation") ? "page" : undefined}
+              aria-current={pathname === "/docs/installation" ? "page" : undefined}
               >Installation</a
             >
+            <div class="docs-nav-children">
+              <a
+                class="docs-nav-link"
+                href="/docs/installation/vite"
+                aria-current={pathname === "/docs/installation/vite" ? "page" : undefined}
+                >Vite</a
+              >
+              <a
+                class="docs-nav-link"
+                href="/docs/installation/astro"
+                aria-current={pathname === "/docs/installation/astro" ? "page" : undefined}
+                >Astro</a
+              >
+              <a
+                class="docs-nav-link"
+                href="/docs/installation/manual"
+                aria-current={pathname === "/docs/installation/manual" ? "page" : undefined}
+                >Manual</a
+              >
+            </div>
             <a
               class="docs-nav-link"
               href="/docs/theming"

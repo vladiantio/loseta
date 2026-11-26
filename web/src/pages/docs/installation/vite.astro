@@ -1,0 +1,135 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import InstallCommand from "@/components/InstallCommand.astro";
+import CodeBlock from "@/components/CodeBlock.astro";
+import pageMeta from "@/data/page-meta.json";
+
+const meta = pageMeta["/docs/installation/vite"];
+---
+
+<Layout title={meta.title} description={meta.description}>
+  <div class="docs-content">
+    <p class="docs-eyebrow">Getting started</p>
+    <h1>Vite</h1>
+    <p class="docs-lead">
+      Install loseta in a Vite project, load the generated CSS and import optional behavior through
+      Vite's module graph.
+    </p>
+
+    <h2>Prerequisites</h2>
+    <p>
+      Use Node 20.19+ or 22.12+ for current Vite releases. The loseta CLI itself requires Node 20+.
+      These examples use pnpm; the loseta command blocks also provide npm variants.
+    </p>
+    <p>
+      Scaffold commands use <code>@latest</code>, so generated files can change between Vite
+      releases. See the <a href="https://vite.dev/guide/">official Vite guide</a> for current
+      prerequisites.
+    </p>
+
+    <h2>Create a Vite project</h2>
+    <p>Create a vanilla JavaScript project and install its dependencies:</p>
+    <CodeBlock
+      lang="bash"
+      code={`pnpm create vite@latest my-vanilla-app --template vanilla
+cd my-vanilla-app
+pnpm install`}
+    />
+    <p>
+      The vanilla template loads <code>src/style.css</code> from <code>src/main.js</code>. After
+      initialization, replace the template's demo rules in that file with the generated import so
+      unlayered scaffold CSS does not override loseta's layered components.
+    </p>
+
+    <h2>Initialize loseta</h2>
+    <p>
+      The CLI does not auto-detect Vite's <code>src/style.css</code> filename, so pass it explicitly.
+      <code>--yes</code> skips prompts and <code>--import</code> inserts the generated stylesheet
+      import:
+    </p>
+    <InstallCommand command="loseta init --yes --style nova --entrypoint src/style.css --import" />
+    <p>
+      This creates <code>src/styles/loseta/index.css</code> and adds
+      <code>@import "./styles/loseta/index.css";</code> to <code>src/style.css</code>. Replace the
+      remaining demo rules so the file contains only:
+    </p>
+    <CodeBlock lang="css" label="src/style.css" code={`@import "./styles/loseta/index.css";`} />
+
+    <h2>Add components</h2>
+    <p>Add a CSS-only button and a behavior-bearing dialog:</p>
+    <InstallCommand command="loseta add button dialog" />
+    <p>
+      The CLI installs the dialog's <code>dialog-shell</code> primitive and its behavior modules
+      automatically. Pass <code>--no-behavior</code> if you only need the CSS.
+    </p>
+
+    <h2>Use the components</h2>
+    <p>Replace the contents of <code>&lt;body&gt;</code> with this markup and module script:</p>
+    <CodeBlock
+      lang="html"
+      code={`<div id="app">
+  <button type="button" class="btn" data-open-dialog="welcome-dialog">Open dialog</button>
+
+  <dialog
+    class="dialog"
+    id="welcome-dialog"
+    aria-labelledby="welcome-title"
+    aria-describedby="welcome-description"
+  >
+    <div>
+      <header>
+        <h2 data-slot="title" id="welcome-title">Welcome</h2>
+        <p data-slot="description" id="welcome-description">
+          This dialog uses the CSS and behavior installed by loseta.
+        </p>
+      </header>
+      <footer>
+        <button type="button" class="btn" data-variant="outline" data-close-dialog>Cancel</button>
+        <button type="button" class="btn" data-close-dialog>Continue</button>
+      </footer>
+      <form method="dialog">
+        <button class="btn" data-variant="ghost" data-size="sm" data-close-dialog>Close</button>
+      </form>
+    </div>
+  </dialog>
+</div>
+
+<script type="module" src="/src/main.js"></script>`}
+    />
+    <h2>Load behavior</h2>
+    <p>
+      By default, the CLI writes <code>behaviors/index.js</code> at the project root. Vite does not
+      serve that directory at <code>/behaviors/index.js</code>, so replace <code>src/main.js</code>
+      with the stylesheet and behavior imports:
+    </p>
+    <CodeBlock
+      lang="js"
+      label="src/main.js"
+      code={`import "./style.css";
+import "../behaviors/index.js";`}
+    />
+    <p>
+      Entry modules self-initialize on import and register delegated listeners, so later Vite
+      renders do not need another import.
+    </p>
+
+    <div class="docs-callout" role="note">
+      <strong>Prefer a public script tag?</strong> Set <code>behaviorDir</code> to
+      <code>public/behaviors</code> in <code>loseta.json</code> before adding behavior-bearing
+      components, then load <code>/behaviors/index.js</code> from <code>index.html</code>. Changing
+      the directory does not move files that were already installed.
+    </div>
+
+    <h2>Run the project</h2>
+    <p>Start Vite and open the local URL printed in your terminal:</p>
+    <CodeBlock lang="bash" code={`pnpm run dev`} />
+
+    <h2>Next steps</h2>
+    <ul>
+      <li><a href="/docs/styles">Choose or switch visual styles</a>.</li>
+      <li><a href="/docs/behavior">Read the behavior and lifecycle contract</a>.</li>
+      <li><a href="/docs/components">Browse component markup and install commands</a>.</li>
+      <li><a href="/docs/installation">Use the CLI reference for registry and cache options</a>.</li>
+    </ul>
+  </div>
+</Layout>

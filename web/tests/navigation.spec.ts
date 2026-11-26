@@ -37,6 +37,38 @@ test("client navigation keeps the shell mounted", async ({ page }) => {
   );
 });
 
+test("installation child navigation marks only the current guide", async ({ page }) => {
+  await page.goto("/docs/installation");
+  const sidebar = page.getByRole("navigation", { name: "Documentation" });
+  const installation = sidebar.getByRole("link", { name: "Installation", exact: true });
+  const vite = sidebar.getByRole("link", { name: "Vite", exact: true });
+
+  await expect(installation).toHaveAttribute("aria-current", "page");
+  await vite.click();
+
+  await expect(page).toHaveURL(/\/docs\/installation\/vite$/);
+  await expect(page.getByRole("heading", { level: 1, name: "Vite" })).toBeVisible();
+  await expect(vite).toHaveAttribute("aria-current", "page");
+  await expect(installation).not.toHaveAttribute("aria-current", "page");
+  await expect(sidebar.locator('[aria-current="page"]')).toHaveCount(1);
+
+  await sidebar.getByRole("link", { name: "Astro", exact: true }).click();
+  await expect(page).toHaveURL(/\/docs\/installation\/astro$/);
+  await expect(sidebar.getByRole("link", { name: "Astro", exact: true })).toHaveAttribute(
+    "aria-current",
+    "page"
+  );
+  await expect(vite).not.toHaveAttribute("aria-current", "page");
+  await expect(sidebar.locator('[aria-current="page"]')).toHaveCount(1);
+
+  await page.reload();
+  await expect(sidebar.getByRole("link", { name: "Astro", exact: true })).toHaveAttribute(
+    "aria-current",
+    "page"
+  );
+  await expect(sidebar.locator('[aria-current="page"]')).toHaveCount(1);
+});
+
 test("client navigation preserves color scheme, style and package manager", async ({
   page
 }) => {

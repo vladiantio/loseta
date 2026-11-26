@@ -1,6 +1,16 @@
 # Changelog
 
-## Unreleased
+## 0.22.0 - 2026-11-26
+
+### Added
+
+- A global documentation search palette, opened with `/` or `Ctrl/Cmd + K`,
+  that searches pages and section headings with fuzzy filtering, grouped
+  results, keyboard navigation and a generated `/search-index.json`.
+- A docs Blocks gallery with Dashboard, Sidebar, Login and Signup
+  compositions, previews, component install lists and accessibility coverage.
+- `/llms.txt`, a curated entry point that maps coding agents to the canonical
+  documentation and registry resources.
 
 ### Changed
 
@@ -13,15 +23,25 @@
 - Command filtering now uses fuzzy ranking, clamps keyboard navigation at the
   ends and supports group navigation. Disabled matches stay visible but are not
   navigable; activation remains a click and dialog closing stays app-owned.
-
-## 0.22.0 - 2026-11-25
-
-### Changed
-
 - Upgraded `@topcli/prompts` to 4.x and migrated the prompt tests to the v4
   `PromptAgent` API.
 - Raised the minimum supported Node.js version to 22.0.0, matching
   `@topcli/prompts` 4.x. Node 20 is no longer supported.
+- Replaced `ajv` with the zero-dependency `@jetio/validator` for registry
+  payload validation while preserving schema error reporting.
+
+### Fixed
+
+- Closing a menu now cancels pending hover timers, so a submenu no longer
+  reopens after its parent closes.
+
+### Migration
+
+- Command is now the popover surface itself; remove an enclosing popover or
+  card wrapper and keep the search field and listbox as its children.
+- Wrap the command's input group in `<div data-slot="command-input">`.
+- Optional `data-slot="indicator"` checks render only for options with
+  `aria-selected="true"`; the active row keeps using `data-highlighted`.
 
 ## 0.21.0 - 2026-11-25
 

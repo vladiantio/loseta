@@ -15,43 +15,49 @@ import { SearchIcon, XIcon } from "@lucide/astro";
       Search pages and sections. Press / or Ctrl/Cmd + K to open. Use the arrow keys to
       move through results, Enter to open, and Escape to close.
     </p>
-    <div class="input-group docs-search-input-group">
-      <span class="docs-search-input-icon" data-slot="addon">
-        <SearchIcon aria-hidden="true" />
-      </span>
-      <input
-        class="docs-search-input"
-        type="search"
-        role="combobox"
-        aria-label="Search documentation"
-        aria-autocomplete="list"
-        aria-controls="docs-search-results"
-        aria-expanded="false"
-        autocomplete="off"
-        autocapitalize="off"
-        spellcheck="false"
-        placeholder="Search documentation..."
-        data-search-input
-        autofocus
-      />
-      <button
-        class="docs-search-clear"
-        type="button"
-        aria-label="Clear search"
-        data-search-clear
-        data-slot="addon"
-        hidden
+    <div class="command docs-search-command">
+      <div data-slot="command-input">
+        <div class="input-group" role="group" aria-label="Search documentation">
+          <input
+            class="input"
+            type="text"
+            role="combobox"
+            aria-label="Search documentation"
+            aria-controls="docs-search-results"
+            aria-expanded="false"
+            aria-autocomplete="list"
+            autocomplete="off"
+            autocapitalize="off"
+            spellcheck="false"
+            placeholder="Search documentation..."
+            data-search-input
+            autofocus
+          />
+          <span data-slot="addon" data-align="inline-start" aria-hidden="true">
+            <SearchIcon />
+          </span>
+          <button
+            class="docs-search-clear"
+            type="button"
+            aria-label="Clear search"
+            data-search-clear
+            data-slot="addon"
+            data-align="inline-end"
+            hidden
+          >
+            <XIcon aria-hidden="true" />
+          </button>
+        </div>
+      </div>
+      <div
+        id="docs-search-results"
+        role="listbox"
+        aria-label="Search results"
+        data-search-results
       >
-        <XIcon aria-hidden="true" />
-      </button>
+        <div data-slot="empty" aria-live="polite" hidden>No results found.</div>
+      </div>
     </div>
-    <div
-      id="docs-search-results"
-      class="docs-search-results"
-      role="listbox"
-      aria-label="Search results"
-      data-search-results
-    ></div>
     <div class="docs-search-footer" aria-hidden="true">
       <span class="docs-search-hint">
         <kbd>↑</kbd><kbd>↓</kbd>

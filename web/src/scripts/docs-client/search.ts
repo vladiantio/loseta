@@ -1,4 +1,4 @@
-import { searchGroupOrder, searchPages } from "@/lib/search";
+import { searchGroupOrder, searchResults } from "@/lib/search";
 import type { SearchIndex, SearchResult } from "@/lib/search";
 import type { PageBehavior } from "./lifecycle";
 
@@ -9,8 +9,7 @@ const suggestions: SearchResult[] = [
     context: "/docs/installation",
     href: "/docs/installation",
     group: "Guides",
-    kind: "page",
-    score: 0
+    kind: "page"
   },
   {
     id: "suggested-components",
@@ -18,8 +17,7 @@ const suggestions: SearchResult[] = [
     context: "/docs/components",
     href: "/docs/components",
     group: "Components",
-    kind: "page",
-    score: 0
+    kind: "page"
   },
   {
     id: "suggested-button",
@@ -27,8 +25,7 @@ const suggestions: SearchResult[] = [
     context: "/docs/components/button",
     href: "/docs/components/button",
     group: "Components",
-    kind: "page",
-    score: 0
+    kind: "page"
   },
   {
     id: "suggested-dialog",
@@ -36,8 +33,7 @@ const suggestions: SearchResult[] = [
     context: "/docs/components/dialog",
     href: "/docs/components/dialog",
     group: "Components",
-    kind: "page",
-    score: 0
+    kind: "page"
   },
   {
     id: "suggested-theming",
@@ -45,8 +41,7 @@ const suggestions: SearchResult[] = [
     context: "/docs/theming",
     href: "/docs/theming",
     group: "Guides",
-    kind: "page",
-    score: 0
+    kind: "page"
   },
   {
     id: "suggested-styles",
@@ -54,8 +49,7 @@ const suggestions: SearchResult[] = [
     context: "/docs/styles",
     href: "/docs/styles",
     group: "Styles",
-    kind: "page",
-    score: 0
+    kind: "page"
   },
   {
     id: "suggested-blocks",
@@ -63,8 +57,7 @@ const suggestions: SearchResult[] = [
     context: "/blocks",
     href: "/blocks",
     group: "Blocks",
-    kind: "page",
-    score: 0
+    kind: "page"
   },
   {
     id: "suggested-typography",
@@ -72,10 +65,11 @@ const suggestions: SearchResult[] = [
     context: "/docs/guidelines/typography",
     href: "/docs/guidelines/typography",
     group: "Guides",
-    kind: "page",
-    score: 0
+    kind: "page"
   }
 ];
+
+const suggestedRoutes = new Set(suggestions.map((suggestion) => suggestion.href));
 
 let indexPromise: Promise<SearchIndex> | null = null;
 
@@ -119,13 +113,13 @@ export const search: PageBehavior = {
     const dialog = document.querySelector<HTMLDialogElement>("[data-search-dialog]");
     const trigger = document.querySelector<HTMLButtonElement>("[data-search-trigger]");
     const input = dialog?.querySelector<HTMLInputElement>("[data-search-input]");
-    const results = dialog?.querySelector<HTMLElement>("[data-search-results]");
+    const listbox = dialog?.querySelector<HTMLElement>("[data-search-results]");
+    const empty = listbox?.querySelector<HTMLElement>("[data-slot='empty']") ?? null;
     const clear = dialog?.querySelector<HTMLButtonElement>("[data-search-clear]");
     const shortcut = document.querySelector<HTMLElement>("[data-search-shortcut]");
-    if (!dialog || !trigger || !input || !results || !clear) return;
+    if (!dialog || !trigger || !input || !listbox || !empty || !clear) return;
 
     let index: SearchIndex | null = null;
-    let activeIndex = -1;
     let optionId = 0;
     let destroyed = false;
 
@@ -133,73 +127,24 @@ export const search: PageBehavior = {
       shortcut.textContent = /Mac|iPhone|iPad/.test(navigator.userAgent) ? "⌘K" : "Ctrl K";
     }
 
-    const options = () =>
-      Array.from(results.querySelectorAll<HTMLAnchorElement>("[data-search-result]"));
-
-    const setActive = (nextIndex: number, scroll = true) => {
-      const items = options();
-      if (items.length === 0) {
-        activeIndex = -1;
-        input.removeAttribute("aria-activedescendant");
-        return;
-      }
-
-      activeIndex = (nextIndex + items.length) % items.length;
-      items.forEach((item, itemIndex) => {
-        item.setAttribute("aria-selected", String(itemIndex === activeIndex));
-      });
-      const active = items[activeIndex];
-      input.setAttribute("aria-activedescendant", active.id);
-      if (scroll) active.scrollIntoView({ block: "nearest" });
-    };
-
-    const showMessage = (message: string, busy = false) => {
-      activeIndex = -1;
+    const renderGroups = (items: SearchResult[], groups: string[], hideCorpus = false) => {
       optionId = 0;
-      input.removeAttribute("aria-activedescendant");
-      results.replaceChildren();
-      results.setAttribute("role", "status");
-      results.setAttribute("aria-live", "polite");
-      results.setAttribute("aria-busy", String(busy));
-
-      const container = document.createElement("div");
-      container.className = "docs-search-message";
-      if (busy) {
-        const spinner = document.createElement("span");
-        spinner.className = "docs-search-spinner";
-        spinner.setAttribute("aria-hidden", "true");
-        container.append(spinner);
-      }
-      const text = document.createElement("span");
-      text.textContent = message;
-      container.append(text);
-      results.append(container);
-    };
-
-    const renderGroups = (items: SearchResult[], groups: string[]) => {
-      activeIndex = -1;
-      optionId = 0;
-      results.replaceChildren();
-      results.setAttribute("role", "listbox");
-      results.setAttribute("aria-label", "Search results");
-      results.removeAttribute("aria-live");
-      results.setAttribute("aria-busy", "false");
-      results.scrollTop = 0;
+      listbox.replaceChildren();
 
       for (const [groupIndex, group] of groups.entries()) {
-        const matches =
-          group === "Suggested" ? items : items.filter((item) => item.group === group);
+        const matches = group === "Suggested" ? suggestions : items.filter((item) => item.group === group);
         if (matches.length === 0) continue;
 
         const groupElement = document.createElement("div");
         const labelId = `docs-search-group-${groupIndex}`;
         groupElement.setAttribute("role", "group");
         groupElement.setAttribute("aria-labelledby", labelId);
-        groupElement.className = "docs-search-group";
+        groupElement.hidden = hideCorpus && group !== "Suggested";
 
         const label = document.createElement("div");
         label.id = labelId;
-        label.className = "docs-search-group-label";
+        label.dataset.slot = "label";
+        label.setAttribute("aria-hidden", "true");
         label.textContent = group;
         groupElement.append(label);
 
@@ -209,46 +154,67 @@ export const search: PageBehavior = {
           option.className = "docs-search-option";
           option.href = result.href;
           option.setAttribute("role", "option");
-          option.setAttribute("aria-selected", "false");
+          option.tabIndex = -1;
+          option.dataset.slot = "option";
           option.dataset.searchResult = "";
           option.dataset.searchKind = result.kind;
 
+          const text = document.createElement("span");
+          text.dataset.slot = "text";
           const title = document.createElement("span");
           title.className = "docs-search-option-title";
           title.textContent = result.title;
           const context = document.createElement("span");
           context.className = "docs-search-option-context";
           context.textContent = result.context;
-          option.append(title, context);
+          text.append(title, " ", context);
+          option.append(text);
           groupElement.append(option);
         }
 
-        results.append(groupElement);
+        listbox.append(groupElement);
       }
 
-      setActive(0, false);
+      listbox.append(empty);
+      empty.hidden = true;
+    };
+
+    const restoreNativeState = () => {
+      const query = input.value;
+      input.value = "";
+      input.dispatchEvent(new Event("input", { bubbles: true }));
+      input.value = query;
+    };
+
+    const renderSuggestions = () => renderGroups([], ["Suggested"]);
+
+    const renderIndex = () => {
+      if (!index) return;
+      restoreNativeState();
+      const corpus = searchResults(index).filter(
+        (result) => result.kind === "heading" || !suggestedRoutes.has(result.href)
+      );
+      renderGroups(corpus, ["Suggested", ...searchGroupOrder], true);
+      input.dispatchEvent(new Event("input", { bubbles: true }));
+    };
+
+    const showMessage = (message: string) => {
+      restoreNativeState();
+      listbox.replaceChildren(empty);
+      empty.hidden = false;
+      empty.textContent = message;
     };
 
     const renderQuery = () => {
       const query = input.value.trim();
       clear.hidden = input.value.length === 0;
+      empty.textContent = query ? `No results for “${query}”.` : "No results found.";
 
       if (!query) {
-        renderGroups(suggestions, ["Suggested"]);
+        if (!listbox.querySelector("[role='option']")) renderSuggestions();
         return;
       }
-      if (!index) {
-        showMessage("Loading search index…", true);
-        return;
-      }
-
-      const matches = searchPages(index, query);
-      if (matches.length === 0) {
-        showMessage(`No results for “${query}”.`);
-        return;
-      }
-
-      renderGroups(matches, searchGroupOrder);
+      if (!index) showMessage("Loading search index…");
     };
 
     const close = () => {
@@ -264,12 +230,13 @@ export const search: PageBehavior = {
       input.value = "";
       input.setAttribute("aria-expanded", "true");
       trigger.setAttribute("aria-expanded", "true");
+      if (!index) renderSuggestions();
       renderQuery();
       void loadIndex()
         .then((loadedIndex) => {
           if (destroyed) return;
           index = loadedIndex;
-          renderQuery();
+          renderIndex();
         })
         .catch(() => {
           if (destroyed) return;
@@ -279,12 +246,12 @@ export const search: PageBehavior = {
 
     const reset = () => {
       input.value = "";
+      input.dispatchEvent(new Event("input", { bubbles: true }));
       input.setAttribute("aria-expanded", "false");
       trigger.setAttribute("aria-expanded", "false");
       input.removeAttribute("aria-activedescendant");
       clear.hidden = true;
-      activeIndex = -1;
-      results.replaceChildren();
+      empty.hidden = true;
     };
 
     const onToggle = (event: Event) => {
@@ -296,44 +263,13 @@ export const search: PageBehavior = {
 
     const onClear = () => {
       input.value = "";
-      renderQuery();
+      input.dispatchEvent(new Event("input", { bubbles: true }));
       input.focus();
-    };
-
-    const onKeyDown = (event: KeyboardEvent) => {
-      if (event.isComposing) return;
-      const items = options();
-
-      if (event.key === "ArrowDown" || event.key === "ArrowUp") {
-        event.preventDefault();
-        if (items.length === 0) return;
-        const direction = event.key === "ArrowDown" ? 1 : -1;
-        const nextIndex =
-          activeIndex < 0 ? (direction === 1 ? 0 : items.length - 1) : activeIndex + direction;
-        setActive(nextIndex);
-      } else if (event.key === "Home" || event.key === "End") {
-        event.preventDefault();
-        if (items.length > 0) setActive(event.key === "Home" ? 0 : items.length - 1);
-      } else if (event.key === "Enter") {
-        event.preventDefault();
-        if (activeIndex >= 0) items[activeIndex]?.click();
-      } else if (event.key === "Escape") {
-        event.preventDefault();
-        close();
-      }
     };
 
     const onResultClick = (event: MouseEvent) => {
       if (!(event.target instanceof Element)) return;
       if (event.target.closest("[data-search-result]")) close();
-    };
-
-    const onPointerMove = (event: PointerEvent) => {
-      if (!(event.target instanceof Element)) return;
-      const option = event.target.closest<HTMLAnchorElement>("[data-search-result]");
-      if (!option) return;
-      const itemIndex = options().indexOf(option);
-      if (itemIndex >= 0 && itemIndex !== activeIndex) setActive(itemIndex, false);
     };
 
     const onShortcut = (event: KeyboardEvent) => {
@@ -356,10 +292,8 @@ export const search: PageBehavior = {
     dialog.addEventListener("toggle", onToggle);
     dialog.addEventListener("close", reset);
     input.addEventListener("input", onInput);
-    input.addEventListener("keydown", onKeyDown);
     clear.addEventListener("click", onClear);
-    results.addEventListener("click", onResultClick);
-    results.addEventListener("pointermove", onPointerMove);
+    listbox.addEventListener("click", onResultClick);
     document.addEventListener("keydown", onShortcut);
 
     return () => {
@@ -368,10 +302,8 @@ export const search: PageBehavior = {
       dialog.removeEventListener("toggle", onToggle);
       dialog.removeEventListener("close", reset);
       input.removeEventListener("input", onInput);
-      input.removeEventListener("keydown", onKeyDown);
       clear.removeEventListener("click", onClear);
-      results.removeEventListener("click", onResultClick);
-      results.removeEventListener("pointermove", onPointerMove);
+      listbox.removeEventListener("click", onResultClick);
       document.removeEventListener("keydown", onShortcut);
     };
   },

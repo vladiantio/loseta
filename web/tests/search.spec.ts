@@ -9,7 +9,7 @@ function blocking(violations: Awaited<ReturnType<AxeBuilder["analyze"]>>["violat
   );
 }
 
-test("search index contains rendered pages, headings and style keywords", async ({ request }) => {
+test("search index contains rendered pages and headings", async ({ request }) => {
   const response = await request.get("/search-index.json");
   expect(response.ok()).toBe(true);
   const index = await response.json();
@@ -30,9 +30,6 @@ test("search index contains rendered pages, headings and style keywords", async 
   expect(button.headings).toEqual(
     expect.arrayContaining([expect.objectContaining({ id: "install-contract", text: "Install contract" })])
   );
-
-  const styles = index.pages.find((page: { route: string }) => page.route === "/docs/styles");
-  expect(styles.keywords).toEqual(expect.arrayContaining(["nova", "vega", "rhea"]));
 });
 
 test("search opens with suggestions, fuzzy results and keyboard activation", async ({ page }) => {
@@ -43,6 +40,8 @@ test("search opens with suggestions, fuzzy results and keyboard activation", asy
 
   const dialog = page.getByRole("dialog", { name: "Search documentation" });
   await expect(dialog).toBeVisible();
+  await expect(dialog.locator(".command")).toBeVisible();
+  await expect(dialog.locator(".docs-search-footer")).toBeVisible();
   const input = dialog.getByRole("combobox", { name: "Search documentation" });
   await expect(input).toBeFocused();
   await expect(dialog.getByText("Suggested", { exact: true })).toBeVisible();
@@ -52,7 +51,9 @@ test("search opens with suggestions, fuzzy results and keyboard activation", asy
   const first = dialog.getByRole("option").first();
   await expect(first).toContainText("Button");
   await expect(first).toHaveAttribute("href", "/docs/components/button");
-  await expect(first).toHaveAttribute("aria-selected", "true");
+  await expect(first).toHaveAttribute("tabindex", "-1");
+  await expect(first).toHaveAttribute("data-highlighted", "");
+  await expect(dialog.locator(".docs-search-footer")).toBeVisible();
 
   const firstId = await input.getAttribute("aria-activedescendant");
   await input.press("ArrowDown");
@@ -102,6 +103,9 @@ test("search finds heading anchors and clears an empty result state", async ({ p
   await page.getByRole("button", { name: "Search documentation..." }).click();
   const dialog = page.getByRole("dialog", { name: "Search documentation" });
   const input = dialog.getByRole("combobox", { name: "Search documentation" });
+
+  await input.fill("installation");
+  await expect(dialog.locator('[role="option"][href="/docs/installation"]')).toHaveCount(1);
 
   await input.fill("rounded button");
   const heading = dialog.getByRole("option", { name: /Rounded/ });

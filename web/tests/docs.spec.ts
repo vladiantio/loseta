@@ -2303,9 +2303,10 @@ test("menubar submenus keep the parent open and use menu typography", async ({
     .first()
     .locator("[data-popover]")
     .first();
+  const share = menubar.getByRole("menuitem", { name: "Share", exact: true });
 
   await menubar.getByRole("menuitem", { name: "File", exact: true }).click();
-  await menubar.getByRole("menuitem", { name: "Share", exact: true }).click();
+  await share.click();
 
   const submenu = page.locator("#demo-menubar-file-share");
   const item = submenu.getByRole("menuitem", { name: "Email link" });
@@ -2317,6 +2318,7 @@ test("menubar submenus keep the parent open and use menu typography", async ({
   await page.keyboard.press("Escape");
   await expect(submenu).toHaveAttribute("aria-hidden", "true");
   await expect(file).toHaveAttribute("aria-hidden", "false");
+  await expect(share).toBeFocused();
 
   await page.keyboard.press("Escape");
   await expect(file).toHaveAttribute("aria-hidden", "true");
@@ -2807,7 +2809,7 @@ test("command renders the shadcn surface and selection anatomy", async ({ page }
     content:
       "*, *::before, *::after { transition: none !important; animation: none !important; }"
   });
-  const command = page.locator(".command").first();
+  const command = page.locator(".component-preview .command").first();
   const list = command.getByRole("listbox");
   const input = command.getByRole("combobox", { name: "Search commands" });
   const inputGroup = command.locator(".input-group");
@@ -3401,7 +3403,9 @@ test("default example leads the page without a heading", async ({ page }) => {
 for (const path of pages) {
   test(`axe: ${path}`, async ({ page }) => {
     await page.goto(path);
-    await page.waitForLoadState("networkidle");
+    // `load` plus web fonts is deterministic. `networkidle` waits for a quiet
+    // window that a busy preview server and parallel workers do not provide.
+    await page.evaluate(() => document.fonts.ready);
     await page.addStyleTag({
       content: "*, *::before, *::after { transition: none !important; animation: none !important; }"
     });

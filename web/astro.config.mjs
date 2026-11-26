@@ -1,11 +1,12 @@
 // @ts-check
 import { defineConfig, fontProviders } from "astro/config";
 import ogImages from "./integrations/og-images.mjs";
+import searchIndex from "./integrations/search-index.mjs";
 
 // https://astro.build/config
 export default defineConfig({
   site: "https://loseta.vladiantio.com",
-  integrations: [ogImages()],
+  integrations: [ogImages(), searchIndex()],
   // Fontsource serves the Google Fonts subset of Inter, which drops ss02.
   // The local provider uses the upstream variable font so the feature works.
   fonts: [

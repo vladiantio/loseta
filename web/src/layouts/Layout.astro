@@ -3,7 +3,8 @@ import "@/styles/loseta.css";
 import "@/styles/docs.css";
 import { Font } from "astro:assets";
 import { ClientRouter } from "astro:transitions";
-import { MonitorIcon, MoonIcon, SunIcon } from "@lucide/astro";
+import { MonitorIcon, MoonIcon, SearchIcon, SunIcon } from "@lucide/astro";
+import DocsSearchDialog from "@/components/DocsSearchDialog.astro";
 import TableOfContents from "@/components/TableOfContents.astro";
 import {
   componentGroups,
@@ -156,6 +157,20 @@ const ogType = pathname === "/" ? "website" : "article";
         >
           GitHub
         </a>
+        <button
+          class="docs-search-trigger"
+          type="button"
+          aria-haspopup="dialog"
+          aria-controls="docs-search-dialog"
+          aria-expanded="false"
+          data-open-dialog="docs-search-dialog"
+          data-search-trigger
+        >
+          <SearchIcon class="docs-search-trigger-icon" aria-hidden="true" />
+          <span class="sr-only docs-search-trigger-mobile-label">Search documentation...</span>
+          <span class="docs-search-trigger-label">Search documentation...</span>
+          <kbd class="docs-search-trigger-shortcut" data-search-shortcut>⌘K</kbd>
+        </button>
         <label class="docs-style-picker">
           <span class="sr-only">Style</span>
           <select class="docs-style-select" data-style-select>
@@ -196,6 +211,7 @@ const ogType = pathname === "/" ? "website" : "article";
           </button>
         </div>
       </nav>
+      <DocsSearchDialog />
     </header>
 
     <div class:list={["docs-shell", { "docs-shell-toc": hasToc }]}>

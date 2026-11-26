@@ -1,0 +1,64 @@
+---
+import { SearchIcon, XIcon } from "@lucide/astro";
+---
+
+<dialog
+  class="dialog docs-search-dialog"
+  id="docs-search-dialog"
+  data-search-dialog
+  aria-labelledby="docs-search-title"
+  aria-describedby="docs-search-description"
+>
+  <div class="docs-search-panel">
+    <h2 id="docs-search-title" class="sr-only">Search documentation</h2>
+    <p id="docs-search-description" class="sr-only">
+      Search pages and sections. Press / or Ctrl/Cmd + K to open. Use the arrow keys to
+      move through results, Enter to open, and Escape to close.
+    </p>
+    <div class="input-group docs-search-input-group">
+      <span class="docs-search-input-icon" data-slot="addon">
+        <SearchIcon aria-hidden="true" />
+      </span>
+      <input
+        class="docs-search-input"
+        type="search"
+        role="combobox"
+        aria-label="Search documentation"
+        aria-autocomplete="list"
+        aria-controls="docs-search-results"
+        aria-expanded="false"
+        autocomplete="off"
+        autocapitalize="off"
+        spellcheck="false"
+        placeholder="Search documentation..."
+        data-search-input
+        autofocus
+      />
+      <button
+        class="docs-search-clear"
+        type="button"
+        aria-label="Clear search"
+        data-search-clear
+        data-slot="addon"
+        hidden
+      >
+        <XIcon aria-hidden="true" />
+      </button>
+    </div>
+    <div
+      id="docs-search-results"
+      class="docs-search-results"
+      role="listbox"
+      aria-label="Search results"
+      data-search-results
+    ></div>
+    <div class="docs-search-footer" aria-hidden="true">
+      <span class="docs-search-hint">
+        <kbd>↑</kbd><kbd>↓</kbd>
+        Navigate
+      </span>
+      <span class="docs-search-hint"><kbd>↵</kbd> Open</span>
+      <span class="docs-search-hint"><kbd>Esc</kbd> Close</span>
+    </div>
+  </div>
+</dialog>

@@ -33,6 +33,12 @@ function sortedKeys(value) {
   return Object.keys(value).sort();
 }
 
+function hasEntries(value) {
+  if (value === true) return true;
+  if (Array.isArray(value)) return value.length > 0;
+  return Boolean(value) && Object.keys(value).length > 0;
+}
+
 function sourceFiles(directory) {
   return readdirSync(directory, { withFileTypes: true }).flatMap((entry) => {
     const path = join(directory, entry.name);
@@ -118,29 +124,35 @@ for (const name of imports.keys()) {
   }
 }
 
-let topCli;
-try {
-  topCli = JSON.parse(
-    readFileSync(
-      join(packageRoot, "node_modules", "@topcli", "prompts", "package.json"),
-      "utf8"
-    )
-  );
-} catch (error) {
-  fail(`could not read the installed @topcli/prompts manifest: ${error.message}`);
-}
-if (topCli) {
-  if (!topCli.version?.startsWith("4.")) {
-    fail(`@topcli/prompts must stay on 4.x for Node 22; found ${topCli.version}`);
+const runtimeManifests = new Map();
+for (const name of expectedRuntime) {
+  let manifest;
+  try {
+    manifest = JSON.parse(
+      readFileSync(join(packageRoot, "node_modules", name, "package.json"), "utf8")
+    );
+  } catch (error) {
+    fail(`could not read the installed ${name} manifest: ${error.message}`);
+    continue;
   }
+  runtimeManifests.set(name, manifest);
   for (const field of [
     "dependencies",
     "optionalDependencies",
-    "peerDependencies"
+    "peerDependencies",
+    "bundledDependencies",
+    "bundleDependencies"
   ]) {
-    if (Object.keys(topCli[field] ?? {}).length > 0) {
-      fail(`@topcli/prompts must have zero ${field}`);
+    if (hasEntries(manifest[field])) {
+      fail(`${name} must have zero ${field}`);
     }
+  }
+}
+
+const topCli = runtimeManifests.get("@topcli/prompts");
+if (topCli) {
+  if (!topCli.version?.startsWith("4.")) {
+    fail(`@topcli/prompts must stay on 4.x for Node 22; found ${topCli.version}`);
   }
   if (!topCli.engines?.node?.includes(minimumNode)) {
     fail(

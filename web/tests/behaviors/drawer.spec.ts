@@ -33,11 +33,56 @@ test.beforeEach(async ({ page }) => {
   await page.goto("/fixtures/behaviors");
 });
 
+async function waitForOpenTransition(page: Page, id: string) {
+  await page.evaluate((drawerId) => {
+    const panel = document
+      .getElementById(drawerId)
+      ?.querySelector("[data-slot='drawer-content']");
+    (window as any).__drawerOpenTransition = new Promise<void>((resolve) => {
+      if (!(panel instanceof HTMLElement)) {
+        resolve();
+        return;
+      }
+
+      let started = false;
+      const cleanup = () => {
+        window.clearTimeout(timer);
+        panel.removeEventListener("transitionrun", onRun);
+        panel.removeEventListener("transitionend", onEnd);
+        panel.removeEventListener("transitioncancel", onEnd);
+      };
+      const settle = () => {
+        cleanup();
+        resolve();
+      };
+      const onRun = (event: TransitionEvent) => {
+        if (event.propertyName !== "transform") return;
+        started = true;
+        window.clearTimeout(timer);
+      };
+      const onEnd = (event: TransitionEvent) => {
+        if (event.propertyName !== "transform") return;
+        settle();
+      };
+      // Reduced motion skips the transition; do not wait for a missing event.
+      const timer = window.setTimeout(() => {
+        if (!started) settle();
+      }, 250);
+
+      panel.addEventListener("transitionrun", onRun);
+      panel.addEventListener("transitionend", onEnd);
+      panel.addEventListener("transitioncancel", onEnd);
+    });
+  }, id);
+}
+
 async function openDrawer(page: Page, id: string): Promise<DrawerHandles> {
   const trigger = page.locator(`[data-open-dialog="${id}"]`);
   const drawer = page.locator(`#${id}`);
+  await waitForOpenTransition(page, id);
   await trigger.click();
   await expect(drawer).toHaveJSProperty("open", true);
+  await page.evaluate(() => (window as any).__drawerOpenTransition);
   await expect
     .poll(
       () =>
@@ -280,12 +325,14 @@ test("handle container spans the swipe axis and draws a style-owned bar", async 
   expect(horizontalPanelWithoutHandle).not.toBeNull();
   expect(horizontalHeaderWithoutHandle).not.toBeNull();
   await expect(horizontal.panel).toHaveCSS("display", "flex");
+  // Fractional panel widths can be a hair above one pixel apart after layout
+  // rounding; the contract is that the header spans the panel.
   expect(
     Math.abs(
       horizontalHeaderWithoutHandle!.width -
         horizontalPanelWithoutHandle!.width
     )
-  ).toBeLessThanOrEqual(1);
+  ).toBeLessThanOrEqual(1.5);
 
   await ensureHandle(page, "demo-drawer-side-inline-start");
   await expect(horizontal.panel).toHaveCSS("display", "grid");
@@ -378,9 +425,27 @@ test("long drag closes once with dismiss, toggle, ARIA and focus ordering", asyn
     (await axisSize(page, id)) + 2,
     0
   );
+  await drawer.evaluate((element) => {
+    (window as any).__drawerSettling = null;
+    element.addEventListener(
+      "pointerup",
+      () => {
+        const panel = element.querySelector("[data-slot='drawer-content']");
+        if (!(panel instanceof HTMLElement)) return;
+        (window as any).__drawerSettling = {
+          duration: element.style.getPropertyValue("--drawer-gesture-duration"),
+          progress: element.style.getPropertyValue("--drawer-swipe-progress"),
+          transform: panel.style.getPropertyValue("--drawer-swipe-transform")
+        };
+      },
+      { once: true }
+    );
+  });
   await releaseDrag(page, id, drag);
 
-  const settling = await runtime(drawer);
+  // Read the settle state from the pointerup listener: waiting for a second
+  // round-trip can outlast the 80–360 ms cleanup window on a loaded runner.
+  const settling = await page.evaluate(() => (window as any).__drawerSettling);
   expect(Number.parseFloat(settling.duration)).toBeGreaterThanOrEqual(80);
   expect(Number.parseFloat(settling.duration)).toBeLessThanOrEqual(360);
   expect(settling.progress).toBe("0");
@@ -504,10 +569,15 @@ test("pointer capture waits for attributed movement and pointercancel snaps back
     )
   ).toBe(false);
 
-  await page.mouse.move(x, y + 10);
+  // Move past the 10px attribution threshold in two steps so a coalesced or
+  // delayed pointermove still leaves one event above the limit.
+  await page.mouse.move(x, y + 12, { steps: 2 });
   const pointerId = await page.evaluate(() => (window as any).__drawerPointerId);
   await expect
-    .poll(() => handle.evaluate((element, id) => element.hasPointerCapture(id), pointerId))
+    .poll(
+      () => handle.evaluate((element, id) => element.hasPointerCapture(id), pointerId),
+      { timeout: 10_000 }
+    )
     .toBe(true);
   expect((await runtime(drawer)).duration).toBe("0s");
 
@@ -517,7 +587,7 @@ test("pointer capture waits for attributed movement and pointercancel snaps back
     pointerId,
     pointerType: "mouse",
     x,
-    y: y + 10
+    y: y + 12
   });
   await expect(drawer).toHaveJSProperty("open", true);
   await expectRuntimeClean(drawer);

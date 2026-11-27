@@ -147,7 +147,7 @@ const notesBy: Record<string, string> = {
   marker:
     "Use data-variant=\"separator\" for a divider and \"border\" for a trailing rule. The icon is decorative; put the status in the content text and use role=\"status\" for live updates.",
   menubar:
-    "role=\"menubar\" with .menubar-item wrappers (role=\"none\"). Each trigger is role=\"menuitem\" with aria-haspopup=\"menu\" and aria-expanded; panels are [data-popover] with [role=\"menu\"]. Nested submenus use a role=\"none\" wrapper inside the menu and data-side=\"inline-end\" panels. The shipped menu behavior provides roving focus, arrow keys and hover switching while a menu is open; there is no built-in mobile layout.",
+    "role=\"menubar\" with .menubar-item wrappers (role=\"none\"). Each trigger is role=\"menuitem\" with aria-haspopup=\"menu\" and aria-expanded; panels are [data-popover] with [role=\"menu\"] and checkable items put [data-slot=\"indicator\"] first. Nested submenus use a role=\"none\" wrapper inside the menu and data-side=\"inline-end\" panels. The shipped menu behavior keeps one top-level trigger in the tab order, provides roving focus, vertical arrow keys, ArrowLeft/ArrowRight switching between top-level menus while one is open, disabled-trigger skipping and hover switching; there is no built-in mobile layout.",
   "navigation-menu":
     "nav > ul > li. Triggers use aria-expanded and aria-controls; panels are [data-popover] with links. Link parts use [data-slot=\"icon\"], [data-slot=\"title\"] and [data-slot=\"description\"]. The trigger chevron rotates while expanded. The shipped menu behavior opens and closes panels and supports ArrowDown, Escape and Tab; there is no built-in mobile layout.",
   sheet:

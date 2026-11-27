@@ -130,6 +130,11 @@ navigation-menu panels.
 - Selected and highlighted options: `--accent` background and
   `--accent-foreground`; selected listbox options also use font-weight 500 and
   the check indicator.
+- Menubar bars follow the style's fixed height: Nova, Lyra and Rhea `2rem`;
+  Vega, Maia, Mira and Luma `2.25rem`; Sera `2.5rem`. Triggers use `--muted`
+  for hover, expanded and focus-visible, while menu items keep `--accent`.
+  Top-level panels start at `9rem` in Nova, Vega, Lyra and Rhea, `8rem` in
+  Mira and `12rem` in Maia, Luma and Sera; nested panels use `8rem`.
 
 ### Tooltip
 

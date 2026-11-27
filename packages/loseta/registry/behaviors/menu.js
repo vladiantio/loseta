@@ -263,10 +263,29 @@ function scheduleClose(element, delay, callback) {
 }
 
 /** @param {HTMLElement} menubar */
-function menubarTriggers(menubar) {
+function menubarItems(menubar) {
   return [...menubar.querySelectorAll("[role='menuitem'][aria-haspopup='menu']")].filter(
     (trigger) => !trigger.closest("[role='menu']")
   );
+}
+
+/** @param {HTMLElement} menubar */
+function menubarTriggers(menubar) {
+  return menubarItems(menubar).filter((trigger) => !isDisabled(trigger));
+}
+
+/** @param {Document | Element} root */
+function initMenubarTabs(root) {
+  for (const menubar of root.querySelectorAll("[role='menubar']")) {
+    if (!isHTMLElement(menubar)) continue;
+
+    const triggers = menubarItems(menubar);
+    const first = menubarTriggers(menubar)[0] ?? triggers[0];
+
+    for (const trigger of triggers) {
+      trigger.setAttribute("tabindex", trigger === first ? "0" : "-1");
+    }
+  }
 }
 
 // Clicking a menu trigger, sub-trigger or menubar item toggles its panel.
@@ -406,6 +425,37 @@ on(
       }
     }
 
+    if ((event.key === openKey || event.key === closeKey) && panel) {
+      const entry = openMenus.get(panel);
+      const parentMenu = menu.parentElement?.closest("[role='menu']");
+      const root = entry?.root;
+
+      if (
+        entry &&
+        !parentMenu &&
+        root instanceof HTMLElement &&
+        root.matches("[role='menubar']")
+      ) {
+        const triggers = menubarTriggers(root);
+        const index = triggers.indexOf(entry.trigger);
+
+        if (index !== -1 && triggers.length > 1) {
+          const step = event.key === openKey ? 1 : -1;
+          const next = triggers[(index + step + triggers.length) % triggers.length];
+
+          if (isHTMLElement(next)) {
+            const nextPanel = menuPanel(next);
+
+            if (nextPanel) {
+              openEntry(next, nextPanel, "first");
+              event.preventDefault();
+              return true;
+            }
+          }
+        }
+      }
+    }
+
     if (event.key === "Tab") {
       closeAll(false);
       return true;
@@ -472,6 +522,17 @@ on("keydown", "[role='menubar']", (event, menubar) => {
     openEntry(event.target, panel, "last");
     event.preventDefault();
     return true;
+  }
+});
+
+// Only the focused top-level trigger stays in the tab order.
+on("focusin", ".menubar [role='menuitem'][aria-haspopup='menu']", (_event, target) => {
+  if (!isHTMLElement(target) || target.closest("[role='menu']")) return;
+  const menubar = target.closest("[role='menubar']");
+  if (!isHTMLElement(menubar)) return;
+
+  for (const trigger of menubarItems(menubar)) {
+    trigger.setAttribute("tabindex", trigger === target ? "0" : "-1");
   }
 });
 
@@ -687,4 +748,5 @@ on("focusout", ".navigation-menu", (event, root) => {
   }
 });
 
+if (typeof document !== "undefined") initMenubarTabs(document);
 init();

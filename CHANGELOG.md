@@ -15,6 +15,12 @@
 
 ### Changed
 
+- Menubar follows the current shadcn visual language across all eight styles: a
+  transparent bar with per-style fixed heights, gaps, padding and radii, muted
+  trigger states, per-style panel minimum widths and shared menu items with the
+  indicator at the inline start. The examples now mirror shadcn's Default,
+  Checkbox, Radio, Submenu, Icons and RTL demos.
+
 - Sheet follows the current shadcn Base/Radix common anatomy and visual language
   across all eight styles while keeping the native dialog contract: popover
   surfaces, per-part padding, stacked footer actions, per-style typography and
@@ -34,6 +40,13 @@
   style.
 
 ### Fixed
+
+- Menubar no longer centers panel menu items, keeps one top-level trigger in
+  the tab order, switches between open top-level menus with
+  `ArrowLeft`/`ArrowRight` and skips disabled triggers.
+- Nested menu panels now anchor to their sub-trigger row, including when the
+  `role="none"` wrapper sits inside a `role="group"`, and offset by the menu
+  surface padding so their first item aligns with that row.
 
 - Sheet triggers now maintain `aria-haspopup`, `aria-controls` and
   `aria-expanded`; examples link every description, use logical side labels and

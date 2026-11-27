@@ -1,31 +1,37 @@
 <!-- Default -->
-<div style="display: flex; align-items: flex-start; justify-content: center; min-height: 16rem; padding-top: 1rem">
+<div style="display: flex; align-items: flex-start; justify-content: center; min-height: 20rem; padding-top: 1rem">
   <div class="menubar" role="menubar" aria-label="Main">
     <div class="menubar-item" role="none">
       <button type="button" role="menuitem" aria-haspopup="menu" aria-expanded="false">File</button>
       <div data-popover data-side="bottom" aria-hidden="true">
         <div role="menu">
-          <div role="group" aria-label="File">
+          <div role="group">
             <button type="button" role="menuitem">New Tab <span data-slot="shortcut">⌘T</span></button>
             <button type="button" role="menuitem">New Window <span data-slot="shortcut">⌘N</span></button>
             <button type="button" role="menuitem" disabled>New Incognito Window</button>
           </div>
           <div role="separator"></div>
-          <div role="none">
-            <button type="button" role="menuitem" aria-haspopup="menu" aria-expanded="false" aria-controls="demo-menubar-file-share">
-              Share
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" data-rtl-flip><path d="m9 18 6-6-6-6"/></svg>
-            </button>
-            <div data-popover data-side="inline-end" id="demo-menubar-file-share" aria-hidden="true">
-              <div role="menu">
-                <button type="button" role="menuitem">Email link</button>
-                <button type="button" role="menuitem">Messages</button>
-                <button type="button" role="menuitem">Notes</button>
+          <div role="group">
+            <div role="none">
+              <button type="button" role="menuitem" aria-haspopup="menu" aria-expanded="false" aria-controls="demo-menubar-file-share">
+                Share
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" data-rtl-flip><path d="m9 18 6-6-6-6"/></svg>
+              </button>
+              <div data-popover data-side="inline-end" id="demo-menubar-file-share" aria-hidden="true">
+                <div role="menu">
+                  <div role="group">
+                    <button type="button" role="menuitem">Email link</button>
+                    <button type="button" role="menuitem">Messages</button>
+                    <button type="button" role="menuitem">Notes</button>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
           <div role="separator"></div>
-          <button type="button" role="menuitem">Print... <span data-slot="shortcut">⌘P</span></button>
+          <div role="group">
+            <button type="button" role="menuitem">Print... <span data-slot="shortcut">⌘P</span></button>
+          </div>
         </div>
       </div>
     </div>
@@ -33,28 +39,38 @@
       <button type="button" role="menuitem" aria-haspopup="menu" aria-expanded="false">Edit</button>
       <div data-popover data-side="bottom" aria-hidden="true">
         <div role="menu">
-          <button type="button" role="menuitem">Undo <span data-slot="shortcut">⌘Z</span></button>
-          <button type="button" role="menuitem">Redo <span data-slot="shortcut">⇧⌘Z</span></button>
+          <div role="group">
+            <button type="button" role="menuitem">Undo <span data-slot="shortcut">⌘Z</span></button>
+            <button type="button" role="menuitem">Redo <span data-slot="shortcut">⇧⌘Z</span></button>
+          </div>
           <div role="separator"></div>
-          <div role="none">
-            <button type="button" role="menuitem" aria-haspopup="menu" aria-expanded="false" aria-controls="demo-menubar-edit-find">
-              Find
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" data-rtl-flip><path d="m9 18 6-6-6-6"/></svg>
-            </button>
-            <div data-popover data-side="inline-end" id="demo-menubar-edit-find" aria-hidden="true">
-              <div role="menu">
-                <button type="button" role="menuitem">Search the web</button>
-                <div role="separator"></div>
-                <button type="button" role="menuitem">Find...</button>
-                <button type="button" role="menuitem">Find Next</button>
-                <button type="button" role="menuitem">Find Previous</button>
+          <div role="group">
+            <div role="none">
+              <button type="button" role="menuitem" aria-haspopup="menu" aria-expanded="false" aria-controls="demo-menubar-edit-find">
+                Find
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" data-rtl-flip><path d="m9 18 6-6-6-6"/></svg>
+              </button>
+              <div data-popover data-side="inline-end" id="demo-menubar-edit-find" aria-hidden="true">
+                <div role="menu">
+                  <div role="group">
+                    <button type="button" role="menuitem">Search the web</button>
+                  </div>
+                  <div role="separator"></div>
+                  <div role="group">
+                    <button type="button" role="menuitem">Find...</button>
+                    <button type="button" role="menuitem">Find Next</button>
+                    <button type="button" role="menuitem">Find Previous</button>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
           <div role="separator"></div>
-          <button type="button" role="menuitem">Cut</button>
-          <button type="button" role="menuitem">Copy</button>
-          <button type="button" role="menuitem">Paste</button>
+          <div role="group">
+            <button type="button" role="menuitem">Cut</button>
+            <button type="button" role="menuitem">Copy</button>
+            <button type="button" role="menuitem">Paste</button>
+          </div>
         </div>
       </div>
     </div>
@@ -62,19 +78,29 @@
       <button type="button" role="menuitem" aria-haspopup="menu" aria-expanded="false">View</button>
       <div data-popover data-side="bottom" aria-hidden="true">
         <div role="menu">
-          <button type="button" role="menuitemcheckbox" aria-checked="false">
-            Bookmarks Bar
-            <span data-slot="indicator" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg></span>
-          </button>
-          <button type="button" role="menuitemcheckbox" aria-checked="true">
-            Full URLs
-            <span data-slot="indicator" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg></span>
-          </button>
+          <div role="group">
+            <button type="button" role="menuitemcheckbox" aria-checked="false">
+              <span data-slot="indicator" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg></span>
+              Bookmarks Bar
+            </button>
+            <button type="button" role="menuitemcheckbox" aria-checked="true">
+              <span data-slot="indicator" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg></span>
+              Full URLs
+            </button>
+          </div>
           <div role="separator"></div>
-          <button type="button" role="menuitem">Reload <span data-slot="shortcut">⌘R</span></button>
-          <button type="button" role="menuitem" disabled>Force Reload <span data-slot="shortcut">⇧⌘R</span></button>
+          <div role="group">
+            <button type="button" role="menuitem" data-inset>Reload <span data-slot="shortcut">⌘R</span></button>
+            <button type="button" role="menuitem" data-inset disabled>Force Reload <span data-slot="shortcut">⇧⌘R</span></button>
+          </div>
           <div role="separator"></div>
-          <button type="button" role="menuitem">Toggle Fullscreen</button>
+          <div role="group">
+            <button type="button" role="menuitem" data-inset>Toggle Fullscreen</button>
+          </div>
+          <div role="separator"></div>
+          <div role="group">
+            <button type="button" role="menuitem" data-inset>Hide Sidebar</button>
+          </div>
         </div>
       </div>
     </div>
@@ -84,21 +110,26 @@
         <div role="menu">
           <div role="group" aria-label="Profiles">
             <button type="button" role="menuitemradio" aria-checked="false">
-              Andy
               <span data-slot="indicator" aria-hidden="true"></span>
+              Andy
             </button>
             <button type="button" role="menuitemradio" aria-checked="true">
-              Benoit
               <span data-slot="indicator" aria-hidden="true"></span>
+              Benoit
             </button>
             <button type="button" role="menuitemradio" aria-checked="false">
-              Luis
               <span data-slot="indicator" aria-hidden="true"></span>
+              Luis
             </button>
           </div>
           <div role="separator"></div>
-          <button type="button" role="menuitem" data-inset>Edit...</button>
-          <button type="button" role="menuitem" data-inset>Add Profile...</button>
+          <div role="group">
+            <button type="button" role="menuitem" data-inset>Edit...</button>
+          </div>
+          <div role="separator"></div>
+          <div role="group">
+            <button type="button" role="menuitem" data-inset>Add Profile...</button>
+          </div>
         </div>
       </div>
     </div>
@@ -113,12 +144,12 @@
       <div data-popover data-side="bottom" aria-hidden="true">
         <div role="menu">
           <button type="button" role="menuitemcheckbox" aria-checked="false">
-            Always Show Bookmarks Bar
             <span data-slot="indicator" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg></span>
+            Always Show Bookmarks Bar
           </button>
           <button type="button" role="menuitemcheckbox" aria-checked="true">
-            Always Show Full URLs
             <span data-slot="indicator" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg></span>
+            Always Show Full URLs
           </button>
           <div role="separator"></div>
           <button type="button" role="menuitem" data-inset>Reload <span data-slot="shortcut">⌘R</span></button>
@@ -131,16 +162,16 @@
       <div data-popover data-side="bottom" aria-hidden="true">
         <div role="menu">
           <button type="button" role="menuitemcheckbox" aria-checked="true">
+            <span data-slot="indicator" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg></span>
             Strikethrough
-            <span data-slot="indicator" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg></span>
           </button>
           <button type="button" role="menuitemcheckbox" aria-checked="false">
+            <span data-slot="indicator" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg></span>
             Code
-            <span data-slot="indicator" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg></span>
           </button>
           <button type="button" role="menuitemcheckbox" aria-checked="false">
-            Superscript
             <span data-slot="indicator" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg></span>
+            Superscript
           </button>
         </div>
       </div>
@@ -157,16 +188,16 @@
         <div role="menu">
           <div role="group" aria-label="Profiles">
             <button type="button" role="menuitemradio" aria-checked="false">
-              Andy
               <span data-slot="indicator" aria-hidden="true"></span>
+              Andy
             </button>
             <button type="button" role="menuitemradio" aria-checked="true">
-              Benoit
               <span data-slot="indicator" aria-hidden="true"></span>
+              Benoit
             </button>
             <button type="button" role="menuitemradio" aria-checked="false">
-              Luis
               <span data-slot="indicator" aria-hidden="true"></span>
+              Luis
             </button>
           </div>
           <div role="separator"></div>
@@ -181,16 +212,16 @@
         <div role="menu">
           <div role="group" aria-label="Theme">
             <button type="button" role="menuitemradio" aria-checked="false">
-              Light
               <span data-slot="indicator" aria-hidden="true"></span>
+              Light
             </button>
             <button type="button" role="menuitemradio" aria-checked="false">
-              Dark
               <span data-slot="indicator" aria-hidden="true"></span>
+              Dark
             </button>
             <button type="button" role="menuitemradio" aria-checked="true">
-              System
               <span data-slot="indicator" aria-hidden="true"></span>
+              System
             </button>
           </div>
         </div>
@@ -206,21 +237,27 @@
       <button type="button" role="menuitem" aria-haspopup="menu" aria-expanded="false">File</button>
       <div data-popover data-side="bottom" aria-hidden="true">
         <div role="menu">
-          <div role="none">
-            <button type="button" role="menuitem" aria-haspopup="menu" aria-expanded="false" aria-controls="demo-menubar-submenu-share">
-              Share
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" data-rtl-flip><path d="m9 18 6-6-6-6"/></svg>
-            </button>
-            <div data-popover data-side="inline-end" id="demo-menubar-submenu-share" aria-hidden="true">
-              <div role="menu">
-                <button type="button" role="menuitem">Email link</button>
-                <button type="button" role="menuitem">Messages</button>
-                <button type="button" role="menuitem">Notes</button>
+          <div role="group">
+            <div role="none">
+              <button type="button" role="menuitem" aria-haspopup="menu" aria-expanded="false" aria-controls="demo-menubar-submenu-share">
+                Share
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" data-rtl-flip><path d="m9 18 6-6-6-6"/></svg>
+              </button>
+              <div data-popover data-side="inline-end" id="demo-menubar-submenu-share" aria-hidden="true">
+                <div role="menu">
+                  <div role="group">
+                    <button type="button" role="menuitem">Email link</button>
+                    <button type="button" role="menuitem">Messages</button>
+                    <button type="button" role="menuitem">Notes</button>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
           <div role="separator"></div>
-          <button type="button" role="menuitem">Print... <span data-slot="shortcut">⌘P</span></button>
+          <div role="group">
+            <button type="button" role="menuitem">Print... <span data-slot="shortcut">⌘P</span></button>
+          </div>
         </div>
       </div>
     </div>
@@ -228,26 +265,34 @@
       <button type="button" role="menuitem" aria-haspopup="menu" aria-expanded="false">Edit</button>
       <div data-popover data-side="bottom" aria-hidden="true">
         <div role="menu">
-          <button type="button" role="menuitem">Undo <span data-slot="shortcut">⌘Z</span></button>
-          <button type="button" role="menuitem">Redo <span data-slot="shortcut">⇧⌘Z</span></button>
+          <div role="group">
+            <button type="button" role="menuitem">Undo <span data-slot="shortcut">⌘Z</span></button>
+            <button type="button" role="menuitem">Redo <span data-slot="shortcut">⇧⌘Z</span></button>
+          </div>
           <div role="separator"></div>
-          <div role="none">
-            <button type="button" role="menuitem" aria-haspopup="menu" aria-expanded="false" aria-controls="demo-menubar-submenu-find">
-              Find
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" data-rtl-flip><path d="m9 18 6-6-6-6"/></svg>
-            </button>
-            <div data-popover data-side="inline-end" id="demo-menubar-submenu-find" aria-hidden="true">
-              <div role="menu">
-                <button type="button" role="menuitem">Find...</button>
-                <button type="button" role="menuitem">Find Next</button>
-                <button type="button" role="menuitem">Find Previous</button>
+          <div role="group">
+            <div role="none">
+              <button type="button" role="menuitem" aria-haspopup="menu" aria-expanded="false" aria-controls="demo-menubar-submenu-find">
+                Find
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" data-rtl-flip><path d="m9 18 6-6-6-6"/></svg>
+              </button>
+              <div data-popover data-side="inline-end" id="demo-menubar-submenu-find" aria-hidden="true">
+                <div role="menu">
+                  <div role="group">
+                    <button type="button" role="menuitem">Find...</button>
+                    <button type="button" role="menuitem">Find Next</button>
+                    <button type="button" role="menuitem">Find Previous</button>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
           <div role="separator"></div>
-          <button type="button" role="menuitem">Cut</button>
-          <button type="button" role="menuitem">Copy</button>
-          <button type="button" role="menuitem">Paste</button>
+          <div role="group">
+            <button type="button" role="menuitem">Cut</button>
+            <button type="button" role="menuitem">Copy</button>
+            <button type="button" role="menuitem">Paste</button>
+          </div>
         </div>
       </div>
     </div>
@@ -272,10 +317,12 @@
       <button type="button" role="menuitem" aria-haspopup="menu" aria-expanded="false">More</button>
       <div data-popover data-side="bottom" aria-hidden="true">
         <div role="menu">
-          <button type="button" role="menuitem"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg> Settings</button>
-          <button type="button" role="menuitem"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><path d="M12 17h.01"/></svg> Help</button>
-          <div role="separator"></div>
-          <button type="button" role="menuitem" data-variant="destructive"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 6h18"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><line x1="10" x2="10" y1="11" y2="17"/><line x1="14" x2="14" y1="11" y2="17"/></svg> Delete</button>
+          <div role="group">
+            <button type="button" role="menuitem"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg> Settings</button>
+            <button type="button" role="menuitem"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><path d="M12 17h.01"/></svg> Help</button>
+            <div role="separator"></div>
+            <button type="button" role="menuitem" data-variant="destructive"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 6h18"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><line x1="10" x2="10" y1="11" y2="17"/><line x1="14" x2="14" y1="11" y2="17"/></svg> Delete</button>
+          </div>
         </div>
       </div>
     </div>
@@ -283,31 +330,39 @@
 </div>
 
 <!-- Right-to-left -->
-<div style="display: flex; align-items: flex-start; justify-content: center; min-height: 16rem; padding-top: 1rem">
+<div style="display: flex; align-items: flex-start; justify-content: center; min-height: 20rem; padding-top: 1rem">
   <div class="menubar" role="menubar" aria-label="القائمة الرئيسية" dir="rtl" lang="ar">
     <div class="menubar-item" role="none">
       <button type="button" role="menuitem" aria-haspopup="menu" aria-expanded="false">ملف</button>
       <div data-popover data-side="bottom" aria-hidden="true">
         <div role="menu">
-          <button type="button" role="menuitem">علامة تبويب جديدة <span data-slot="shortcut">⌘T</span></button>
-          <button type="button" role="menuitem">نافذة جديدة <span data-slot="shortcut">⌘N</span></button>
-          <button type="button" role="menuitem" disabled>نافذة التصفح المتخفي الجديدة</button>
+          <div role="group">
+            <button type="button" role="menuitem">علامة تبويب جديدة <span data-slot="shortcut">⌘T</span></button>
+            <button type="button" role="menuitem">نافذة جديدة <span data-slot="shortcut">⌘N</span></button>
+            <button type="button" role="menuitem" disabled>نافذة التصفح المتخفي الجديدة</button>
+          </div>
           <div role="separator"></div>
-          <div role="none">
-            <button type="button" role="menuitem" aria-haspopup="menu" aria-expanded="false" aria-controls="demo-menubar-rtl-share">
-              مشاركة
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" data-rtl-flip><path d="m9 18 6-6-6-6"/></svg>
-            </button>
-            <div data-popover data-side="inline-end" id="demo-menubar-rtl-share" aria-hidden="true">
-              <div role="menu">
-                <button type="button" role="menuitem">رابط البريد الإلكتروني</button>
-                <button type="button" role="menuitem">الرسائل</button>
-                <button type="button" role="menuitem">الملاحظات</button>
+          <div role="group">
+            <div role="none">
+              <button type="button" role="menuitem" aria-haspopup="menu" aria-expanded="false" aria-controls="demo-menubar-rtl-share">
+                مشاركة
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" data-rtl-flip><path d="m9 18 6-6-6-6"/></svg>
+              </button>
+              <div data-popover data-side="inline-end" id="demo-menubar-rtl-share" aria-hidden="true">
+                <div role="menu">
+                  <div role="group">
+                    <button type="button" role="menuitem">رابط البريد الإلكتروني</button>
+                    <button type="button" role="menuitem">الرسائل</button>
+                    <button type="button" role="menuitem">الملاحظات</button>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
           <div role="separator"></div>
-          <button type="button" role="menuitem">طباعة... <span data-slot="shortcut">⌘P</span></button>
+          <div role="group">
+            <button type="button" role="menuitem">طباعة... <span data-slot="shortcut">⌘P</span></button>
+          </div>
         </div>
       </div>
     </div>
@@ -315,12 +370,38 @@
       <button type="button" role="menuitem" aria-haspopup="menu" aria-expanded="false">تعديل</button>
       <div data-popover data-side="bottom" aria-hidden="true">
         <div role="menu">
-          <button type="button" role="menuitem">تراجع <span data-slot="shortcut">⌘Z</span></button>
-          <button type="button" role="menuitem">إعادة <span data-slot="shortcut">⇧⌘Z</span></button>
+          <div role="group">
+            <button type="button" role="menuitem">تراجع <span data-slot="shortcut">⌘Z</span></button>
+            <button type="button" role="menuitem">إعادة <span data-slot="shortcut">⇧⌘Z</span></button>
+          </div>
           <div role="separator"></div>
-          <button type="button" role="menuitem">قص</button>
-          <button type="button" role="menuitem">نسخ</button>
-          <button type="button" role="menuitem">لصق</button>
+          <div role="group">
+            <div role="none">
+              <button type="button" role="menuitem" aria-haspopup="menu" aria-expanded="false" aria-controls="demo-menubar-rtl-find">
+                بحث
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" data-rtl-flip><path d="m9 18 6-6-6-6"/></svg>
+              </button>
+              <div data-popover data-side="inline-end" id="demo-menubar-rtl-find" aria-hidden="true">
+                <div role="menu">
+                  <div role="group">
+                    <button type="button" role="menuitem">البحث على الويب</button>
+                  </div>
+                  <div role="separator"></div>
+                  <div role="group">
+                    <button type="button" role="menuitem">بحث...</button>
+                    <button type="button" role="menuitem">البحث التالي</button>
+                    <button type="button" role="menuitem">البحث السابق</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div role="separator"></div>
+          <div role="group">
+            <button type="button" role="menuitem">قص</button>
+            <button type="button" role="menuitem">نسخ</button>
+            <button type="button" role="menuitem">لصق</button>
+          </div>
         </div>
       </div>
     </div>
@@ -328,19 +409,29 @@
       <button type="button" role="menuitem" aria-haspopup="menu" aria-expanded="false">عرض</button>
       <div data-popover data-side="bottom" aria-hidden="true">
         <div role="menu">
-          <button type="button" role="menuitemcheckbox" aria-checked="false">
-            شريط الإشارات المرجعية
-            <span data-slot="indicator" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg></span>
-          </button>
-          <button type="button" role="menuitemcheckbox" aria-checked="true">
-            عناوين URL الكاملة
-            <span data-slot="indicator" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg></span>
-          </button>
+          <div role="group">
+            <button type="button" role="menuitemcheckbox" aria-checked="false">
+              <span data-slot="indicator" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg></span>
+              شريط الإشارات المرجعية
+            </button>
+            <button type="button" role="menuitemcheckbox" aria-checked="true">
+              <span data-slot="indicator" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg></span>
+              عناوين URL الكاملة
+            </button>
+          </div>
           <div role="separator"></div>
-          <button type="button" role="menuitem">إعادة تحميل <span data-slot="shortcut">⌘R</span></button>
-          <button type="button" role="menuitem" disabled>إعادة تحميل قسري <span data-slot="shortcut">⇧⌘R</span></button>
+          <div role="group">
+            <button type="button" role="menuitem" data-inset>إعادة تحميل <span data-slot="shortcut">⌘R</span></button>
+            <button type="button" role="menuitem" data-inset disabled>إعادة تحميل قسري <span data-slot="shortcut">⇧⌘R</span></button>
+          </div>
           <div role="separator"></div>
-          <button type="button" role="menuitem">تبديل وضع ملء الشاشة</button>
+          <div role="group">
+            <button type="button" role="menuitem" data-inset>تبديل وضع ملء الشاشة</button>
+          </div>
+          <div role="separator"></div>
+          <div role="group">
+            <button type="button" role="menuitem" data-inset>إخفاء الشريط الجانبي</button>
+          </div>
         </div>
       </div>
     </div>
@@ -350,21 +441,26 @@
         <div role="menu">
           <div role="group" aria-label="الملفات الشخصية">
             <button type="button" role="menuitemradio" aria-checked="false">
-              Andy
               <span data-slot="indicator" aria-hidden="true"></span>
+              Andy
             </button>
             <button type="button" role="menuitemradio" aria-checked="true">
-              Benoit
               <span data-slot="indicator" aria-hidden="true"></span>
+              Benoit
             </button>
             <button type="button" role="menuitemradio" aria-checked="false">
-              Luis
               <span data-slot="indicator" aria-hidden="true"></span>
+              Luis
             </button>
           </div>
           <div role="separator"></div>
-          <button type="button" role="menuitem" data-inset>تعديل...</button>
-          <button type="button" role="menuitem" data-inset>إضافة ملف شخصي...</button>
+          <div role="group">
+            <button type="button" role="menuitem" data-inset>تعديل...</button>
+          </div>
+          <div role="separator"></div>
+          <div role="group">
+            <button type="button" role="menuitem" data-inset>إضافة ملف شخصي...</button>
+          </div>
         </div>
       </div>
     </div>

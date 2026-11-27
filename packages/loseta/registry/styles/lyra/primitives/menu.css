@@ -7,7 +7,8 @@
     overflow-y: auto;
     border-radius: 0;
     background-color: var(--popover);
-    padding: 0.25rem;
+    --menu-panel-padding: 0.25rem;
+    padding: var(--menu-panel-padding);
     color: var(--popover-foreground);
     box-shadow: 0 0 0 1px color-mix(in oklab, var(--foreground) 10%, transparent), var(--shadow-md);
     transition-duration: 100ms;

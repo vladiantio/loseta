@@ -47,10 +47,21 @@
     }
   }
 
-  [role='menu'] > [role='none'] {
+  /* The wrapper anchors the panel even when it sits inside a role="group". */
+  [role='menu'] [role='none'] {
     position: relative;
     display: flex;
     flex-direction: column;
+  }
+
+  [role='menu'] [role='none'] > [data-popover]:is(
+      [data-side='inline-start'],
+      [data-side='inline-end']
+    ) {
+    &:not([data-align]),
+    &[data-align='start'] {
+      inset-block-start: calc(-1 * var(--menu-panel-padding, 0.25rem));
+    }
   }
 
   [role='menu'] [role='heading'] {

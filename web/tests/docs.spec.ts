@@ -2518,6 +2518,7 @@ test("menubar switches between menus", async ({ page }) => {
   const items = menubar.locator(".menubar-item");
   const file = items.nth(0).locator("[data-popover]").first();
   const edit = items.nth(1).locator("[data-popover]").first();
+  const view = items.nth(2).locator("[data-popover]").first();
 
   await menubar.getByRole("menuitem", { name: "File", exact: true }).click();
   await expect(file).toHaveAttribute("aria-hidden", "false");
@@ -2526,9 +2527,14 @@ test("menubar switches between menus", async ({ page }) => {
   await menubar.getByRole("menuitem", { name: "Edit", exact: true }).click();
   await expect(file).toHaveAttribute("aria-hidden", "true");
   await expect(edit).toHaveAttribute("aria-hidden", "false");
+  await expect(edit.locator("[role='menuitem']").first()).toBeFocused();
+
+  await page.keyboard.press("ArrowRight");
+  await expect(edit).toHaveAttribute("aria-hidden", "true");
+  await expect(view).toHaveAttribute("aria-hidden", "false");
 
   await page.keyboard.press("Escape");
-  await expect(edit).toHaveAttribute("aria-hidden", "true");
+  await expect(view).toHaveAttribute("aria-hidden", "true");
 });
 
 test("menubar submenus keep the parent open and use menu typography", async ({
@@ -2552,6 +2558,15 @@ test("menubar submenus keep the parent open and use menu typography", async ({
   await expect(file).toHaveAttribute("aria-hidden", "false");
   await expect(item).toBeVisible();
   await expect(item).toHaveCSS("font-weight", "400");
+
+  await expect(submenu).toHaveCSS("opacity", "1");
+  const shareBox = await share.boundingBox();
+  const itemBox = await item.boundingBox();
+  expect(shareBox).not.toBeNull();
+  expect(itemBox).not.toBeNull();
+  if (shareBox && itemBox) {
+    expect(Math.abs(itemBox.y - shareBox.y)).toBeLessThanOrEqual(1);
+  }
 
   await page.keyboard.press("Escape");
   await expect(submenu).toHaveAttribute("aria-hidden", "true");

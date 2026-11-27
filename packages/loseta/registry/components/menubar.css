@@ -1,8 +1,7 @@
 /* Menubar */
 @layer loseta.components {
   .menubar {
-    display: flex;
-    width: fit-content;
+    display: inline-flex;
     align-items: center;
 
     > .menubar-item {
@@ -10,10 +9,9 @@
       display: inline-flex;
     }
 
-    [role='menuitem'] {
+    > .menubar-item > [role='menuitem'] {
       display: inline-flex;
       align-items: center;
-      justify-content: center;
       white-space: nowrap;
       outline-style: none;
       -webkit-user-select: none;
@@ -40,13 +38,26 @@
       }
     }
 
-    [role='menu'] {
+    [data-popover] {
+      max-inline-size: calc(100vw - 2rem);
+    }
+
+    > .menubar-item > [data-popover]:not([data-side]),
+    > .menubar-item > [data-popover][data-side='bottom'] {
+      margin-block-start: 0.5rem;
+    }
+
+    &:not([data-dropdown-menu-initialized]) [role='menu'] {
       :is([role='menuitem'], [role='menuitemcheckbox'], [role='menuitemradio']) {
         &:not([aria-disabled='true']):not(:disabled):hover {
           background-color: var(--accent);
           color: var(--accent-foreground);
         }
       }
+    }
+
+    > .menubar-item [role='none'] > [data-popover] {
+      min-inline-size: 8rem;
     }
   }
 }

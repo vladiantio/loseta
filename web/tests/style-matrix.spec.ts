@@ -272,17 +272,17 @@ const cases: StyleCase[] = [
   },
   {
     id: "menubar",
-    selector: ".docs-preview .menubar [role='menuitem']",
+    selector: ".docs-preview .menubar",
     property: "height",
     values: {
-      nova: "28px",
-      vega: "32px",
-      maia: "32px",
-      lyra: "28px",
-      mira: "24px",
-      luma: "32px",
-      sera: "36px",
-      rhea: "28px"
+      nova: "32px",
+      vega: "36px",
+      maia: "36px",
+      lyra: "32px",
+      mira: "36px",
+      luma: "36px",
+      sera: "40px",
+      rhea: "32px"
     }
   },
   {

@@ -152,12 +152,66 @@ test("menubar moves across triggers and switches menus on hover", async ({ page 
   await expect(panels.nth(0)).toHaveAttribute("aria-hidden", "true");
 });
 
+test("menubar arrows switch open menus and skip disabled triggers", async ({ page }) => {
+  const fixture = page.locator('[data-fixture="menubar"] [data-example="Default"]');
+  const menubar = fixture.locator("[role='menubar']");
+  const triggers = menubar.locator(".menubar-item > button[aria-haspopup='menu']");
+  const panels = menubar.locator(".menubar-item > [data-popover]");
+
+  await triggers.nth(0).click();
+  await expect(panels.nth(0).locator("[role='menuitem']").first()).toBeFocused();
+
+  await page.keyboard.press("ArrowRight");
+  await expect(panels.nth(1)).toHaveAttribute("aria-hidden", "false");
+  await expect(panels.nth(0)).toHaveAttribute("aria-hidden", "true");
+  await expect(panels.nth(1).locator("[role='menuitem']").first()).toBeFocused();
+
+  await page.keyboard.press("ArrowLeft");
+  await expect(panels.nth(0)).toHaveAttribute("aria-hidden", "false");
+  await expect(panels.nth(1)).toHaveAttribute("aria-hidden", "true");
+  await expect(panels.nth(0).locator("[role='menuitem']").first()).toBeFocused();
+
+  await triggers
+    .nth(1)
+    .evaluate((element) => element.setAttribute("aria-disabled", "true"));
+  await page.keyboard.press("ArrowRight");
+  await expect(panels.nth(2)).toHaveAttribute("aria-hidden", "false");
+  await expect(panels.nth(1)).toHaveAttribute("aria-hidden", "true");
+});
+
+test("menubar keeps one trigger in the tab order", async ({ page }) => {
+  const fixture = page.locator('[data-fixture="menubar"] [data-example="Default"]');
+  const menubar = fixture.locator("[role='menubar']");
+  const triggers = menubar.locator(".menubar-item > button[aria-haspopup='menu']");
+
+  await expect(triggers.nth(0)).toHaveAttribute("tabindex", "0");
+  await expect(triggers.nth(1)).toHaveAttribute("tabindex", "-1");
+
+  await triggers.nth(0).focus();
+  await expect(triggers.nth(0)).toHaveAttribute("tabindex", "0");
+  await expect(triggers.nth(1)).toHaveAttribute("tabindex", "-1");
+
+  await page.keyboard.press("ArrowRight");
+  await expect(triggers.nth(1)).toBeFocused();
+  await expect(triggers.nth(1)).toHaveAttribute("tabindex", "0");
+  await expect(triggers.nth(0)).toHaveAttribute("tabindex", "-1");
+});
+
 test("menubar horizontal arrows follow RTL direction", async ({ page }) => {
   const rtl = page.locator('[data-fixture="menubar"] [data-example="Right-to-left"]');
   const triggers = rtl.locator(".menubar-item > button[aria-haspopup='menu']");
+  const panels = rtl.locator(".menubar-item > [data-popover]");
+
   await triggers.nth(0).focus();
   await page.keyboard.press("ArrowLeft");
   await expect(triggers.nth(1)).toBeFocused();
+
+  await triggers.nth(0).click();
+  await expect(panels.nth(0)).toHaveAttribute("aria-hidden", "false");
+  await expect(panels.nth(0).locator("[role='menuitem']").first()).toBeFocused();
+  await page.keyboard.press("ArrowLeft");
+  await expect(panels.nth(1)).toHaveAttribute("aria-hidden", "false");
+  await expect(panels.nth(0)).toHaveAttribute("aria-hidden", "true");
 });
 
 test("menubar submenu Escape cancels a pending hover open", async ({ page }) => {

@@ -225,9 +225,9 @@ fixed 4px radius. Code Block uses `--radius-xl`; its `sm` size uses
   Cards, alerts, items, tables, menus, listbox options, tabs, code blocks,
   accordion content, avatar fallbacks and group counts, breadcrumb, pagination,
   hover cards, select triggers, sidebar links, toast items, command bodies,
-  message rows, bubbles, markers and trace rows follow it. Menubar and
-  navigation-menu triggers use it too. Sheets and drawers use `--text-sm`, except
-  Lyra and Mira which use `--text-xs`.
+  message rows, bubbles, markers and trace rows follow it. Navigation-menu
+  triggers use it too; menubar triggers use it except Lyra and Mira, which use
+  `--text-xs`. Sheets and drawers use `--text-sm`, except Lyra and Mira.
 - Conversation metadata uses `--text-xs`: message headers and footers,
   attachment descriptions, trace status pills and reaction counts. Attachment
   titles and content follow the row size. Questionnaire legends use
@@ -308,7 +308,7 @@ file they own, not by expecting a spacing API.
 | Input group, OTP | `--input` border, `--ring` control focus and destructive invalid ring. |
 | Listbox panel | `--popover` surface, foreground-at-10% ring and `--shadow-md`; options use `--accent` for highlight. |
 | Menu | Shared menu primitive: `--popover` surface, foreground-at-10% ring and the style's menu shadow. |
-| Menubar | `--background` bar with a 1px `--border` outline and `--shadow-xs`. |
+| Menubar | Transparent bar with a 1px `--border` outline; Vega adds `--shadow-xs`. Triggers use `--muted` for hover, expanded and focus-visible. |
 | Navigation menu | `--popover` panels through the popover primitive. |
 | Progress | `--primary` at 20% for the track and full `--primary` for the indicator. |
 | Resizable | `--border` outline, handle line and grip; `--ring` on handle hover and focus. |
@@ -330,8 +330,8 @@ fields, selects, checkboxes, radios and switches.
 
 | State | Visual rule |
 | --- | --- |
-| Hover | Primary fills mix toward transparent at 20%; outline and ghost use `--muted`; link underlines; menu items use `--accent`; table rows use muted at 50%, including while the row contains an expanded trigger. |
-| Focus visible | 1px `--ring` border plus a 3px `--ring`-at-50% shadow. Tabs also draw a 1px `--ring` outline; menu items use the accent background instead of a ring. Code Block rings the block while its `pre` is focused. |
+| Hover | Primary fills mix toward transparent at 20%; outline and ghost use `--muted`; link underlines; menu items use `--accent` while menubar triggers use `--muted`; table rows use muted at 50%, including while the row contains an expanded trigger. |
+| Focus visible | 1px `--ring` border plus a 3px `--ring`-at-50% shadow. Tabs also draw a 1px `--ring` outline; menu items use the accent background instead of a ring, and menubar triggers use `--muted`. Code Block rings the block while its `pre` is focused. |
 | Invalid | `--destructive` border plus a 3px destructive-at-20% shadow; dark mode uses stronger destructive mixes. A field containing an invalid control turns its text destructive. |
 | Disabled | 50% opacity. Buttons, tabs and menu items also drop pointer events; inputs, textareas and selects use a not-allowed cursor. Input groups tint the surface with `--input` at 50% (80% in dark) and fade addons. |
 | Active | Buttons translate down 1px, except triggers with `aria-haspopup`. |
@@ -369,7 +369,7 @@ visible. Progress uses a `Canvas` track with a `CanvasText` outline and a
 | Hover card | `18rem` wide | — |
 | Input group | `2rem` minimum height | Auto with a textarea |
 | Input OTP cell | `2.5rem` square | `sm` 2rem, `lg` 3rem |
-| Menubar trigger | `1.75rem` high | — |
+| Menubar bar | `2rem` in Nova, Lyra and Rhea; `2.25rem` in Vega, Maia, Mira and Luma; `2.5rem` in Sera | Trigger height follows its content and padding |
 | Navigation trigger | `2rem` high | — |
 | Progress | `0.25rem` high | — |
 | Resizable | Consumer-sized | Panels use `--panel-size`; nested groups reset it |
@@ -472,7 +472,7 @@ direction.
 | Kbd | `.kbd`, `.kbd-group` | Inline shortcut text or SVG; `.kbd-group` joins related keys. | — |
 | Label | `.label` | Native `<label>`; also supported as a direct label inside `.field`. A label wrapping a `.field` becomes a selectable card. | — |
 | Marker | `.marker` | `[data-slot="icon"]` and `[data-slot="content"]`. | `data-variant="default|separator|border"` |
-| Menubar | `.menubar`, `.menubar-item` | `role="menubar"`, `role="none"` item wrappers, `role="menuitem"` triggers with `aria-haspopup`/`aria-expanded`, and `[data-popover]` submenus with `role="menu"`. | Placement attributes on submenu panels; nested menus use a `role="none"` wrapper around the sub-trigger and its panel |
+| Menubar | `.menubar`, `.menubar-item` | `role="menubar"`, `role="none"` item wrappers, `role="menuitem"` triggers with `aria-haspopup`/`aria-expanded`, and `[data-popover]` submenus with `role="menu"`. Checkable items put `[data-slot="indicator"]` first. | Placement attributes on submenu panels; nested menus use a `role="none"` wrapper around the sub-trigger and its panel |
 | Message | `.message`, `.message-group` | Row with `[data-slot="avatar"]` and `[data-slot="content"]` containing header, bubble and footer slots. | `data-align="start|end"` |
 | Message scroller | `.message-scroller` | `.message-scroller-viewport` scroll container, `[data-slot="content"]` and optional `[data-slot="jump"]` button. The shipped behavior follows inserted messages and toggles the jump button. | Consumer-sized; `hidden` toggles the jump button; `change` reports `detail.following` |
 | Native select | `.native-select` | Native `<select>`; `optgroup` groups options. | `data-size="default|sm"`; native `required` and `disabled`; `aria-invalid` |
@@ -676,8 +676,10 @@ Notes:
 - Menubar, dropdown-menu and context-menu items share the internal `menu`
   primitive. It styles `[role="menu"]`, the menu item roles, headings,
   separators, shortcuts and indicators. A nested menu wraps its sub-trigger and
-  `[data-popover]` panel in a `role="none"` element; the wrapper is the
-  positioning anchor and the sub-trigger is highlighted while
+  `[data-popover]` panel in a `role="none"` element; any such wrapper inside the
+  menu, including one inside a `role="group"`, is the positioning anchor. The
+  panel offsets by the menu surface padding so its first item aligns with the
+  sub-trigger row, and the sub-trigger is highlighted while
   `aria-expanded="true"`. A menu surface that contains a submenu keeps its
   overflow visible so the nested panel is not clipped; keep those menus short
   instead of relying on their scroll container.
@@ -964,10 +966,12 @@ progress sweep slow down instead of stopping. This remains a known gap.
 - Context menus must move focus into the menu, return it on close and support
   arrow-key navigation. The shipped menu behavior owns the right-click and
   Shift+F10 handlers, the `--context-x`/`--context-y` coordinates and focus.
-- Menubars need roving focus, arrow keys and `aria-expanded` on each submenu
-  trigger. Submenu panels use `[role="menu"]` and its item roles, and nested
-  panels open with `data-side="inline-end"`. The shipped menu behavior owns the
-  keyboard and hover-switching model.
+- Menubars need one top-level trigger in the tab order, roving focus, arrow
+  keys and `aria-expanded` on each submenu trigger. `ArrowLeft`/`ArrowRight`
+  switch between top-level menus while one is open and skip disabled triggers.
+  Submenu panels use `[role="menu"]` and its item roles, and nested panels open
+  with `data-side="inline-end"`. The shipped menu behavior owns the keyboard
+  and hover-switching model.
 - Navigation menus need an accessible `nav` label, `aria-expanded` and
   `aria-controls` on panel triggers, and ordinary links inside panels. The
   shipped menu behavior owns open/close, ArrowDown and Escape; the mobile

@@ -30,7 +30,8 @@
     overflow-y: auto;
     border-radius: var(--radius-lg);
     background-color: var(--popover);
-    padding: 0.25rem;
+    --menu-panel-padding: 0.25rem;
+    padding: var(--menu-panel-padding);
     color: var(--popover-foreground);
     box-shadow: 0 0 0 1px color-mix(in oklab, var(--foreground) 10%, transparent), var(--shadow-md);
     transition-duration: 100ms;
@@ -3044,48 +3045,38 @@
 /* Menubar */
 @layer loseta.style {
   .menubar {
-    gap: 0.125rem;
+    block-size: 2.25rem;
     border-style: solid;
     border-width: 1px;
     border-color: var(--border);
-    border-radius: var(--radius-md);
-    background-color: var(--background);
+    border-radius: var(--radius-lg);
     padding: 0.25rem;
-    box-shadow: var(--shadow-xs);
 
     > .menubar-item > [role='menuitem'] {
-      height: 1.5rem;
-      gap: 0.375rem;
-      border-radius: var(--radius-sm);
       padding-inline: 0.5rem;
-      font-size: var(--text-sm);
-      line-height: var(--text-sm--line-height);
+      padding-block: 0.1875rem;
+      border-radius: var(--radius-sm);
+      font-size: var(--text-xs);
+      line-height: var(--text-xs--line-height);
       font-weight: 500;
 
       &:hover,
       &[aria-expanded='true'] {
-        background-color: var(--accent);
-        color: var(--accent-foreground);
+        background-color: var(--muted);
       }
 
       &:focus-visible {
-        background-color: var(--accent);
-        color: var(--accent-foreground);
+        background-color: var(--muted);
       }
 
       & svg {
-        width: 1rem;
-        height: 1rem;
+        inline-size: 1rem;
+        block-size: 1rem;
       }
     }
 
-    [data-popover] {
-      min-width: 8rem;
-      max-width: 20rem;
-    }
-
-    [role='menu'] :is([role='menuitem'], [role='menuitemcheckbox'], [role='menuitemradio']) {
-      white-space: nowrap;
+    > .menubar-item > [data-popover] {
+      min-inline-size: 8rem;
     }
   }
 }

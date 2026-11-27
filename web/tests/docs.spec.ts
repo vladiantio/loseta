@@ -3325,14 +3325,16 @@ test("carousel controls scroll the viewport and update indicators", async ({ pag
   ).toHaveAttribute("aria-current", "true");
 });
 
-test("resizable examples label handles and show the grip", async ({ page }) => {
+test("resizable examples label handles and expose panel values", async ({
+  page
+}) => {
   await page.goto("/docs/components/resizable");
 
   const handles = page.locator(".docs-preview [role='separator']");
   const labels = await handles.evaluateAll((elements) =>
     elements.map((element) => element.getAttribute("aria-label") ?? "")
   );
-  expect(labels.length).toBeGreaterThanOrEqual(7);
+  expect(labels.length).toBe(9);
   expect(labels.every((label) => label.trim().length > 0)).toBe(true);
 
   const example = page.locator("section.example").filter({
@@ -3342,6 +3344,31 @@ test("resizable examples label handles and show the grip", async ({ page }) => {
 
   await expect(handle).toHaveAttribute("aria-valuenow", "25");
   await expect(handle.locator("[data-slot='grip']")).toHaveCount(1);
+
+  const three = page.locator("section.example").filter({
+    has: page.locator(".example-title", { hasText: /^Three panels$/ })
+  });
+  const threeHandles = three.locator("[data-slot='handle']");
+  await expect(threeHandles).toHaveCount(2);
+  await expect(threeHandles.nth(1)).toHaveAttribute("aria-valuenow", "30");
+  await expect(threeHandles.nth(1)).toHaveAttribute(
+    "aria-controls",
+    "demo-resizable-three-two"
+  );
+
+  const defaultExample = page.locator(".docs-preview").first();
+  const outer = defaultExample.locator(".resizable").first();
+  const inner = outer.locator(".resizable").last();
+  await expect(outer.locator(":scope > [data-slot='handle']")).toHaveAttribute(
+    "aria-valuenow",
+    "50"
+  );
+  await expect(inner.locator(":scope > [data-slot='handle']")).toHaveAttribute(
+    "aria-valuenow",
+    "25"
+  );
+  await expect(outer).toHaveCSS("border-top-width", "1px");
+  await expect(inner).toHaveCSS("border-top-width", "0px");
 });
 
 test("toast dismissal hides the item", async ({ page }) => {

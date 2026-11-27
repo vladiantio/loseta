@@ -579,17 +579,17 @@ const cases: StyleCase[] = [
   },
   {
     id: "resizable",
-    selector: ".docs-preview .resizable-panel",
-    property: "padding-top",
+    selector: ".docs-preview .resizable",
+    property: "border-top-left-radius",
     values: {
-      nova: "16px",
-      vega: "20px",
-      maia: "20px",
-      lyra: "12px",
-      mira: "12px",
-      luma: "20px",
-      sera: "24px",
-      rhea: "16px"
+      nova: "10px",
+      vega: "8px",
+      maia: "18px",
+      lyra: "0px",
+      mira: "10px",
+      luma: "26px",
+      sera: "0px",
+      rhea: "18px"
     }
   },
   {

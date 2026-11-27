@@ -4,6 +4,10 @@
 
 ### Added
 
+- Resizable now supports any number of panels and handles per group, with
+  `--panel-min` and `--panel-max` percentage constraints, adjacent-only
+  redistribution, double-click reset and `change` reporting every direct panel
+  size.
 - Sheet now exposes optional `data-slot="sheet-content"` on its single direct
   panel and uses the shared `data-slot="close"` for the corner close button.
 - Drawer now exposes `data-slot="drawer-content"` for its single direct panel
@@ -20,7 +24,13 @@
   trigger states, per-style panel minimum widths and shared menu items with the
   indicator at the inline start. The examples now mirror shadcn's Default,
   Checkbox, Radio, Submenu, Icons and RTL demos.
-
+- Resizable follows the current shadcn anatomy and visual language across all
+  eight styles: a 1px separator with a 10px/20px hit target, optional 4×24px
+  grip, 1px focus ring, panels without default padding and nested groups that
+  reset the surface. Arrow keys move 5 percent without Shift, `aria-valuenow`
+  reports the leading panel's share and `aria-valuemin`/`aria-valuemax` the
+  reachable range. The examples now mirror shadcn's nested, vertical, handle,
+  three-panel, constraints and RTL demos.
 - Sheet follows the current shadcn Base/Radix common anatomy and visual language
   across all eight styles while keeping the native dialog contract: popover
   surfaces, per-part padding, stacked footer actions, per-style typography and
@@ -47,7 +57,9 @@
 - Nested menu panels now anchor to their sub-trigger row, including when the
   `role="none"` wrapper sits inside a `role="group"`, and offset by the menu
   surface padding so their first item aligns with that row.
-
+- Resizable handles now keep `aria-valuenow`, `aria-valuemin`, `aria-valuemax`
+  and `aria-controls` in sync with the leading panel in groups with more than
+  two panels.
 - Sheet triggers now maintain `aria-haspopup`, `aria-controls` and
   `aria-expanded`; examples link every description, use logical side labels and
   preserve header and footer position while the section scrolls.

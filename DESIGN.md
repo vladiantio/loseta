@@ -311,7 +311,7 @@ file they own, not by expecting a spacing API.
 | Menubar | Transparent bar with a 1px `--border` outline; Vega adds `--shadow-xs`. Triggers use `--muted` for hover, expanded and focus-visible. |
 | Navigation menu | `--popover` panels through the popover primitive. |
 | Progress | `--primary` at 20% for the track and full `--primary` for the indicator. |
-| Resizable | `--border` outline, handle line and grip; `--ring` on handle hover and focus. |
+| Resizable | `--border` outline, 1px handle line and grip; `--ring` focus ring. Nested groups drop the outline and surface. |
 | Scroll area | Native scrollbars from `--scrollbar-thumb`, `--scrollbar-track` and `--scrollbar-width`. |
 | Select, combobox | `--input` border; `--ring` focus and destructive invalid ring. |
 | Sheet | `--popover` panel, `--border` on the free edge, a style-specific shadow and backdrop. Attached panels stay square. |
@@ -372,7 +372,7 @@ visible. Progress uses a `Canvas` track with a `CanvasText` outline and a
 | Menubar bar | `2rem` in Nova, Lyra and Rhea; `2.25rem` in Vega, Maia, Mira and Luma; `2.5rem` in Sera | Trigger height follows its content and padding |
 | Navigation trigger | `2rem` high | — |
 | Progress | `0.25rem` high | — |
-| Resizable | Consumer-sized | Panels use `--panel-size`; nested groups reset it |
+| Resizable | Consumer-sized | Panels use `--panel-size`, `--panel-min` and `--panel-max`; nested groups reset them |
 | Scroll area | Consumer-sized | `sm` narrower scrollbar |
 | Select trigger | `2rem` high | `sm` 1.75rem |
 | Sheet | Inline sides use `75vw`, then `24rem` at `40rem`; block sides size to content | Inline `sm` 20rem, `lg` 28rem; block `sm`/`lg` cap at `50vh`/`90vh`; `--sheet-width` and `--sheet-height` override |
@@ -482,7 +482,7 @@ direction.
 | Progress | `.progress` | Native `<progress>` with fallback text. | `value`/`max`; omit `value` for indeterminate |
 | Questionnaire | `.questionnaire` | `[data-slot="progress"]`, fieldset steps with legends, `[data-slot="choices"]`, native inputs, `[data-slot="actions"]` and `[data-slot="previous"]`/`[data-slot="next"]` buttons. | `aria-current="step"` on the active step; `hidden` on inactive steps; native radio/checkbox/input |
 | Radio | `.radio` | Native `input[type="radio"]`, normally inside `role="radiogroup"`. Compose rows with `.field` and a label, and group them with `[data-slot="radio-group"]` inside a `.fieldset`. | — |
-| Resizable | `.resizable` | `.resizable-panel` panes and `[data-slot="handle"]` separators with an optional `[data-slot="grip"]` child. The shipped behavior drags one handle between two adjacent panels, supports keyboard resizing and keeps nested groups independent. | `data-orientation="horizontal|vertical"`; panel `--panel-size`; handle `aria-valuenow/min/max` and an accessible name; `change` reports `detail.sizes` |
+| Resizable | `.resizable` | `.resizable-panel` panes with `--panel-size`, `--panel-min` and `--panel-max`, and `[data-slot="handle"]` separators with an optional `[data-slot="grip"]` child. The shipped behavior supports any number of handles between adjacent panels, redistributes only the active pair, supports keyboard resizing and keeps nested groups independent. | `data-orientation="horizontal|vertical"`; panel `--panel-size` weight and `--panel-min`/`--panel-max` percentages; handle `aria-valuenow/min/max`, `aria-controls` and an accessible name; `change` reports every direct panel size |
 | Scroll area | `.scroll-area` | Scroll container; the consumer sets dimensions and content. | `data-orientation="horizontal|vertical"`; `data-size="default|sm"` |
 | Select | `.select` | Trigger with `role="combobox"`, `[data-slot="value"]`, optional `[data-slot="input"]` hidden input and a `[data-popover] > [role="listbox"]` panel. Group labels use `[data-slot="label"]`, dividers use `[role="separator"]` and the panel scrolls at `18rem`. | `data-size="default|sm"`; `data-placeholder` on the value; `aria-invalid` on the trigger |
 | Separator | `.separator` | `<hr>` or `[role="separator"]`. | `data-orientation="horizontal|vertical"`; `aria-orientation` is also recognized |
@@ -735,7 +735,10 @@ Notes:
   offscreen slides. Autoplay and looping are not included.
 - Resizable handles are `role="separator"` with `aria-orientation`, a label and
   `aria-valuenow`/`aria-valuemin`/`aria-valuemax`; the shipped behavior updates
-  the values during pointer drag and keyboard resizing.
+  the values during pointer drag and keyboard resizing. `aria-valuenow` reports
+  the leading panel's share of the group and `aria-valuemin`/`aria-valuemax` the
+  range reachable by moving that handle. `aria-controls` references the leading
+  panel when it has an id.
 - Chart `data-series` values map to `--chart-*` tokens and are presentation
   modifiers, not states.
 - Attachment state uses `aria-busy="true"` for uploading or processing and a
@@ -789,9 +792,11 @@ complete without them; `--no-behavior` must always produce a valid install.
   day buttons and uses `Intl` for labels and week numbers. Range uses two
   clicks (normalized), Shift-click extends and a third click starts over.
 - Carousel ships controls, keyboard and offscreen state; it does not autoplay
-  or loop. Resizable ships one handle between two adjacent panels with
-  percentage sizes, including nested groups, and no persistence. A nested group
-  resets `--panel-size` at its root so outer ratios do not leak into it.
+  or loop. Resizable ships any number of handles between adjacent panels with
+  per-panel weights and percentage minimum/maximum constraints, including
+  nested groups; collapse, pixel units and persistence are not included. A
+  nested group resets `--panel-size`, `--panel-min`, `--panel-max` and its
+  surface at the root so outer ratios do not leak into it.
   Questionnaire owns
   `[data-slot="previous"]`/`[data-slot="next"]`, progress and focus; validation
   and completion stay app-owned.
@@ -904,9 +909,10 @@ progress sweep slow down instead of stopping. This remains a known gap.
   Tooltips are supplementary and must not be the only source of the values.
 - Resizable handles are focusable separators with a label and live
   `aria-valuenow`/`aria-valuemin`/`aria-valuemax`. The shipped behavior handles
-  pointer drag, arrow/Home/End keys and `change` with `detail.sizes`. Handles
-  focus on press and release focus after a drag; their pointer target is at
-  least `0.625rem` on fine pointers and `1.25rem` on coarse pointers.
+  pointer drag, arrow keys at 5 percent, Home/End and `change` with every direct
+  panel size. Handles focus on press and release focus after a drag; their
+  pointer target is at least `0.625rem` on fine pointers and `1.25rem` on coarse
+  pointers.
 - Sidebar navigation needs a `nav` label and `aria-current="page"` on the active
   link. Label each group with a heading or `[data-slot="group-label"]`; give
   icon-only group and row actions an accessible name. The mobile composition
@@ -1197,8 +1203,10 @@ semantic versioning.
 - Carousel autoplay and looping are not included.
 - Chart rendering, data and tooltip positioning are consumer responsibilities;
   the registry provides chrome only.
-- Resizable supports one handle between two adjacent panels, including nested
-  groups; persistence is not included.
+- Resizable supports any number of panels and handles in a group,
+  percentage-based minimum/maximum constraints, adjacent-only redistribution,
+  double-click reset and nested groups; collapse, pixel/rem sizes, persistence
+  and an imperative API are not included.
 - Sidebar active navigation remains app-owned; the mobile sheet uses the
   shipped dialog behavior.
 - Toast timing and dismissal ship in the behavior module; `sonner` is

@@ -91,7 +91,7 @@ groups, OTP inputs, command inputs and questionnaire inputs.
 ### Surface
 
 Use for cards, alerts, toasts, attachments, sheet and drawer panels, sidebar
-surfaces, resizable panels and chart tooltips.
+surfaces, resizable groups and chart tooltips.
 
 - Radius: match the reference surface. Cards and attachments use the card
   radius; menus and popovers use the overlay radius; dialogs use the dialog
@@ -110,8 +110,10 @@ surfaces, resizable panels and chart tooltips.
   treatment.
 - Borders: use `--border` for outlines; use the foreground-at-10% ring for cards
   where the reference card does.
-- Resizable separators draw the line and optional grip with `--border`; the
-  grip follows the drawer handle radius for the style.
+- Resizable groups own the surface; panels carry no default padding and nested
+  groups drop the border, radius and background. Separators draw a 1px line and
+  optional 4×24px grip with `--border`; the grip follows the drawer handle
+  radius for the style, and focus uses a 1px `--ring` ring.
 
 ### Overlay
 

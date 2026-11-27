@@ -2,8 +2,8 @@
 @layer loseta.components {
   .resizable {
     display: flex;
-    width: 100%;
-    height: 100%;
+    inline-size: 100%;
+    block-size: 100%;
     overflow: hidden;
 
     &[data-orientation='vertical'] {
@@ -12,8 +12,8 @@
 
     > .resizable-panel {
       flex: var(--panel-size, 1) 1 0;
-      min-width: 0;
-      min-height: 0;
+      min-inline-size: 0;
+      min-block-size: 0;
       overflow: auto;
     }
 
@@ -21,9 +21,11 @@
       position: relative;
       z-index: 1;
       display: flex;
-      flex: 0 0 0.5rem;
+      flex: 0 0 1px;
       align-items: center;
       justify-content: center;
+      min-inline-size: 0;
+      min-block-size: 0;
       touch-action: none;
       cursor: col-resize;
       outline-style: none;
@@ -33,13 +35,7 @@
         outline-offset: 2px;
       }
 
-      &::before {
-        width: 1px;
-        height: 100%;
-        content: '';
-      }
-
-      /* Expand the pointer target without widening the visible separator. */
+      /* Expand the pointer target without widening the separator. */
       &::after {
         position: absolute;
         inset-block-start: 50%;
@@ -57,24 +53,17 @@
       }
 
       > [data-slot='grip'] {
-        position: absolute;
-        inset-block: 0;
-        inset-inline: 0;
+        position: relative;
         z-index: 1;
-        margin: auto;
-        block-size: 1.5rem;
+        flex-shrink: 0;
         inline-size: 0.25rem;
+        block-size: 1.5rem;
         pointer-events: none;
       }
     }
 
     &[data-orientation='vertical'] > [data-slot='handle'] {
       cursor: row-resize;
-
-      &::before {
-        width: 100%;
-        height: 1px;
-      }
 
       &::after {
         inline-size: 100%;
@@ -88,13 +77,15 @@
       }
 
       > [data-slot='grip'] {
-        block-size: 0.25rem;
         inline-size: 1.5rem;
+        block-size: 0.25rem;
       }
     }
   }
 
   .resizable .resizable {
     --panel-size: initial;
+    --panel-min: initial;
+    --panel-max: initial;
   }
 }

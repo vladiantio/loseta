@@ -39,6 +39,15 @@ test("content stays readable and overlays stay inert without JavaScript", async 
   const tabs = page.locator('[data-fixture="tabs"] [role="tabpanel"]').nth(1);
   await expect(tabs).toHaveJSProperty("hidden", true);
 
+  const resizable = page.locator(
+    '[data-fixture="resizable"] [data-example="Handle"] .resizable'
+  );
+  await expect(resizable.getByText("Sidebar")).toBeVisible();
+  await expect(resizable.locator("[data-slot='handle']")).toHaveAttribute(
+    "aria-valuenow",
+    "25"
+  );
+
   const calendar = page.locator(
     '[data-fixture="calendar"] [data-example="Default"] .calendar'
   );

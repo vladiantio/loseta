@@ -4090,38 +4090,28 @@
     background-color: var(--background);
 
     > .resizable-panel {
-      padding: 1.25rem;
       font-size: var(--text-sm);
       line-height: var(--text-sm--line-height);
     }
 
     > [data-slot='handle'] {
-      flex-basis: 0.75rem;
-      background-color: var(--background);
-
-      &::before {
-        background-color: var(--border);
-      }
-
-      &:hover::before,
-      &:focus-visible::before {
-        background-color: var(--ring);
-      }
+      background-color: var(--border);
 
       &:focus-visible {
-        box-shadow: inset 0 0 0 1px var(--ring);
+        box-shadow: 0 0 0 1px var(--ring);
       }
 
       > [data-slot='grip'] {
         border-radius: var(--radius-full);
         background-color: var(--border);
       }
-
-      &:hover > [data-slot='grip'],
-      &:focus-visible > [data-slot='grip'] {
-        background-color: var(--ring);
-      }
     }
+  }
+
+  .resizable .resizable {
+    border-width: 0;
+    border-radius: 0;
+    background-color: transparent;
   }
 }
 /* Sidebar */

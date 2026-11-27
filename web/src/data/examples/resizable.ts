@@ -114,6 +114,34 @@ export const resizableExamples: Example[] = [
 </div>`
   },
   {
+    title: "Corner",
+    html: `<div class="resizable" data-orientation="vertical" style="${group}">
+  <div class="resizable-panel" id="demo-resizable-corner-top">
+    <div style="${content}">
+      <strong>Top</strong>
+    </div>
+  </div>
+  <div data-slot="handle" role="separator" aria-orientation="horizontal" aria-label="Resize Top and Bottom" aria-controls="demo-resizable-corner-top" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" tabindex="0"></div>
+  <div class="resizable-panel">
+    <div class="resizable" style="height: 100%">
+      <div class="resizable-panel" id="demo-resizable-corner-left" style="--panel-size: 50">
+        <div style="${content}">
+          <strong>Left</strong>
+        </div>
+      </div>
+      <div data-slot="handle" role="separator" aria-orientation="vertical" aria-label="Resize Left and Right" aria-controls="demo-resizable-corner-left" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" tabindex="0">
+        <span data-slot="grip" aria-hidden="true"></span>
+      </div>
+      <div class="resizable-panel" id="demo-resizable-corner-right" style="--panel-size: 50">
+        <div style="${content}">
+          <strong>Right</strong>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>`
+  },
+  {
     title: "Right-to-left",
     html: `<div dir="rtl" lang="ar">
   <div class="resizable" style="${group}">

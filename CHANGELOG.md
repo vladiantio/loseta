@@ -8,6 +8,9 @@
   `--panel-min` and `--panel-max` percentage constraints, adjacent-only
   redistribution, double-click reset and `change` reporting every direct panel
   size.
+- Resizable nested groups expose a hidden two-axis corner where an inner
+  handle meets its immediate outer handle. Hovering changes the cursor and
+  dragging moves both splits while the two separators keep keyboard access.
 - Sheet now exposes optional `data-slot="sheet-content"` on its single direct
   panel and uses the shared `data-slot="close"` for the corner close button.
 - Drawer now exposes `data-slot="drawer-content"` for its single direct panel
@@ -30,7 +33,7 @@
   reset the surface. Arrow keys move 5 percent without Shift, `aria-valuenow`
   reports the leading panel's share and `aria-valuemin`/`aria-valuemax` the
   reachable range. The examples now mirror shadcn's nested, vertical, handle,
-  three-panel, constraints and RTL demos.
+  three-panel, constraints and RTL demos, plus a two-axis corner example.
 - Sheet follows the current shadcn Base/Radix common anatomy and visual language
   across all eight styles while keeping the native dialog contract: popover
   surfaces, per-part padding, stacked footer actions, per-style typography and

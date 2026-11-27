@@ -90,12 +90,13 @@ focus and the transient `data-highlighted` / `data-copied` attributes.
 
 Calendar reads `data-selection`, `data-min`, `data-max`, `data-unavailable`,
 `data-month` and `data-date`. Carousel has no autoplay or loop; resizable
-handles any number of adjacent panel pairs with percentage constraints;
-questionnaire leaves validation and completion app-owned; message-scroller uses
-one scoped `MutationObserver` on the message content. Four components are
-CSS-only by design: input-otp (one native field), slider (native range),
-scroll-area (native overflow) and sidebar (`aria-current` plus the dialog
-behavior for mobile).
+handles any number of adjacent panel pairs with percentage constraints and
+hidden two-axis corner drags where nested handles meet; questionnaire leaves
+validation and completion app-owned; message-scroller uses one scoped
+`MutationObserver` on the message content. Four components are CSS-only by
+design: input-otp (one native field), slider (native range), scroll-area
+(native overflow) and sidebar (`aria-current` plus the dialog behavior for
+mobile).
 
 Static content and the page's own navigation stay readable without JavaScript.
 Overlay panels and selection widgets are behavior-dependent and documented as

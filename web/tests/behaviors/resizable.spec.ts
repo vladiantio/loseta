@@ -141,6 +141,173 @@ test("resizable handle follows the pointer when panels have padding", async ({
   await page.mouse.up();
 });
 
+test("resizable corner drags both nested splits", async ({ page }) => {
+  const outer = fixture(page, "Default").locator(".resizable").first();
+  const inner = outer.locator(".resizable").last();
+  const outerHandle = outer.locator(":scope > [data-slot='handle']");
+  const innerHandle = inner.locator(":scope > [data-slot='handle']");
+
+  await outer.evaluate((element) => {
+    (window as any).__outerChanges = 0;
+    element.addEventListener("change", (event) => {
+      if (event.target === element) (window as any).__outerChanges += 1;
+    });
+  });
+  await inner.evaluate((element) => {
+    (window as any).__innerChanges = 0;
+    element.addEventListener("change", (event) => {
+      if (event.target === element) (window as any).__innerChanges += 1;
+    });
+  });
+
+  await outerHandle.scrollIntoViewIfNeeded();
+  const outerBox = await outerHandle.boundingBox();
+  const innerBox = await innerHandle.boundingBox();
+  if (!outerBox || !innerBox) {
+    throw new Error("missing resizable corner");
+  }
+
+  const startX = outerBox.x + outerBox.width / 2;
+  const startY = innerBox.y + innerBox.height / 2;
+  const cursor = test.info().project.name === "webkit" ? "grab" : "move";
+
+  await page.mouse.move(startX, startY);
+  await expect(outerHandle).toHaveCSS("cursor", cursor);
+  await expect(innerHandle).toHaveCSS("cursor", cursor);
+
+  await page.mouse.move(startX + 60, startY);
+  await expect(outerHandle).toHaveCSS("cursor", "col-resize");
+  await expect(innerHandle).toHaveCSS("cursor", "row-resize");
+
+  await page.mouse.move(startX, startY);
+  await expect(outerHandle).toHaveCSS("cursor", cursor);
+  await expect(innerHandle).toHaveCSS("cursor", cursor);
+
+  await page.mouse.down();
+  await page.mouse.move(startX + 40, startY + 24);
+  await page.mouse.up();
+
+  const movedOuter = await outerHandle.boundingBox();
+  const movedInner = await innerHandle.boundingBox();
+  if (!movedOuter || !movedInner) {
+    throw new Error("missing moved resizable corner");
+  }
+
+  expect(
+    Math.abs(
+      movedOuter.x +
+        movedOuter.width / 2 -
+        (outerBox.x + outerBox.width / 2) -
+        40
+    )
+  ).toBeLessThanOrEqual(1);
+  expect(
+    Math.abs(
+      movedInner.y +
+        movedInner.height / 2 -
+        (innerBox.y + innerBox.height / 2) -
+        24
+    )
+  ).toBeLessThanOrEqual(1);
+
+  expect(await page.evaluate(() => (window as any).__outerChanges)).toBe(1);
+  expect(await page.evaluate(() => (window as any).__innerChanges)).toBe(1);
+});
+
+test("resizable corner works with a vertical outer group", async ({ page }) => {
+  const outer = fixture(page, "Corner").locator(".resizable").first();
+  const outerHandle = outer.locator(":scope > [data-slot='handle']");
+  const inner = outer.locator(".resizable");
+  const innerHandle = inner.locator(":scope > [data-slot='handle']");
+
+  await outerHandle.scrollIntoViewIfNeeded();
+  const outerBox = await outerHandle.boundingBox();
+  const innerBox = await innerHandle.boundingBox();
+  if (!outerBox || !innerBox) {
+    throw new Error("missing vertical resizable corner");
+  }
+
+  const startX = innerBox.x + innerBox.width / 2;
+  const startY = outerBox.y + outerBox.height / 2;
+  const cursor = test.info().project.name === "webkit" ? "grab" : "move";
+
+  await page.mouse.move(startX, startY);
+  await expect(outerHandle).toHaveCSS("cursor", cursor);
+  await expect(innerHandle).toHaveCSS("cursor", cursor);
+
+  await page.mouse.down();
+  await page.mouse.move(startX + 30, startY + 20);
+  await page.mouse.up();
+
+  const movedOuter = await outerHandle.boundingBox();
+  const movedInner = await innerHandle.boundingBox();
+  if (!movedOuter || !movedInner) {
+    throw new Error("missing moved vertical resizable corner");
+  }
+
+  expect(
+    Math.abs(
+      movedOuter.y +
+        movedOuter.height / 2 -
+        (outerBox.y + outerBox.height / 2) -
+        20
+    )
+  ).toBeLessThanOrEqual(1);
+  expect(
+    Math.abs(
+      movedInner.x +
+        movedInner.width / 2 -
+        (innerBox.x + innerBox.width / 2) -
+        30
+    )
+  ).toBeLessThanOrEqual(1);
+});
+
+test("resizable corner follows right-to-left direction", async ({ page }) => {
+  const outer = fixture(page, "Right-to-left")
+    .locator(".resizable")
+    .first();
+  const inner = outer.locator(".resizable").last();
+  const outerHandle = outer.locator(":scope > [data-slot='handle']");
+  const innerHandle = inner.locator(":scope > [data-slot='handle']");
+
+  await outerHandle.scrollIntoViewIfNeeded();
+  const outerBox = await outerHandle.boundingBox();
+  const innerBox = await innerHandle.boundingBox();
+  if (!outerBox || !innerBox) throw new Error("missing RTL resizable corner");
+  const startX = outerBox.x + outerBox.width / 2;
+  const startY = innerBox.y + innerBox.height / 2;
+  const cursor = test.info().project.name === "webkit" ? "grab" : "move";
+
+  await page.mouse.move(startX, startY);
+  await expect(outerHandle).toHaveCSS("cursor", cursor);
+  await expect(innerHandle).toHaveCSS("cursor", cursor);
+
+  await page.mouse.down();
+  await page.mouse.move(startX + 20, startY + 16);
+  await page.mouse.up();
+
+  const movedOuter = await outerHandle.boundingBox();
+  const movedInner = await innerHandle.boundingBox();
+  if (!movedOuter || !movedInner) throw new Error("missing moved RTL corner");
+  expect(
+    Math.abs(
+      movedOuter.x +
+        movedOuter.width / 2 -
+        (outerBox.x + outerBox.width / 2) -
+        20
+    )
+  ).toBeLessThanOrEqual(1);
+  expect(
+    Math.abs(
+      movedInner.y +
+        movedInner.height / 2 -
+        (innerBox.y + innerBox.height / 2) -
+        16
+    )
+  ).toBeLessThanOrEqual(1);
+});
+
 test("resizable click focuses the handle without dispatching change", async ({
   page
 }) => {

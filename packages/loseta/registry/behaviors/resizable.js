@@ -46,6 +46,36 @@ const HANDLE_SELECTOR = "[data-slot='handle'][role='separator']";
  * @property {number[]} startLayout
  */
 
+/**
+ * @typedef {object} AxisSnapshot
+ * @property {number} startFirst
+ * @property {number[]} startLayout
+ * @property {number} space
+ */
+
+/**
+ * @typedef {object} CornerParts
+ * @property {HTMLElement} outerHandle
+ * @property {HTMLElement} innerHandle
+ * @property {Parts} outer
+ * @property {Parts} inner
+ */
+
+/**
+ * @typedef {object} CornerState
+ * @property {HTMLElement} target
+ * @property {HTMLElement} innerHandle
+ * @property {Parts} outer
+ * @property {Parts} inner
+ * @property {AxisSnapshot} outerSnapshot
+ * @property {AxisSnapshot} innerSnapshot
+ * @property {boolean} moved
+ * @property {number} pointerId
+ * @property {string} pointerType
+ * @property {number} startX
+ * @property {number} startY
+ */
+
 /** @type {WeakMap<HTMLElement, Group>} */
 const groups = new WeakMap();
 
@@ -54,6 +84,12 @@ const states = new WeakMap();
 
 /** @type {HTMLElement | null} */
 let activeHandle = null;
+
+/** @type {CornerState | null} */
+let cornerDrag = null;
+
+/** @type {HTMLElement[]} */
+let cornerCursorHandles = [];
 
 /** @returns {Constraint} */
 function emptyConstraint() {
@@ -433,7 +469,421 @@ function contentSpace(root, axis) {
 }
 
 /**
- * @param {DragState} state
+ * @param {Parts} parts
+ * @returns {AxisSnapshot}
+ */
+function axisSnapshot(parts) {
+  return {
+    startFirst: parts.group.layout[parts.firstIndex] ?? 0,
+    startLayout: parts.group.layout.slice(),
+    space: contentSpace(parts.group.root, parts.axis)
+  };
+}
+
+/**
+ * @param {Parts} parts
+ * @param {AxisSnapshot} snapshot
+ * @param {number} deltaX
+ * @param {number} deltaY
+ */
+function moveAxis(parts, snapshot, deltaX, deltaY) {
+  if (snapshot.space <= 0) return;
+
+  const delta =
+    parts.axis === "x" ? deltaX * (parts.rtl ? -1 : 1) : deltaY;
+  const target = snapshot.startFirst + (delta / snapshot.space) * 100;
+  applyPair(
+    parts.group,
+    parts.firstIndex,
+    parts.secondIndex,
+    target,
+    snapshot.startLayout
+  );
+}
+
+/**
+ * @param {CornerState} state
+ * @param {number} clientX
+ * @param {number} clientY
+ */
+function moveCorner(state, clientX, clientY) {
+  if (clientX !== state.startX || clientY !== state.startY) {
+    state.moved = true;
+  }
+
+  const deltaX = clientX - state.startX;
+  const deltaY = clientY - state.startY;
+  moveAxis(state.outer, state.outerSnapshot, deltaX, deltaY);
+  moveAxis(state.inner, state.innerSnapshot, deltaX, deltaY);
+}
+
+/**
+ * @param {HTMLElement} root
+ * @returns {Group | null}
+ */
+function groupForHover(root) {
+  return groups.get(root) ?? syncGroup(root);
+}
+
+/** @returns {number} */
+function cornerHitSize() {
+  return typeof window !== "undefined" &&
+    typeof window.matchMedia === "function" &&
+    window.matchMedia("(pointer: coarse)").matches
+    ? 20
+    : 10;
+}
+
+/**
+ * @param {DOMRect} rect
+ * @param {number} x
+ * @param {number} y
+ */
+function withinRect(rect, x, y) {
+  return (
+    x >= rect.left - 1 &&
+    x <= rect.right + 1 &&
+    y >= rect.top - 1 &&
+    y <= rect.bottom + 1
+  );
+}
+
+/**
+ * @param {number} x
+ * @param {number} y
+ * @param {number} targetX
+ * @param {number} targetY
+ */
+function withinCorner(x, y, targetX, targetY) {
+  const radius = cornerHitSize() / 2;
+  return (
+    Math.abs(x - targetX) <= radius && Math.abs(y - targetY) <= radius
+  );
+}
+
+/**
+ * A corner is the intersection of an inner handle and the outer handle that
+ * meets it. The inner group must sit directly inside an outer panel.
+ * @param {HTMLElement} handle
+ * @param {number} clientX
+ * @param {number} clientY
+ * @param {boolean} sync
+ * @returns {CornerParts | null}
+ */
+function cornerFromInner(handle, clientX, clientY, sync) {
+  const innerRoot = handle.closest(".resizable");
+  if (!(innerRoot instanceof HTMLElement)) return null;
+
+  const panel = innerRoot.parentElement;
+  if (!(panel instanceof HTMLElement) || !panel.matches(PANEL_SELECTOR)) {
+    return null;
+  }
+
+  const outerRoot = panel.parentElement;
+  if (!(outerRoot instanceof HTMLElement) || !outerRoot.matches(".resizable")) {
+    return null;
+  }
+
+  const innerGroup = sync ? syncGroup(innerRoot) : groupForHover(innerRoot);
+  const outerGroup = sync ? syncGroup(outerRoot) : groupForHover(outerRoot);
+  if (!innerGroup || !outerGroup) return null;
+
+  const inner = partsFor(handle, innerGroup);
+  if (!inner) return null;
+
+  const outerAxis =
+    outerRoot.getAttribute("data-orientation") === "vertical" ? "y" : "x";
+  if (outerAxis === inner.axis) return null;
+
+  const innerRect = handle.getBoundingClientRect();
+  const innerX = innerRect.left + innerRect.width / 2;
+  const innerY = innerRect.top + innerRect.height / 2;
+
+  /** @type {HTMLElement | null} */
+  let outerHandle = null;
+  let best = Number.POSITIVE_INFINITY;
+
+  for (const candidate of [
+    panel.previousElementSibling,
+    panel.nextElementSibling
+  ]) {
+    if (
+      !(candidate instanceof HTMLElement) ||
+      candidate.parentElement !== outerRoot ||
+      !candidate.matches(HANDLE_SELECTOR)
+    ) {
+      continue;
+    }
+
+    const rect = candidate.getBoundingClientRect();
+    const distance =
+      outerAxis === "x"
+        ? Math.abs(rect.left + rect.width / 2 - clientX)
+        : Math.abs(rect.top + rect.height / 2 - clientY);
+    if (distance < best) {
+      best = distance;
+      outerHandle = candidate;
+    }
+  }
+
+  if (!outerHandle) return null;
+  const outer = partsFor(outerHandle, outerGroup);
+  if (!outer || outer.axis !== outerAxis) return null;
+
+  const outerRect = outerHandle.getBoundingClientRect();
+  const x =
+    outerAxis === "x"
+      ? outerRect.left + outerRect.width / 2
+      : innerX;
+  const y =
+    outerAxis === "y"
+      ? outerRect.top + outerRect.height / 2
+      : innerY;
+
+  if (
+    !withinCorner(clientX, clientY, x, y) ||
+    !withinRect(innerRect, x, y)
+  ) {
+    return null;
+  }
+
+  return { outerHandle, innerHandle: handle, outer, inner };
+}
+
+/**
+ * @param {HTMLElement} handle
+ * @param {number} clientX
+ * @param {number} clientY
+ * @param {boolean} sync
+ * @returns {CornerParts | null}
+ */
+function cornerFromOuter(handle, clientX, clientY, sync) {
+  const outerRoot = handle.closest(".resizable");
+  if (!(outerRoot instanceof HTMLElement)) return null;
+
+  const outerGroup = sync ? syncGroup(outerRoot) : groupForHover(outerRoot);
+  if (!outerGroup) return null;
+
+  const outer = partsFor(handle, outerGroup);
+  if (!outer) return null;
+
+  const outerRect = handle.getBoundingClientRect();
+  const outerX = outerRect.left + outerRect.width / 2;
+  const outerY = outerRect.top + outerRect.height / 2;
+
+  for (const panel of [
+    handle.previousElementSibling,
+    handle.nextElementSibling
+  ]) {
+    if (
+      !(panel instanceof HTMLElement) ||
+      panel.parentElement !== outerRoot ||
+      !panel.matches(PANEL_SELECTOR)
+    ) {
+      continue;
+    }
+
+    for (const innerRoot of panel.children) {
+      if (!(innerRoot instanceof HTMLElement) || !innerRoot.matches(".resizable")) {
+        continue;
+      }
+
+      const innerGroup = sync ? syncGroup(innerRoot) : groupForHover(innerRoot);
+      if (!innerGroup) continue;
+
+      for (const innerHandle of directHandles(innerRoot)) {
+        const inner = partsFor(innerHandle, innerGroup);
+        if (!inner || inner.axis === outer.axis) continue;
+
+        const innerRect = innerHandle.getBoundingClientRect();
+        const innerX = innerRect.left + innerRect.width / 2;
+        const innerY = innerRect.top + innerRect.height / 2;
+        const x = outer.axis === "x" ? outerX : innerX;
+        const y = outer.axis === "y" ? outerY : innerY;
+
+        if (
+          !withinCorner(clientX, clientY, x, y) ||
+          !withinRect(innerRect, x, y)
+        ) {
+          continue;
+        }
+
+        return { outerHandle: handle, innerHandle, outer, inner };
+      }
+    }
+  }
+
+  return null;
+}
+
+/**
+ * @param {HTMLElement} handle
+ * @param {number} clientX
+ * @param {number} clientY
+ * @param {boolean} sync
+ * @returns {CornerParts | null}
+ */
+function cornerPartsFor(handle, clientX, clientY, sync) {
+  return (
+    cornerFromInner(handle, clientX, clientY, sync) ??
+    cornerFromOuter(handle, clientX, clientY, sync)
+  );
+}
+
+/**
+ * Mirrors the library's cursor support: Chrome and Firefox get `move`, other
+ * engines fall back to `grab`.
+ * @returns {string}
+ */
+function cornerCursor() {
+  if (
+    typeof navigator !== "undefined" &&
+    (navigator.userAgent.includes("Chrome") ||
+      navigator.userAgent.includes("Firefox"))
+  ) {
+    return "move";
+  }
+  return "grab";
+}
+
+function clearCornerCursor() {
+  for (const handle of cornerCursorHandles) {
+    handle.style.removeProperty("cursor");
+  }
+  cornerCursorHandles = [];
+  if (typeof document !== "undefined") {
+    document.documentElement.style.removeProperty("cursor");
+  }
+}
+
+/**
+ * @param {CornerParts} parts
+ */
+function setCornerCursor(parts) {
+  const next = [parts.outerHandle, parts.innerHandle];
+  for (const handle of cornerCursorHandles) {
+    if (!next.includes(handle)) {
+      handle.style.removeProperty("cursor");
+    }
+  }
+  const cursor = cornerCursor();
+  for (const handle of next) {
+    handle.style.cursor = cursor;
+  }
+  cornerCursorHandles = next;
+  if (typeof document !== "undefined") {
+    document.documentElement.style.cursor = cursor;
+  }
+}
+
+/**
+ * @param {Event} event
+ */
+function updateCornerHover(event) {
+  if (!(event instanceof MouseEvent)) return;
+  if (cornerDrag || activeHandle) return;
+
+  const target =
+    event.target instanceof Element
+      ? event.target.closest(HANDLE_SELECTOR)
+      : null;
+  if (!(target instanceof HTMLElement)) {
+    clearCornerCursor();
+    return;
+  }
+
+  const parts = cornerPartsFor(target, event.clientX, event.clientY, false);
+  if (!parts) {
+    clearCornerCursor();
+    return;
+  }
+
+  setCornerCursor(parts);
+}
+
+/**
+ * @param {CornerParts} parts
+ * @param {PointerEvent} event
+ * @param {HTMLElement} target
+ */
+function startCorner(parts, event, target) {
+  if (cornerDrag) return false;
+
+  const outerSnapshot = axisSnapshot(parts.outer);
+  const innerSnapshot = axisSnapshot(parts.inner);
+  if (outerSnapshot.space <= 0 || innerSnapshot.space <= 0) return false;
+
+  cornerDrag = {
+    target,
+    innerHandle: parts.innerHandle,
+    outer: parts.outer,
+    inner: parts.inner,
+    outerSnapshot,
+    innerSnapshot,
+    moved: false,
+    pointerId: event.pointerId,
+    pointerType: event.pointerType,
+    startX: event.clientX,
+    startY: event.clientY
+  };
+
+  setCornerCursor(parts);
+
+  const focusOptions = /** @type {FocusOptions & { focusVisible?: boolean }} */ ({
+    focusVisible: false,
+    preventScroll: true
+  });
+  parts.innerHandle.focus(focusOptions);
+  return true;
+}
+
+/**
+ * @param {boolean} notify
+ */
+function finishCorner(notify) {
+  const state = cornerDrag;
+  if (!state) return false;
+
+  cornerDrag = null;
+
+  const outer = state.outer.group;
+  const inner = state.inner.group;
+  const outerChanged =
+    Math.abs(
+      (outer.layout[state.outer.firstIndex] ?? 0) -
+        state.outerSnapshot.startFirst
+    ) >= 0.005;
+  const innerChanged =
+    Math.abs(
+      (inner.layout[state.inner.firstIndex] ?? 0) -
+        state.innerSnapshot.startFirst
+    ) >= 0.005;
+
+  if (state.moved && document.activeElement === state.innerHandle) {
+    state.innerHandle.blur();
+  }
+
+  if (state.target.hasPointerCapture(state.pointerId)) {
+    try {
+      state.target.releasePointerCapture(state.pointerId);
+    } catch {
+      // The browser already released capture for this pointer.
+    }
+  }
+
+  if (notify) {
+    if (outerChanged) {
+      emit(outer.root, "change", { sizes: outer.layout.slice() });
+    }
+    if (innerChanged) {
+      emit(inner.root, "change", { sizes: inner.layout.slice() });
+    }
+  }
+  return true;
+}
+
+/**
+ * @param {{ pointerId: number, pointerType: string }} state
  * @param {PointerEvent} event
  */
 function samePointer(state, event) {
@@ -514,6 +964,12 @@ on("pointerdown", HANDLE_SELECTOR, (event, element) => {
   if (event.defaultPrevented) return;
   if (event.pointerType === "mouse" && event.button > 0) return;
 
+  if (cornerDrag) {
+    if (samePointer(cornerDrag, event)) finishCorner(true);
+    event.preventDefault();
+    return true;
+  }
+
   if (activeHandle) {
     const activeState = states.get(activeHandle);
     if (activeState?.active) {
@@ -531,6 +987,12 @@ on("pointerdown", HANDLE_SELECTOR, (event, element) => {
   if (!group) return;
   const parts = partsFor(element, group);
   if (!parts) return;
+
+  const corner = cornerPartsFor(element, event.clientX, event.clientY, true);
+  if (corner && startCorner(corner, event, element)) {
+    event.preventDefault();
+    return true;
+  }
 
   const startSpace = contentSpace(group.root, parts.axis);
   if (startSpace <= 0) return;
@@ -670,6 +1132,111 @@ onDocument("contextmenu", (event) => {
   event.preventDefault();
   return true;
 });
+
+onDocument(
+  "pointermove",
+  (event) => {
+    if (!cornerDrag) return;
+    if (!(event instanceof PointerEvent)) return;
+    if (event.defaultPrevented) return;
+
+    const state = cornerDrag;
+    if (!samePointer(state, event)) return;
+
+    if (event.buttons === 0) {
+      finishCorner(true);
+      updateCornerHover(event);
+      return true;
+    }
+
+    if (
+      !state.target.isConnected ||
+      !state.innerHandle.isConnected ||
+      !state.outer.first.isConnected ||
+      !state.outer.second.isConnected ||
+      !state.inner.first.isConnected ||
+      !state.inner.second.isConnected
+    ) {
+      finishCorner(true);
+      return true;
+    }
+
+    if (!state.target.hasPointerCapture(event.pointerId)) {
+      try {
+        state.target.setPointerCapture(event.pointerId);
+      } catch {
+        // The pointer may already be gone; the next end event still finishes.
+      }
+    }
+
+    moveCorner(state, event.clientX, event.clientY);
+    return true;
+  },
+  20
+);
+
+onDocument(
+  "pointerup",
+  (event) => {
+    if (!cornerDrag) return;
+    if (!(event instanceof PointerEvent)) return;
+    if (event.pointerType === "mouse" && event.button > 0) return;
+
+    const state = cornerDrag;
+    if (!samePointer(state, event)) return;
+
+    moveCorner(state, event.clientX, event.clientY);
+    finishCorner(true);
+    updateCornerHover(event);
+    event.preventDefault();
+    return true;
+  },
+  20
+);
+
+onDocument(
+  "pointercancel",
+  (event) => {
+    if (!cornerDrag) return;
+    if (!(event instanceof PointerEvent)) return;
+    if (!samePointer(cornerDrag, event)) return;
+
+    finishCorner(true);
+    clearCornerCursor();
+    return true;
+  },
+  20
+);
+
+onDocument(
+  "lostpointercapture",
+  (event) => {
+    if (!(event instanceof PointerEvent) || !cornerDrag) return;
+    if (event.target !== cornerDrag.target) return;
+    if (!samePointer(cornerDrag, event)) return;
+
+    finishCorner(true);
+    clearCornerCursor();
+    return true;
+  },
+  20
+);
+
+onDocument(
+  "contextmenu",
+  (event) => {
+    if (!(event instanceof MouseEvent) || !cornerDrag) return;
+
+    moveCorner(cornerDrag, event.clientX, event.clientY);
+    finishCorner(true);
+    updateCornerHover(event);
+    event.preventDefault();
+    return true;
+  },
+  20
+);
+
+onDocument("pointermove", updateCornerHover, 5);
 
 on("keydown", HANDLE_SELECTOR, (event, element) => {
   if (!(event instanceof KeyboardEvent) || !(element instanceof HTMLElement)) {

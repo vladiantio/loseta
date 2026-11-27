@@ -3334,7 +3334,7 @@ test("resizable examples label handles and expose panel values", async ({
   const labels = await handles.evaluateAll((elements) =>
     elements.map((element) => element.getAttribute("aria-label") ?? "")
   );
-  expect(labels.length).toBe(9);
+  expect(labels.length).toBe(11);
   expect(labels.every((label) => label.trim().length > 0)).toBe(true);
 
   const example = page.locator("section.example").filter({

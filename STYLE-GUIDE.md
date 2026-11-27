@@ -102,8 +102,9 @@ surfaces, resizable panels and chart tooltips.
   Lyra and Mira, `1rem` in Vega, Maia, Luma and Rhea and `1.25rem` in Sera.
   Dialogs use Nova `1rem`; Vega, Maia, Luma, Sera and Rhea `1.5rem`. Do not
   invent one universal surface padding.
-- Shadow: Nova ring only; Vega `--shadow-xs`; Luma `--shadow-md`; Sera and Rhea
-  `--shadow-sm`; Maia, Lyra and Mira ring only.
+- Shadow: copy the stable reference. Nova ring only; Vega `--shadow-xs`;
+  Luma `--shadow-md`; Sera and Rhea `--shadow-sm`; Maia, Lyra and Mira ring only.
+  Drawer uses its style-specific surface shadow and backdrop treatment.
 - Borders: use `--border` for outlines; use the foreground-at-10% ring for cards
   where the reference card does.
 - Resizable separators draw the line and optional grip with `--border`; the
@@ -204,6 +205,22 @@ Adjust these values only with visual review. They are the shared baseline for
 the batch, not a per-item guess.
 
 ## Special cases
+
+### Drawer
+
+- Use the popover surface and foreground tokens, with a directional border and
+  radius. Nova, Vega, Lyra and Sera attach to the viewport edge; Maia, Mira, Luma
+  and Rhea use the style's floating inset and full surface radius.
+- The panel owns no general padding. Header, section and footer each own their
+  padding; the footer is a column and stays at the block end while the section
+  scrolls.
+- Body type is `--text-sm`, except Lyra and Mira which use `--text-xs`. Match the
+  upstream title and description scale for the style, including Sera's editorial
+  heading.
+- The backdrop is drawer-specific: black at 10% for Nova, Vega and Lyra, 20% for
+  Sera, 30% for Luma and Rhea, and 80% for Maia and Mira, with the style's blur.
+- The optional handle is decorative. Match the style's width, height and radius;
+  do not add a grab cursor without drag behavior.
 
 ### Sera
 

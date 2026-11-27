@@ -2898,68 +2898,156 @@
 /* Drawer */
 @layer loseta.style {
   .drawer {
-    --drawer-height: 80vh;
+    --drawer-inset: 0.5rem;
+    --drawer-radius: var(--radius-4xl);
+    --drawer-attached-radius: var(--radius-4xl);
+    --drawer-border-width: 1px;
+    --drawer-border-color: light-dark(var(--popover), var(--border));
+    --drawer-shadow: none;
+    --drawer-frame-content: "";
+    --drawer-frame-inset: 0.5rem;
+    --drawer-frame-border-width: 1px;
+    --drawer-frame-shadow: none;
+    --drawer-padding: 1rem;
+    --drawer-handle-offset: 1rem;
+    --drawer-handle-inline-size: 6.25rem;
+    --drawer-handle-block-size: 0.375rem;
+    --drawer-handle-radius: var(--radius-full);
+    --drawer-header-gap: 0.5rem;
+    --drawer-header-gap-md: 1.5rem;
+    --drawer-body-size: var(--text-sm);
+    --drawer-body-line-height: var(--text-sm--line-height);
+    --drawer-title-size: var(--text-base);
+    --drawer-title-line-height: var(--text-base--line-height);
+    --drawer-title-weight: 500;
+    --drawer-title-letter-spacing: normal;
+    --drawer-title-transform: none;
+    --drawer-description-size: var(--text-sm);
+    --drawer-description-line-height: var(--text-sm--line-height);
+    --drawer-description-offset: 0px;
+    --drawer-backdrop-color: rgb(0 0 0 / 80%);
+    --drawer-backdrop-blur: 4px;
 
-    &[data-size='sm'] {
-      --drawer-height: 50vh;
-
-      > * {
-        block-size: var(--drawer-height);
-      }
-    }
-
-    &[data-size='lg'] {
-      --drawer-height: 90vh;
-
-      > * {
-        block-size: var(--drawer-height);
-      }
+    &::backdrop {
+      background-color: var(--drawer-backdrop-color);
+      -webkit-backdrop-filter: blur(var(--drawer-backdrop-blur));
+      backdrop-filter: blur(var(--drawer-backdrop-blur));
     }
 
     > * {
-      gap: 1.5rem;
-      border-start-start-radius: var(--radius-4xl);
-      border-start-end-radius: var(--radius-4xl);
-      background-color: var(--background);
-      padding: 1.5rem;
-      color: var(--foreground);
-      box-shadow: var(--shadow-2xl);
+      isolation: isolate;
+      border-style: solid;
+      border-width: var(--drawer-border-width);
+      border-color: var(--drawer-border-color);
+      border-radius: var(--drawer-radius);
+      background-color: var(--popover);
+      color: var(--popover-foreground);
+      font-size: var(--drawer-body-size);
+      line-height: var(--drawer-body-line-height);
+      box-shadow: var(--drawer-shadow);
+
+      &::before {
+        content: var(--drawer-frame-content);
+        position: absolute;
+        inset-block: var(--drawer-frame-inset);
+        inset-inline: var(--drawer-frame-inset);
+        z-index: -1;
+        border-style: solid;
+        border-width: var(--drawer-frame-border-width);
+        border-color: var(--drawer-border-color);
+        border-radius: inherit;
+        background-color: var(--popover);
+        box-shadow: var(--drawer-frame-shadow);
+        pointer-events: none;
+      }
     }
 
     &[data-side='block-start'] > * {
-      border-start-start-radius: 0;
-      border-start-end-radius: 0;
-      border-end-start-radius: var(--radius-4xl);
-      border-end-end-radius: var(--radius-4xl);
+      border-start-start-radius: var(--drawer-attached-radius);
+      border-start-end-radius: var(--drawer-attached-radius);
+      border-block-end-width: 1px;
+      border-block-end-color: var(--drawer-border-color);
+    }
+
+    &[data-side='block-end'] > * {
+      border-end-start-radius: var(--drawer-attached-radius);
+      border-end-end-radius: var(--drawer-attached-radius);
+      border-block-start-width: 1px;
+      border-block-start-color: var(--drawer-border-color);
+    }
+
+    &[data-side='inline-start'] > * {
+      border-start-start-radius: var(--drawer-attached-radius);
+      border-end-start-radius: var(--drawer-attached-radius);
+      border-inline-start-width: 1px;
+      border-inline-start-color: var(--drawer-border-color);
+    }
+
+    &[data-side='inline-end'] > * {
+      border-start-end-radius: var(--drawer-attached-radius);
+      border-end-end-radius: var(--drawer-attached-radius);
+      border-inline-end-width: 1px;
+      border-inline-end-color: var(--drawer-border-color);
     }
 
     > * > [data-slot='handle'] {
-      width: 2.5rem;
-      height: 0.25rem;
+      inline-size: var(--drawer-handle-inline-size);
+      block-size: var(--drawer-handle-block-size);
+      margin-block-start: var(--drawer-handle-offset);
       margin-inline: auto;
-      border-radius: var(--radius-full);
+      border-radius: var(--drawer-handle-radius);
       background-color: var(--muted);
-      cursor: grab;
+    }
+
+    &[data-side='block-start'] > * > [data-slot='handle'] {
+      margin-block-start: 0;
+      margin-block-end: var(--drawer-handle-offset);
     }
 
     > * > header {
-      gap: 0.5rem;
+      gap: var(--drawer-header-gap);
+      padding: var(--drawer-padding);
+      padding-block-end: 0;
+
+      @media (width >= 48rem) {
+        gap: var(--drawer-header-gap-md);
+      }
     }
 
-    > * > header > [data-slot='title'] {
-      font-size: var(--text-base);
-      line-height: 1;
-      font-weight: 500;
+    &[data-side='block-start'] > * > header,
+    &[data-side='block-end'] > * > header {
+      text-align: center;
+
+      @media (width >= 48rem) {
+        text-align: start;
+      }
     }
 
-    > * > header > [data-slot='description'] {
-      font-size: var(--text-sm);
-      line-height: var(--text-sm--line-height);
-      color: var(--muted-foreground);
+    > * > section {
+      padding: var(--drawer-padding);
     }
 
     > * > footer {
       gap: 0.5rem;
+      padding: var(--drawer-padding);
+      padding-block-start: 0;
+    }
+
+    > * > header > [data-slot='title'] {
+      color: var(--foreground);
+      font-size: var(--drawer-title-size);
+      line-height: var(--drawer-title-line-height);
+      font-weight: var(--drawer-title-weight);
+      letter-spacing: var(--drawer-title-letter-spacing);
+      text-transform: var(--drawer-title-transform);
+    }
+
+    > * > header > [data-slot='description'] {
+      margin-block-start: var(--drawer-description-offset);
+      color: var(--muted-foreground);
+      font-size: var(--drawer-description-size);
+      line-height: var(--drawer-description-line-height);
+      text-wrap: balance;
     }
   }
 }

@@ -2,33 +2,33 @@ import type { Example } from "./types";
 import { dialogParagraphs } from "./icons";
 
 const drawerParagraphs = Array.from(
-  { length: 4 },
+  { length: 2 },
   () => dialogParagraphs
 ).join("\n      ");
 
 export const drawerExamples: Example[] = [
-    {
-      title: "Default",
-      html: `<button type="button" class="btn" data-variant="outline" data-open-dialog="demo-drawer-default">
+  {
+    title: "Default",
+    html: `<button type="button" class="btn" data-variant="outline" data-open-dialog="demo-drawer-default" aria-haspopup="dialog" aria-controls="demo-drawer-default" aria-expanded="false">
   Open drawer
 </button>
 
-<dialog class="drawer" id="demo-drawer-default" data-side="block-end" aria-labelledby="drawer-default-title" aria-describedby="drawer-default-description">
-  <div>
+<dialog class="drawer" id="demo-drawer-default" data-side="block-end" aria-labelledby="demo-drawer-default-title" aria-describedby="demo-drawer-default-description">
+  <div data-slot="drawer-content">
     <span data-slot="handle" aria-hidden="true"></span>
     <header>
-      <h2 data-slot="title" id="drawer-default-title">Edit profile</h2>
-      <p data-slot="description" id="drawer-default-description">Make changes to your profile here.</p>
+      <h2 data-slot="title" id="demo-drawer-default-title">Edit profile</h2>
+      <p data-slot="description" id="demo-drawer-default-description">Make changes to your profile here. Click save when you're done.</p>
     </header>
     <section>
       <div class="fieldset">
         <div class="field">
-          <label class="label" for="drawer-default-name">Name</label>
-          <input class="input" id="drawer-default-name" value="Ada Lovelace">
+          <label class="label" for="demo-drawer-default-name">Name</label>
+          <input class="input" id="demo-drawer-default-name" value="Ada Lovelace">
         </div>
         <div class="field">
-          <label class="label" for="drawer-default-username">Username</label>
-          <input class="input" id="drawer-default-username" value="@ada">
+          <label class="label" for="demo-drawer-default-username">Username</label>
+          <input class="input" id="demo-drawer-default-username" value="@ada">
         </div>
       </div>
     </section>
@@ -38,90 +38,122 @@ export const drawerExamples: Example[] = [
     </footer>
   </div>
 </dialog>`
-    },
-    {
-      title: "Large",
-      html: `<button type="button" class="btn" data-variant="outline" data-open-dialog="demo-drawer-large">
-  Open large drawer
+  },
+  {
+    title: "Sides",
+    html: `<button type="button" class="btn" data-variant="outline" data-open-dialog="demo-drawer-side-inline-start" aria-haspopup="dialog" aria-controls="demo-drawer-side-inline-start" aria-expanded="false">
+  Inline start
+</button>
+<button type="button" class="btn" data-variant="outline" data-open-dialog="demo-drawer-side-inline-end" aria-haspopup="dialog" aria-controls="demo-drawer-side-inline-end" aria-expanded="false">
+  Inline end
+</button>
+<button type="button" class="btn" data-variant="outline" data-open-dialog="demo-drawer-side-block-start" aria-haspopup="dialog" aria-controls="demo-drawer-side-block-start" aria-expanded="false">
+  Block start
+</button>
+<button type="button" class="btn" data-variant="outline" data-open-dialog="demo-drawer-side-block-end" aria-haspopup="dialog" aria-controls="demo-drawer-side-block-end" aria-expanded="false">
+  Block end
 </button>
 
-<dialog class="drawer" id="demo-drawer-large" data-side="block-end" data-size="lg" aria-labelledby="drawer-large-title" aria-describedby="drawer-large-description">
-  <div>
-    <span data-slot="handle" aria-hidden="true"></span>
+<dialog class="drawer" id="demo-drawer-side-inline-start" data-side="inline-start" aria-labelledby="demo-drawer-side-inline-start-title" aria-describedby="demo-drawer-side-inline-start-description">
+  <div data-slot="drawer-content">
     <header>
-      <h2 data-slot="title" id="drawer-large-title">Filters</h2>
-      <p data-slot="description" id="drawer-large-description">Narrow the results to the records you need.</p>
+      <h2 data-slot="title" id="demo-drawer-side-inline-start-title">Move goal</h2>
+      <p data-slot="description" id="demo-drawer-side-inline-start-description">Anchored to the inline start edge.</p>
     </header>
     <section>
-      <div class="field">
-        <label class="label" for="drawer-large-query">Search</label>
-        <input class="input" id="drawer-large-query" placeholder="Name, owner or status">
-      </div>
+      <p>Set a daily activity goal that fits your routine.</p>
     </section>
     <footer>
-      <button type="button" class="btn" data-variant="outline" data-close-dialog>Reset</button>
-      <button type="button" class="btn" data-close-dialog>Apply</button>
-    </footer>
-  </div>
-</dialog>`
-    },
-    {
-      title: "Small",
-      html: `<button type="button" class="btn" data-variant="outline" data-open-dialog="demo-drawer-small">
-  Open small drawer
-</button>
-
-<dialog class="drawer" id="demo-drawer-small" data-side="block-end" data-size="sm" aria-labelledby="drawer-small-title" aria-describedby="drawer-small-description">
-  <div>
-    <span data-slot="handle" aria-hidden="true"></span>
-    <header>
-      <h2 data-slot="title" id="drawer-small-title">Quick action</h2>
-      <p data-slot="description" id="drawer-small-description">Confirm the action without leaving the page.</p>
-    </header>
-    <section>
-      <p>The small size keeps a short confirmation within reach.</p>
-    </section>
-    <footer>
+      <button type="button" class="btn" data-close-dialog>Save goal</button>
       <button type="button" class="btn" data-variant="outline" data-close-dialog>Cancel</button>
-      <button type="button" class="btn" data-close-dialog>Confirm</button>
+    </footer>
+  </div>
+</dialog>
+
+<dialog class="drawer" id="demo-drawer-side-inline-end" data-side="inline-end" aria-labelledby="demo-drawer-side-inline-end-title" aria-describedby="demo-drawer-side-inline-end-description">
+  <div data-slot="drawer-content">
+    <header>
+      <h2 data-slot="title" id="demo-drawer-side-inline-end-title">Move goal</h2>
+      <p data-slot="description" id="demo-drawer-side-inline-end-description">Anchored to the inline end edge.</p>
+    </header>
+    <section>
+      <p>Set a daily activity goal that fits your routine.</p>
+    </section>
+    <footer>
+      <button type="button" class="btn" data-close-dialog>Save goal</button>
+      <button type="button" class="btn" data-variant="outline" data-close-dialog>Cancel</button>
+    </footer>
+  </div>
+</dialog>
+
+<dialog class="drawer" id="demo-drawer-side-block-start" data-side="block-start" aria-labelledby="demo-drawer-side-block-start-title" aria-describedby="demo-drawer-side-block-start-description">
+  <div data-slot="drawer-content">
+    <header>
+      <h2 data-slot="title" id="demo-drawer-side-block-start-title">Move goal</h2>
+      <p data-slot="description" id="demo-drawer-side-block-start-description">Anchored to the block start edge.</p>
+    </header>
+    <section>
+      <p>Set a daily activity goal that fits your routine.</p>
+    </section>
+    <footer>
+      <button type="button" class="btn" data-close-dialog>Save goal</button>
+      <button type="button" class="btn" data-variant="outline" data-close-dialog>Cancel</button>
+    </footer>
+    <span data-slot="handle" aria-hidden="true"></span>
+  </div>
+</dialog>
+
+<dialog class="drawer" id="demo-drawer-side-block-end" data-side="block-end" aria-labelledby="demo-drawer-side-block-end-title" aria-describedby="demo-drawer-side-block-end-description">
+  <div data-slot="drawer-content">
+    <span data-slot="handle" aria-hidden="true"></span>
+    <header>
+      <h2 data-slot="title" id="demo-drawer-side-block-end-title">Move goal</h2>
+      <p data-slot="description" id="demo-drawer-side-block-end-description">Anchored to the block end edge.</p>
+    </header>
+    <section>
+      <p>Set a daily activity goal that fits your routine.</p>
+    </section>
+    <footer>
+      <button type="button" class="btn" data-close-dialog>Save goal</button>
+      <button type="button" class="btn" data-variant="outline" data-close-dialog>Cancel</button>
     </footer>
   </div>
 </dialog>`
-    },
-    {
-      title: "Top",
-      html: `<button type="button" class="btn" data-variant="outline" data-open-dialog="demo-drawer-top">
-  Open top drawer
+  },
+  {
+    title: "Handle",
+    html: `<button type="button" class="btn" data-variant="outline" data-open-dialog="demo-drawer-handle" aria-haspopup="dialog" aria-controls="demo-drawer-handle" aria-expanded="false">
+  Open drawer with handle
 </button>
 
-<dialog class="drawer" id="demo-drawer-top" data-side="block-start" aria-labelledby="drawer-top-title" aria-describedby="drawer-top-description">
-  <div>
+<dialog class="drawer" id="demo-drawer-handle" data-side="block-end" aria-labelledby="demo-drawer-handle-title" aria-describedby="demo-drawer-handle-description">
+  <div data-slot="drawer-content">
+    <span data-slot="handle" aria-hidden="true"></span>
     <header>
-      <h2 data-slot="title" id="drawer-top-title">Notifications</h2>
-      <p data-slot="description" id="drawer-top-description">Anchored to the block start edge, with the handle at the bottom.</p>
+      <h2 data-slot="title" id="demo-drawer-handle-title">Drawer with handle</h2>
+      <p data-slot="description" id="demo-drawer-handle-description">A decorative handle marks the edge where the drawer meets the viewport.</p>
     </header>
     <section>
-      <p>Use a top drawer for a short announcement or a wide filter bar.</p>
+      <p>The handle is optional and does not add interaction to the drawer.</p>
     </section>
     <footer>
       <button type="button" class="btn" data-variant="outline" data-close-dialog>Close</button>
     </footer>
-    <span data-slot="handle" aria-hidden="true"></span>
   </div>
 </dialog>`
-    },
-    {
-      title: "Scrollable content",
-      html: `<button type="button" class="btn" data-variant="outline" data-open-dialog="demo-drawer-scrollable">
+  },
+  {
+    title: "Scrollable content",
+    html: `<button type="button" class="btn" data-variant="outline" data-open-dialog="demo-drawer-scrollable" aria-haspopup="dialog" aria-controls="demo-drawer-scrollable" aria-expanded="false">
   Open scrollable drawer
 </button>
 
-<dialog class="drawer" id="demo-drawer-scrollable" data-side="block-end" aria-labelledby="drawer-scrollable-title" aria-describedby="drawer-scrollable-description">
-  <div>
+<dialog class="drawer" id="demo-drawer-scrollable" data-side="block-end" aria-labelledby="demo-drawer-scrollable-title" aria-describedby="demo-drawer-scrollable-description">
+  <div data-slot="drawer-content">
     <span data-slot="handle" aria-hidden="true"></span>
     <header>
-      <h2 data-slot="title" id="drawer-scrollable-title">Scrollable content</h2>
-      <p data-slot="description" id="drawer-scrollable-description">The header and footer stay in place while the section scrolls.</p>
+      <h2 data-slot="title" id="demo-drawer-scrollable-title">Terms and policies</h2>
+      <p data-slot="description" id="demo-drawer-scrollable-description">The header and footer stay in place while the content scrolls.</p>
     </header>
     <section role="region" aria-label="Scrollable drawer content" tabindex="0">
       ${drawerParagraphs}
@@ -131,84 +163,68 @@ export const drawerExamples: Example[] = [
     </footer>
   </div>
 </dialog>`
-    },
-    {
-      title: "Nested",
-      html: `<button type="button" class="btn" data-variant="outline" data-open-dialog="demo-drawer-nested">
+  },
+  {
+    title: "Nested",
+    html: `<button type="button" class="btn" data-variant="outline" data-open-dialog="demo-drawer-nested" aria-haspopup="dialog" aria-controls="demo-drawer-nested" aria-expanded="false">
   Open drawer
 </button>
 
-<dialog class="drawer" id="demo-drawer-nested" data-side="block-end" aria-labelledby="drawer-nested-title" aria-describedby="drawer-nested-description">
-  <div>
+<dialog class="drawer" id="demo-drawer-nested" data-side="block-end" aria-labelledby="demo-drawer-nested-title" aria-describedby="demo-drawer-nested-description">
+  <div data-slot="drawer-content">
     <span data-slot="handle" aria-hidden="true"></span>
     <header>
-      <h2 data-slot="title" id="drawer-nested-title">Drawer</h2>
-      <p data-slot="description" id="drawer-nested-description">Open another drawer from inside this one.</p>
+      <h2 data-slot="title" id="demo-drawer-nested-title">Parent drawer</h2>
+      <p data-slot="description" id="demo-drawer-nested-description">Open another native dialog without closing this one.</p>
     </header>
     <section>
-      <p>The parent drawer stays mounted behind the nested drawer.</p>
+      <p>The first drawer remains open while the nested drawer is active.</p>
     </section>
     <footer>
-      <button type="button" class="btn" data-variant="outline" data-open-dialog="demo-drawer-nested-child">Open nested drawer</button>
-      <button type="button" class="btn" data-close-dialog>Close</button>
+      <button type="button" class="btn" data-variant="outline" data-open-dialog="demo-drawer-nested-child" aria-haspopup="dialog" aria-controls="demo-drawer-nested-child" aria-expanded="false">Open nested drawer</button>
+      <button type="button" class="btn" data-variant="outline" data-close-dialog>Close</button>
     </footer>
-    <dialog class="drawer" id="demo-drawer-nested-child" data-side="block-end" aria-labelledby="drawer-nested-child-title" aria-describedby="drawer-nested-child-description">
-      <div>
+    <dialog class="drawer" id="demo-drawer-nested-child" data-side="block-end" aria-labelledby="demo-drawer-nested-child-title" aria-describedby="demo-drawer-nested-child-description">
+      <div data-slot="drawer-content">
         <span data-slot="handle" aria-hidden="true"></span>
         <header>
-          <h2 data-slot="title" id="drawer-nested-child-title">Nested drawer</h2>
-          <p data-slot="description" id="drawer-nested-child-description">This drawer stacks above the parent.</p>
+          <h2 data-slot="title" id="demo-drawer-nested-child-title">Nested drawer</h2>
+          <p data-slot="description" id="demo-drawer-nested-child-description">This dialog opens above the parent drawer.</p>
         </header>
         <section>
           <p>Close this drawer to return to the parent.</p>
         </section>
         <footer>
-          <button type="button" class="btn" data-close-dialog>Close</button>
+          <button type="button" class="btn" data-variant="outline" data-close-dialog>Close</button>
         </footer>
       </div>
     </dialog>
   </div>
 </dialog>`
-    },
-    {
-      title: "Without handle",
-      html: `<button type="button" class="btn" data-variant="outline" data-open-dialog="demo-drawer-no-handle">
-  Open drawer without handle
-</button>
-
-<dialog class="drawer" id="demo-drawer-no-handle" data-side="block-end" aria-labelledby="drawer-no-handle-title" aria-describedby="drawer-no-handle-description">
-  <div>
-    <header>
-      <h2 data-slot="title" id="drawer-no-handle-title">No handle</h2>
-      <p data-slot="description" id="drawer-no-handle-description">The handle is optional. Leave it out when drag gestures are not part of the flow.</p>
-    </header>
-    <section>
-      <p>Use the footer actions or Escape to dismiss the drawer.</p>
-    </section>
-    <footer>
-      <button type="button" class="btn" data-close-dialog>Close</button>
-    </footer>
-  </div>
-</dialog>`
-    },
-    {
-      title: "Right-to-left",
-      html: `<div dir="rtl" lang="ar">
-  <button type="button" class="btn" data-variant="outline" data-open-dialog="demo-drawer-rtl">
+  },
+  {
+    title: "Right-to-left",
+    html: `<div lang="ar" dir="rtl">
+  <button type="button" class="btn" data-variant="outline" data-open-dialog="demo-drawer-rtl" aria-haspopup="dialog" aria-controls="demo-drawer-rtl" aria-expanded="false">
     فتح الدرج
   </button>
 
-  <dialog class="drawer" id="demo-drawer-rtl" data-side="block-end" aria-labelledby="drawer-rtl-title" aria-describedby="drawer-rtl-description">
-    <div>
-      <span data-slot="handle" aria-hidden="true"></span>
+  <dialog class="drawer" id="demo-drawer-rtl" data-side="inline-end" aria-labelledby="demo-drawer-rtl-title" aria-describedby="demo-drawer-rtl-description">
+    <div data-slot="drawer-content">
       <header>
-        <h2 data-slot="title" id="drawer-rtl-title">تعديل الملف الشخصي</h2>
-        <p data-slot="description" id="drawer-rtl-description">أجرِ تغييرات على ملفك الشخصي هنا.</p>
+        <h2 data-slot="title" id="demo-drawer-rtl-title">تعديل الملف الشخصي</h2>
+        <p data-slot="description" id="demo-drawer-rtl-description">أجرِ تغييرات على ملفك الشخصي، ثم احفظها عند الانتهاء.</p>
       </header>
       <section>
-        <div class="field">
-          <label class="label" for="drawer-rtl-name">الاسم</label>
-          <input class="input" id="drawer-rtl-name" value="ليلى حسن">
+        <div class="fieldset">
+          <div class="field">
+            <label class="label" for="demo-drawer-rtl-name">الاسم</label>
+            <input class="input" id="demo-drawer-rtl-name" value="ليلى حسن">
+          </div>
+          <div class="field">
+            <label class="label" for="demo-drawer-rtl-email">البريد الإلكتروني</label>
+            <input class="input" id="demo-drawer-rtl-email" type="email" value="layla@example.com">
+          </div>
         </div>
       </section>
       <footer>
@@ -218,5 +234,49 @@ export const drawerExamples: Example[] = [
     </div>
   </dialog>
 </div>`
-    }
+  },
+  {
+    title: "Small",
+    html: `<button type="button" class="btn" data-variant="outline" data-open-dialog="demo-drawer-small" aria-haspopup="dialog" aria-controls="demo-drawer-small" aria-expanded="false">
+  Open small drawer
+</button>
+
+<dialog class="drawer" id="demo-drawer-small" data-side="block-end" data-size="sm" aria-labelledby="demo-drawer-small-title" aria-describedby="demo-drawer-small-description">
+  <div data-slot="drawer-content">
+    <span data-slot="handle" aria-hidden="true"></span>
+    <header>
+      <h2 data-slot="title" id="demo-drawer-small-title">Small drawer</h2>
+      <p data-slot="description" id="demo-drawer-small-description">The content sets the height until it reaches the small limit.</p>
+    </header>
+    <section role="region" aria-label="Small drawer content" tabindex="0">
+      ${dialogParagraphs}
+    </section>
+    <footer>
+      <button type="button" class="btn" data-variant="outline" data-close-dialog>Close</button>
+    </footer>
+  </div>
+</dialog>`
+  },
+  {
+    title: "Large",
+    html: `<button type="button" class="btn" data-variant="outline" data-open-dialog="demo-drawer-large" aria-haspopup="dialog" aria-controls="demo-drawer-large" aria-expanded="false">
+  Open large drawer
+</button>
+
+<dialog class="drawer" id="demo-drawer-large" data-side="block-end" data-size="lg" aria-labelledby="demo-drawer-large-title" aria-describedby="demo-drawer-large-description">
+  <div data-slot="drawer-content">
+    <span data-slot="handle" aria-hidden="true"></span>
+    <header>
+      <h2 data-slot="title" id="demo-drawer-large-title">Large drawer</h2>
+      <p data-slot="description" id="demo-drawer-large-description">Longer content can use more space, up to the large limit.</p>
+    </header>
+    <section role="region" aria-label="Large drawer content" tabindex="0">
+      ${drawerParagraphs}
+    </section>
+    <footer>
+      <button type="button" class="btn" data-variant="outline" data-close-dialog>Close</button>
+    </footer>
+  </div>
+</dialog>`
+  }
 ];

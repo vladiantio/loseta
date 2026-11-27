@@ -5,6 +5,14 @@ import { emit, focusables, init, on } from "./core.js";
 /** @type {WeakMap<HTMLDialogElement, HTMLElement>} */
 const openers = new WeakMap();
 
+/** @param {Element} trigger @param {HTMLDialogElement} dialog @param {boolean} open */
+function syncDrawerTrigger(trigger, dialog, open) {
+  if (!dialog.matches(".drawer")) return;
+  trigger.setAttribute("aria-haspopup", "dialog");
+  trigger.setAttribute("aria-controls", dialog.id);
+  trigger.setAttribute("aria-expanded", String(open));
+}
+
 /**
  * @param {HTMLDialogElement} dialog
  * @param {HTMLElement} opener
@@ -14,6 +22,7 @@ function trackClose(dialog, opener) {
     "close",
     () => {
       openers.delete(dialog);
+      syncDrawerTrigger(opener, dialog, false);
       emit(dialog, "toggle", { open: false });
       if (opener.isConnected) opener.focus();
     },
@@ -29,6 +38,7 @@ function openDialog(trigger) {
   if (!(dialog instanceof HTMLDialogElement) || dialog.open) return;
 
   openers.set(dialog, /** @type {HTMLElement} */ (trigger));
+  syncDrawerTrigger(trigger, dialog, true);
   dialog.showModal();
   emit(dialog, "toggle", { open: true });
   trackClose(dialog, /** @type {HTMLElement} */ (trigger));

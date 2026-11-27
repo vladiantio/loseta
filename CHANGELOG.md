@@ -1,5 +1,28 @@
 # Changelog
 
+## Unreleased
+
+### Added
+
+- Drawer now exposes `data-slot="drawer-content"` for its single direct panel
+  and supports logical `inline-start` and `inline-end` placement in addition to
+  top and bottom drawers.
+
+### Changed
+
+- Drawer follows the current shadcn Base UI anatomy and visual language across
+  all eight styles: popover surfaces, directional borders and radii, per-style
+  backdrops, stacked footer actions, optional handles and 450ms directional
+  motion with reduced-motion support.
+- Drawer `sm` and `lg` sizes now set maximum heights instead of fixed heights;
+  the default is content-sized up to `calc(100dvh - 6rem)`.
+
+### Fixed
+
+- Drawer triggers now maintain `aria-haspopup`, `aria-controls` and
+  `aria-expanded`, and drawer body typography and backdrop styling are applied
+  consistently in every style.
+
 ## 0.22.1 - 2026-11-26
 
 ### Fixed

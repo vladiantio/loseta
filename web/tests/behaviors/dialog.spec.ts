@@ -58,6 +58,24 @@ test("alert dialog ignores backdrop clicks but closes on Escape", async ({ page 
   await expect(trigger).toBeFocused();
 });
 
+test("drawer triggers expose and restore dialog state", async ({ page }) => {
+  const trigger = page.locator('[data-open-dialog="demo-drawer-default"]');
+  const drawer = page.locator("#demo-drawer-default");
+
+  await expect(trigger).toHaveAttribute("aria-haspopup", "dialog");
+  await expect(trigger).toHaveAttribute("aria-controls", "demo-drawer-default");
+  await expect(trigger).toHaveAttribute("aria-expanded", "false");
+
+  await trigger.click();
+  await expect(drawer).toHaveJSProperty("open", true);
+  await expect(trigger).toHaveAttribute("aria-expanded", "true");
+
+  await page.keyboard.press("Escape");
+  await expect(drawer).toHaveJSProperty("open", false);
+  await expect(trigger).toHaveAttribute("aria-expanded", "false");
+  await expect(trigger).toBeFocused();
+});
+
 test("close controls dismiss sheet and drawer dialogs", async ({ page }) => {
   const sheetTrigger = page.locator('[data-open-dialog="demo-sheet-default"]');
   const sheet = page.locator("#demo-sheet-default");

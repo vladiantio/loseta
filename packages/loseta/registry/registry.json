@@ -3198,7 +3198,7 @@
       "type": "component",
       "status": "stable",
       "title": "Drawer",
-      "description": "A bottom or top sheet built on the dialog shell.",
+      "description": "A modal panel that slides in from any viewport edge.",
       "docs": "/docs/components/drawer",
       "root": [
         ".drawer"

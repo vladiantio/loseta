@@ -300,6 +300,36 @@ const cases: StyleCase[] = [
     }
   },
   {
+    id: "drawer",
+    selector: ".docs-preview .drawer > [data-slot='drawer-content']",
+    property: "font-size",
+    values: {
+      nova: "14px",
+      vega: "14px",
+      maia: "14px",
+      lyra: "12px",
+      mira: "12px",
+      luma: "14px",
+      sera: "14px",
+      rhea: "14px"
+    }
+  },
+  {
+    id: "drawer",
+    selector: ".docs-preview .drawer [data-slot='handle']",
+    property: "width",
+    values: {
+      nova: "96px",
+      vega: "100px",
+      maia: "100px",
+      lyra: "48px",
+      mira: "48px",
+      luma: "100px",
+      sera: "100px",
+      rhea: "100px"
+    }
+  },
+  {
     id: "popover",
     selector: ".docs-preview .popover > [data-popover]",
     property: "border-top-left-radius",

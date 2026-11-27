@@ -313,7 +313,8 @@ file they own, not by expecting a spacing API.
 | Resizable | `--border` outline, handle line and grip; `--ring` on handle hover and focus. |
 | Scroll area | Native scrollbars from `--scrollbar-thumb`, `--scrollbar-track` and `--scrollbar-width`. |
 | Select, combobox | `--input` border; `--ring` focus and destructive invalid ring. |
-| Sheet, drawer | `--background` panel, `--border` side edge on sheets and `--shadow-lg`. |
+| Sheet | `--background` panel, `--border` side edge and `--shadow-lg`. |
+| Drawer | `--popover` panel, directional `--border` edge and the style's surface shadow. |
 | Sidebar | `--sidebar`, `--sidebar-foreground`, `--sidebar-accent`, `--sidebar-border` and `--sidebar-ring`. |
 | Slider | Native track and thumb colored by `accent-color: --primary`. |
 | Toast | Popover surface with `--border`; destructive uses a destructive tint. |
@@ -363,7 +364,7 @@ visible. Progress uses a `Canvas` track with a `CanvasText` outline and a
 | Collapsible summary | No fixed height | `0.25rem` block padding |
 | Command list | `18rem` maximum height | — |
 | Context menu | `8rem`–`20rem` wide | — |
-| Drawer | `80vh` maximum height | `sm` 50vh, `lg` 90vh |
+| Drawer | `calc(100dvh - 6rem)` maximum block size | `sm` 50dvh, `lg` 90dvh maximum; inline sides use 75vw, then 24rem from 40rem |
 | Hover card | `18rem` wide | — |
 | Input group | `2rem` minimum height | Auto with a textarea |
 | Input OTP cell | `2.5rem` square | `sm` 2rem, `lg` 3rem |
@@ -456,7 +457,7 @@ direction.
 | Command | `.command` | Popover surface with `[data-slot="command-input"]`, an input-group search field and a `[role="listbox"]` with groups, labels, separators, shortcuts, optional indicators and an empty state. | `[data-slot="shortcut"]`, `[data-slot="empty"]`, `[data-slot="indicator"]`; `[role="separator"]` dividers; option `aria-disabled` and `aria-selected` |
 | Context menu | `.context-menu` | `[role="menu"]` panel with menu items, checkable items, headings, separators and shortcuts; nested menus use a `role="none"` wrapper around the trigger and its `[data-popover]` panel. | `--context-x`, `--context-y` on the panel; `aria-hidden="true|false"`; `aria-checked` on checkable items; the panel scrolls near the viewport edge |
 | Dialog | `.dialog` | Native `<dialog>` containing a panel; panel contains `header`, title, description, `section`, `footer` and a close button or `form[method="dialog"]`. Section content scrolls between a fixed header and footer. | Footer `data-align="start"` |
-| Drawer | `.drawer` | Native `<dialog>` with `data-side` and a panel containing an optional `[data-slot="handle"]`, `header`, `section` and `footer`. The section scrolls between the header and footer. | `data-side="block-start|block-end"`; `data-size="default|sm|lg"` sets the height |
+| Drawer | `.drawer` | Native `<dialog>` with one direct `[data-slot="drawer-content"]` panel containing an optional `[data-slot="handle"]`, `header`, `section` and `footer`. The section scrolls between the header and footer. | `data-side="block-start|block-end|inline-start|inline-end"`; `data-size="default|sm|lg"` sets a maximum block size on vertical drawers; `--drawer-height`, `--drawer-width` and `--drawer-inset` override the defaults |
 | Dropdown menu | `.dropdown-menu` | Trigger, `[data-popover]` panel, `[role="menu"]`, menu item roles, `[role="separator"]`, `[role="heading"]`, shortcut and indicator slots; nested menus use a `role="none"` wrapper around the sub-trigger and its panel. | Item `data-variant="destructive"`; default by omission; placement attributes; `data-inset`; `data-rtl-flip`; `aria-checked` on checkable items |
 | Empty | `.empty` | `header` with optional `figure` (a single SVG becomes the icon box; image, avatar or avatar-group markup is used as-is), title (`h2`–`h4`) and description `p`; `section`; `footer`. | — |
 | Field | `.field`, `.fieldset` | Label or legend, control, content `section` for a label/description pair, description `p`, error `[role="alert"]`, group/radiogroup container and `.field-separator` with an `hr`. | Legend `data-variant="label|legend"`; field `data-orientation="horizontal|responsive"`; group `data-slot="checkbox-group|radio-group"` |
@@ -527,6 +528,7 @@ The public slot vocabulary is shared across components:
 - `data-slot="ellipsis"` — breadcrumb and pagination.
 - `data-slot="label"` — pagination previous/next text and listbox group labels.
 - `data-slot="handle"` — drawer and resizable.
+- `data-slot="drawer-content"` — drawer's single direct panel.
 - `data-slot="grip"` — optional visible grip inside a resizable handle.
 - `data-slot="title"`, `data-slot="description"` — navigation menu panels.
 - `data-slot="addon"` — input group.
@@ -553,7 +555,9 @@ Semantic parts are equally public where documented: `header`, `section`,
 `ul`, `li`, `progress`, `[role="menu"]`, `[role="menubar"]`,
 `[role="menuitem"]`, `[role="tablist"]`, `[role="tab"]` and
 `[role="tabpanel"]`. Do not invent a new `data-slot` name for a part that
-already has a semantic element in the anatomy.
+already has a semantic element in the anatomy. Drawer's `drawer-content` slot
+identifies its single non-semantic panel wrapper; the native `<dialog>` remains
+semantic and needs no slot.
 
 Toggle groups are multi-state: every `.toggle` child owns its own
 `aria-pressed`. A single-choice control uses a radio group, not a toggle group.
@@ -580,11 +584,15 @@ icon 180 degrees in RTL contexts. Nested menu panels use
 directions.
 
 Sheets use `inline-start`/`inline-end` for side sheets and
-`block-start`/`block-end` for top and bottom sheets; drawers use
-`block-start`/`block-end`. `data-size` on a sheet sets its width, or its height
-on a block side; on a drawer, `sm` and `lg` set an explicit height while the
-default sizes to content up to `80vh`. Context menus are positioned by the
-consumer through `--context-x` and `--context-y` on the panel. Those
+`block-start`/`block-end` for top and bottom sheets. Drawers support the same
+four logical sides; inline sides follow the writing direction and use `75vw`,
+switching to `var(--drawer-width, 24rem)` at `40rem`. `data-size` on a sheet sets
+its width, or its height on a block side; on a drawer, `sm` and `lg` set a `50dvh` or
+`90dvh` maximum while the default sizes to content up to
+`calc(100dvh - 6rem)`. `--drawer-height` overrides the vertical maximum,
+`--drawer-width` overrides the inline size and `--drawer-inset` floats the panel
+from its viewport edges in styles that support it. Context menus are positioned
+by the consumer through `--context-x` and `--context-y` on the panel. Those
 coordinates are physical `left`/`top` values even in RTL; this is the only
 physical-inset exception in the registry.
 
@@ -612,7 +620,7 @@ public state hooks:
 | Pressed | `aria-pressed="true"` | Toggle and toggle-group buttons. |
 | Expanded | `aria-expanded="true"` | Menu, navigation, select and combobox triggers; panels use `aria-hidden`. |
 | Open, details | Native `[open]` on `<details>` | Accordion items. |
-| Open, dialog | Native `[open]` | Dialog and alert dialog. |
+| Open, dialog | Native `[open]` | Dialog, alert dialog, sheet and drawer. |
 | Open, popover | `aria-hidden="false"` | `[data-popover]` panels; the trigger uses `aria-expanded`. |
 | Indeterminate | Native `:indeterminate` | Progress without a value; a checkbox whose `indeterminate` property is set from JavaScript. |
 | Range value | Native `value` and `max` | Progress; no ARIA override. |
@@ -698,10 +706,11 @@ Notes:
   The search input group keeps its resting border and draws no focus shadow.
 - Sheets and drawers keep the footer at the bottom of the panel while the
   section scrolls. The shipped dialog behavior opens them with
-  `data-open-dialog="<id>"` and closes them with `data-close-dialog`. The sheet
-  close control is a direct child `form[method="dialog"]` or `button` at the
-  inline end; style its button with `.btn` and give icon-only controls an
-  accessible label.
+  `data-open-dialog="<id>"` and closes them with `data-close-dialog`. Drawer
+  triggers also receive `aria-haspopup="dialog"`, `aria-controls` and a
+  synchronized `aria-expanded`. The sheet close control is a direct child
+  `form[method="dialog"]` or `button` at the inline end; style its button with
+  `.btn` and give icon-only controls an accessible label.
 - Calendar day cells use `aria-selected`; day buttons use `aria-current="date"`
   and `aria-disabled`. A range or multiple selection sets
   `aria-multiselectable="true"` on the grid and marks every selected day. The
@@ -798,13 +807,17 @@ complete without them; `--no-behavior` must always produce a valid install.
 - Item hover and state transitions use `100ms`; the skeleton pulses on a `2s`
   loop with `cubic-bezier(0.4, 0, 0.6, 1)`.
 - Menus, listbox panels and navigation panels transition in `100ms`; select
-  chevrons rotate in `150ms`; sheets and drawers use the dialog shell's
-  `150ms` entry. Hover cards open after a `300ms` delay and hide immediately
-  when the pointer leaves.
+  chevrons rotate in `150ms`; sheets use the dialog shell's `150ms` entry.
+  Drawers use a directional `450ms` transform with
+  `cubic-bezier(0.22, 1, 0.36, 1)` and stop under
+  `prefers-reduced-motion: reduce`. Hover cards open after a `300ms` delay and
+  hide immediately when the pointer leaves.
 - The spinner rotates on a `0.75s` linear loop; progress uses a `1.5s`
   indeterminate sweep that follows the inline direction.
 - Dialog entry uses `@starting-style` and `allow-discrete`: the backdrop fades,
-  the panel moves from 95% to 100% scale with opacity.
+  the panel moves from 95% to 100% scale with opacity. Drawer entry uses the
+  same native lifecycle but translates from its `data-side` edge and fades the
+  backdrop over `450ms`.
 - Popovers scale from 95% and move `0.5rem` from their placement side. Menus
   and popovers fade with `visibility`.
 - Tooltips fade in and scale from 95% on hover and focus; the bubble scales
@@ -914,11 +927,13 @@ progress sweep slow down instead of stopping. This remains a known gap.
   fails. Avatar groups use `role="group"` with an accessible name. A count with
   a visual icon needs adjacent screen-reader text or an explicit label.
 - Sheets and drawers are native `<dialog>` elements and follow the dialog
-  labelling rules. The drawer handle is decorative unless the consumer makes it
-  a focusable drag control; swipe and drag gestures are consumer JavaScript.
-  The sheet close control needs an accessible label when its button is
-  icon-only, and a scrolling section without focusable content needs
-  `role="region"`, an accessible name and `tabindex="0"`.
+  labelling rules. Drawer triggers expose `aria-haspopup="dialog"`,
+  `aria-controls` and `aria-expanded`, synchronized by the shipped behavior.
+  The drawer handle is decorative unless the consumer makes it a focusable
+  drag control; swipe and drag gestures are consumer JavaScript. The sheet
+  close control needs an accessible label when its button is icon-only, and a
+  scrolling section without focusable content needs `role="region"`, an
+  accessible name and `tabindex="0"`.
 - Hover-card triggers need `aria-describedby` pointing at the panel. The panel
   is a non-modal preview; interactive content that must stay open belongs in a
   popover. The shipped hover-overlay behavior adds Escape dismissal and
@@ -1074,8 +1089,11 @@ The following are public API and require a breaking-change note when changed:
 - the context-menu area's `aria-haspopup`, `aria-controls` and `tabindex`.
 
 Additive changes (a new optional part, a new variant, a new token with a
-fallback) are non-breaking. Visual refinements that preserve anatomy and API
-are normal style work, but they must keep contrast and focus visibility.
+fallback) are non-breaking. Drawer's `drawer-content` slot and its
+`inline-start` / `inline-end` placement values are additive; existing
+`block-start` / `block-end` markup remains valid. Visual refinements that
+preserve anatomy and API are normal style work, but they must keep contrast and
+focus visibility.
 Experimental items are explicitly outside this contract until they are
 promoted; their root classes, anatomy and state hooks may change in any
 release.

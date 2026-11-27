@@ -1639,38 +1639,102 @@ test("drawer sides, sizes, nested dialogs and scrolling", async ({ page }) => {
   const viewport = page.viewportSize();
   expect(viewport).not.toBeNull();
 
-  const drawer = page.locator("#demo-drawer-default");
-  await page.locator('[data-open-dialog="demo-drawer-default"]').click();
-  await expect(drawer).toHaveAttribute("open", "");
-  await expect(drawer.locator("[data-slot='handle']")).toBeVisible();
-  await drawer.getByRole("button", { name: "Cancel" }).click();
-  await expect(drawer).not.toHaveAttribute("open", "");
+  const panelFor = (id: string) =>
+    page.locator(`#${id} > [data-slot='drawer-content']`);
+  const openDrawer = async (id: string) => {
+    await page.locator(`[data-open-dialog="${id}"]`).click();
+    await expect(page.locator(`#${id}`)).toHaveAttribute("open", "");
+  };
+  const closeDrawer = async (id: string) => {
+    await page.keyboard.press("Escape");
+    await expect(page.locator(`#${id}`)).not.toHaveAttribute("open", "");
+  };
 
-  const top = page.locator("#demo-drawer-top");
-  await page.locator('[data-open-dialog="demo-drawer-top"]').click();
-  await expect(top).toHaveAttribute("open", "");
-  const topPanelBox = await top.locator(":scope > div").boundingBox();
-  const topHandleBox = await top.locator("[data-slot='handle']").boundingBox();
-  expect(topPanelBox).not.toBeNull();
-  expect(topHandleBox).not.toBeNull();
-  expect(topPanelBox!.y).toBeLessThan(4);
-  expect(topHandleBox!.y).toBeGreaterThan(
-    topPanelBox!.y + topPanelBox!.height - 40
+  const defaultTrigger = page.locator(
+    '[data-open-dialog="demo-drawer-default"]'
   );
-  await top.getByRole("button", { name: "Close" }).click();
-  await expect(top).not.toHaveAttribute("open", "");
+  await openDrawer("demo-drawer-default");
+  await expect(defaultTrigger).toHaveAttribute("aria-expanded", "true");
+  await expect(
+    page.locator("#demo-drawer-default [data-slot='handle']")
+  ).toBeVisible();
+  const defaultPanelBox = await panelFor("demo-drawer-default").boundingBox();
+  expect(defaultPanelBox).not.toBeNull();
+  expect(defaultPanelBox!.height).toBeLessThan(viewport!.height - 96);
+  await expect(panelFor("demo-drawer-default")).toHaveCSS(
+    "max-height",
+    `${viewport!.height - 96}px`
+  );
 
-  const small = page.locator("#demo-drawer-small");
-  await page.locator('[data-open-dialog="demo-drawer-small"]').click();
-  const smallPanelBox = await small.locator(":scope > div").boundingBox();
+  const cancelBox = await page
+    .locator("#demo-drawer-default")
+    .getByRole("button", { name: "Cancel" })
+    .boundingBox();
+  const saveBox = await page
+    .locator("#demo-drawer-default")
+    .getByRole("button", { name: "Save changes" })
+    .boundingBox();
+  expect(cancelBox).not.toBeNull();
+  expect(saveBox).not.toBeNull();
+  expect(saveBox!.x).toBeCloseTo(cancelBox!.x, 0);
+  expect(saveBox!.y).toBeGreaterThan(cancelBox!.y);
+
+  await page
+    .locator("#demo-drawer-default")
+    .getByRole("button", { name: "Cancel" })
+    .click();
+  await expect(page.locator("#demo-drawer-default")).not.toHaveAttribute(
+    "open",
+    ""
+  );
+  await expect(defaultTrigger).toHaveAttribute("aria-expanded", "false");
+
+  const sides = [
+    { id: "demo-drawer-side-inline-start", edge: "inline-start" },
+    { id: "demo-drawer-side-inline-end", edge: "inline-end" },
+    { id: "demo-drawer-side-block-start", edge: "block-start" },
+    { id: "demo-drawer-side-block-end", edge: "block-end" }
+  ] as const;
+
+  for (const side of sides) {
+    await openDrawer(side.id);
+    const box = await panelFor(side.id).boundingBox();
+    expect(box).not.toBeNull();
+    if (side.edge === "inline-start") {
+      expect(box!.x).toBeLessThan(4);
+      expect(box!.width).toBeLessThanOrEqual(384);
+      await expect(page.locator(`#${side.id} [data-slot='handle']`)).toHaveCount(0);
+    } else if (side.edge === "inline-end") {
+      expect(box!.x + box!.width).toBeGreaterThanOrEqual(viewport!.width - 16);
+      expect(box!.width).toBeLessThanOrEqual(384);
+      await expect(page.locator(`#${side.id} [data-slot='handle']`)).toHaveCount(0);
+    } else if (side.edge === "block-start") {
+      expect(box!.y).toBeLessThan(4);
+      const handleBox = await page
+        .locator(`#${side.id} [data-slot='handle']`)
+        .boundingBox();
+      expect(handleBox).not.toBeNull();
+      expect(handleBox!.y).toBeGreaterThan(box!.y + box!.height - 48);
+    } else {
+      expect(box!.y + box!.height).toBeGreaterThan(viewport!.height - 4);
+    }
+    await closeDrawer(side.id);
+  }
+
+  await openDrawer("demo-drawer-small");
+  const smallPanelBox = await panelFor("demo-drawer-small").boundingBox();
   expect(smallPanelBox).not.toBeNull();
-  expect(smallPanelBox!.height).toBeCloseTo(viewport!.height / 2, 0);
-  await page.keyboard.press("Escape");
-  await expect(small).not.toHaveAttribute("open", "");
+  expect(smallPanelBox!.height).toBeLessThanOrEqual(viewport!.height / 2 + 1);
+  await closeDrawer("demo-drawer-small");
 
-  const scrollable = page.locator("#demo-drawer-scrollable");
-  await page.locator('[data-open-dialog="demo-drawer-scrollable"]').click();
-  const scrollSection = scrollable.locator("section");
+  await openDrawer("demo-drawer-large");
+  const largePanelBox = await panelFor("demo-drawer-large").boundingBox();
+  expect(largePanelBox).not.toBeNull();
+  expect(largePanelBox!.height).toBeLessThanOrEqual(viewport!.height * 0.9 + 1);
+  await closeDrawer("demo-drawer-large");
+
+  await openDrawer("demo-drawer-scrollable");
+  const scrollSection = page.locator("#demo-drawer-scrollable section");
   await expect(scrollSection).toHaveAttribute("role", "region");
   await expect(scrollSection).toHaveAttribute("tabindex", "0");
   expect(
@@ -1678,19 +1742,43 @@ test("drawer sides, sizes, nested dialogs and scrolling", async ({ page }) => {
   ).toBeGreaterThan(
     await scrollSection.evaluate((element) => element.clientHeight)
   );
-  await page.keyboard.press("Escape");
-  await expect(scrollable).not.toHaveAttribute("open", "");
+  await closeDrawer("demo-drawer-scrollable");
 
-  const nested = page.locator("#demo-drawer-nested");
-  await page.locator('[data-open-dialog="demo-drawer-nested"]').click();
-  await nested.getByRole("button", { name: "Open nested drawer" }).click();
+  await openDrawer("demo-drawer-nested");
+  await page
+    .locator("#demo-drawer-nested")
+    .getByRole("button", { name: "Open nested drawer" })
+    .click();
   const child = page.locator("#demo-drawer-nested-child");
   await expect(child).toHaveAttribute("open", "");
   await expect(child.locator("[data-slot='title']")).toHaveText("Nested drawer");
   await child.getByRole("button", { name: "Close" }).click();
   await expect(child).not.toHaveAttribute("open", "");
-  await nested.getByRole("button", { name: "Close" }).click();
-  await expect(nested).not.toHaveAttribute("open", "");
+  await page
+    .locator("#demo-drawer-nested")
+    .getByRole("button", { name: "Close" })
+    .click();
+  await expect(page.locator("#demo-drawer-nested")).not.toHaveAttribute(
+    "open",
+    ""
+  );
+
+  await openDrawer("demo-drawer-rtl");
+  const rtlPanelBox = await panelFor("demo-drawer-rtl").boundingBox();
+  expect(rtlPanelBox).not.toBeNull();
+  expect(rtlPanelBox!.x).toBeLessThan(4);
+  await closeDrawer("demo-drawer-rtl");
+});
+
+test("drawer uses directional motion and respects reduced motion", async ({ page }) => {
+  await page.goto("/docs/components/drawer");
+  const panel = page.locator(
+    "#demo-drawer-default > [data-slot='drawer-content']"
+  );
+
+  await expect(panel).toHaveCSS("transition-duration", "0.45s");
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await expect(panel).toHaveCSS("transition-duration", "0s");
 });
 
 test("open overlay panels pass axe in every color scheme", async ({ page }) => {

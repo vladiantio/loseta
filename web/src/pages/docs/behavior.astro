@@ -76,6 +76,15 @@ const meta = pageMeta["/docs/behavior"];
         controls clamp at the ends.
       </li>
       <li>
+        <strong>Drawer.</strong> The optional direct
+        <code>[data-slot="handle"]</code> supports pointer/touch swipe-to-close
+        in all four logical directions. It uses pointer capture after movement,
+        distance or velocity thresholds and native <code>dialog.close()</code>.
+        The handle stays <code>aria-hidden</code> and non-focusable; close
+        controls and Escape remain the keyboard path. Drawers without a handle
+        are unchanged.
+      </li>
+      <li>
         <strong>Resizable.</strong> One handle between two adjacent panels,
         pointer capture after movement, missed-release recovery,
         arrow/Home/End keys, a percentage split through <code>--panel-size</code>,
@@ -124,8 +133,9 @@ const meta = pageMeta["/docs/behavior"];
         cards; <code>detail.open</code> is a boolean.
       </li>
       <li>
-        <code>dismiss</code> — toast items; <code>detail.reason</code> is
-        <code>"timeout"</code> or <code>"close"</code>.
+        <code>dismiss</code> — toast items and drawer swipes;
+        <code>detail.reason</code> is <code>"timeout"</code>,
+        <code>"close"</code> or <code>"swipe"</code>.
       </li>
     </ul>
 
@@ -178,7 +188,8 @@ const meta = pageMeta["/docs/behavior"];
       Safari 26+ and Firefox 147+. It relies on native
       <code>&lt;dialog&gt;</code>, <code>showModal()</code>,
       <code>aria-activedescendant</code>, <code>Intl</code> and
-      <code>:has()</code>; there is no transpilation or polyfill layer.
+      <code>:has()</code> and Pointer Events; there is no transpilation or
+      polyfill layer.
     </p>
 
     <h2>Limits</h2>
@@ -189,6 +200,7 @@ const meta = pageMeta["/docs/behavior"];
       <li>Toasts hide immediately; there is no exit animation.</li>
       <li>Calendar custom day content, presets, date-time logic and multi-calendar range coordination stay app-owned.</li>
       <li>Carousel autoplay and looping are not included.</li>
+      <li>Drawer swipe starts only from the optional handle; panel-wide swiping, snap points, swipe-to-open and animated nested stacking are not included.</li>
       <li>Resizable groups use one handle between two panels; nested groups compose, with no persistence.</li>
       <li>Questionnaire validation, completion and final submit stay app-owned.</li>
       <li>

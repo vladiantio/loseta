@@ -7,6 +7,9 @@
 - Drawer now exposes `data-slot="drawer-content"` for its single direct panel
   and supports logical `inline-start` and `inline-end` placement in addition to
   top and bottom drawers.
+- Drawer's optional handle now supports swipe-to-close with mouse, pen and
+  touch. Successful swipes emit `dismiss` with `reason: "swipe"` before the
+  existing close lifecycle; drawers without a handle are unchanged.
 
 ### Changed
 

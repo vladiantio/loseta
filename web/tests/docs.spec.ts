@@ -1655,9 +1655,17 @@ test("drawer sides, sizes, nested dialogs and scrolling", async ({ page }) => {
   );
   await openDrawer("demo-drawer-default");
   await expect(defaultTrigger).toHaveAttribute("aria-expanded", "true");
-  await expect(
-    page.locator("#demo-drawer-default [data-slot='handle']")
-  ).toBeVisible();
+  const defaultHandle = page.locator(
+    "#demo-drawer-default [data-slot='handle']"
+  );
+  await expect(defaultHandle).toBeVisible();
+  await expect(defaultHandle).toHaveCSS("touch-action", "none");
+  await expect(defaultHandle).toHaveCSS("cursor", "grab");
+  expect(
+    await defaultHandle.evaluate(
+      (element) => getComputedStyle(element, "::after").blockSize
+    )
+  ).toBe("44px");
   const defaultPanelBox = await panelFor("demo-drawer-default").boundingBox();
   expect(defaultPanelBox).not.toBeNull();
   expect(defaultPanelBox!.height).toBeLessThan(viewport!.height - 96);

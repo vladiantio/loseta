@@ -1,5 +1,6 @@
 // The docs preview runs the shipped behavior modules directly.
 import "../../../../packages/loseta/registry/behaviors/dialog.js";
+import "../../../../packages/loseta/registry/behaviors/drawer.js";
 import "../../../../packages/loseta/registry/behaviors/popover.js";
 import "../../../../packages/loseta/registry/behaviors/menu.js";
 import "../../../../packages/loseta/registry/behaviors/tabs.js";

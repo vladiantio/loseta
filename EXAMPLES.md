@@ -84,6 +84,9 @@ installed example.
 
 - `data-open-dialog="<id>"` — open the referenced `<dialog>` with `showModal()`.
 - `data-close-dialog` — close the nearest dialog.
+- Drawer `[data-slot="handle"]` — optional direct handle that enables
+  pointer/touch swipe-to-close; keep it `aria-hidden="true"` and out of the tab
+  order.
 - `[data-slot="input"]` — hidden value input on select and single combobox.
 - `[data-slot="copy"]` / `[data-slot="wrap"]` — Code Block copy and wrap
   controls; `data-copied` is the transient copy state.

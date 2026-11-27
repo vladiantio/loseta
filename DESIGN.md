@@ -457,7 +457,7 @@ direction.
 | Command | `.command` | Popover surface with `[data-slot="command-input"]`, an input-group search field and a `[role="listbox"]` with groups, labels, separators, shortcuts, optional indicators and an empty state. | `[data-slot="shortcut"]`, `[data-slot="empty"]`, `[data-slot="indicator"]`; `[role="separator"]` dividers; option `aria-disabled` and `aria-selected` |
 | Context menu | `.context-menu` | `[role="menu"]` panel with menu items, checkable items, headings, separators and shortcuts; nested menus use a `role="none"` wrapper around the trigger and its `[data-popover]` panel. | `--context-x`, `--context-y` on the panel; `aria-hidden="true|false"`; `aria-checked` on checkable items; the panel scrolls near the viewport edge |
 | Dialog | `.dialog` | Native `<dialog>` containing a panel; panel contains `header`, title, description, `section`, `footer` and a close button or `form[method="dialog"]`. Section content scrolls between a fixed header and footer. | Footer `data-align="start"` |
-| Drawer | `.drawer` | Native `<dialog>` with one direct `[data-slot="drawer-content"]` panel containing an optional `[data-slot="handle"]`, `header`, `section` and `footer`. The section scrolls between the header and footer. | `data-side="block-start|block-end|inline-start|inline-end"`; `data-size="default|sm|lg"` sets a maximum block size on vertical drawers; `--drawer-height`, `--drawer-width` and `--drawer-inset` override the defaults |
+| Drawer | `.drawer` | Native `<dialog>` with one direct `[data-slot="drawer-content"]` panel containing an optional `[data-slot="handle"]`, `header`, `section` and `footer`. The handle enables pointer swipe-to-close; the section scrolls between the header and footer. | `data-side="block-start|block-end|inline-start|inline-end"`; `data-size="default|sm|lg"` sets a maximum block size on vertical drawers; `--drawer-height`, `--drawer-width` and `--drawer-inset` override the defaults |
 | Dropdown menu | `.dropdown-menu` | Trigger, `[data-popover]` panel, `[role="menu"]`, menu item roles, `[role="separator"]`, `[role="heading"]`, shortcut and indicator slots; nested menus use a `role="none"` wrapper around the sub-trigger and its panel. | Item `data-variant="destructive"`; default by omission; placement attributes; `data-inset`; `data-rtl-flip`; `aria-checked` on checkable items |
 | Empty | `.empty` | `header` with optional `figure` (a single SVG becomes the icon box; image, avatar or avatar-group markup is used as-is), title (`h2`–`h4`) and description `p`; `section`; `footer`. | — |
 | Field | `.field`, `.fieldset` | Label or legend, control, content `section` for a label/description pair, description `p`, error `[role="alert"]`, group/radiogroup container and `.field-separator` with an `hr`. | Legend `data-variant="label|legend"`; field `data-orientation="horizontal|responsive"`; group `data-slot="checkbox-group|radio-group"` |
@@ -527,7 +527,7 @@ The public slot vocabulary is shared across components:
 - `data-slot="fallback"`, `data-slot="badge"`, `data-slot="count"` — avatar.
 - `data-slot="ellipsis"` — breadcrumb and pagination.
 - `data-slot="label"` — pagination previous/next text and listbox group labels.
-- `data-slot="handle"` — drawer and resizable.
+- `data-slot="handle"` — drawer swipe surface and resizable.
 - `data-slot="drawer-content"` — drawer's single direct panel.
 - `data-slot="grip"` — optional visible grip inside a resizable handle.
 - `data-slot="title"`, `data-slot="description"` — navigation menu panels.
@@ -708,9 +708,11 @@ Notes:
   section scrolls. The shipped dialog behavior opens them with
   `data-open-dialog="<id>"` and closes them with `data-close-dialog`. Drawer
   triggers also receive `aria-haspopup="dialog"`, `aria-controls` and a
-  synchronized `aria-expanded`. The sheet close control is a direct child
-  `form[method="dialog"]` or `button` at the inline end; style its button with
-  `.btn` and give icon-only controls an accessible label.
+  synchronized `aria-expanded`. A drawer's optional handle starts swipe-to-close
+  in its `data-side` direction; the drawer behavior emits
+  `dismiss({ reason: "swipe" })` before native `close()`. The sheet close control
+  is a direct child `form[method="dialog"]` or `button` at the inline end; style
+  its button with `.btn` and give icon-only controls an accessible label.
 - Calendar day cells use `aria-selected`; day buttons use `aria-current="date"`
   and `aria-disabled`. A range or multiple selection sets
   `aria-multiselectable="true"` on the grid and marks every selected day. The
@@ -765,11 +767,12 @@ complete without them; `--no-behavior` must always produce a valid install.
   documented as behavior-dependent. Tooltip and hover-card keep their CSS
   hover/focus fallbacks; the tooltip `data-tooltip` shorthand stays
   visual-only.
-- The modules are: `dialog` (dialog, alert-dialog, sheet, drawer), `popover`,
-  `menu` (dropdown-menu, context-menu, menubar, navigation-menu), `tabs`,
-  `listbox` plus `select`, `combobox` and `command`, `toast`, `code-block`,
-  `calendar`, `carousel`, `resizable`, `questionnaire`, `message-scroller` and
-  `hover-overlay` (tooltip and hover-card).
+- The modules are: `dialog` (dialog, alert-dialog, sheet and the shared drawer
+  lifecycle), `drawer` (handle swipe-to-close), `popover`, `menu` (dropdown-menu,
+  context-menu, menubar, navigation-menu), `tabs`, `listbox` plus `select`,
+  `combobox` and `command`, `toast`, `code-block`, `calendar`, `carousel`,
+  `resizable`, `questionnaire`, `message-scroller` and `hover-overlay` (tooltip
+  and hover-card).
 - Calendar reads `data-selection="single|range|multiple"`, `data-min`,
   `data-max`, `data-unavailable`, `data-month` and `data-date`, renders standard
   day buttons and uses `Intl` for labels and week numbers. Range uses two
@@ -790,6 +793,10 @@ complete without them; `--no-behavior` must always produce a valid install.
   reads `data-duration`, Message scroller exposes `mount(root)` for a
   late-mounted subtree and Code Block uses `data-copied` for its transient
   check state.
+- Drawer swipe writes the internal runtime properties
+  `--drawer-gesture-duration`, `--drawer-swipe-transform` and
+  `--drawer-swipe-progress`. They are removed after settling and are not public
+  customization hooks.
 - Behavior relies on the same browser target as the CSS: Chrome/Edge 125+,
   Safari 26+ and Firefox 147+.
 
@@ -809,9 +816,10 @@ complete without them; `--no-behavior` must always produce a valid install.
 - Menus, listbox panels and navigation panels transition in `100ms`; select
   chevrons rotate in `150ms`; sheets use the dialog shell's `150ms` entry.
   Drawers use a directional `450ms` transform with
-  `cubic-bezier(0.22, 1, 0.36, 1)` and stop under
-  `prefers-reduced-motion: reduce`. Hover cards open after a `300ms` delay and
-  hide immediately when the pointer leaves.
+  `cubic-bezier(0.22, 1, 0.36, 1)`; handle swipe release scales the exit or
+  snap-back duration between `80ms` and `360ms`, and all drawer motion stops
+  under `prefers-reduced-motion: reduce`. Hover cards open after a `300ms` delay
+  and hide immediately when the pointer leaves.
 - The spinner rotates on a `0.75s` linear loop; progress uses a `1.5s`
   indeterminate sweep that follows the inline direction.
 - Dialog entry uses `@starting-style` and `allow-discrete`: the backdrop fades,
@@ -929,11 +937,11 @@ progress sweep slow down instead of stopping. This remains a known gap.
 - Sheets and drawers are native `<dialog>` elements and follow the dialog
   labelling rules. Drawer triggers expose `aria-haspopup="dialog"`,
   `aria-controls` and `aria-expanded`, synchronized by the shipped behavior.
-  The drawer handle is decorative unless the consumer makes it a focusable
-  drag control; swipe and drag gestures are consumer JavaScript. The sheet
-  close control needs an accessible label when its button is icon-only, and a
-  scrolling section without focusable content needs `role="region"`, an
-  accessible name and `tabindex="0"`.
+  The optional drawer handle is an `aria-hidden` pointer gesture surface for
+  swipe-to-close; it is not focusable and adds no role. Keyboard users retain
+  close controls and Escape. The sheet close control needs an accessible label
+  when its button is icon-only, and a scrolling section without focusable
+  content needs `role="region"`, an accessible name and `tabindex="0"`.
 - Hover-card triggers need `aria-describedby` pointing at the panel. The panel
   is a non-modal preview; interactive content that must stay open belongs in a
   popover. The shipped hover-overlay behavior adds Escape dismissal and
@@ -1137,7 +1145,8 @@ semantic versioning.
   examples, docs and tests exist.
 - Context menu coordinates are physical even in RTL; the behavior sets them
   from the pointer or the focused area.
-- Drawers ship no swipe or drag behavior; the handle is a visual affordance.
+- Drawer swipe starts only from the optional handle. Panel-wide swiping,
+  snap points, swipe-to-open and animated nested stacking are not included.
 - Menubars and navigation menus ship keyboard navigation; the mobile layout
   remains consumer work.
 - Hover cards are previews. They can be dismissed with Escape, but should not

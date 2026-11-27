@@ -3198,7 +3198,7 @@
       "type": "component",
       "status": "stable",
       "title": "Drawer",
-      "description": "A modal panel that slides in from any viewport edge.",
+      "description": "A modal panel that slides in from any viewport edge, with optional handle swipe-to-close.",
       "docs": "/docs/components/drawer",
       "root": [
         ".drawer"
@@ -3280,6 +3280,11 @@
         {
           "path": "behaviors/dialog.js",
           "target": "behaviors/dialog.js",
+          "kind": "entry"
+        },
+        {
+          "path": "behaviors/drawer.js",
+          "target": "behaviors/drawer.js",
           "kind": "entry"
         }
       ]

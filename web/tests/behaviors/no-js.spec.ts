@@ -13,6 +13,15 @@ test("content stays readable and overlays stay inert without JavaScript", async 
   await trigger.click();
   await expect(page.locator("dialog[open]")).toHaveCount(0);
 
+  const drawerTrigger = page.locator(
+    '[data-open-dialog="demo-drawer-default"]'
+  );
+  await drawerTrigger.click();
+  await expect(page.locator("#demo-drawer-default")).not.toHaveAttribute(
+    "open",
+    ""
+  );
+
   const menu = page.locator('[data-fixture="dropdown-menu"] [data-popover]').first();
   await expect(menu).toHaveAttribute("aria-hidden", "true");
 

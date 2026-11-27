@@ -6,11 +6,19 @@
     --drawer-height: calc(var(--drawer-available-height) - 6rem);
     --drawer-closed-transform: translate3d(0, calc(100% + var(--drawer-inset) + 2px), 0);
 
-    transition-duration: 450ms;
+    transition-duration: var(--drawer-gesture-duration, 450ms);
     transition-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
 
+    &:is([open], :popover-open)::backdrop {
+      opacity: var(--drawer-swipe-progress, 1);
+
+      @starting-style {
+        opacity: 0;
+      }
+    }
+
     &::backdrop {
-      transition-duration: 450ms;
+      transition-duration: var(--drawer-gesture-duration, 450ms);
       transition-timing-function: cubic-bezier(0.32, 0.72, 0, 1);
     }
 
@@ -25,14 +33,30 @@
       scale: 1;
       flex-direction: column;
       overflow: hidden;
-      transform: translate3d(0, 0, 0);
+      transform: var(--drawer-swipe-transform, translate3d(0, 0, 0));
       transition-property: transform;
-      transition-duration: 450ms;
+      transition-duration: var(--drawer-gesture-duration, 450ms);
       transition-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
 
       > [data-slot='handle'] {
+        position: relative;
         display: block;
         flex-shrink: 0;
+        touch-action: none;
+        cursor: grab;
+        user-select: none;
+
+        &:active {
+          cursor: grabbing;
+        }
+
+        &::after {
+          position: absolute;
+          inset-block-start: -12px;
+          inset-inline: 0;
+          block-size: 44px;
+          content: "";
+        }
       }
 
       > header {
@@ -54,6 +78,11 @@
         margin-block-start: auto;
         flex-direction: column;
       }
+    }
+
+    &[data-side='block-start'] > * > [data-slot='handle']::after {
+      inset-block-start: auto;
+      inset-block-end: -12px;
     }
 
     &:not(:is([open], :popover-open)) > * {

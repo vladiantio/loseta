@@ -2,7 +2,7 @@
 @layer loseta.components {
   .drawer {
     --drawer-inset: 0px;
-    --drawer-available-height: calc(100dvh - var(--drawer-inset) - var(--drawer-inset));
+    --drawer-available-height: calc(100dvh - 2 * var(--drawer-inset));
     --drawer-height: calc(var(--drawer-available-height) - 6rem);
     --drawer-closed-transform: translate3d(0, calc(100% + var(--drawer-inset) + 2px), 0);
 
@@ -126,9 +126,10 @@
       > * {
         display: grid;
         grid-template-rows: auto minmax(0, 1fr) auto;
+        height: calc(100% - 2 * var(--drawer-inset));
         inset-block: var(--drawer-inset);
         inline-size: var(--drawer-width, 75vw);
-        max-inline-size: calc(100vw - var(--drawer-inset) - var(--drawer-inset));
+        max-inline-size: calc(100vw - 2 * var(--drawer-inset));
 
         @media (width >= 40rem) {
           inline-size: var(--drawer-width, 24rem);
@@ -215,6 +216,7 @@
       > * {
         inset-inline: var(--drawer-inset);
         max-block-size: var(--drawer-height, calc(var(--drawer-available-height) - 6rem));
+        width: calc(100% - 2 * var(--drawer-inset));
       }
     }
 

@@ -255,6 +255,39 @@ test("plain handle click stays decorative and does not start a gesture", async (
   await expectRuntimeClean(drawer);
 });
 
+test("handle container spans the swipe axis and draws a style-owned bar", async ({ page }) => {
+  const vertical = await openDrawer(page, "demo-drawer-default");
+  const verticalPanelBox = await vertical.panel.boundingBox();
+  const verticalHandleBox = await vertical.handle.boundingBox();
+  expect(verticalPanelBox).not.toBeNull();
+  expect(verticalHandleBox).not.toBeNull();
+  expect(verticalHandleBox!.width).toBeCloseTo(verticalPanelBox!.width, 0);
+  expect(verticalHandleBox!.height).toBeCloseTo(12, 0);
+  expect(
+    await vertical.handle.evaluate((element) => {
+      const style = getComputedStyle(element, "::after");
+      return { width: style.inlineSize, height: style.blockSize };
+    })
+  ).toEqual({ width: "96px", height: "4px" });
+  await page.keyboard.press("Escape");
+  await expect(vertical.drawer).toHaveJSProperty("open", false);
+
+  const horizontal = await openDrawer(page, "demo-drawer-side-inline-start");
+  await ensureHandle(page, "demo-drawer-side-inline-start");
+  const horizontalPanelBox = await horizontal.panel.boundingBox();
+  const horizontalHandleBox = await horizontal.handle.boundingBox();
+  expect(horizontalPanelBox).not.toBeNull();
+  expect(horizontalHandleBox).not.toBeNull();
+  expect(horizontalHandleBox!.width).toBeCloseTo(12, 0);
+  expect(horizontalHandleBox!.height).toBeCloseTo(horizontalPanelBox!.height, 0);
+  expect(
+    await horizontal.handle.evaluate((element) => {
+      const style = getComputedStyle(element, "::after");
+      return { width: style.inlineSize, height: style.blockSize };
+    })
+  ).toEqual({ width: "4px", height: "96px" });
+});
+
 test("short slow drag exposes runtime state, then snaps back and cleans up", async ({ page }) => {
   const id = "demo-drawer-default";
   const { drawer } = await openDrawer(page, id);

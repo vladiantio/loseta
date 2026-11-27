@@ -19,12 +19,18 @@
   motion with reduced-motion support.
 - Drawer `sm` and `lg` sizes now set maximum heights instead of fixed heights;
   the default is content-sized up to `calc(100dvh - 6rem)`.
+- The Drawer swipe handle now spans the full swipe axis and draws its visible
+  bar through `::after`, with vertical and horizontal dimensions defined per
+  style.
 
 ### Fixed
 
 - Drawer triggers now maintain `aria-haspopup`, `aria-controls` and
   `aria-expanded`, and drawer body typography and backdrop styling are applied
   consistently in every style.
+- Floating Drawer styles now use a single inset popover surface instead of the
+  legacy inner Vaul frame, removing the double border in Maia, Mira, Luma and
+  Rhea.
 
 ## 0.22.1 - 2026-11-26
 

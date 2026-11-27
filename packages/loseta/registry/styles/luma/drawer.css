@@ -7,14 +7,11 @@
     --drawer-border-width: 1px;
     --drawer-border-color: light-dark(var(--popover), var(--border));
     --drawer-shadow: var(--shadow-xl);
-    --drawer-frame-content: "";
-    --drawer-frame-inset: 0.5rem;
-    --drawer-frame-border-width: 1px;
-    --drawer-frame-shadow: var(--shadow-xl);
     --drawer-padding: 1rem;
-    --drawer-handle-offset: 1rem;
     --drawer-handle-inline-size: 6.25rem;
     --drawer-handle-block-size: 0.375rem;
+    --drawer-handle-cross-size: 6.25rem;
+    --drawer-handle-thickness: 0.375rem;
     --drawer-handle-radius: var(--radius-full);
     --drawer-header-gap: 0.5rem;
     --drawer-header-gap-md: 1.5rem;
@@ -38,7 +35,6 @@
     }
 
     > * {
-      isolation: isolate;
       border-style: solid;
       border-width: var(--drawer-border-width);
       border-color: var(--drawer-border-color);
@@ -49,20 +45,6 @@
       line-height: var(--drawer-body-line-height);
       box-shadow: var(--drawer-shadow);
 
-      &::before {
-        content: var(--drawer-frame-content);
-        position: absolute;
-        inset-block: var(--drawer-frame-inset);
-        inset-inline: var(--drawer-frame-inset);
-        z-index: -1;
-        border-style: solid;
-        border-width: var(--drawer-frame-border-width);
-        border-color: var(--drawer-border-color);
-        border-radius: inherit;
-        background-color: var(--popover);
-        box-shadow: var(--drawer-frame-shadow);
-        pointer-events: none;
-      }
     }
 
     &[data-side='block-start'] > * {
@@ -93,18 +75,9 @@
       border-inline-end-color: var(--drawer-border-color);
     }
 
-    > * > [data-slot='handle'] {
-      inline-size: var(--drawer-handle-inline-size);
-      block-size: var(--drawer-handle-block-size);
-      margin-block-start: var(--drawer-handle-offset);
-      margin-inline: auto;
+    > * > [data-slot='handle']::after {
       border-radius: var(--drawer-handle-radius);
       background-color: var(--muted);
-    }
-
-    &[data-side='block-start'] > * > [data-slot='handle'] {
-      margin-block-start: 0;
-      margin-block-end: var(--drawer-handle-offset);
     }
 
     > * > header {

@@ -23,6 +23,7 @@ interface StyleCase {
   selector: string;
   property: string;
   values: Record<string, string>;
+  pseudo?: string;
 }
 
 // Each promoted batch adds its signature components here. The values are part
@@ -317,6 +318,7 @@ const cases: StyleCase[] = [
   {
     id: "drawer",
     selector: ".docs-preview .drawer [data-slot='handle']",
+    pseudo: "::after",
     property: "width",
     values: {
       nova: "96px",
@@ -327,6 +329,22 @@ const cases: StyleCase[] = [
       luma: "100px",
       sera: "100px",
       rhea: "100px"
+    }
+  },
+  {
+    id: "drawer",
+    selector: ".docs-preview .drawer > [data-slot='drawer-content']",
+    pseudo: "::before",
+    property: "content",
+    values: {
+      nova: "none",
+      vega: "none",
+      maia: "none",
+      lyra: "none",
+      mira: "none",
+      luma: "none",
+      sera: "none",
+      rhea: "none"
     }
   },
   {
@@ -616,7 +634,16 @@ for (const [index, entry] of cases.entries()) {
     for (const style of styleNames) {
       await select.selectOption(style);
       await waitForStyle(page, style);
-      await expect(probe).toHaveCSS(entry.property, entry.values[style]);
+      if (entry.pseudo) {
+        const value = await probe.evaluate(
+          (element, { property, pseudo }) =>
+            getComputedStyle(element, pseudo).getPropertyValue(property),
+          { property: entry.property, pseudo: entry.pseudo }
+        );
+        expect(value).toBe(entry.values[style]);
+      } else {
+        await expect(probe).toHaveCSS(entry.property, entry.values[style]);
+      }
     }
   });
 }

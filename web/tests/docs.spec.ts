@@ -1661,13 +1661,17 @@ test("drawer sides, sizes, nested dialogs and scrolling", async ({ page }) => {
   await expect(defaultHandle).toBeVisible();
   await expect(defaultHandle).toHaveCSS("touch-action", "none");
   await expect(defaultHandle).toHaveCSS("cursor", "grab");
-  expect(
-    await defaultHandle.evaluate(
-      (element) => getComputedStyle(element, "::after").blockSize
-    )
-  ).toBe("44px");
   const defaultPanelBox = await panelFor("demo-drawer-default").boundingBox();
+  const defaultHandleBox = await defaultHandle.boundingBox();
   expect(defaultPanelBox).not.toBeNull();
+  expect(defaultHandleBox).not.toBeNull();
+  expect(defaultHandleBox!.width).toBeCloseTo(defaultPanelBox!.width, 0);
+  expect(defaultHandleBox!.height).toBe(12);
+  const handleBar = await defaultHandle.evaluate((element) => {
+    const style = getComputedStyle(element, "::after");
+    return { width: style.inlineSize, height: style.blockSize };
+  });
+  expect(handleBar).toEqual({ width: "96px", height: "4px" });
   expect(defaultPanelBox!.height).toBeLessThan(viewport!.height - 96);
   await expect(panelFor("demo-drawer-default")).toHaveCSS(
     "max-height",

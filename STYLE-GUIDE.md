@@ -219,9 +219,11 @@ the batch, not a per-item guess.
   heading.
 - The backdrop is drawer-specific: black at 10% for Nova, Vega and Lyra, 20% for
   Sera, 30% for Luma and Rhea, and 80% for Maia and Mira, with the style's blur.
-- The optional handle is an `aria-hidden` swipe surface. Match the style's
-  visible width, height and radius; the base owns the 44px hit area,
-  `touch-action: none` and grab/grabbing cursors.
+- The optional handle is an `aria-hidden` swipe container. It spans the full
+  swipe axis: `100% × 0.75rem` for vertical drawers and `0.75rem × 100%` for
+  horizontal drawers. The base owns `touch-action: none` and grab/grabbing
+  cursors; each style owns the visible `::after` bar width, thickness, radius
+  and muted color for both axes.
 
 ### Sera
 

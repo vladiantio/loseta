@@ -53,7 +53,7 @@
       font-size: var(--text-sm);
       line-height: var(--text-sm--line-height);
 
-      &:is(:focus-visible, [aria-expanded='true']) {
+      &:is([data-highlighted], [aria-expanded='true']) {
         background-color: var(--accent);
         color: var(--accent-foreground);
       }
@@ -64,16 +64,15 @@
       }
     }
 
-    & :is([role='menuitem'], [role='menuitemcheckbox'], [role='menuitemradio']):is([data-highlighted], [aria-expanded='true']) {
-      background-color: var(--accent);
-      color: var(--accent-foreground);
+    & [role='menuitem'] svg {
+      color: var(--muted-foreground);
     }
 
     & :is([role='menuitem'], [role='menuitemcheckbox'], [role='menuitemradio'])[data-variant='destructive'] {
       color: var(--destructive);
     }
 
-    & :is([role='menuitem'], [role='menuitemcheckbox'], [role='menuitemradio'])[data-variant='destructive']:is(:focus-visible, [data-highlighted], [aria-expanded='true']) {
+    & :is([role='menuitem'], [role='menuitemcheckbox'], [role='menuitemradio'])[data-variant='destructive']:is([data-highlighted], [aria-expanded='true']) {
       background-color: light-dark(
         color-mix(in oklab, var(--destructive) 10%, transparent),
         color-mix(in oklab, var(--destructive) 20%, transparent)
@@ -87,30 +86,29 @@
 
     & :is([role='menuitemcheckbox'], [role='menuitemradio']) {
       padding-block: 0.25rem;
-      padding-inline-start: 0.375rem;
-      padding-inline-end: 2rem;
+      padding-inline-start: 2rem;
+      padding-inline-end: 0.375rem;
     }
 
-    & :is([role='menuitem'], [role='menuitemcheckbox'], [role='menuitemradio'])[data-inset],
+    & [role='menuitem'][data-inset],
     & [role='heading'][data-inset] {
       padding-inline-start: 1.75rem;
     }
 
-    & [data-slot='indicator'] {
-      position: absolute;
-      inset-inline-end: 0.5rem;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+    & [role='menuitemradio'] [data-slot='indicator']:empty::before {
+      content: '';
+      inline-size: 0.5rem;
+      block-size: 0.5rem;
+      border-radius: 50%;
+      background-color: currentColor;
     }
 
     & [role='heading'] {
       padding-inline: 0.375rem;
       padding-block: 0.25rem;
-      font-size: var(--text-xs);
-      line-height: var(--text-xs--line-height);
+      font-size: var(--text-sm);
+      line-height: var(--text-sm--line-height);
       font-weight: 500;
-      color: var(--muted-foreground);
     }
 
     & [role='separator'] {
@@ -126,10 +124,6 @@
       line-height: var(--text-xs--line-height);
       letter-spacing: 0.1em;
       color: var(--muted-foreground);
-    }
-
-    & :is([role='menuitem'], [role='menuitemcheckbox'], [role='menuitemradio']):is(:focus-visible, [data-highlighted], [aria-expanded='true']) :is([data-slot='shortcut'], kbd:last-child, .kbd:last-child) {
-      color: var(--accent-foreground);
     }
   }
 }
@@ -1197,11 +1191,7 @@
 }
 /* Dropdown Menu */
 @layer loseta.style {
-  .dropdown-menu {
-    > [data-popover] {
-      width: max(8rem, 100%);
-    }
-  }
+  /* The base width contract and the shared menu primitive own this component. */
 }
 /* Empty */
 @layer loseta.style {

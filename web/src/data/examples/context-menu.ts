@@ -125,11 +125,11 @@ export const contextMenuExamples: Example[] = [
       <div role="heading" aria-level="2">People</div>
       <button type="button" role="menuitemradio" aria-checked="true">
         Pedro Duarte
-        <span data-slot="indicator" aria-hidden="true">${check}</span>
+        <span data-slot="indicator" aria-hidden="true"></span>
       </button>
       <button type="button" role="menuitemradio" aria-checked="false">
         Colm Tuite
-        <span data-slot="indicator" aria-hidden="true">${check}</span>
+        <span data-slot="indicator" aria-hidden="true"></span>
       </button>
     </div>
     <div role="separator"></div>
@@ -137,15 +137,15 @@ export const contextMenuExamples: Example[] = [
       <div role="heading" aria-level="2">Theme</div>
       <button type="button" role="menuitemradio" aria-checked="true">
         Light
-        <span data-slot="indicator" aria-hidden="true">${check}</span>
+        <span data-slot="indicator" aria-hidden="true"></span>
       </button>
       <button type="button" role="menuitemradio" aria-checked="false">
         Dark
-        <span data-slot="indicator" aria-hidden="true">${check}</span>
+        <span data-slot="indicator" aria-hidden="true"></span>
       </button>
       <button type="button" role="menuitemradio" aria-checked="false">
         System
-        <span data-slot="indicator" aria-hidden="true">${check}</span>
+        <span data-slot="indicator" aria-hidden="true"></span>
       </button>
     </div>
   </div>
@@ -181,11 +181,11 @@ export const contextMenuExamples: Example[] = [
       <div role="heading" aria-level="2">الأشخاص</div>
       <button type="button" role="menuitemradio" aria-checked="true">
         بيدرو دوارتي
-        <span data-slot="indicator" aria-hidden="true">${check}</span>
+        <span data-slot="indicator" aria-hidden="true"></span>
       </button>
       <button type="button" role="menuitemradio" aria-checked="false">
         كولم تويت
-        <span data-slot="indicator" aria-hidden="true">${check}</span>
+        <span data-slot="indicator" aria-hidden="true"></span>
       </button>
     </div>
   </div>

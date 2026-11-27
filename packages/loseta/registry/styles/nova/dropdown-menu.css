@@ -1,8 +1,4 @@
 /* Dropdown Menu */
 @layer loseta.style {
-  .dropdown-menu {
-    > [data-popover] {
-      width: max(8rem, 100%);
-    }
-  }
+  /* The base width contract and the shared menu primitive own this component. */
 }

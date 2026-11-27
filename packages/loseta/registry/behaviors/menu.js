@@ -5,6 +5,7 @@ import {
   firstEnabled,
   focusWhenVisible,
   init,
+  isDisabled,
   isRTL,
   lastEnabled,
   nextEnabled,
@@ -28,6 +29,8 @@ const ITEM_SELECTOR =
 const openMenus = new Map();
 /** @type {WeakMap<Element, number>} */
 const hoverTimers = new WeakMap();
+/** @type {WeakMap<Element, number>} */
+const closeTimers = new WeakMap();
 
 /** @param {Element | null | undefined} element @returns {element is HTMLElement} */
 function isHTMLElement(element) {
@@ -91,9 +94,11 @@ function focusItem(item) {
   if (menu) {
     for (const candidate of itemsOf(menu)) {
       candidate.setAttribute("tabindex", "-1");
+      candidate.removeAttribute("data-highlighted");
     }
   }
   item.setAttribute("tabindex", "0");
+  item.setAttribute("data-highlighted", "");
   focusWhenVisible(item);
 }
 
@@ -115,8 +120,14 @@ function closeEntry(entry, focusTrigger) {
   }
 
   clearHover(entry.trigger);
+  clearClose(entry.trigger);
+  clearClose(entry.panel);
   for (const trigger of entry.panel.querySelectorAll("[aria-haspopup='menu']")) {
     clearHover(trigger);
+    clearClose(trigger);
+  }
+  for (const item of entry.panel.querySelectorAll(ITEM_SELECTOR)) {
+    item.removeAttribute("data-highlighted");
   }
 
   openMenus.delete(entry.panel);
@@ -128,6 +139,9 @@ function closeEntry(entry, focusTrigger) {
 
 /** @param {HTMLElement} trigger @param {HTMLElement} panel @param {"first" | "last" | "none"} focus */
 function openEntry(trigger, panel, focus) {
+  clearClose(trigger);
+  clearClose(panel);
+
   const existing = openMenus.get(panel);
   if (existing) {
     if (focus !== "none") {
@@ -227,6 +241,25 @@ function scheduleHover(element, delay, callback) {
     callback();
   }, delay);
   hoverTimers.set(element, timer);
+}
+
+/** @param {Element} element */
+function clearClose(element) {
+  const timer = closeTimers.get(element);
+  if (timer !== undefined) {
+    clearTimeout(timer);
+    closeTimers.delete(element);
+  }
+}
+
+/** @param {Element} element @param {number} delay @param {() => void} callback */
+function scheduleClose(element, delay, callback) {
+  clearClose(element);
+  const timer = window.setTimeout(() => {
+    closeTimers.delete(element);
+    callback();
+  }, delay);
+  closeTimers.set(element, timer);
 }
 
 /** @param {HTMLElement} menubar */
@@ -456,9 +489,37 @@ on("pointerover", ".menubar [role='menuitem'][aria-haspopup='menu']", (_event, t
   });
 });
 
+// Pointer hover highlights one menu item at a time.
+on(
+  "pointerover",
+  "[role='menu'] [role='menuitem'], [role='menu'] [role='menuitemcheckbox'], [role='menu'] [role='menuitemradio']",
+  (_event, target) => {
+    if (!isHTMLElement(target)) return;
+    const menu = target.closest("[role='menu']");
+    if (!menu) return;
+    for (const item of itemsOf(menu)) item.removeAttribute("data-highlighted");
+    if (isDisabled(target)) return;
+    target.setAttribute("data-highlighted", "");
+  }
+);
+
+on("pointerout", ITEM_SELECTOR, (event, target) => {
+  if (!(event instanceof PointerEvent) || !isHTMLElement(target)) return;
+  const next = event.relatedTarget;
+  if (next instanceof Element && target.contains(next)) return;
+  target.removeAttribute("data-highlighted");
+});
+
+on("pointerleave", "[role='menu']", (_event, menuElement) => {
+  for (const item of itemsOf(menuElement)) item.removeAttribute("data-highlighted");
+});
+
 // Submenu hover opens a submenu without stealing focus.
 on("pointerover", "[role='menu'] [aria-haspopup='menu']", (_event, target) => {
   if (!isHTMLElement(target)) return;
+  clearClose(target);
+  const panel = menuPanel(target);
+  if (panel) clearClose(panel);
   const parentMenu = target.closest("[role='menu']");
   const parentPanel = parentMenu ? panelOfMenu(parentMenu) : null;
   if (!parentPanel || !openMenus.has(parentPanel)) return;
@@ -470,11 +531,48 @@ on("pointerover", "[role='menu'] [aria-haspopup='menu']", (_event, target) => {
   });
 });
 
-on("pointerout", "[role='menu'] [aria-haspopup='menu']", (_event, target) => {
+on("pointerout", "[role='menu'] [aria-haspopup='menu']", (event, target) => {
+  if (!(event instanceof PointerEvent) || !isHTMLElement(target)) return;
   clearHover(target);
+  const panel = menuPanel(target);
+  if (!panel || !openMenus.has(panel)) return;
+  const next = event.relatedTarget;
+  if (next instanceof Node && (target.contains(next) || panel.contains(next))) return;
+
+  scheduleClose(panel, 150, () => {
+    const entry = openMenus.get(panel);
+    if (!entry) return;
+    if (entry.panel.contains(document.activeElement)) return;
+    closeEntry(entry, false);
+  });
 });
 
-on("pointerout", ".menubar [role='menuitem'][aria-haspopup='menu']", (_event, target) => {
+on("pointerover", "[data-popover]", (_event, target) => {
+  if (!isHTMLElement(target)) return;
+  clearClose(target);
+  const entry = openMenus.get(target);
+  if (entry) clearClose(entry.trigger);
+});
+
+on("pointerout", "[data-popover]", (event, target) => {
+  if (!(event instanceof PointerEvent) || !isHTMLElement(target)) return;
+  const entry = openMenus.get(target);
+  if (!entry) return;
+  const parentMenu = target.parentElement?.closest("[role='menu']");
+  if (!parentMenu) return;
+  const next = event.relatedTarget;
+  if (next instanceof Node && (target.contains(next) || entry.trigger.contains(next))) return;
+
+  scheduleClose(target, 150, () => {
+    const current = openMenus.get(target);
+    if (!current) return;
+    if (current.panel.contains(document.activeElement)) return;
+    closeEntry(current, false);
+  });
+});
+
+on("pointerout", ".menubar [role='menuitem'][aria-haspopup='menu']", (event, target) => {
+  if (!(event instanceof PointerEvent) || !isHTMLElement(target)) return;
   clearHover(target);
 });
 

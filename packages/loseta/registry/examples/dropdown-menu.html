@@ -1,18 +1,18 @@
 <!-- Default -->
 <div class="dropdown-menu">
   <button type="button" class="btn" data-variant="outline" aria-haspopup="menu" aria-expanded="false">
-    Open menu
+    Open
   </button>
   <div data-popover data-side="bottom" aria-hidden="true">
     <div role="menu">
-      <div role="heading" aria-level="2">My account</div>
+      <div role="heading" aria-level="2">My Account</div>
       <button type="button" role="menuitem">Profile</button>
       <button type="button" role="menuitem">Billing</button>
       <button type="button" role="menuitem">Settings</button>
       <div role="separator"></div>
       <button type="button" role="menuitem">GitHub</button>
-      <button type="button" role="menuitem">Support</button>
       <button type="button" role="menuitem" disabled>API</button>
+      <button type="button" role="menuitem">Support</button>
     </div>
   </div>
 </div>
@@ -21,9 +21,9 @@
 <div style="display: flex; width: 100%; align-items: flex-start; justify-content: flex-start; min-height: 24rem; padding-top: 1rem">
   <div class="dropdown-menu">
     <button type="button" class="btn" data-variant="outline" aria-haspopup="menu" aria-expanded="false">
-      Open team menu
+      Open
     </button>
-    <div data-popover data-side="bottom" aria-hidden="true" style="min-width: 10rem">
+    <div data-popover data-side="bottom" aria-hidden="true">
       <div role="menu">
         <button type="button" role="menuitem">Team</button>
         <div role="none">
@@ -35,26 +35,12 @@
             <div role="menu">
               <button type="button" role="menuitem">Email</button>
               <button type="button" role="menuitem">Message</button>
-              <div role="none">
-                <button type="button" role="menuitem" aria-haspopup="menu" aria-expanded="false" aria-controls="demo-dropdown-submenu-more">
-                  More options
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" data-rtl-flip><path d="m9 18 6-6-6-6"/></svg>
-                </button>
-                <div data-popover data-side="inline-end" id="demo-dropdown-submenu-more" aria-hidden="true">
-                  <div role="menu">
-                    <button type="button" role="menuitem">Calendly</button>
-                    <button type="button" role="menuitem">Slack</button>
-                    <div role="separator"></div>
-                    <button type="button" role="menuitem">Webhook</button>
-                  </div>
-                </div>
-              </div>
               <div role="separator"></div>
-              <button type="button" role="menuitem">Advanced...</button>
+              <button type="button" role="menuitem">More...</button>
             </div>
           </div>
         </div>
-        <button type="button" role="menuitem">New Team <span data-slot="shortcut">⌘T</span></button>
+        <button type="button" role="menuitem">New Team <span data-slot="shortcut">⌘+T</span></button>
       </div>
     </div>
   </div>
@@ -63,14 +49,15 @@
 <!-- Shortcuts -->
 <div class="dropdown-menu">
   <button type="button" class="btn" data-variant="outline" aria-haspopup="menu" aria-expanded="false">
-    Open shortcuts
+    Open
   </button>
   <div data-popover data-side="bottom" aria-hidden="true">
     <div role="menu">
-      <div role="heading" aria-level="2">My account</div>
+      <div role="heading" aria-level="2">My Account</div>
       <button type="button" role="menuitem">Profile <span data-slot="shortcut">⇧⌘P</span></button>
       <button type="button" role="menuitem">Billing <span data-slot="shortcut">⌘B</span></button>
       <button type="button" role="menuitem">Settings <span data-slot="shortcut">⌘S</span></button>
+      <button type="button" role="menuitem">Shortcuts <span data-slot="shortcut">⌘K</span></button>
       <div role="separator"></div>
       <button type="button" role="menuitem">Log out <span data-slot="shortcut">⇧⌘Q</span></button>
     </div>
@@ -80,7 +67,7 @@
 <!-- Icons -->
 <div class="dropdown-menu">
   <button type="button" class="btn" data-variant="outline" aria-haspopup="menu" aria-expanded="false">
-    Open account actions
+    Open
   </button>
   <div data-popover data-side="bottom" aria-hidden="true">
     <div role="menu">
@@ -96,7 +83,7 @@
 <!-- Checkboxes -->
 <div class="dropdown-menu">
   <button type="button" class="btn" data-variant="outline" aria-haspopup="menu" aria-expanded="false">
-    Open appearance
+    Open
   </button>
   <div data-popover data-side="bottom" aria-hidden="true">
     <div role="menu">
@@ -105,7 +92,7 @@
         Status Bar
         <span data-slot="indicator" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg></span>
       </button>
-      <button type="button" role="menuitemcheckbox" aria-checked="true" disabled>
+      <button type="button" role="menuitemcheckbox" aria-checked="false" disabled>
         Activity Bar
         <span data-slot="indicator" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg></span>
       </button>
@@ -122,9 +109,9 @@
   <button type="button" class="btn" data-variant="outline" aria-haspopup="menu" aria-expanded="false">
     Notifications
   </button>
-  <div data-popover data-side="bottom" aria-hidden="true" style="min-width: 12rem">
+  <div data-popover data-side="bottom" aria-hidden="true" style="min-width: 14rem">
     <div role="menu">
-      <div role="heading" aria-level="2">Notification preferences</div>
+      <div role="heading" aria-level="2">Notification Preferences</div>
       <button type="button" role="menuitemcheckbox" aria-checked="true">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg> Email notifications
         <span data-slot="indicator" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg></span>
@@ -144,23 +131,23 @@
 <!-- Radio group -->
 <div class="dropdown-menu">
   <button type="button" class="btn" data-variant="outline" aria-haspopup="menu" aria-expanded="false">
-    Open panel position
+    Open
   </button>
   <div data-popover data-side="bottom" aria-hidden="true">
     <div role="menu">
-      <div role="group" aria-label="Panel position">
-        <div role="heading" aria-level="2">Panel position</div>
+      <div role="heading" aria-level="2">Panel Position</div>
+      <div role="group" aria-label="Panel Position">
         <button type="button" role="menuitemradio" aria-checked="false">
           Top
-          <span data-slot="indicator" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg></span>
+          <span data-slot="indicator" aria-hidden="true"></span>
         </button>
         <button type="button" role="menuitemradio" aria-checked="true">
           Bottom
-          <span data-slot="indicator" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg></span>
+          <span data-slot="indicator" aria-hidden="true"></span>
         </button>
         <button type="button" role="menuitemradio" aria-checked="false">
           Right
-          <span data-slot="indicator" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg></span>
+          <span data-slot="indicator" aria-hidden="true"></span>
         </button>
       </div>
     </div>
@@ -170,23 +157,23 @@
 <!-- Radio icons -->
 <div class="dropdown-menu">
   <button type="button" class="btn" data-variant="outline" aria-haspopup="menu" aria-expanded="false">
-    Payment method
+    Payment Method
   </button>
-  <div data-popover data-side="bottom" aria-hidden="true" style="min-width: 11rem">
+  <div data-popover data-side="bottom" aria-hidden="true" style="min-width: 14rem">
     <div role="menu">
-      <div role="group" aria-label="Select payment method">
-        <div role="heading" aria-level="2">Select payment method</div>
+      <div role="heading" aria-level="2">Select Payment Method</div>
+      <div role="group" aria-label="Select Payment Method">
         <button type="button" role="menuitemradio" aria-checked="true">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="20" height="14" x="2" y="5" rx="2"/><line x1="2" x2="22" y1="10" y2="10"/></svg> Credit Card
-          <span data-slot="indicator" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg></span>
+          <span data-slot="indicator" aria-hidden="true"></span>
         </button>
         <button type="button" role="menuitemradio" aria-checked="false">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 7V4a1 1 0 0 0-1-1H5a2 2 0 0 0 0 4h15a1 1 0 0 1 1 1v4h-3a2 2 0 0 0 0 4h3a1 1 0 0 0 1-1v-2a1 1 0 0 0-1-1"/><path d="M3 5v14a2 2 0 0 0 2 2h15a1 1 0 0 0 1-1v-4"/></svg> PayPal
-          <span data-slot="indicator" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg></span>
+          <span data-slot="indicator" aria-hidden="true"></span>
         </button>
         <button type="button" role="menuitemradio" aria-checked="false">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="16" height="20" x="4" y="2" rx="2" ry="2"/><path d="M9 22v-4h6v4"/><path d="M8 6h.01"/><path d="M16 6h.01"/><path d="M12 6h.01"/><path d="M12 10h.01"/><path d="M12 14h.01"/><path d="M16 10h.01"/><path d="M16 14h.01"/><path d="M8 10h.01"/><path d="M8 14h.01"/></svg> Bank Transfer
-          <span data-slot="indicator" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg></span>
+          <span data-slot="indicator" aria-hidden="true"></span>
         </button>
       </div>
     </div>
@@ -215,12 +202,11 @@
   </button>
   <div data-popover data-side="bottom" data-align="end" aria-hidden="true">
     <div role="menu">
-      <div role="heading" aria-level="2">Ada Lovelace</div>
-      <button type="button" role="menuitem"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg> Account</button>
+      <button type="button" role="menuitem"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3.85 8.62a4 4 0 0 1 4.78-4.77 4 4 0 0 1 6.74 0 4 4 0 0 1 4.78 4.78 4 4 0 0 1 0 6.74 4 4 0 0 1-4.77 4.78 4 4 0 0 1-6.75 0 4 4 0 0 1-4.78-4.77 4 4 0 0 1 0-6.76Z"/><path d="m9 12 2 2 4-4"/></svg> Account</button>
       <button type="button" role="menuitem"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="20" height="14" x="2" y="5" rx="2"/><line x1="2" x2="22" y1="10" y2="10"/></svg> Billing</button>
       <button type="button" role="menuitem"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10.268 21a2 2 0 0 0 3.464 0"/><path d="M3.262 15.326A1 1 0 0 0 4 17h16a1 1 0 0 0 .74-1.673C19.41 13.956 18 12.499 18 8A6 6 0 0 0 6 8c0 4.499-1.411 5.956-2.738 7.326"/></svg> Notifications</button>
       <div role="separator"></div>
-      <button type="button" role="menuitem"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" x2="9" y1="12" y2="12"/></svg> Sign out</button>
+      <button type="button" role="menuitem"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" x2="9" y1="12" y2="12"/></svg> Sign Out</button>
     </div>
   </div>
 </div>
@@ -231,41 +217,143 @@
     <button type="button" class="btn" data-variant="outline" aria-haspopup="menu" aria-expanded="false">
       افتح القائمة
     </button>
-    <div data-popover data-side="bottom" aria-hidden="true" style="min-width: 12rem">
+    <div data-popover data-side="bottom" aria-hidden="true" style="min-width: 9rem">
       <div role="menu">
-        <div role="heading" aria-level="2">الحساب</div>
         <div role="none">
-          <button type="button" role="menuitem" aria-haspopup="menu" aria-expanded="false" aria-controls="demo-dropdown-rtl-settings">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg> الإعدادات
+          <button type="button" role="menuitem" aria-haspopup="menu" aria-expanded="false" aria-controls="demo-dropdown-rtl-account">
+            الحساب
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" data-rtl-flip><path d="m9 18 6-6-6-6"/></svg>
           </button>
-          <div data-popover data-side="inline-end" aria-hidden="true" id="demo-dropdown-rtl-settings">
+          <div data-popover data-side="inline-end" id="demo-dropdown-rtl-account" aria-hidden="true">
             <div role="menu">
               <button type="button" role="menuitem"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg> الملف الشخصي</button>
               <button type="button" role="menuitem"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="20" height="14" x="2" y="5" rx="2"/><line x1="2" x2="22" y1="10" y2="10"/></svg> الفوترة</button>
-              <button type="button" role="menuitem"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10.268 21a2 2 0 0 0 3.464 0"/><path d="M3.262 15.326A1 1 0 0 0 4 17h16a1 1 0 0 0 .74-1.673C19.41 13.956 18 12.499 18 8A6 6 0 0 0 6 8c0 4.499-1.411 5.956-2.738 7.326"/></svg> الإشعارات</button>
+              <button type="button" role="menuitem"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg> الإعدادات</button>
             </div>
           </div>
         </div>
-        <button type="button" role="menuitem">الفريق <span data-slot="shortcut">⌘T</span></button>
         <div role="separator"></div>
-        <div role="group" aria-label="السمة">
-          <div role="heading" aria-level="2">السمة</div>
+        <div role="heading" aria-level="2">الفريق</div>
+        <button type="button" role="menuitem">الفريق</button>
+        <div role="none">
+          <button type="button" role="menuitem" aria-haspopup="menu" aria-expanded="false" aria-controls="demo-dropdown-rtl-invite">
+            دعوة المستخدمين
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" data-rtl-flip><path d="m9 18 6-6-6-6"/></svg>
+          </button>
+          <div data-popover data-side="inline-end" id="demo-dropdown-rtl-invite" aria-hidden="true">
+            <div role="menu">
+              <button type="button" role="menuitem"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg> البريد الإلكتروني</button>
+              <button type="button" role="menuitem"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg> رسالة</button>
+              <div role="none">
+                <button type="button" role="menuitem" aria-haspopup="menu" aria-expanded="false" aria-controls="demo-dropdown-rtl-more">
+                  المزيد
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" data-rtl-flip><path d="m9 18 6-6-6-6"/></svg>
+                </button>
+                <div data-popover data-side="inline-end" id="demo-dropdown-rtl-more" aria-hidden="true">
+                  <div role="menu">
+                    <button type="button" role="menuitem"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="18" height="18" x="3" y="4" rx="2"/><path d="M8 2v4"/><path d="M16 2v4"/><path d="M3 10h18"/></svg> تقويم</button>
+                    <button type="button" role="menuitem"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg> دردشة</button>
+                    <div role="separator"></div>
+                    <button type="button" role="menuitem">خطاف ويب</button>
+                  </div>
+                </div>
+              </div>
+              <div role="separator"></div>
+              <button type="button" role="menuitem">متقدم...</button>
+            </div>
+          </div>
+        </div>
+        <button type="button" role="menuitem">فريق جديد <span data-slot="shortcut">⌘+T</span></button>
+        <div role="separator"></div>
+        <div role="heading" aria-level="2">عرض</div>
+        <button type="button" role="menuitemcheckbox" aria-checked="true">
+          شريط الحالة
+          <span data-slot="indicator" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg></span>
+        </button>
+        <button type="button" role="menuitemcheckbox" aria-checked="false">
+          شريط النشاط
+          <span data-slot="indicator" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg></span>
+        </button>
+        <button type="button" role="menuitemcheckbox" aria-checked="false">
+          اللوحة
+          <span data-slot="indicator" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg></span>
+        </button>
+        <div role="separator"></div>
+        <div role="heading" aria-level="2">الموضع</div>
+        <div role="group" aria-label="الموضع">
+          <button type="button" role="menuitemradio" aria-checked="false">
+            أعلى
+            <span data-slot="indicator" aria-hidden="true"></span>
+          </button>
           <button type="button" role="menuitemradio" aria-checked="true">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg> فاتح
-            <span data-slot="indicator" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg></span>
+            أسفل
+            <span data-slot="indicator" aria-hidden="true"></span>
           </button>
           <button type="button" role="menuitemradio" aria-checked="false">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg> غامق
-            <span data-slot="indicator" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg></span>
+            يمين
+            <span data-slot="indicator" aria-hidden="true"></span>
           </button>
           <button type="button" role="menuitemradio" aria-checked="false">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="20" height="14" x="2" y="3" rx="2"/><line x1="8" x2="16" y1="21" y2="21"/><line x1="12" x2="12" y1="17" y2="21"/></svg> النظام
-            <span data-slot="indicator" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg></span>
+            يسار
+            <span data-slot="indicator" aria-hidden="true"></span>
           </button>
         </div>
         <div role="separator"></div>
         <button type="button" role="menuitem" data-variant="destructive"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" x2="9" y1="12" y2="12"/></svg> تسجيل الخروج</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Inset -->
+<div class="dropdown-menu">
+  <button type="button" class="btn" data-variant="outline" aria-haspopup="menu" aria-expanded="false">
+    Open
+  </button>
+  <div data-popover data-side="bottom" aria-hidden="true" style="min-width: 11rem">
+    <div role="menu">
+      <div role="heading" aria-level="2" data-inset>Actions</div>
+      <button type="button" role="menuitem"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg> Copy</button>
+      <button type="button" role="menuitem"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="6" cy="6" r="3"/><path d="M8.12 8.12 12 12"/><path d="M20 4 8.12 15.88"/><circle cx="6" cy="18" r="3"/><path d="M14.8 14.8 20 20"/></svg> Cut</button>
+      <button type="button" role="menuitem" data-inset>Paste</button>
+      <div role="separator"></div>
+      <div role="heading" aria-level="2" data-inset>Appearance</div>
+      <button type="button" role="menuitemcheckbox" aria-checked="true">
+        Bookmarks
+        <span data-slot="indicator" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg></span>
+      </button>
+      <button type="button" role="menuitemcheckbox" aria-checked="false">
+        Full URLs
+        <span data-slot="indicator" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg></span>
+      </button>
+      <div role="separator"></div>
+      <div role="heading" aria-level="2" data-inset>Theme</div>
+      <div role="group" aria-label="Theme">
+        <button type="button" role="menuitemradio" aria-checked="false">
+          Light
+          <span data-slot="indicator" aria-hidden="true"></span>
+        </button>
+        <button type="button" role="menuitemradio" aria-checked="false">
+          Dark
+          <span data-slot="indicator" aria-hidden="true"></span>
+        </button>
+        <button type="button" role="menuitemradio" aria-checked="true">
+          System
+          <span data-slot="indicator" aria-hidden="true"></span>
+        </button>
+      </div>
+      <div role="separator"></div>
+      <div role="none">
+        <button type="button" role="menuitem" aria-haspopup="menu" aria-expanded="false" aria-controls="demo-dropdown-inset-more" data-inset>
+          More Options
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" data-rtl-flip><path d="m9 18 6-6-6-6"/></svg>
+        </button>
+        <div data-popover data-side="inline-end" id="demo-dropdown-inset-more" aria-hidden="true">
+          <div role="menu">
+            <button type="button" role="menuitem">Save Page...</button>
+            <button type="button" role="menuitem">Create Shortcut...</button>
+          </div>
+        </div>
       </div>
     </div>
   </div>

@@ -2758,7 +2758,7 @@ test("dropdown menu still opens after the menu primitive refactor", async ({ pag
   const dropdown = page.locator(".dropdown-menu").first();
   const panel = dropdown.locator("[data-popover]").first();
 
-  await dropdown.getByRole("button", { name: "Open menu" }).click();
+  await dropdown.getByRole("button", { name: "Open", exact: true }).click();
   await expect(panel).toHaveAttribute("aria-hidden", "false");
   await expect(dropdown.getByRole("menuitem", { name: "Profile" })).toBeVisible();
 
@@ -2770,20 +2770,27 @@ test("dropdown menu nested submenus keep their ancestors open", async ({ page })
   await page.goto("/docs/components/dropdown-menu");
   const example = page
     .locator("section.example")
-    .filter({ has: page.locator(".example-title", { hasText: /^Submenu$/ }) });
+    .filter({ has: page.locator(".example-title", { hasText: /^Right-to-left$/ }) });
 
-  await example.getByRole("button", { name: "Open team menu" }).click();
+  await example.getByRole("button", { name: "افتح القائمة" }).click();
   const panel = example.locator("[data-popover]").first();
-  const invite = panel.getByRole("menuitem", { name: "Invite users" });
+  await expect(example.locator("[data-slot='shortcut']").first()).toHaveCSS(
+    "direction",
+    "ltr"
+  );
+  const invite = panel.locator(
+    "button[aria-controls='demo-dropdown-rtl-invite']"
+  );
   await invite.click();
 
-  const submenu = page.locator("#demo-dropdown-submenu-invite");
+  const submenu = page.locator("#demo-dropdown-rtl-invite");
   await expect(submenu).toHaveAttribute("aria-hidden", "false");
   await expect(panel).toHaveAttribute("aria-hidden", "false");
   await expect(invite).toHaveAttribute("aria-expanded", "true");
 
-  await submenu.getByRole("menuitem", { name: "More options" }).click();
-  const deeper = page.locator("#demo-dropdown-submenu-more");
+  const more = submenu.locator("button[aria-controls='demo-dropdown-rtl-more']");
+  await more.click();
+  const deeper = page.locator("#demo-dropdown-rtl-more");
   await expect(deeper).toHaveAttribute("aria-hidden", "false");
   await expect(submenu).toHaveAttribute("aria-hidden", "false");
 
@@ -2799,18 +2806,84 @@ test("dropdown menu nested submenus keep their ancestors open", async ({ page })
   await expect(panel).toHaveAttribute("aria-hidden", "true");
 });
 
+test("menu checkable indicators sit at the inline start", async ({ page }) => {
+  await page.goto("/docs/components/dropdown-menu");
+  const example = page
+    .locator("section.example")
+    .filter({ has: page.locator(".example-title", { hasText: /^Checkboxes$/ }) });
+
+  await example.getByRole("button", { name: "Open", exact: true }).click();
+  const item = example.getByRole("menuitemcheckbox", { name: "Status Bar" });
+  const indicator = item.locator("[data-slot='indicator']");
+  const itemBox = await item.boundingBox();
+  const indicatorBox = await indicator.boundingBox();
+
+  expect(itemBox).not.toBeNull();
+  expect(indicatorBox).not.toBeNull();
+  expect(indicatorBox!.x).toBeLessThan(itemBox!.x + itemBox!.width / 2);
+  expect(
+    Number.parseFloat(
+      await item.evaluate((element) => getComputedStyle(element).paddingInlineStart)
+    )
+  ).toBeGreaterThanOrEqual(30);
+});
+
+test("menu radio indicators draw a dot instead of a check", async ({ page }) => {
+  await page.goto("/docs/components/dropdown-menu");
+  const example = page
+    .locator("section.example")
+    .filter({ has: page.locator(".example-title", { hasText: /^Radio group$/ }) });
+
+  await example.getByRole("button", { name: "Open", exact: true }).click();
+  const indicator = example
+    .getByRole("menuitemradio", { name: "Bottom" })
+    .locator("[data-slot='indicator']");
+  const dot = await indicator.evaluate((element) => {
+    const style = getComputedStyle(element, "::before");
+    return {
+      content: style.content,
+      width: style.width,
+      height: style.height,
+      radius: style.borderRadius
+    };
+  });
+
+  expect(dot.content).not.toBe("none");
+  expect(dot.width).toBe("8px");
+  expect(dot.height).toBe("8px");
+  expect(dot.radius).toBe("50%");
+  await expect(indicator.locator("svg")).toHaveCount(0);
+});
+
 test("menu checkbox indicators follow aria-checked", async ({ page }) => {
   await page.goto("/docs/components/dropdown-menu");
   const example = page
     .locator("section.example")
     .filter({ has: page.locator(".example-title", { hasText: /^Checkboxes$/ }) });
 
-  await example.getByRole("button", { name: "Open appearance" }).click();
+  await example.getByRole("button", { name: "Open", exact: true }).click();
   const checked = example.getByRole("menuitemcheckbox", { name: "Status Bar" });
   const unchecked = example.getByRole("menuitemcheckbox", { name: "Panel" });
 
   await expect(checked.locator("[data-slot='indicator']")).toBeVisible();
   await expect(unchecked.locator("[data-slot='indicator']")).toBeHidden();
+});
+
+test("dropdown panels grow to keep shortcuts on one line", async ({ page }) => {
+  await page.goto("/docs/components/dropdown-menu");
+  const example = page
+    .locator("section.example")
+    .filter({ has: page.locator(".example-title", { hasText: /^Shortcuts$/ }) });
+
+  await example.getByRole("button", { name: "Open", exact: true }).click();
+  const profile = example.getByRole("menuitem", { name: /^Profile/ });
+  const logOut = example.getByRole("menuitem", { name: /^Log out/ });
+  const profileBox = await profile.boundingBox();
+  const logOutBox = await logOut.boundingBox();
+
+  expect(profileBox).not.toBeNull();
+  expect(logOutBox).not.toBeNull();
+  expect(logOutBox!.height).toBeLessThan(profileBox!.height * 1.5);
 });
 
 test("select opens, selects an option and updates the trigger", async ({ page }) => {

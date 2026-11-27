@@ -90,15 +90,15 @@ export const menubarExamples: Example[] = [
           <div role="group" aria-label="Profiles">
             <button type="button" role="menuitemradio" aria-checked="false">
               Andy
-              <span data-slot="indicator" aria-hidden="true">${check}</span>
+              <span data-slot="indicator" aria-hidden="true"></span>
             </button>
             <button type="button" role="menuitemradio" aria-checked="true">
               Benoit
-              <span data-slot="indicator" aria-hidden="true">${check}</span>
+              <span data-slot="indicator" aria-hidden="true"></span>
             </button>
             <button type="button" role="menuitemradio" aria-checked="false">
               Luis
-              <span data-slot="indicator" aria-hidden="true">${check}</span>
+              <span data-slot="indicator" aria-hidden="true"></span>
             </button>
           </div>
           <div role="separator"></div>
@@ -165,15 +165,15 @@ export const menubarExamples: Example[] = [
           <div role="group" aria-label="Profiles">
             <button type="button" role="menuitemradio" aria-checked="false">
               Andy
-              <span data-slot="indicator" aria-hidden="true">${check}</span>
+              <span data-slot="indicator" aria-hidden="true"></span>
             </button>
             <button type="button" role="menuitemradio" aria-checked="true">
               Benoit
-              <span data-slot="indicator" aria-hidden="true">${check}</span>
+              <span data-slot="indicator" aria-hidden="true"></span>
             </button>
             <button type="button" role="menuitemradio" aria-checked="false">
               Luis
-              <span data-slot="indicator" aria-hidden="true">${check}</span>
+              <span data-slot="indicator" aria-hidden="true"></span>
             </button>
           </div>
           <div role="separator"></div>
@@ -189,15 +189,15 @@ export const menubarExamples: Example[] = [
           <div role="group" aria-label="Theme">
             <button type="button" role="menuitemradio" aria-checked="false">
               Light
-              <span data-slot="indicator" aria-hidden="true">${check}</span>
+              <span data-slot="indicator" aria-hidden="true"></span>
             </button>
             <button type="button" role="menuitemradio" aria-checked="false">
               Dark
-              <span data-slot="indicator" aria-hidden="true">${check}</span>
+              <span data-slot="indicator" aria-hidden="true"></span>
             </button>
             <button type="button" role="menuitemradio" aria-checked="true">
               System
-              <span data-slot="indicator" aria-hidden="true">${check}</span>
+              <span data-slot="indicator" aria-hidden="true"></span>
             </button>
           </div>
         </div>
@@ -361,15 +361,15 @@ export const menubarExamples: Example[] = [
           <div role="group" aria-label="الملفات الشخصية">
             <button type="button" role="menuitemradio" aria-checked="false">
               Andy
-              <span data-slot="indicator" aria-hidden="true">${check}</span>
+              <span data-slot="indicator" aria-hidden="true"></span>
             </button>
             <button type="button" role="menuitemradio" aria-checked="true">
               Benoit
-              <span data-slot="indicator" aria-hidden="true">${check}</span>
+              <span data-slot="indicator" aria-hidden="true"></span>
             </button>
             <button type="button" role="menuitemradio" aria-checked="false">
               Luis
-              <span data-slot="indicator" aria-hidden="true">${check}</span>
+              <span data-slot="indicator" aria-hidden="true"></span>
             </button>
           </div>
           <div role="separator"></div>

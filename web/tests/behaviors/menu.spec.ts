@@ -53,6 +53,56 @@ test("dropdown submenu opens and closes with horizontal arrows", async ({ page }
   await expect(submenuTrigger).toBeFocused();
 });
 
+test("dropdown menu follows the pointer with data-highlighted", async ({ page }) => {
+  const fixture = page.locator(
+    '[data-fixture="dropdown-menu"] [data-example="Default"]'
+  );
+  const trigger = fixture.locator("button[aria-haspopup='menu']");
+  const panel = fixture.locator("[data-popover]");
+  const billing = panel.getByRole("menuitem", { name: "Billing", exact: true });
+  const settings = panel.getByRole("menuitem", { name: "Settings", exact: true });
+
+  await trigger.click();
+  await expect(panel.locator("[role='menuitem']").first()).toHaveAttribute(
+    "data-highlighted",
+    ""
+  );
+
+  await billing.hover();
+  await expect(billing).toHaveAttribute("data-highlighted", "");
+  await expect(settings).not.toHaveAttribute("data-highlighted", "");
+
+  await settings.hover();
+  await expect(settings).toHaveAttribute("data-highlighted", "");
+  await expect(billing).not.toHaveAttribute("data-highlighted", "");
+
+  await page.mouse.move(0, 0);
+  await expect(settings).not.toHaveAttribute("data-highlighted", "");
+});
+
+test("hovered submenus close when the pointer leaves", async ({ page }) => {
+  const fixture = page.locator(
+    '[data-fixture="dropdown-menu"] [data-example="Submenu"]'
+  );
+  const trigger = fixture.locator("button[aria-haspopup='menu']").first();
+  const submenuTrigger = fixture.locator(
+    "button[aria-controls='demo-dropdown-submenu-invite']"
+  );
+  const submenu = page.locator("#demo-dropdown-submenu-invite");
+  const newTeam = fixture.getByRole("menuitem", { name: "New Team" });
+
+  await trigger.click();
+  await submenuTrigger.hover();
+  await expect(submenu).toHaveAttribute("aria-hidden", "false");
+
+  await submenu.getByRole("menuitem", { name: "Email", exact: true }).hover();
+  await page.waitForTimeout(250);
+  await expect(submenu).toHaveAttribute("aria-hidden", "false");
+
+  await newTeam.hover();
+  await expect(submenu).toHaveAttribute("aria-hidden", "true");
+});
+
 test("checkable menu items toggle aria-checked and radio clears siblings", async ({ page }) => {
   const checkboxes = page.locator(
     '[data-fixture="dropdown-menu"] [data-example="Checkboxes"]'

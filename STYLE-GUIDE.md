@@ -208,9 +208,11 @@ the batch, not a per-item guess.
 
 ### Drawer
 
-- Use the popover surface and foreground tokens, with a directional border and
-  radius. Nova, Vega, Lyra and Sera attach to the viewport edge; Maia, Mira, Luma
-  and Rhea use the style's floating inset and full surface radius.
+- Use the popover surface and foreground tokens. Attached styles keep the
+  viewport edge square and draw the border on the free edge; floating styles
+  use a full outline. Nova, Vega, Lyra and Sera attach to the viewport edge;
+  Maia, Mira, Luma and Rhea use the style's floating inset and full surface
+  radius.
 - The panel owns no general padding. Header, section and footer each own their
   padding; the footer is a column and stays at the block end while the section
   scrolls.

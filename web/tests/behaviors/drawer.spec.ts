@@ -273,7 +273,22 @@ test("handle container spans the swipe axis and draws a style-owned bar", async 
   await expect(vertical.drawer).toHaveJSProperty("open", false);
 
   const horizontal = await openDrawer(page, "demo-drawer-side-inline-start");
+  const horizontalPanelWithoutHandle = await horizontal.panel.boundingBox();
+  const horizontalHeaderWithoutHandle = await horizontal.drawer
+    .locator("header")
+    .boundingBox();
+  expect(horizontalPanelWithoutHandle).not.toBeNull();
+  expect(horizontalHeaderWithoutHandle).not.toBeNull();
+  await expect(horizontal.panel).toHaveCSS("display", "flex");
+  expect(
+    Math.abs(
+      horizontalHeaderWithoutHandle!.width -
+        horizontalPanelWithoutHandle!.width
+    )
+  ).toBeLessThanOrEqual(1);
+
   await ensureHandle(page, "demo-drawer-side-inline-start");
+  await expect(horizontal.panel).toHaveCSS("display", "grid");
   const horizontalPanelBox = await horizontal.panel.boundingBox();
   const horizontalHandleBox = await horizontal.handle.boundingBox();
   expect(horizontalPanelBox).not.toBeNull();

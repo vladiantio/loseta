@@ -2966,15 +2966,15 @@
     &[data-side='inline-start'] > * {
       border-start-start-radius: var(--drawer-attached-radius);
       border-end-start-radius: var(--drawer-attached-radius);
-      border-inline-start-width: 1px;
-      border-inline-start-color: var(--drawer-border-color);
+      border-inline-end-width: 1px;
+      border-inline-end-color: var(--drawer-border-color);
     }
 
     &[data-side='inline-end'] > * {
       border-start-end-radius: var(--drawer-attached-radius);
       border-end-end-radius: var(--drawer-attached-radius);
-      border-inline-end-width: 1px;
-      border-inline-end-color: var(--drawer-border-color);
+      border-inline-start-width: 1px;
+      border-inline-start-color: var(--drawer-border-color);
     }
 
     > * > [data-slot='handle']::after {

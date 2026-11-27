@@ -314,7 +314,7 @@ file they own, not by expecting a spacing API.
 | Scroll area | Native scrollbars from `--scrollbar-thumb`, `--scrollbar-track` and `--scrollbar-width`. |
 | Select, combobox | `--input` border; `--ring` focus and destructive invalid ring. |
 | Sheet | `--background` panel, `--border` side edge and `--shadow-lg`. |
-| Drawer | `--popover` panel, directional `--border` edge and the style's surface shadow. |
+| Drawer | `--popover` panel, `--border` on the free edge and the style's surface shadow; floating styles use a full outline. |
 | Sidebar | `--sidebar`, `--sidebar-foreground`, `--sidebar-accent`, `--sidebar-border` and `--sidebar-ring`. |
 | Slider | Native track and thumb colored by `accent-color: --primary`. |
 | Toast | Popover surface with `--border`; destructive uses a destructive tint. |

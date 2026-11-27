@@ -124,8 +124,11 @@
     &[data-side='inline-start'],
     &[data-side='inline-end'] {
       > * {
-        display: grid;
-        grid-template-rows: auto minmax(0, 1fr) auto;
+        &:has(> [data-slot='handle']) {
+          display: grid;
+          grid-template-rows: auto minmax(0, 1fr) auto;
+        }
+
         height: calc(100% - 2 * var(--drawer-inset));
         inset-block: var(--drawer-inset);
         inline-size: var(--drawer-width, 75vw);

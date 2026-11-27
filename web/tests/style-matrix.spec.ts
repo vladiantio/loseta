@@ -348,6 +348,38 @@ const cases: StyleCase[] = [
     }
   },
   {
+    id: "drawer",
+    selector:
+      ".docs-preview .drawer[data-side='inline-start'] > [data-slot='drawer-content']",
+    property: "border-inline-end-width",
+    values: {
+      nova: "1px",
+      vega: "1px",
+      maia: "1px",
+      lyra: "1px",
+      mira: "1px",
+      luma: "1px",
+      sera: "1px",
+      rhea: "1px"
+    }
+  },
+  {
+    id: "drawer",
+    selector:
+      ".docs-preview .drawer[data-side='inline-end'] > [data-slot='drawer-content']",
+    property: "border-inline-start-width",
+    values: {
+      nova: "1px",
+      vega: "1px",
+      maia: "1px",
+      lyra: "1px",
+      mira: "1px",
+      luma: "1px",
+      sera: "1px",
+      rhea: "1px"
+    }
+  },
+  {
     id: "popover",
     selector: ".docs-preview .popover > [data-popover]",
     property: "border-top-left-radius",

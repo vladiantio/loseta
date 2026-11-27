@@ -31,6 +31,9 @@
 - Floating Drawer styles now use a single inset popover surface instead of the
   legacy inner Vaul frame, removing the double border in Maia, Mira, Luma and
   Rhea.
+- Inline Drawers no longer reserve handle space when no handle exists, and
+  attached styles now draw their border on the free edge instead of the
+  viewport edge.
 
 ## 0.22.1 - 2026-11-26
 

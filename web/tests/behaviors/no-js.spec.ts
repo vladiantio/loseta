@@ -22,6 +22,17 @@ test("content stays readable and overlays stay inert without JavaScript", async 
     ""
   );
 
+  const sheet = page.locator("#demo-sheet-default");
+  await sheet.evaluate((element) => {
+    if (!(element instanceof HTMLDialogElement)) {
+      throw new Error("Expected a native dialog");
+    }
+    element.showModal();
+  });
+  await expect(sheet).toHaveJSProperty("open", true);
+  await sheet.locator("[data-slot='close']").click();
+  await expect(sheet).toHaveJSProperty("open", false);
+
   const menu = page.locator('[data-fixture="dropdown-menu"] [data-popover]').first();
   await expect(menu).toHaveAttribute("aria-hidden", "true");
 

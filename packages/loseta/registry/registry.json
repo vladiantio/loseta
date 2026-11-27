@@ -3553,7 +3553,7 @@
       "type": "component",
       "status": "stable",
       "title": "Sheet",
-      "description": "Extends the dialog shell to the side or edge of the screen.",
+      "description": "Native dialog panel anchored to a logical viewport edge.",
       "docs": "/docs/components/sheet",
       "root": [
         ".sheet"

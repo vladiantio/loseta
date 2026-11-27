@@ -380,6 +380,84 @@ const cases: StyleCase[] = [
     }
   },
   {
+    id: "sheet",
+    selector: ".docs-preview .sheet > [data-slot='sheet-content']",
+    property: "font-size",
+    values: {
+      nova: "14px",
+      vega: "14px",
+      maia: "14px",
+      lyra: "12px",
+      mira: "12px",
+      luma: "14px",
+      sera: "14px",
+      rhea: "14px"
+    }
+  },
+  {
+    id: "sheet",
+    selector:
+      ".docs-preview .sheet > [data-slot='sheet-content'] > header > [data-slot='title']",
+    property: "font-size",
+    values: {
+      nova: "16px",
+      vega: "14px",
+      maia: "16px",
+      lyra: "14px",
+      mira: "14px",
+      luma: "16px",
+      sera: "18px",
+      rhea: "16px"
+    }
+  },
+  {
+    id: "sheet",
+    selector: ".docs-preview .sheet > [data-slot='sheet-content'] > header",
+    property: "padding-top",
+    values: {
+      nova: "16px",
+      vega: "16px",
+      maia: "24px",
+      lyra: "16px",
+      mira: "24px",
+      luma: "24px",
+      sera: "32px",
+      rhea: "24px"
+    }
+  },
+  {
+    id: "sheet",
+    selector: ".docs-preview .sheet",
+    pseudo: "::backdrop",
+    property: "background-color",
+    values: {
+      nova: "rgba(0, 0, 0, 0.1)",
+      vega: "rgba(0, 0, 0, 0.1)",
+      maia: "rgba(0, 0, 0, 0.8)",
+      lyra: "rgba(0, 0, 0, 0.1)",
+      mira: "rgba(0, 0, 0, 0.8)",
+      luma: "rgba(0, 0, 0, 0.3)",
+      sera: "rgba(0, 0, 0, 0.2)",
+      rhea: "rgba(0, 0, 0, 0.3)"
+    }
+  },
+  {
+    id: "sheet",
+    selector: ".docs-preview .sheet",
+    pseudo: "::backdrop",
+    property: "backdrop-filter",
+    values: {
+      nova: "blur(4px)",
+      vega: "blur(4px)",
+      maia: "blur(4px)",
+      lyra: "blur(4px)",
+      mira: "blur(4px)",
+      luma: "blur(8px)",
+      sera: "blur(8px)",
+      rhea: "blur(8px)"
+    }
+  },
+  {
     id: "popover",
     selector: ".docs-preview .popover > [data-popover]",
     property: "border-top-left-radius",

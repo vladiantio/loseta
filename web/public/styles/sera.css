@@ -3230,7 +3230,23 @@
 @layer loseta.style {
   .sheet {
     --sheet-width: 24rem;
-    --sheet-height: 80vh;
+    --sheet-height: auto;
+    --sheet-padding: 2rem;
+    --sheet-header-gap: 0.375rem;
+    --sheet-body-size: var(--text-sm);
+    --sheet-body-line-height: var(--text-sm--line-height);
+    --sheet-title-size: var(--text-lg);
+    --sheet-title-line-height: var(--text-lg--line-height);
+    --sheet-title-weight: 600;
+    --sheet-title-letter-spacing: 0.05em;
+    --sheet-title-transform: uppercase;
+    --sheet-description-size: var(--text-sm);
+    --sheet-description-line-height: 1.625;
+    --sheet-description-offset: 0.125rem;
+    --sheet-shadow: var(--shadow-md);
+    --sheet-close-offset: 1rem;
+    --sheet-backdrop-color: rgb(0 0 0 / 20%);
+    --sheet-backdrop-blur: 8px;
 
     &[data-size='sm'] {
       --sheet-width: 20rem;
@@ -3242,63 +3258,70 @@
       --sheet-height: 90vh;
     }
 
+    &::backdrop {
+      background-color: var(--sheet-backdrop-color);
+      -webkit-backdrop-filter: blur(var(--sheet-backdrop-blur));
+      backdrop-filter: blur(var(--sheet-backdrop-blur));
+    }
+
     > * {
-      gap: 1.5rem;
-      background-color: var(--background);
-      padding: 1.5rem;
-      color: var(--foreground);
-      box-shadow: var(--shadow-md);
+      border-radius: 0;
+      background-color: var(--popover);
+      background-clip: padding-box;
+      color: var(--popover-foreground);
+      font-size: var(--sheet-body-size);
+      line-height: var(--sheet-body-line-height);
+      box-shadow: var(--sheet-shadow);
+    }
+
+    &:not([data-side]) > *,
+    &[data-side='inline-end'] > * {
+      border-inline-start: 1px solid var(--border);
     }
 
     &[data-side='inline-start'] > * {
-      border-inline-end-style: solid;
-      border-inline-end-width: 1px;
-      border-inline-end-color: var(--border);
-    }
-
-    &[data-side='inline-end'] > * {
-      border-inline-start-style: solid;
-      border-inline-start-width: 1px;
-      border-inline-start-color: var(--border);
-    }
-
-    &[data-side='block-start'] > *,
-    &[data-side='block-end'] > * {
-      max-height: var(--sheet-height);
+      border-inline-end: 1px solid var(--border);
     }
 
     &[data-side='block-start'] > * {
-      border-block-end-style: solid;
-      border-block-end-width: 1px;
-      border-block-end-color: var(--border);
+      border-block-end: 1px solid var(--border);
     }
 
     &[data-side='block-end'] > * {
-      border-block-start-style: solid;
-      border-block-start-width: 1px;
-      border-block-start-color: var(--border);
+      border-block-start: 1px solid var(--border);
     }
 
     > * > header {
-      gap: 0.5rem;
+      gap: var(--sheet-header-gap);
+      padding: var(--sheet-padding);
+      padding-block-end: 0;
     }
 
-    > * > header > [data-slot='title'] {
-      font-size: var(--text-base);
-      line-height: 1;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-    }
-
-    > * > header > [data-slot='description'] {
-      font-size: var(--text-sm);
-      line-height: var(--text-sm--line-height);
-      color: var(--muted-foreground);
+    > * > section {
+      padding: var(--sheet-padding);
     }
 
     > * > footer {
       gap: 0.5rem;
+      padding: var(--sheet-padding);
+      padding-block-start: 0;
+    }
+
+    > * > header > [data-slot='title'] {
+      color: var(--foreground);
+      font-size: var(--sheet-title-size);
+      line-height: var(--sheet-title-line-height);
+      font-weight: var(--sheet-title-weight);
+      letter-spacing: var(--sheet-title-letter-spacing);
+      text-transform: var(--sheet-title-transform);
+    }
+
+    > * > header > [data-slot='description'] {
+      margin-block-start: var(--sheet-description-offset);
+      color: var(--muted-foreground);
+      font-size: var(--sheet-description-size);
+      line-height: var(--sheet-description-line-height);
+      text-wrap: balance;
     }
   }
 }

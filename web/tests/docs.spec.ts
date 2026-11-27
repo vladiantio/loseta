@@ -1564,7 +1564,7 @@ test("button styles link actions without the button role", async ({ page }) => {
   await expect(example.getByRole("button", { name: "Login", exact: true })).toHaveCount(0);
 });
 
-test("sheet sides, close control and scrolling", async ({ page }) => {
+test("sheet sides, close control, RTL and scrolling", async ({ page }) => {
   await page.goto("/docs/components/sheet");
   await page.addStyleTag({
     content:
@@ -1573,32 +1573,53 @@ test("sheet sides, close control and scrolling", async ({ page }) => {
   const viewport = page.viewportSize();
   expect(viewport).not.toBeNull();
 
+  const panelFor = (id: string) =>
+    page.locator(`#${id} > [data-slot='sheet-content']`);
+  const openSheet = async (id: string) => {
+    await page.locator(`[data-open-dialog="${id}"]`).click();
+    await expect(page.locator(`#${id}`)).toHaveAttribute("open", "");
+  };
+
   const sheet = page.locator("#demo-sheet-default");
-  await page.locator('[data-open-dialog="demo-sheet-default"]').click();
-  await expect(sheet).toHaveAttribute("open", "");
-  await expect(sheet.locator("[data-slot='title']")).toBeVisible();
-  const panelBox = await sheet.locator(":scope > div").boundingBox();
+  await openSheet("demo-sheet-default");
+  await expect(sheet).not.toHaveAttribute("data-side");
+  await expect(panelFor("demo-sheet-default")).toBeVisible();
+  await expect(sheet.locator("footer")).toHaveCSS("flex-direction", "column");
+  await expect(sheet.locator("footer button").first()).toHaveText("Save changes");
+  const panelBox = await panelFor("demo-sheet-default").boundingBox();
   const closeBox = await sheet.getByRole("button", { name: "Close" }).boundingBox();
   expect(panelBox).not.toBeNull();
   expect(closeBox).not.toBeNull();
+  const defaultEndGap = viewport!.width - (panelBox!.x + panelBox!.width);
+  expect(defaultEndGap).toBeGreaterThanOrEqual(0);
+  expect(defaultEndGap).toBeLessThanOrEqual(16);
+  expect(panelBox!.width).toBeCloseTo(384, 0);
   expect(closeBox!.x).toBeGreaterThan(panelBox!.x + panelBox!.width - 60);
   await sheet.getByRole("button", { name: "Close" }).click();
   await expect(sheet).not.toHaveAttribute("open", "");
 
   const top = page.locator("#demo-sheet-side-top");
-  await page.locator('[data-open-dialog="demo-sheet-side-top"]').click();
-  await expect(top).toHaveAttribute("open", "");
-  const topPanelBox = await top.locator(":scope > div").boundingBox();
+  await openSheet("demo-sheet-side-top");
+  const topPanelBox = await panelFor("demo-sheet-side-top").boundingBox();
   expect(topPanelBox).not.toBeNull();
   expect(topPanelBox!.y).toBeLessThan(4);
   expect(topPanelBox!.width).toBeGreaterThan(600);
-  await top.getByRole("button", { name: "Close top sheet" }).click();
+  await top.getByRole("button", { name: "Close block start sheet" }).click();
   await expect(top).not.toHaveAttribute("open", "");
 
+  const right = page.locator("#demo-sheet-side-right");
+  await openSheet("demo-sheet-side-right");
+  const rightPanelBox = await panelFor("demo-sheet-side-right").boundingBox();
+  expect(rightPanelBox).not.toBeNull();
+  const rightEndGap = viewport!.width - (rightPanelBox!.x + rightPanelBox!.width);
+  expect(rightEndGap).toBeGreaterThanOrEqual(0);
+  expect(rightEndGap).toBeLessThanOrEqual(16);
+  await right.getByRole("button", { name: "Close inline end sheet" }).click();
+  await expect(right).not.toHaveAttribute("open", "");
+
   const bottom = page.locator("#demo-sheet-side-bottom");
-  await page.locator('[data-open-dialog="demo-sheet-side-bottom"]').click();
-  await expect(bottom).toHaveAttribute("open", "");
-  const bottomPanelBox = await bottom.locator(":scope > div").boundingBox();
+  await openSheet("demo-sheet-side-bottom");
+  const bottomPanelBox = await panelFor("demo-sheet-side-bottom").boundingBox();
   expect(bottomPanelBox).not.toBeNull();
   expect(bottomPanelBox!.y + bottomPanelBox!.height).toBeGreaterThan(
     viewport!.height - 4
@@ -1607,17 +1628,25 @@ test("sheet sides, close control and scrolling", async ({ page }) => {
   await expect(bottom).not.toHaveAttribute("open", "");
 
   const left = page.locator("#demo-sheet-left");
-  await page.locator('[data-open-dialog="demo-sheet-left"]').click();
-  await expect(left).toHaveAttribute("open", "");
+  await openSheet("demo-sheet-left");
   await expect(left.locator("[data-slot='title']")).toBeVisible();
-  const leftPanelBox = await left.locator(":scope > div").boundingBox();
+  const leftPanelBox = await panelFor("demo-sheet-left").boundingBox();
   expect(leftPanelBox).not.toBeNull();
   expect(leftPanelBox!.x).toBeLessThan(4);
-  await left.getByRole("button", { name: "Close left sheet" }).click();
+  expect(leftPanelBox!.width).toBeCloseTo(320, 0);
+  await left.getByRole("button", { name: "Close inline start sheet" }).click();
   await expect(left).not.toHaveAttribute("open", "");
 
+  const rtl = page.locator("#demo-sheet-rtl");
+  await openSheet("demo-sheet-rtl");
+  const rtlPanelBox = await panelFor("demo-sheet-rtl").boundingBox();
+  expect(rtlPanelBox).not.toBeNull();
+  expect(rtlPanelBox!.x).toBeLessThan(4);
+  await rtl.getByRole("button", { name: "إغلاق" }).click();
+  await expect(rtl).not.toHaveAttribute("open", "");
+
   const scrollable = page.locator("#demo-sheet-scrollable");
-  await page.locator('[data-open-dialog="demo-sheet-scrollable"]').click();
+  await openSheet("demo-sheet-scrollable");
   const scrollSection = scrollable.locator("section");
   await expect(scrollSection).toHaveAttribute("role", "region");
   await expect(scrollSection).toHaveAttribute("tabindex", "0");
@@ -1626,8 +1655,117 @@ test("sheet sides, close control and scrolling", async ({ page }) => {
   ).toBeGreaterThan(
     await scrollSection.evaluate((element) => element.clientHeight)
   );
+  const headerBox = await scrollable.locator("header").boundingBox();
+  const footerBox = await scrollable.locator("footer").boundingBox();
+  await scrollSection.evaluate((element) => {
+    element.scrollTop = element.scrollHeight;
+  });
+  expect((await scrollable.locator("header").boundingBox())!.y).toBe(headerBox!.y);
+  expect((await scrollable.locator("footer").boundingBox())!.y).toBe(footerBox!.y);
   await page.keyboard.press("Escape");
   await expect(scrollable).not.toHaveAttribute("open", "");
+});
+
+test("sheet responsive sizes, vertical limits and motion", async ({ page }) => {
+  await page.goto("/docs/components/sheet");
+  const panelFor = (id: string) =>
+    page.locator(`#${id} > [data-slot='sheet-content']`);
+  const openSheet = async (id: string) => {
+    await page.locator(`[data-open-dialog="${id}"]`).click();
+    await expect(page.locator(`#${id}`)).toHaveAttribute("open", "");
+  };
+  const closeSheet = async (id: string, name: string) => {
+    await page.locator(`#${id}`).getByRole("button", { name }).click();
+    await expect(page.locator(`#${id}`)).not.toHaveAttribute("open", "");
+  };
+
+  await page.setViewportSize({ width: 375, height: 800 });
+  await openSheet("demo-sheet-default");
+  expect((await panelFor("demo-sheet-default").boundingBox())!.width).toBeCloseTo(
+    281.25,
+    0
+  );
+  await closeSheet("demo-sheet-default", "Close");
+
+  await page.setViewportSize({ width: 640, height: 800 });
+  await openSheet("demo-sheet-default");
+  expect((await panelFor("demo-sheet-default").boundingBox())!.width).toBeCloseTo(
+    384,
+    0
+  );
+  await closeSheet("demo-sheet-default", "Close");
+
+  await openSheet("demo-sheet-left");
+  expect((await panelFor("demo-sheet-left").boundingBox())!.width).toBeCloseTo(
+    320,
+    0
+  );
+  await closeSheet("demo-sheet-left", "Close inline start sheet");
+
+  await openSheet("demo-sheet-large");
+  expect((await panelFor("demo-sheet-large").boundingBox())!.width).toBeCloseTo(
+    448,
+    0
+  );
+  await closeSheet("demo-sheet-large", "Close large sheet");
+
+  const top = page.locator("#demo-sheet-side-top");
+  await openSheet("demo-sheet-side-top");
+  await expect(panelFor("demo-sheet-side-top")).toHaveCSS("max-block-size", "400px");
+  await closeSheet("demo-sheet-side-top", "Close block start sheet");
+  await top.evaluate((element) => element.removeAttribute("style"));
+  await openSheet("demo-sheet-side-top");
+  await expect(panelFor("demo-sheet-side-top")).toHaveCSS("max-block-size", "none");
+  await closeSheet("demo-sheet-side-top", "Close block start sheet");
+  await top.evaluate((element) => element.setAttribute("data-size", "sm"));
+  await openSheet("demo-sheet-side-top");
+  await expect(panelFor("demo-sheet-side-top")).toHaveCSS("max-block-size", "400px");
+  await closeSheet("demo-sheet-side-top", "Close block start sheet");
+  await top.evaluate((element) => element.setAttribute("data-size", "lg"));
+  await openSheet("demo-sheet-side-top");
+  await expect(panelFor("demo-sheet-side-top")).toHaveCSS("max-block-size", "720px");
+  await closeSheet("demo-sheet-side-top", "Close block start sheet");
+
+  const sheet = page.locator("#demo-sheet-default");
+  await openSheet("demo-sheet-default");
+  await expect(sheet).toHaveCSS("transition-duration", "0.2s");
+  await expect(panelFor("demo-sheet-default")).toHaveCSS(
+    "transition-duration",
+    "0.2s"
+  );
+  expect(
+    await sheet.evaluate((element) =>
+      getComputedStyle(element, "::backdrop").transitionDuration
+    )
+  ).toBe("0.2s");
+  await closeSheet("demo-sheet-default", "Close");
+
+  const closedTransform = (id: string) =>
+    page.locator(`#${id}`).evaluate((element) =>
+      getComputedStyle(element).getPropertyValue("--sheet-closed-transform").trim()
+    );
+  expect(await closedTransform("demo-sheet-default")).toBe(
+    "translate3d(2.5rem, 0, 0)"
+  );
+  expect(await closedTransform("demo-sheet-side-top")).toBe(
+    "translate3d(0, -2.5rem, 0)"
+  );
+  expect(await closedTransform("demo-sheet-left")).toBe(
+    "translate3d(-2.5rem, 0, 0)"
+  );
+  expect(await closedTransform("demo-sheet-rtl")).toBe(
+    "translate3d(-2.5rem, 0, 0)"
+  );
+
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await openSheet("demo-sheet-default");
+  await expect(sheet).toHaveCSS("transition-duration", "0s");
+  await expect(panelFor("demo-sheet-default")).toHaveCSS("transition-duration", "0s");
+  expect(
+    await sheet.evaluate((element) =>
+      getComputedStyle(element, "::backdrop").transitionDuration
+    )
+  ).toBe("0s");
 });
 
 test("drawer sides, sizes, nested dialogs and scrolling", async ({ page }) => {

@@ -369,17 +369,17 @@ export const sidebarExamples: Example[] = [
     },
     {
       title: "Mobile",
-      html: `<button type="button" class="btn" data-variant="outline" data-open-dialog="demo-sidebar-mobile">
+      html: `<button type="button" class="btn" data-variant="outline" data-open-dialog="demo-sidebar-mobile" aria-haspopup="dialog" aria-controls="demo-sidebar-mobile" aria-expanded="false">
   Open navigation
 </button>
 
 <dialog class="sheet" id="demo-sidebar-mobile" data-side="inline-start" data-size="sm" aria-labelledby="demo-sidebar-mobile-brand">
-  <div style="padding: 0">
+  <div data-slot="sheet-content">
     <aside class="sidebar" aria-label="Mobile navigation" style="width: 100%; border-inline-end-width: 0">
       <header>
         <h3 data-slot="brand" id="demo-sidebar-mobile-brand">Acme Inc</h3>
         <form method="dialog" style="margin-inline-start: auto">
-          <button class="btn" data-variant="ghost" data-size="icon-sm" aria-label="Close navigation">${close}</button>
+          <button type="submit" class="btn" data-variant="ghost" data-size="icon-sm" data-slot="close" aria-label="Close navigation">${close}</button>
         </form>
       </header>
       <section>

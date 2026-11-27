@@ -1,126 +1,132 @@
 <!-- Default -->
-<button type="button" class="btn" data-variant="outline" data-open-dialog="demo-sheet-default">
+<button type="button" class="btn" data-variant="outline" data-open-dialog="demo-sheet-default" aria-haspopup="dialog" aria-controls="demo-sheet-default" aria-expanded="false">
   Open sheet
 </button>
 
-<dialog class="sheet" id="demo-sheet-default" data-side="inline-end" aria-labelledby="sheet-default-title" aria-describedby="sheet-default-description">
-  <div>
+<dialog class="sheet" id="demo-sheet-default" aria-labelledby="demo-sheet-default-title" aria-describedby="demo-sheet-default-description">
+  <div data-slot="sheet-content">
     <header>
-      <h2 data-slot="title" id="sheet-default-title">Edit profile</h2>
-      <p data-slot="description" id="sheet-default-description">Make changes to your profile here. Click save when you're done.</p>
+      <h2 data-slot="title" id="demo-sheet-default-title">Edit profile</h2>
+      <p data-slot="description" id="demo-sheet-default-description">Make changes to your profile here. Click save when you're done.</p>
     </header>
     <section>
       <div class="fieldset">
-        <div class="field">
-          <label class="label" for="sheet-default-name">Name</label>
-          <input class="input" id="sheet-default-name" value="Ada Lovelace">
-        </div>
-        <div class="field">
-          <label class="label" for="sheet-default-username">Username</label>
-          <input class="input" id="sheet-default-username" value="@ada">
-        </div>
-      </div>
+  <div class="field">
+    <label class="label" for="sheet-default-name">Name</label>
+    <input class="input" id="sheet-default-name" value="Ada Lovelace">
+  </div>
+  <div class="field">
+    <label class="label" for="sheet-default-username">Username</label>
+    <input class="input" id="sheet-default-username" value="@ada">
+  </div>
+</div>
     </section>
     <footer>
-      <button type="button" class="btn" data-variant="outline" data-close-dialog>Cancel</button>
       <button type="button" class="btn" data-close-dialog>Save changes</button>
+      <button type="button" class="btn" data-variant="outline" data-close-dialog>Cancel</button>
     </footer>
     <form method="dialog">
-      <button class="btn" data-variant="ghost" data-size="icon-sm" aria-label="Close"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></button>
-    </form>
+  <button type="submit" class="btn" data-variant="ghost" data-size="icon-sm" data-slot="close" aria-label="Close"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></button>
+</form>
   </div>
 </dialog>
 
 <!-- Sides -->
-<div style="display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 0.5rem">
-  <button type="button" class="btn" data-variant="outline" data-size="sm" data-open-dialog="demo-sheet-side-top">Top</button>
-  <button type="button" class="btn" data-variant="outline" data-size="sm" data-open-dialog="demo-sheet-side-right">Right</button>
-  <button type="button" class="btn" data-variant="outline" data-size="sm" data-open-dialog="demo-sheet-side-bottom">Bottom</button>
-  <button type="button" class="btn" data-variant="outline" data-size="sm" data-open-dialog="demo-sheet-side-left">Left</button>
-</div>
+<button type="button" class="btn" data-variant="outline" data-size="sm" data-open-dialog="demo-sheet-side-top" aria-haspopup="dialog" aria-controls="demo-sheet-side-top" aria-expanded="false">
+  Block start
+</button>
+<button type="button" class="btn" data-variant="outline" data-size="sm" data-open-dialog="demo-sheet-side-right" aria-haspopup="dialog" aria-controls="demo-sheet-side-right" aria-expanded="false">
+  Inline end
+</button>
+<button type="button" class="btn" data-variant="outline" data-size="sm" data-open-dialog="demo-sheet-side-bottom" aria-haspopup="dialog" aria-controls="demo-sheet-side-bottom" aria-expanded="false">
+  Block end
+</button>
+<button type="button" class="btn" data-variant="outline" data-size="sm" data-open-dialog="demo-sheet-side-left" aria-haspopup="dialog" aria-controls="demo-sheet-side-left" aria-expanded="false">
+  Inline start
+</button>
 
-<dialog class="sheet" id="demo-sheet-side-top" data-side="block-start" aria-labelledby="sheet-side-top-title">
-  <div>
+<dialog class="sheet" id="demo-sheet-side-top" data-side="block-start" style="--sheet-height: 50vh" aria-labelledby="demo-sheet-side-top-title" aria-describedby="demo-sheet-side-top-description">
+  <div data-slot="sheet-content">
     <header>
-      <h2 data-slot="title" id="sheet-side-top-title">Top sheet</h2>
-      <p data-slot="description">Anchored to the block start edge.</p>
+      <h2 data-slot="title" id="demo-sheet-side-top-title">Block start sheet</h2>
+      <p data-slot="description" id="demo-sheet-side-top-description">Anchored to the block start edge.</p>
     </header>
     <section>
       <p>Use a top sheet for a short announcement or a wide filter bar.</p>
     </section>
     <footer>
-      <button type="button" class="btn" data-variant="outline" data-close-dialog>Close</button>
+      <button type="button" class="btn" data-close-dialog>Close</button>
     </footer>
     <form method="dialog">
-      <button class="btn" data-variant="ghost" data-size="icon-sm" aria-label="Close top sheet"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></button>
-    </form>
+  <button type="submit" class="btn" data-variant="ghost" data-size="icon-sm" data-slot="close" aria-label="Close block start sheet"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></button>
+</form>
   </div>
 </dialog>
 
-<dialog class="sheet" id="demo-sheet-side-right" data-side="inline-end" aria-labelledby="sheet-side-right-title">
-  <div>
+<dialog class="sheet" id="demo-sheet-side-right" data-side="inline-end" aria-labelledby="demo-sheet-side-right-title" aria-describedby="demo-sheet-side-right-description">
+  <div data-slot="sheet-content">
     <header>
-      <h2 data-slot="title" id="sheet-side-right-title">Right sheet</h2>
-      <p data-slot="description">Anchored to the inline end edge.</p>
+      <h2 data-slot="title" id="demo-sheet-side-right-title">Inline end sheet</h2>
+      <p data-slot="description" id="demo-sheet-side-right-description">Anchored to the inline end edge.</p>
     </header>
     <section>
       <p>Use a side sheet for details that complement the page.</p>
     </section>
     <footer>
-      <button type="button" class="btn" data-variant="outline" data-close-dialog>Close</button>
+      <button type="button" class="btn" data-close-dialog>Close</button>
     </footer>
     <form method="dialog">
-      <button class="btn" data-variant="ghost" data-size="icon-sm" aria-label="Close right sheet"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></button>
-    </form>
+  <button type="submit" class="btn" data-variant="ghost" data-size="icon-sm" data-slot="close" aria-label="Close inline end sheet"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></button>
+</form>
   </div>
 </dialog>
 
-<dialog class="sheet" id="demo-sheet-side-bottom" data-side="block-end" aria-labelledby="sheet-side-bottom-title">
-  <div>
+<dialog class="sheet" id="demo-sheet-side-bottom" data-side="block-end" style="--sheet-height: 50vh" aria-labelledby="demo-sheet-side-bottom-title" aria-describedby="demo-sheet-side-bottom-description">
+  <div data-slot="sheet-content">
     <header>
-      <h2 data-slot="title" id="sheet-side-bottom-title">Bottom sheet</h2>
-      <p data-slot="description">Anchored to the block end edge.</p>
+      <h2 data-slot="title" id="demo-sheet-side-bottom-title">Block end sheet</h2>
+      <p data-slot="description" id="demo-sheet-side-bottom-description">Anchored to the block end edge.</p>
     </header>
     <section>
       <p>Use a bottom sheet for actions that relate to the current view.</p>
     </section>
     <footer>
-      <button type="button" class="btn" data-variant="outline" data-close-dialog>Close</button>
+      <button type="button" class="btn" data-close-dialog>Close</button>
     </footer>
     <form method="dialog">
-      <button class="btn" data-variant="ghost" data-size="icon-sm" aria-label="Close bottom sheet"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></button>
-    </form>
+  <button type="submit" class="btn" data-variant="ghost" data-size="icon-sm" data-slot="close" aria-label="Close block end sheet"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></button>
+</form>
   </div>
 </dialog>
 
-<dialog class="sheet" id="demo-sheet-side-left" data-side="inline-start" aria-labelledby="sheet-side-left-title">
-  <div>
+<dialog class="sheet" id="demo-sheet-side-left" data-side="inline-start" aria-labelledby="demo-sheet-side-left-title" aria-describedby="demo-sheet-side-left-description">
+  <div data-slot="sheet-content">
     <header>
-      <h2 data-slot="title" id="sheet-side-left-title">Left sheet</h2>
-      <p data-slot="description">Anchored to the inline start edge.</p>
+      <h2 data-slot="title" id="demo-sheet-side-left-title">Inline start sheet</h2>
+      <p data-slot="description" id="demo-sheet-side-left-description">Anchored to the inline start edge.</p>
     </header>
     <section>
-      <p>Use a left sheet for navigation or secondary controls.</p>
+      <p>Use a side sheet for navigation or secondary controls.</p>
     </section>
     <footer>
-      <button type="button" class="btn" data-variant="outline" data-close-dialog>Close</button>
+      <button type="button" class="btn" data-close-dialog>Close</button>
     </footer>
     <form method="dialog">
-      <button class="btn" data-variant="ghost" data-size="icon-sm" aria-label="Close left sheet"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></button>
-    </form>
+  <button type="submit" class="btn" data-variant="ghost" data-size="icon-sm" data-slot="close" aria-label="Close inline start sheet"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></button>
+</form>
   </div>
 </dialog>
 
 <!-- No close button -->
-<button type="button" class="btn" data-variant="outline" data-open-dialog="demo-sheet-no-close">
+<button type="button" class="btn" data-variant="outline" data-open-dialog="demo-sheet-no-close" aria-haspopup="dialog" aria-controls="demo-sheet-no-close" aria-expanded="false">
   Open sheet without close
 </button>
 
-<dialog class="sheet" id="demo-sheet-no-close" data-side="inline-end" aria-labelledby="sheet-no-close-title" aria-describedby="sheet-no-close-description">
-  <div>
+<dialog class="sheet" id="demo-sheet-no-close" data-side="inline-end" aria-labelledby="demo-sheet-no-close-title" aria-describedby="demo-sheet-no-close-description">
+  <div data-slot="sheet-content">
     <header>
-      <h2 data-slot="title" id="sheet-no-close-title">No close button</h2>
-      <p data-slot="description" id="sheet-no-close-description">This sheet has no close control in the corner. Dismiss it with Escape or the footer action.</p>
+      <h2 data-slot="title" id="demo-sheet-no-close-title">No close button</h2>
+      <p data-slot="description" id="demo-sheet-no-close-description">This sheet has no close control in the corner. Dismiss it with Escape, a backdrop click or the footer action.</p>
     </header>
     <section>
       <p>Omit the close form when the footer already provides a clear exit.</p>
@@ -132,15 +138,15 @@
 </dialog>
 
 <!-- Scrollable content -->
-<button type="button" class="btn" data-variant="outline" data-open-dialog="demo-sheet-scrollable">
+<button type="button" class="btn" data-variant="outline" data-open-dialog="demo-sheet-scrollable" aria-haspopup="dialog" aria-controls="demo-sheet-scrollable" aria-expanded="false">
   Open scrollable sheet
 </button>
 
-<dialog class="sheet" id="demo-sheet-scrollable" data-side="inline-end" aria-labelledby="sheet-scrollable-title" aria-describedby="sheet-scrollable-description">
-  <div>
+<dialog class="sheet" id="demo-sheet-scrollable" data-side="inline-end" aria-labelledby="demo-sheet-scrollable-title" aria-describedby="demo-sheet-scrollable-description">
+  <div data-slot="sheet-content">
     <header>
-      <h2 data-slot="title" id="sheet-scrollable-title">Scrollable content</h2>
-      <p data-slot="description" id="sheet-scrollable-description">The header and footer stay in place while the section scrolls.</p>
+      <h2 data-slot="title" id="demo-sheet-scrollable-title">Scrollable content</h2>
+      <p data-slot="description" id="demo-sheet-scrollable-description">The header and footer stay in place while the section scrolls.</p>
     </header>
     <section role="region" aria-label="Scrollable sheet content" tabindex="0">
       <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
@@ -153,88 +159,88 @@
       <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
     </section>
     <footer>
-      <button type="button" class="btn" data-variant="outline" data-close-dialog>Close</button>
+      <button type="button" class="btn" data-close-dialog>Close</button>
     </footer>
     <form method="dialog">
-      <button class="btn" data-variant="ghost" data-size="icon-sm" aria-label="Close scrollable sheet"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></button>
-    </form>
+  <button type="submit" class="btn" data-variant="ghost" data-size="icon-sm" data-slot="close" aria-label="Close scrollable sheet"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></button>
+</form>
   </div>
 </dialog>
 
-<!-- Left, small -->
-<button type="button" class="btn" data-variant="outline" data-open-dialog="demo-sheet-left">
-  Open left sheet
+<!-- Inline start, small -->
+<button type="button" class="btn" data-variant="outline" data-open-dialog="demo-sheet-left" aria-haspopup="dialog" aria-controls="demo-sheet-left" aria-expanded="false">
+  Open small inline start sheet
 </button>
 
-<dialog class="sheet" id="demo-sheet-left" data-side="inline-start" data-size="sm" aria-labelledby="sheet-left-title">
-  <div>
+<dialog class="sheet" id="demo-sheet-left" data-side="inline-start" data-size="sm" aria-labelledby="demo-sheet-left-title">
+  <div data-slot="sheet-content">
     <header>
-      <h2 data-slot="title" id="sheet-left-title">Navigation</h2>
+      <h2 data-slot="title" id="demo-sheet-left-title">Navigation</h2>
     </header>
     <section>
-      <p>Use the left sheet for navigation or secondary controls.</p>
+      <p>Use an inline-start sheet for navigation or secondary controls.</p>
     </section>
     <footer>
-      <button type="button" class="btn" data-variant="outline" data-close-dialog>Close</button>
+      <button type="button" class="btn" data-close-dialog>Close</button>
     </footer>
     <form method="dialog">
-      <button class="btn" data-variant="ghost" data-size="icon-sm" aria-label="Close left sheet"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></button>
-    </form>
+  <button type="submit" class="btn" data-variant="ghost" data-size="icon-sm" data-slot="close" aria-label="Close inline start sheet"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></button>
+</form>
   </div>
 </dialog>
 
 <!-- Large -->
-<button type="button" class="btn" data-variant="outline" data-open-dialog="demo-sheet-large">
+<button type="button" class="btn" data-variant="outline" data-open-dialog="demo-sheet-large" aria-haspopup="dialog" aria-controls="demo-sheet-large" aria-expanded="false">
   Open large sheet
 </button>
 
-<dialog class="sheet" id="demo-sheet-large" data-side="inline-end" data-size="lg" aria-labelledby="sheet-large-title" aria-describedby="sheet-large-description">
-  <div>
+<dialog class="sheet" id="demo-sheet-large" data-side="inline-end" data-size="lg" aria-labelledby="demo-sheet-large-title" aria-describedby="demo-sheet-large-description">
+  <div data-slot="sheet-content">
     <header>
-      <h2 data-slot="title" id="sheet-large-title">Filters</h2>
-      <p data-slot="description" id="sheet-large-description">Narrow the results to the records you need.</p>
+      <h2 data-slot="title" id="demo-sheet-large-title">Filters</h2>
+      <p data-slot="description" id="demo-sheet-large-description">Narrow the results to the records you need.</p>
     </header>
     <section>
       <div class="field">
-        <label class="label" for="sheet-large-query">Search</label>
-        <input class="input" id="sheet-large-query" placeholder="Name, owner or status">
-      </div>
+  <label class="label" for="sheet-large-query">Search</label>
+  <input class="input" id="sheet-large-query" placeholder="Name, owner or status">
+</div>
     </section>
     <footer>
-      <button type="button" class="btn" data-variant="outline" data-close-dialog>Reset</button>
       <button type="button" class="btn" data-close-dialog>Apply</button>
+      <button type="button" class="btn" data-variant="outline" data-close-dialog>Reset</button>
     </footer>
     <form method="dialog">
-      <button class="btn" data-variant="ghost" data-size="icon-sm" aria-label="Close large sheet"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></button>
-    </form>
+  <button type="submit" class="btn" data-variant="ghost" data-size="icon-sm" data-slot="close" aria-label="Close large sheet"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></button>
+</form>
   </div>
 </dialog>
 
 <!-- Right-to-left -->
 <div dir="rtl" lang="ar">
-  <button type="button" class="btn" data-variant="outline" data-open-dialog="demo-sheet-rtl">
-    فتح اللوحة
-  </button>
+  <button type="button" class="btn" data-variant="outline" data-open-dialog="demo-sheet-rtl" aria-haspopup="dialog" aria-controls="demo-sheet-rtl" aria-expanded="false">
+  فتح اللوحة
+</button>
 
-  <dialog class="sheet" id="demo-sheet-rtl" data-side="inline-end" aria-labelledby="sheet-rtl-title" aria-describedby="sheet-rtl-description">
-    <div>
-      <header>
-        <h2 data-slot="title" id="sheet-rtl-title">تعديل الملف الشخصي</h2>
-        <p data-slot="description" id="sheet-rtl-description">أجرِ تغييرات على ملفك الشخصي هنا.</p>
-      </header>
-      <section>
-        <div class="field">
-          <label class="label" for="sheet-rtl-name">الاسم</label>
-          <input class="input" id="sheet-rtl-name" value="ليلى حسن">
-        </div>
-      </section>
-      <footer>
-        <button type="button" class="btn" data-variant="outline" data-close-dialog>إلغاء</button>
-        <button type="button" class="btn" data-close-dialog>حفظ التغييرات</button>
-      </footer>
-      <form method="dialog">
-        <button class="btn" data-variant="ghost" data-size="icon-sm" aria-label="إغلاق"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></button>
-      </form>
-    </div>
-  </dialog>
+  <dialog class="sheet" id="demo-sheet-rtl" data-side="inline-end" aria-labelledby="demo-sheet-rtl-title" aria-describedby="demo-sheet-rtl-description">
+  <div data-slot="sheet-content">
+    <header>
+      <h2 data-slot="title" id="demo-sheet-rtl-title">تعديل الملف الشخصي</h2>
+      <p data-slot="description" id="demo-sheet-rtl-description">أجرِ تغييرات على ملفك الشخصي هنا.</p>
+    </header>
+    <section>
+      <div class="field">
+  <label class="label" for="sheet-rtl-name">الاسم</label>
+  <input class="input" id="sheet-rtl-name" value="ليلى حسن">
+</div>
+    </section>
+    <footer>
+      <button type="button" class="btn" data-close-dialog>حفظ التغييرات</button>
+      <button type="button" class="btn" data-variant="outline" data-close-dialog>إلغاء</button>
+    </footer>
+    <form method="dialog">
+  <button type="submit" class="btn" data-variant="ghost" data-size="icon-sm" data-slot="close" aria-label="إغلاق"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></button>
+</form>
+  </div>
+</dialog>
 </div>

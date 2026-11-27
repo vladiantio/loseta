@@ -76,6 +76,52 @@ test("drawer triggers expose and restore dialog state", async ({ page }) => {
   await expect(trigger).toBeFocused();
 });
 
+test("sheet triggers expose dialog state and keep focus inside", async ({ page }) => {
+  const trigger = page.locator('[data-open-dialog="demo-sheet-default"]');
+  const sheet = page.locator("#demo-sheet-default");
+
+  await expect(trigger).toHaveAttribute("aria-haspopup", "dialog");
+  await expect(trigger).toHaveAttribute("aria-controls", "demo-sheet-default");
+  await expect(trigger).toHaveAttribute("aria-expanded", "false");
+
+  await trigger.click();
+  await expect(sheet).toHaveJSProperty("open", true);
+  await expect(trigger).toHaveAttribute("aria-expanded", "true");
+
+  for (let index = 0; index < 6; index += 1) {
+    await page.keyboard.press("Tab");
+    expect(
+      await sheet.evaluate((element) => element.contains(document.activeElement))
+    ).toBe(true);
+  }
+
+  await page.keyboard.press("Escape");
+  await expect(sheet).toHaveJSProperty("open", false);
+  await expect(trigger).toHaveAttribute("aria-expanded", "false");
+  await expect(trigger).toBeFocused();
+});
+
+test("sheet closes with its native form or a backdrop click", async ({ page }) => {
+  const trigger = page.locator('[data-open-dialog="demo-sheet-default"]');
+  const sheet = page.locator("#demo-sheet-default");
+
+  await trigger.click();
+  await expect(sheet).toHaveJSProperty("open", true);
+  await sheet.locator("[data-slot='close']").click();
+  await expect(sheet).toHaveJSProperty("open", false);
+
+  await trigger.click();
+  await expect(sheet).toHaveJSProperty("open", true);
+  await expect
+    .poll(() => page.evaluate(() => getComputedStyle(document.documentElement).overflow))
+    .toBe("hidden");
+  await page.mouse.click(2, 2);
+  await expect(sheet).toHaveJSProperty("open", false);
+  await expect
+    .poll(() => page.evaluate(() => getComputedStyle(document.documentElement).overflow))
+    .not.toBe("hidden");
+});
+
 test("close controls dismiss sheet and drawer dialogs", async ({ page }) => {
   const sheetTrigger = page.locator('[data-open-dialog="demo-sheet-default"]');
   const sheet = page.locator("#demo-sheet-default");

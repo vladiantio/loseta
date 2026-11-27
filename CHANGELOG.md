@@ -4,6 +4,8 @@
 
 ### Added
 
+- Sheet now exposes optional `data-slot="sheet-content"` on its single direct
+  panel and uses the shared `data-slot="close"` for the corner close button.
 - Drawer now exposes `data-slot="drawer-content"` for its single direct panel
   and supports logical `inline-start` and `inline-end` placement in addition to
   top and bottom drawers.
@@ -13,6 +15,14 @@
 
 ### Changed
 
+- Sheet follows the current shadcn Base/Radix common anatomy and visual language
+  across all eight styles while keeping the native dialog contract: popover
+  surfaces, per-part padding, stacked footer actions, per-style typography and
+  backdrops, square attached corners and 200ms directional motion with
+  reduced-motion support.
+- Sheet inline panels now use `75vw` below `40rem` and their size preset above
+  it. Block panels size to content by default; `sm` and `lg` retain `50vh` and
+  `90vh` maximums, and `--sheet-height` customizes the cap.
 - Drawer follows the current shadcn Base UI anatomy and visual language across
   all eight styles: popover surfaces, directional borders and radii, per-style
   backdrops, stacked footer actions, optional handles and 450ms directional
@@ -25,6 +35,9 @@
 
 ### Fixed
 
+- Sheet triggers now maintain `aria-haspopup`, `aria-controls` and
+  `aria-expanded`; examples link every description, use logical side labels and
+  preserve header and footer position while the section scrolls.
 - Drawer triggers now maintain `aria-haspopup`, `aria-controls` and
   `aria-expanded`, and drawer body typography and backdrop styling are applied
   consistently in every style.

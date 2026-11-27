@@ -94,17 +94,20 @@ Use for cards, alerts, toasts, attachments, sheet and drawer panels, sidebar
 surfaces, resizable panels and chart tooltips.
 
 - Radius: match the reference surface. Cards and attachments use the card
-  radius; menus and popovers use the overlay radius; dialogs, sheets and
-  drawers use the dialog radius.
+  radius; menus and popovers use the overlay radius; dialogs use the dialog
+  radius. Attached sheets stay square; drawers follow their floating or attached
+  surface recipe.
 - Padding: copy the stable reference. Cards expose `--card-spacing` for the
   section gap and inline inset: Nova, Lyra and Mira `1rem`; Vega, Maia and Luma
   `1.5rem`; Rhea `1.25rem`; Sera `2rem`. The `sm` size uses `0.75rem` in Nova,
   Lyra and Mira, `1rem` in Vega, Maia, Luma and Rhea and `1.25rem` in Sera.
-  Dialogs use Nova `1rem`; Vega, Maia, Luma, Sera and Rhea `1.5rem`. Do not
-  invent one universal surface padding.
+  Dialogs use Nova `1rem`; Vega, Maia, Luma, Sera and Rhea `1.5rem`. Sheets put
+  padding on header, section and footer rather than the panel. Do not invent one
+  universal surface padding.
 - Shadow: copy the stable reference. Nova ring only; Vega `--shadow-xs`;
   Luma `--shadow-md`; Sera and Rhea `--shadow-sm`; Maia, Lyra and Mira ring only.
-  Drawer uses its style-specific surface shadow and backdrop treatment.
+  Sheet and drawer use their style-specific surface shadow and backdrop
+  treatment.
 - Borders: use `--border` for outlines; use the foreground-at-10% ring for cards
   where the reference card does.
 - Resizable separators draw the line and optional grip with `--border`; the
@@ -205,6 +208,27 @@ Adjust these values only with visual review. They are the shared baseline for
 the batch, not a per-item guess.
 
 ## Special cases
+
+### Sheet
+
+- Use a native `<dialog>` and its `::backdrop`; do not add a portal overlay. The
+  panel uses `--popover` / `--popover-foreground`, stays square and draws its
+  border on the free edge.
+- The panel owns no general padding. Header, section and footer each own the
+  style padding; the footer is a stacked column and stays at the block end while
+  the section scrolls.
+- Body type is `--text-sm`, except Lyra and Mira which use `--text-xs`. Match the
+  upstream title and description scale, including Sera's editorial heading.
+- The backdrop is black at 10% for Nova, Vega and Lyra, 20% for Sera, 30% for
+  Luma and Rhea, and 80% for Maia and Mira, with a 4px blur except Luma, Sera and
+  Rhea which use 8px.
+- Padding is `1rem` in Nova, Vega and Lyra, `1.5rem` in Maia, Mira, Luma and Rhea,
+  and `2rem` in Sera. Nova and Lyra use a `0.125rem` header gap and `0.75rem`
+  close offset; the other styles use a `0.375rem` header gap and `1rem` offset.
+- Shadows are `--shadow-lg` in Nova, Vega, Maia, Lyra and Mira, `--shadow-xl` in
+  Luma and Rhea, and `--shadow-md` in Sera.
+- The base owns a `200ms` fade plus `2.5rem` directional slide, flips inline
+  motion in RTL and stops all Sheet motion under reduced motion.
 
 ### Drawer
 

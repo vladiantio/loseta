@@ -84,13 +84,18 @@ installed example.
 
 - `data-open-dialog="<id>"` — open the referenced `<dialog>` with `showModal()`.
 - `data-close-dialog` — close the nearest dialog.
+- Sheet and Drawer triggers include static `aria-haspopup="dialog"`,
+  `aria-controls` and `aria-expanded="false"`; the dialog behavior keeps
+  `aria-expanded` synchronized.
+- Sheet `[data-slot="sheet-content"]` — the single direct panel. Native
+  `::backdrop` provides the overlay, so there is no overlay element or slot.
 - Drawer `[data-slot="handle"]` — optional direct handle that enables
   pointer/touch swipe-to-close; keep it `aria-hidden="true"` and out of the tab
   order.
 - `[data-slot="input"]` — hidden value input on select and single combobox.
 - `[data-slot="copy"]` / `[data-slot="wrap"]` — Code Block copy and wrap
   controls; `data-copied` is the transient copy state.
-- `[data-slot="close"]` — Toast dismissal.
+- `[data-slot="close"]` — Toast dismissal and the Sheet corner close button.
 - `data-duration` — Toast timer in milliseconds (`0` is persistent).
 - Context menu areas use `aria-haspopup="menu"`, `aria-controls` and
   `tabindex="0"`.
@@ -172,7 +177,8 @@ The `ui.shadcn.com/docs/components/...` pages return only navigation chrome in
 the fetched markup; do not fetch them for example source. When a behavior
 needs the upstream source, fetch it from `shadcn-ui/ui` on `main`:
 
-- component source: `apps/v4/registry/bases/base/ui/<item>.tsx`
+- component source: `apps/v4/registry/bases/base/ui/<item>.tsx` or
+  `apps/v4/registry/bases/radix/ui/<item>.tsx`
 - docs example markup: `apps/v4/examples/base/<item>-<example>.tsx`
 - style recipe: `apps/v4/registry/styles/style-<style>.css` (the `cn-<item>` block)
 

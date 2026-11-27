@@ -1,7 +1,25 @@
 /* Sheet */
 @layer loseta.components {
   .sheet {
+    --sheet-closed-transform: translate3d(2.5rem, 0, 0);
+
+    transition-duration: 200ms;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+
+    &::backdrop {
+      transition-duration: 200ms;
+      transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
     > * {
+      min-block-size: 0;
+      scale: 1;
+      overflow: hidden;
+      transform: translate3d(0, 0, 0);
+      transition-property: transform;
+      transition-duration: 200ms;
+      transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+
       > header {
         display: flex;
         flex-shrink: 0;
@@ -9,22 +27,125 @@
       }
 
       > section {
-        min-height: 0;
-        overflow-y: auto;
+        flex: 1 1 auto;
+        min-block-size: 0;
+        overflow-block: auto;
+        overscroll-behavior: contain;
       }
 
       > footer {
         display: flex;
         flex-shrink: 0;
         margin-block-start: auto;
-        align-items: center;
-        justify-content: flex-end;
+        flex-direction: column;
+        align-items: stretch;
       }
 
-      > :is(button, form[method='dialog']) {
+      > :is(header, section, footer) {
+        min-inline-size: 0;
+      }
+
+      > :is([data-slot='close'], button, form[method='dialog']) {
         position: absolute;
-        inset-inline-end: 1rem;
-        inset-block-start: 1rem;
+        inset-inline-end: var(--sheet-close-offset, 1rem);
+        inset-block-start: var(--sheet-close-offset, 1rem);
+      }
+    }
+
+    &:not([data-side]),
+    &[data-side='inline-start'],
+    &[data-side='inline-end'] {
+      > * {
+        inset-block: 0;
+        inline-size: 75vw;
+        max-inline-size: 100%;
+        block-size: 100%;
+        max-block-size: none;
+        translate: 0 0;
+
+        @media (width >= 40rem) {
+          inline-size: var(--sheet-width, 24rem);
+        }
+      }
+    }
+
+    &:not([data-side]) > *,
+    &[data-side='inline-end'] > * {
+      inset-inline-end: 0;
+      inset-inline-start: auto;
+    }
+
+    &[data-side='inline-start'] > * {
+      inset-inline-start: 0;
+      inset-inline-end: auto;
+    }
+
+    &[data-side='block-start'],
+    &[data-side='block-end'] {
+      > * {
+        inset-inline: 0;
+        inline-size: 100%;
+        max-inline-size: none;
+        block-size: auto;
+        max-block-size: var(--sheet-height, auto);
+        translate: 0 0;
+      }
+    }
+
+    &[data-side='block-start'] {
+      --sheet-closed-transform: translate3d(0, -2.5rem, 0);
+
+      > * {
+        inset-block-start: 0;
+        inset-block-end: auto;
+      }
+    }
+
+    &[data-side='block-end'] {
+      --sheet-closed-transform: translate3d(0, 2.5rem, 0);
+
+      > * {
+        inset-block-end: 0;
+        inset-block-start: auto;
+      }
+    }
+
+    &[data-side='inline-start'] {
+      --sheet-closed-transform: translate3d(-2.5rem, 0, 0);
+    }
+
+    &[data-side='inline-end'] {
+      --sheet-closed-transform: translate3d(2.5rem, 0, 0);
+    }
+
+    &[data-side='inline-start']:dir(rtl) {
+      --sheet-closed-transform: translate3d(2.5rem, 0, 0);
+    }
+
+    &[data-side='inline-end']:dir(rtl) {
+      --sheet-closed-transform: translate3d(-2.5rem, 0, 0);
+    }
+
+    &:not(:is([open], :popover-open)) > * {
+      scale: 1;
+      transform: var(--sheet-closed-transform);
+    }
+
+    &:is([open], :popover-open) > * {
+      scale: 1;
+      transform: translate3d(0, 0, 0);
+
+      @starting-style {
+        scale: 1;
+        transform: var(--sheet-closed-transform);
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      &,
+      &::backdrop,
+      > * {
+        transition-duration: 0s;
       }
     }
   }

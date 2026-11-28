@@ -3606,6 +3606,29 @@ test("component preview reveals cleaned example code", async ({ page }) => {
   await expect(pre).toBeFocused();
 });
 
+test("component preview lets overflowing panels escape", async ({ page }) => {
+  await page.goto("/docs/components/dropdown-menu");
+  const preview = page.locator("[data-component-preview]").first();
+  await expect(preview).toHaveCSS("overflow", "visible");
+
+  await preview.getByRole("button", { name: "Open" }).click();
+  const panel = preview.locator("[data-popover]").first();
+  await expect(panel).toHaveAttribute("aria-hidden", "false");
+
+  await expect
+    .poll(() =>
+      preview.evaluate((element) => {
+        const panelElement = element.querySelector<HTMLElement>("[data-popover]");
+        if (!panelElement) throw new Error("Missing preview panel");
+        return (
+          panelElement.getBoundingClientRect().bottom >
+          element.getBoundingClientRect().bottom
+        );
+      })
+    )
+    .toBe(true);
+});
+
 test("component preview copies the cleaned example markup", async ({ page }) => {
   await page.goto("/docs/components/dialog");
   const preview = page.locator("[data-component-preview]").first();

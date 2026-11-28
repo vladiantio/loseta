@@ -158,8 +158,9 @@ Start the preview once:
 - Open overlays: `--eval "{ el.querySelector('[aria-haspopup]').click(); }"`
   with `--shot-el ".component-preview"` captures the panel over the code area;
   the default `--shot` captures `.docs-preview` only. `--all-examples` applies
-  the same pass to every example. A panel that opens past the preview edge is
-  clipped; see "Overlays and clipping" below.
+  the same pass to every example. A panel that opens past the captured box is
+  clipped by the screenshot, not by the preview; see "Overlays and clipping"
+  below.
 - Whole component across styles:
   `pnpm --filter web run styles:review <item> --scheme both`. It accepts the
   same `--eval`/`--shot-el` pair for open overlays.
@@ -170,23 +171,26 @@ were invisible in the CSS and obvious in the browser.
 
 ### Overlays and clipping
 
-`.component-preview` has `overflow: hidden`, and an element screenshot clips at
-the element's box. A nested submenu, a tall menu near the viewport edge or any
-panel that opens past the preview edge is missing from the capture even while
-it is open. `--page` captures `.docs-content` inside the same clip, so it does
-not bypass it.
+`.component-preview` does not clip its content: a panel that opens past the
+preview edge paints over the code area and the surrounding page. Element
+screenshots still clip at the element's box, so a nested submenu, a tall menu
+near the viewport edge or any panel that opens past the captured element is
+missing from the capture even while it is open.
 
 To capture an overflowing panel:
 
-1. Put the markup in a fixture with enough width and `min-height`.
-2. Probe it with `--html <fixture>` and the default `--shot`. With `--html`,
+1. Capture a container large enough to include the open panel: `--page` for
+   `.docs-content`, or `--shot-el` with the example section or another wrapper.
+2. If the panel still exceeds the container, put the markup in a fixture with
+   enough width and `min-height`.
+3. Probe it with `--html <fixture>` and the default `--shot`. With `--html`,
    the default target is `#probe-root`; do not also pass
    `--shot-el "#probe-root"`.
-3. The probe appends `#probe-root` to the end of `.docs-content`. For a
+4. The probe appends `#probe-root` to the end of `.docs-content`. For a
    `position: fixed` context menu, prepend it and reset the scroll in
    `--eval`: `{ el.parentElement.prepend(el); window.scrollTo(0, 0); ... }`.
-4. If the panel belongs inside the example, give the example wrapper enough
-   room instead of relying on the preview overflow.
+5. If the panel belongs inside the example, give the example wrapper enough
+   room so the capture includes it.
 
 The probe injects `transition: none !important; animation: none !important` to
 keep captures stable, so computed `transition` and `animation` values read

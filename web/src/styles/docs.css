@@ -1243,8 +1243,8 @@
     font-weight: 600;
   }
 
+  /* Overlay panels must escape the preview; only the code area clips. */
   .component-preview {
-    overflow: hidden;
     border: 1px solid var(--border);
     border-radius: var(--radius-xl);
     background-color: var(--background);
@@ -1268,6 +1268,8 @@
     position: relative;
     overflow: hidden;
     border-block-start: 1px solid var(--border);
+    border-end-start-radius: calc(var(--radius-xl) - 1px);
+    border-end-end-radius: calc(var(--radius-xl) - 1px);
     background-color: var(--muted);
   }
 

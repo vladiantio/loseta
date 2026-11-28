@@ -265,9 +265,10 @@ Select one case with `--example "<title>"`, `--style`, `--scheme`, `--width` or
 `--html <fixture>`; inspect it with `--eval "<js>"` (binds `el` to the example
 root) and `--page` for the whole page. `--shot-el` captures one element; it is
 scoped to the selected example with `--example` and inside `#probe-root` with
-`--html`. `--all-examples` covers every preview. `.component-preview` clips
-panels that open past it; nested menus need an `--html` fixture (see
-`EXAMPLES.md`, "Overlays and clipping").
+`--html`. `--all-examples` covers every preview. An element screenshot clips at
+the captured box even though `.component-preview` overflows; capture nested
+menus with `--page` or an `--html` fixture (see `EXAMPLES.md`, "Overlays and
+clipping").
 For a contact sheet across styles, use
 `pnpm --filter web run styles:review <item> --scheme both`.
 

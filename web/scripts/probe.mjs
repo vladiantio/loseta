@@ -58,10 +58,9 @@ open overlays that paint into the code area need --shot-el ".component-preview"
 or a taller preview.
 
 Notes:
-  .component-preview has overflow: hidden and an element screenshot clips at the
-  element box, so a nested or overflowing panel is missing from the capture even
-  while it is open. Use an --html fixture with enough room; --page does not
-  bypass the clip.
+  .component-preview does not clip overflowing panels, but an element screenshot
+  still clips at the element box. Use --page or an --html fixture with enough
+  room for a nested or overflowing panel.
   --html appends #probe-root to the end of .docs-content. Prepend it in --eval
   for fixed-position overlays:
   { el.parentElement.prepend(el); window.scrollTo(0, 0); }

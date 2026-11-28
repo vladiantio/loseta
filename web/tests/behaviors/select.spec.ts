@@ -34,21 +34,21 @@ test("select opens, navigates and selects with the keyboard", async ({ page }) =
   await expect(trigger).toBeFocused();
   await expect(fixture.locator("[data-slot='value']")).toHaveText("Banana");
   await expect(options.nth(1)).toHaveAttribute("aria-selected", "true");
-  await expect(hidden).toHaveValue("Banana");
+  await expect(hidden).toHaveValue("banana");
   expect(await page.evaluate(() => (window as any).__selectChange)).toEqual({
-    value: "Banana"
+    value: "banana"
   });
 });
 
-test("select typeahead, disabled options and dismissal", async ({ page }) => {
+test("select typeahead and dismissal", async ({ page }) => {
   const fixture = page.locator('[data-fixture="select"] [data-example="Default"]');
   const trigger = fixture.locator("[role='combobox']");
   const panel = page.locator("#demo-select-default-panel");
   const options = panel.locator("[role='option']");
 
   await trigger.click();
-  await page.keyboard.press("o");
-  await expect(options.nth(2)).toHaveAttribute("data-highlighted", "");
+  await page.keyboard.press("p");
+  await expect(options.nth(4)).toHaveAttribute("data-highlighted", "");
 
   await page.keyboard.press("ArrowDown");
   await expect(options.nth(0)).toHaveAttribute("data-highlighted", "");
@@ -60,4 +60,40 @@ test("select typeahead, disabled options and dismissal", async ({ page }) => {
   await trigger.click();
   await page.locator('[data-fixture="select"] > h2').click();
   await expect(panel).toHaveAttribute("aria-hidden", "true");
+});
+
+test("select syncs the authored selection on load", async ({ page }) => {
+  const fixture = page.locator('[data-fixture="select"] [data-example="Small, selected"]');
+  const trigger = fixture.locator("[role='combobox']");
+  const selected = fixture.locator("[role='option'][aria-selected='true']");
+
+  await expect(trigger).not.toHaveAttribute("data-placeholder", "");
+  await expect(fixture.locator("[data-slot='value']")).toHaveText("Apple");
+  await expect(fixture.locator("input[data-slot='input']")).toHaveValue("apple");
+  await expect(selected).toHaveAttribute("data-value", "apple");
+});
+
+test("select reveals scroll controls only while scrollable", async ({ page }) => {
+  const fixture = page.locator('[data-fixture="select"] [data-example="Scrollable"]');
+  const trigger = fixture.locator("[role='combobox']");
+  const panel = page.locator("#demo-select-scrollable-panel");
+  const listbox = panel.locator("[role='listbox']");
+  const up = panel.locator("[data-slot='scroll-up']");
+  const down = panel.locator("[data-slot='scroll-down']");
+
+  await trigger.click();
+  await expect(panel).toHaveAttribute("aria-hidden", "false");
+  await expect(up).toBeHidden();
+  await expect(down).toBeVisible();
+
+  await down.dispatchEvent("click");
+  await expect
+    .poll(() => listbox.evaluate((element) => element.scrollTop))
+    .toBeGreaterThan(0);
+  await expect(up).toBeVisible();
+
+  await listbox.evaluate((element) => {
+    element.scrollTop = element.scrollHeight;
+  });
+  await expect(down).toBeHidden();
 });

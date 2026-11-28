@@ -33,7 +33,7 @@
     --menu-panel-padding: 0.25rem;
     padding: var(--menu-panel-padding);
     color: var(--popover-foreground);
-    box-shadow: 0 0 0 1px color-mix(in oklab, var(--foreground) 10%, transparent), var(--shadow-2xl);
+    box-shadow: 0 0 0 1px color-mix(in oklab, var(--foreground) 5%, transparent), var(--shadow-2xl);
     transition-duration: 100ms;
   }
 
@@ -135,7 +135,7 @@
     background-color: var(--popover);
     padding: 0.25rem;
     color: var(--popover-foreground);
-    box-shadow: 0 0 0 1px color-mix(in oklab, var(--foreground) 10%, transparent), var(--shadow-2xl);
+    box-shadow: 0 0 0 1px color-mix(in oklab, var(--foreground) 5%, transparent), var(--shadow-2xl);
     transition-duration: 100ms;
   }
 
@@ -143,8 +143,7 @@
     & [role='option'] {
       gap: 0.625rem;
       border-radius: var(--radius-xl);
-      padding-inline: 0.75rem;
-      padding-inline-end: 2rem;
+      padding-inline: 0.75rem 2rem;
       padding-block: 0.5rem;
       font-size: var(--text-sm);
       line-height: var(--text-sm--line-height);
@@ -163,10 +162,6 @@
         background-color: var(--accent);
         color: var(--accent-foreground);
       }
-
-      &[aria-disabled='true'] {
-        color: var(--muted-foreground);
-      }
     }
 
     & [role='separator'] {
@@ -174,12 +169,12 @@
       block-size: 1px;
       margin-block: 0.25rem;
       margin-inline: -0.25rem;
-      background-color: var(--border);
+      background-color: color-mix(in oklab, var(--border) 50%, transparent);
     }
 
     & [data-slot='indicator'] {
       position: absolute;
-      inset-inline-end: 0.75rem;
+      inset-inline-end: 0.5rem;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -187,10 +182,9 @@
 
     & [data-slot='label'] {
       padding-inline: 0.75rem;
-      padding-block: 0.5rem;
+      padding-block: 0.625rem;
       font-size: var(--text-xs);
       line-height: var(--text-xs--line-height);
-      font-weight: 500;
       color: var(--muted-foreground);
     }
 
@@ -215,7 +209,7 @@
     font-size: var(--text-sm);
     line-height: var(--text-sm--line-height);
     color: var(--popover-foreground);
-    box-shadow: 0 0 0 1px color-mix(in oklab, var(--foreground) 10%, transparent), var(--shadow-2xl);
+    box-shadow: 0 0 0 1px color-mix(in oklab, var(--foreground) 5%, transparent), var(--shadow-2xl);
     transition-duration: 100ms;
   }
 }
@@ -2876,7 +2870,7 @@
     background-color: var(--popover);
     padding: 0.25rem;
     color: var(--popover-foreground);
-    box-shadow: 0 0 0 1px color-mix(in oklab, var(--foreground) 10%, transparent), var(--shadow-2xl);
+    box-shadow: 0 0 0 1px color-mix(in oklab, var(--foreground) 5%, transparent), var(--shadow-2xl);
     transition-property: opacity;
     transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
     transition-duration: 150ms;
@@ -3562,28 +3556,27 @@
 /* Select */
 @layer loseta.style {
   .select {
+    > [data-popover]:has(> [role='listbox']) {
+      overflow: hidden;
+    }
+
     > button {
       height: 2.25rem;
       border-style: solid;
       border-width: 1px;
       border-color: var(--input);
-      border-radius: var(--radius-full);
-      background-color: light-dark(
-        transparent,
-        color-mix(in oklab, var(--input) 30%, transparent)
-      );
+      border-radius: var(--radius-4xl);
+      background-color: color-mix(in oklab, var(--input) 30%, transparent);
       padding-inline: 0.75rem;
-      font-size: var(--text-base);
-      line-height: 1.5;
-      font-weight: 400;
-      text-align: start;
+      font-size: var(--text-sm);
+      line-height: var(--text-sm--line-height);
       transition-property: color, background-color, border-color, box-shadow;
       transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
       transition-duration: 150ms;
 
       &:hover {
         background-color: light-dark(
-          var(--muted),
+          color-mix(in oklab, var(--input) 30%, transparent),
           color-mix(in oklab, var(--input) 50%, transparent)
         );
       }
@@ -3604,38 +3597,19 @@
         );
       }
 
-      > svg {
-        width: 1rem;
-        height: 1rem;
+      &[data-placeholder] {
         color: var(--muted-foreground);
       }
 
-      @media (width >= 48rem) {
-        font-size: var(--text-sm);
-        line-height: var(--text-sm--line-height);
+      > svg {
+        inline-size: 1rem;
+        block-size: 1rem;
+        color: var(--muted-foreground);
       }
     }
 
     &[data-size='sm'] > button {
       height: 2rem;
-      font-size: var(--text-xs);
-      line-height: var(--text-xs--line-height);
-    }
-
-    [data-slot='value'] {
-      flex: 1 1 auto;
-      overflow: hidden;
-      text-align: start;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-    }
-
-    [data-slot='value'][data-placeholder] {
-      color: var(--muted-foreground);
-    }
-
-    &:is(:hover, :focus-visible, [aria-expanded='true']) [data-slot='value'][data-placeholder] {
-      color: var(--foreground);
     }
   }
 }

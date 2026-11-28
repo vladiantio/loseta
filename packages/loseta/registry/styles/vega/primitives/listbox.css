@@ -17,8 +17,7 @@
     & [role='option'] {
       gap: 0.5rem;
       border-radius: var(--radius-sm);
-      padding-inline: 0.5rem;
-      padding-inline-end: 1.75rem;
+      padding-inline: 0.5rem 2rem;
       padding-block: 0.375rem;
       font-size: var(--text-sm);
       line-height: var(--text-sm--line-height);
@@ -36,10 +35,6 @@
       &[data-highlighted] {
         background-color: var(--accent);
         color: var(--accent-foreground);
-      }
-
-      &[aria-disabled='true'] {
-        color: var(--muted-foreground);
       }
     }
 
@@ -61,10 +56,9 @@
 
     & [data-slot='label'] {
       padding-inline: 0.5rem;
-      padding-block: 0.25rem;
+      padding-block: 0.375rem;
       font-size: var(--text-xs);
       line-height: var(--text-xs--line-height);
-      font-weight: 500;
       color: var(--muted-foreground);
     }
 

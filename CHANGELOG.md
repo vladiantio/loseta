@@ -32,9 +32,30 @@
 - Drawer's optional handle now supports swipe-to-close with mouse, pen and
   touch. Successful swipes emit `dismiss` with `reason: "swipe"` before the
   existing close lifecycle; drawers without a handle are unchanged.
+- Select options accept an optional `data-value` for the submitted value and
+  fall back to the visible label. The shipped behavior syncs the authored
+  `aria-selected="true"` option into the trigger, the placeholder state and the
+  hidden input on load.
+- Select panels support optional `[data-slot="scroll-up"]` and
+  `[data-slot="scroll-down"]` controls. The shipped behavior reveals them only
+  when the panel scrolls, scrolls on hover and steps on click.
 
 ### Changed
 
+- Select follows the Base UI anatomy and the current shadcn v4 recipes across
+  all eight styles: `data-placeholder` moves to the trigger, `data-size="sm"`
+  only shortens the trigger, the trigger uses a fixed `--text-sm` (`--text-xs`
+  in Lyra and Mira) and each style gets its shadcn padding, surface, ring,
+  item, label and separator recipe. The shared listbox primitive carries the
+  same item, label and separator recipe, so combobox and command inherit it. The
+  panel keeps the shared `18rem` cap and the chevron rotation.
+- Select scroll controls are absolute overlays with a popover-to-transparent
+  gradient instead of inline bands. When the controls are present the panel
+  hides its native scrollbar, the controls stay hidden on coarse pointers and
+  the hover scroll steps one row at a time.
+- Maia, Luma and Rhea overlay surfaces use the shadcn ring alpha: Maia 5% in
+  both modes, Luma and Rhea 5% in light and 10% in dark. This applies to menus,
+  context menus, popovers and listboxes.
 - Toast follows the current shadcn v4 anatomy and visual language across all
   eight styles: a fixed viewport anchored at `1rem`, a `24rem` maximum width,
   the optional `content`/`icon`/`action` slots, centered content rows,

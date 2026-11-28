@@ -10,7 +10,10 @@
     --menu-panel-padding: 0.25rem;
     padding: var(--menu-panel-padding);
     color: var(--popover-foreground);
-    box-shadow: 0 0 0 1px color-mix(in oklab, var(--foreground) 10%, transparent), var(--shadow-lg);
+    box-shadow: 0 0 0 1px light-dark(
+      color-mix(in oklab, var(--foreground) 5%, transparent),
+      color-mix(in oklab, var(--foreground) 10%, transparent)
+    ), var(--shadow-lg);
     transition-duration: 100ms;
   }
 

@@ -7,7 +7,7 @@
     overflow-y: auto;
     border-radius: 0;
     background-color: var(--popover);
-    padding: 0.25rem;
+    padding: 0;
     color: var(--popover-foreground);
     box-shadow: 0 0 0 1px color-mix(in oklab, var(--foreground) 10%, transparent), var(--shadow-md);
     transition-duration: 100ms;
@@ -17,8 +17,7 @@
     & [role='option'] {
       gap: 0.5rem;
       border-radius: 0;
-      padding-inline: 0.5rem;
-      padding-inline-end: 1.5rem;
+      padding-inline: 0.5rem 2rem;
       padding-block: 0.5rem;
       font-size: var(--text-xs);
       line-height: var(--text-xs--line-height);
@@ -37,16 +36,11 @@
         background-color: var(--accent);
         color: var(--accent-foreground);
       }
-
-      &[aria-disabled='true'] {
-        color: var(--muted-foreground);
-      }
     }
 
     & [role='separator'] {
       flex-shrink: 0;
       block-size: 1px;
-      margin-block: 0.25rem;
       margin-inline: -0.25rem;
       background-color: var(--border);
     }
@@ -61,10 +55,9 @@
 
     & [data-slot='label'] {
       padding-inline: 0.5rem;
-      padding-block: 0.25rem;
+      padding-block: 0.5rem;
       font-size: var(--text-xs);
       line-height: var(--text-xs--line-height);
-      font-weight: 500;
       color: var(--muted-foreground);
     }
 

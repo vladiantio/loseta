@@ -66,7 +66,8 @@ header arrows and calendar day cells.
   translate where the base supports it.
 
 Calendar day cells use the control height and radius. Header arrows and caption
-dropdowns use the `sm` control size.
+dropdowns use the `sm` control size. Select triggers keep the control radius and
+height but follow the select recipe under Field for padding, type and focus.
 
 ### Field
 
@@ -80,13 +81,21 @@ groups, OTP inputs, command inputs and questionnaire inputs.
   `2.5rem`.
 - Padding: Nova, Vega, Lyra and Rhea `0.625rem`; Maia and Luma `0.75rem`; Mira
   `0.5rem`; Sera `0` with an underline border.
-- Type: Nova, Vega, Maia, Luma, Sera and Rhea use `--text-base` below `48rem` and
-  `--text-sm` above it. Lyra uses `--text-xs`; Mira uses `--text-sm` then
+- Type: Nova, Vega, Maia, Luma, Sera and Rhea use `--text-base` below `48rem`
+  and `--text-sm` above it. Lyra uses `--text-xs`; Mira uses `--text-sm` then
   `--text-xs` above `48rem`.
 - Sera: transparent side/top borders, `border-bottom-color: var(--input)`, no
   inline padding and the same dark background mix as `styles/sera/input.css`.
 - Invalid: destructive border and a 3px destructive-at-20% shadow; dark mode may
   use a stronger mix, matching the reference.
+- Select triggers use a fixed type scale instead of the responsive input scale:
+  `--text-sm`, or `--text-xs` in Lyra and Mira. `data-size="sm"` only shortens
+  the trigger. Inline padding follows the shadcn select recipe: Nova, Vega and
+  Lyra `0.625rem` start and `0.5rem` end; Maia, Luma and Rhea `0.75rem`; Mira
+  `0.5rem`; Sera `0`. Nova, Vega and Maia use the 3px focus and invalid rings;
+  Lyra uses 1px, Mira 2px, Luma and Rhea 3px at 30%, and Sera keeps the
+  border-only underline. Maia uses `--input` at 30% in both modes, Mira 20% in
+  light and 30% in dark, and Luma and Rhea 50% in both modes.
 
 ### Surface
 
@@ -127,11 +136,16 @@ navigation-menu panels.
   use `--shadow-md`; Maia uses `--shadow-2xl`; Luma and Rhea use `--shadow-lg`.
   Surface shadows are separate: cards use `--shadow-xs` in Vega, `--shadow-md`
   in Luma and `--shadow-sm` in Sera and Rhea.
-- Padding: options use `0.375rem 0.5rem` in Nova and Vega, larger in Maia/Luma,
-  tighter in Lyra/Mira. Copy the menu primitive for the same style.
+- Padding: options use `0.375rem` inline start and `2rem` inline end in Nova,
+  `0.5rem` start in Vega, Lyra, Mira and Rhea, `0.75rem` start in Maia, Luma and
+  Sera. Panel padding is `0.25rem`, except Luma and Sera `0.375rem` and Lyra
+  `0`. Group labels use the same inline start as options; Sera uses uppercase
+  600 with `0.05em` tracking. Select panels with scroll controls hide the
+  native scrollbar; the optional controls are absolute overlays with a
+  `--popover`-to-transparent gradient and stay hidden on coarse pointers.
 - Selected and highlighted options: `--accent` background and
   `--accent-foreground`; selected listbox options also use font-weight 500 and
-  the check indicator.
+  the check indicator. Luma uses font-weight 500 for every option.
 - Menubar bars follow the style's fixed height: Nova, Lyra and Rhea `2rem`;
   Vega, Maia, Mira and Luma `2.25rem`; Sera `2.5rem`. Triggers use `--muted`
   for hover, expanded and focus-visible, while menu items keep `--accent`.
@@ -260,8 +274,8 @@ the batch, not a per-item guess.
 
 ### Sera
 
-- Uppercase card, dialog, alert-dialog, badge and heading text with
-  `letter-spacing: 0.05em`–`0.1em`.
+- Uppercase card, dialog, alert-dialog, badge, heading and listbox label text
+  with `letter-spacing: 0.05em`–`0.1em`.
 - Inputs, textareas and native selects are underline fields: no side/top border,
   no inline padding, `border-bottom-color: var(--input)`, and the dark background
   mix from `styles/sera/input.css`.
@@ -278,7 +292,8 @@ the batch, not a per-item guess.
 ### Mira
 
 - Densest style: default controls `1.75rem`, `sm` `1.5rem`, `lg` `2rem`.
-- Smaller type on secondary text and small controls.
+- Smaller type on secondary text and small controls. Select triggers and options
+  use `--text-xs` at a `1.625` line height.
 - Tight padding and gaps; keep hit areas at least the reference height.
 - Do not copy Nova spacing into a Mira file.
 

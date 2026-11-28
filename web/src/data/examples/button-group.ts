@@ -1,5 +1,5 @@
 import type { Example } from "./types";
-import { arrowRight, bot, chevronDown, minus, plus, search } from "./icons";
+import { arrowRight, bot, check, chevronDown, minus, plus, search } from "./icons";
 
 export const buttonGroupExamples: Example[] = [
     {
@@ -121,17 +121,17 @@ export const buttonGroupExamples: Example[] = [
       </button>
       <div data-popover data-side="bottom" aria-hidden="true" id="demo-button-group-currency">
         <div role="listbox" aria-label="Currency">
-          <div role="option" aria-selected="true" aria-label="US Dollar">
+          <div role="option" aria-selected="true" aria-label="US Dollar" data-value="USD">
             <span data-slot="text">$</span>
-            <span data-slot="indicator" aria-hidden="true">✓</span>
+            <span data-slot="indicator" aria-hidden="true">${check}</span>
           </div>
-          <div role="option" aria-selected="false" aria-label="Euro">
+          <div role="option" aria-selected="false" aria-label="Euro" data-value="EUR">
             <span data-slot="text">€</span>
-            <span data-slot="indicator" aria-hidden="true">✓</span>
+            <span data-slot="indicator" aria-hidden="true">${check}</span>
           </div>
-          <div role="option" aria-selected="false" aria-label="British Pound">
+          <div role="option" aria-selected="false" aria-label="British Pound" data-value="GBP">
             <span data-slot="text">£</span>
-            <span data-slot="indicator" aria-hidden="true">✓</span>
+            <span data-slot="indicator" aria-hidden="true">${check}</span>
           </div>
         </div>
       </div>

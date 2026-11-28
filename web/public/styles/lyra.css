@@ -133,7 +133,7 @@
     overflow-y: auto;
     border-radius: 0;
     background-color: var(--popover);
-    padding: 0.25rem;
+    padding: 0;
     color: var(--popover-foreground);
     box-shadow: 0 0 0 1px color-mix(in oklab, var(--foreground) 10%, transparent), var(--shadow-md);
     transition-duration: 100ms;
@@ -143,8 +143,7 @@
     & [role='option'] {
       gap: 0.5rem;
       border-radius: 0;
-      padding-inline: 0.5rem;
-      padding-inline-end: 1.5rem;
+      padding-inline: 0.5rem 2rem;
       padding-block: 0.5rem;
       font-size: var(--text-xs);
       line-height: var(--text-xs--line-height);
@@ -163,16 +162,11 @@
         background-color: var(--accent);
         color: var(--accent-foreground);
       }
-
-      &[aria-disabled='true'] {
-        color: var(--muted-foreground);
-      }
     }
 
     & [role='separator'] {
       flex-shrink: 0;
       block-size: 1px;
-      margin-block: 0.25rem;
       margin-inline: -0.25rem;
       background-color: var(--border);
     }
@@ -187,10 +181,9 @@
 
     & [data-slot='label'] {
       padding-inline: 0.5rem;
-      padding-block: 0.25rem;
+      padding-block: 0.5rem;
       font-size: var(--text-xs);
       line-height: var(--text-xs--line-height);
-      font-weight: 500;
       color: var(--muted-foreground);
     }
 
@@ -3547,6 +3540,10 @@
 /* Select */
 @layer loseta.style {
   .select {
+    > [data-popover]:has(> [role='listbox']) {
+      overflow: hidden;
+    }
+
     > button {
       height: 2rem;
       border-style: solid;
@@ -3557,25 +3554,23 @@
         transparent,
         color-mix(in oklab, var(--input) 30%, transparent)
       );
-      padding-inline: 0.625rem;
+      padding-inline: 0.625rem 0.5rem;
       font-size: var(--text-xs);
-      line-height: 1.5;
-      font-weight: 400;
-      text-align: start;
+      line-height: var(--text-xs--line-height);
       transition-property: color, background-color, border-color, box-shadow;
       transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
       transition-duration: 150ms;
 
       &:hover {
         background-color: light-dark(
-          var(--muted),
+          transparent,
           color-mix(in oklab, var(--input) 50%, transparent)
         );
       }
 
       &:focus-visible {
         border-color: var(--ring);
-        box-shadow: 0 0 0 3px color-mix(in oklab, var(--ring) 50%, transparent);
+        box-shadow: 0 0 0 1px color-mix(in oklab, var(--ring) 50%, transparent);
       }
 
       &[aria-invalid='true'] {
@@ -3583,44 +3578,25 @@
           var(--destructive),
           color-mix(in oklab, var(--destructive) 50%, transparent)
         );
-        box-shadow: 0 0 0 3px light-dark(
+        box-shadow: 0 0 0 1px light-dark(
           color-mix(in oklab, var(--destructive) 20%, transparent),
           color-mix(in oklab, var(--destructive) 40%, transparent)
         );
       }
 
-      > svg {
-        width: 1rem;
-        height: 1rem;
+      &[data-placeholder] {
         color: var(--muted-foreground);
       }
 
-      @media (width >= 48rem) {
-        font-size: var(--text-xs);
-        line-height: var(--text-xs--line-height);
+      > svg {
+        inline-size: 1rem;
+        block-size: 1rem;
+        color: var(--muted-foreground);
       }
     }
 
     &[data-size='sm'] > button {
       height: 1.75rem;
-      font-size: var(--text-xs);
-      line-height: var(--text-xs--line-height);
-    }
-
-    [data-slot='value'] {
-      flex: 1 1 auto;
-      overflow: hidden;
-      text-align: start;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-    }
-
-    [data-slot='value'][data-placeholder] {
-      color: var(--muted-foreground);
-    }
-
-    &:is(:hover, :focus-visible, [aria-expanded='true']) [data-slot='value'][data-placeholder] {
-      color: var(--foreground);
     }
   }
 }

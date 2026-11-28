@@ -2940,20 +2940,20 @@ test("select panel caps its height and scrolls", async ({ page }) => {
     .filter({ has: page.locator(".example-title", { hasText: "Scrollable" }) });
   const trigger = example.locator('[role="combobox"]');
   const panel = example.locator("[data-popover]");
+  const listbox = panel.locator("[role='listbox']");
 
   await trigger.click();
   await expect(panel).toHaveAttribute("aria-hidden", "false");
 
-  const metrics = await panel.evaluate((element) => {
-    const style = getComputedStyle(element);
-    return {
-      maxHeight: style.maxHeight,
-      clientHeight: element.clientHeight,
-      scrollHeight: element.scrollHeight
-    };
-  });
+  const maxHeight = await panel.evaluate(
+    (element) => getComputedStyle(element).maxHeight
+  );
+  const metrics = await listbox.evaluate((element) => ({
+    clientHeight: element.clientHeight,
+    scrollHeight: element.scrollHeight
+  }));
 
-  expect(metrics.maxHeight).toBe("288px");
+  expect(maxHeight).toBe("288px");
   expect(metrics.scrollHeight).toBeGreaterThan(metrics.clientHeight);
 });
 
@@ -2981,7 +2981,7 @@ test("select invalid trigger follows the field invalid state", async ({ page }) 
   expect(normalStyle.boxShadow).toBe("none");
 });
 
-test("select and native select follow the field type scale", async ({ page }) => {
+test("select uses a fixed type scale and native select follows the field scale", async ({ page }) => {
   await page.goto("/docs/components/select");
   const trigger = page.locator(".select:has(#demo-select-default-panel) > button");
 
@@ -2989,7 +2989,7 @@ test("select and native select follow the field type scale", async ({ page }) =>
   await expect(trigger).toHaveCSS("font-size", "14px");
 
   await page.setViewportSize({ width: 600, height: 900 });
-  await expect(trigger).toHaveCSS("font-size", "16px");
+  await expect(trigger).toHaveCSS("font-size", "14px");
 
   await page.goto("/docs/components/native-select");
   const nativeSelect = page.locator("#demo-native-select-default");

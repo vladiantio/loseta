@@ -7,7 +7,7 @@
     background-color: var(--popover);
     padding: 0.25rem;
     color: var(--popover-foreground);
-    box-shadow: 0 0 0 1px color-mix(in oklab, var(--foreground) 10%, transparent), var(--shadow-2xl);
+    box-shadow: 0 0 0 1px color-mix(in oklab, var(--foreground) 5%, transparent), var(--shadow-2xl);
     transition-property: opacity;
     transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
     transition-duration: 150ms;

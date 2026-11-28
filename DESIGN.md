@@ -233,9 +233,11 @@ fixed 4px radius. Code Block uses `--radius-xl`; its `sm` size uses
   titles and content follow the row size. Questionnaire legends use
   `--text-lg`; descriptions and choices use `--text-sm`. Bubble content uses a
   `1.625` line height for readable replies.
-- Inputs and textareas use `--text-base` (`1rem`) below `48rem` and `--text-sm`
-  at and above it. Combobox inputs follow the input scale; `sm` select triggers
-  use `--text-xs`.
+- Inputs, textareas and native selects use `--text-base` (`1rem`) below `48rem`
+  and `--text-sm` at and above it. Combobox inputs follow the input scale.
+  Select triggers use a fixed `--text-sm`, except Lyra and Mira, which use
+  `--text-xs`; Mira uses a `1.625` line height. `data-size="sm"` only shortens
+  the trigger.
 - Card, dialog and alert-dialog titles use `--text-base` at their default size
   (the `sm` card uses `--text-sm`); alert, popover, empty and field titles use
   `--text-sm`. `lg` avatar fallbacks and group counts use `--text-base`. Sheet
@@ -484,7 +486,7 @@ direction.
 | Radio | `.radio` | Native `input[type="radio"]`, normally inside `role="radiogroup"`. Compose rows with `.field` and a label, and group them with `[data-slot="radio-group"]` inside a `.fieldset`. | — |
 | Resizable | `.resizable` | `.resizable-panel` panes with `--panel-size`, `--panel-min` and `--panel-max`, and `[data-slot="handle"]` separators with an optional `[data-slot="grip"]` child. The intersection of a nested inner handle with its immediate outer handle is a hidden two-axis corner. The shipped behavior supports any number of handles between adjacent panels, redistributes only the active pair, supports keyboard resizing and keeps nested groups independent. | `data-orientation="horizontal|vertical"`; panel `--panel-size` weight and `--panel-min`/`--panel-max` percentages; handle `aria-valuenow/min/max`, `aria-controls` and an accessible name; `change` reports every direct panel size |
 | Scroll area | `.scroll-area` | Scroll container; the consumer sets dimensions and content. | `data-orientation="horizontal|vertical"`; `data-size="default|sm"` |
-| Select | `.select` | Trigger with `role="combobox"`, `[data-slot="value"]`, optional `[data-slot="input"]` hidden input and a `[data-popover] > [role="listbox"]` panel. Group labels use `[data-slot="label"]`, dividers use `[role="separator"]` and the panel scrolls at `18rem`. | `data-size="default|sm"`; `data-placeholder` on the value; `aria-invalid` on the trigger |
+| Select | `.select` | Trigger with `role="combobox"` and `[data-slot="value"]`, optional `[data-slot="input"]` hidden input and a `[data-popover] > [role="listbox"]` panel. Options accept `data-value` and fall back to `[data-slot="text"]`. Group labels use `[data-slot="label"]`, dividers use `[role="separator"]`, optional `[data-slot="scroll-up"]`/`[data-slot="scroll-down"]` controls scroll long panels and the panel caps at `18rem`. | `data-size="default|sm"`; `data-placeholder` on the trigger; `aria-invalid` on the trigger |
 | Separator | `.separator` | `<hr>` or `[role="separator"]`. | `data-orientation="horizontal|vertical"`; `aria-orientation` is also recognized |
 | Sheet | `.sheet` | Native `<dialog>` with one direct `[data-slot="sheet-content"]` panel containing semantic `header`, `section`, `footer` and an optional close control. The section scrolls between the header and footer; the footer is a stacked column. | `data-side="inline-start|inline-end|block-start|block-end"` defaults to `inline-end`; `data-size="default|sm|lg"` sets inline width or a block-side maximum for `sm`/`lg`; `--sheet-width` and `--sheet-height` override; close uses shared `[data-slot="close"]`, a direct native form or a behavior-backed button |
 | Sidebar | `.sidebar` | `<aside>` with `header`, `section` and `footer`; `nav` groups named by a heading or `[data-slot="group-label"]` with an optional `[data-slot="group-action"]`; nav rows with an optional `[data-slot="menu-badge"]` or `[data-slot="menu-action"]`; nested lists and collapsible groups. | `aria-current="page"` on links; `data-slot="brand"` |
@@ -540,6 +542,7 @@ The public slot vocabulary is shared across components:
 - `data-slot="command-input"` — command search-field wrapper.
 - `data-slot="text"` — select, combobox and command option labels.
 - `data-slot="empty"` — listbox and command empty state.
+- `data-slot="scroll-up"`, `data-slot="scroll-down"` — optional select panel scroll controls.
 - `data-slot="clear"` — combobox clear button.
 - `data-slot="plot"`, `data-slot="legend"`, `data-slot="legend-item"`, `data-slot="swatch"`, `data-slot="tooltip"` — chart.
 - `data-slot="brand"` — sidebar.
@@ -652,6 +655,10 @@ native pseudo-class or ARIA.
 
 Notes:
 
+- Select's `data-placeholder` on the trigger and `data-value` on options carry
+  authored configuration and form data, not visual state aliases. The optional
+  `data-slot="scroll-up"`/`data-slot="scroll-down"` controls are parts, not
+  states.
 - `data-toast-initialized` is an internal behavior hook set by the shipped toast
   module once it measures and stacks a `.toaster`; `data-toast-managed` marks
   the generated `li` elements. The `--toast-index`, `--toast-behind`,
@@ -720,7 +727,11 @@ Notes:
   highlight vocabulary with command-specific fuzzy filtering and ranking. The
   shipped select and combobox modules open, close, filter, select and move the
   highlight; the `aria-expanded` / `aria-hidden` transitions are behavior-owned
-  after install.
+  after install. Select reads `data-value`, syncs the authored
+  `aria-selected="true"` option into the trigger and hidden input on load, and
+  toggles the optional scroll controls. Those controls are absolute overlays
+  with a popover-to-transparent gradient; when present they hide the panel's
+  native scrollbar, and they stay hidden on coarse pointers.
 - Command owns a popover surface and composes a wrapped input group with a
   listbox. Group labels use `data-slot="label"`, dividers are
   `[role="separator"]` (mark them `aria-hidden="true"` inside a listbox),
@@ -850,7 +861,8 @@ complete without them; `--no-behavior` must always produce a valid install.
   disables); older extras stay mounted with `data-limited` and `inert`, keep
   their timers and rejoin the stack as newer toasts close.
 - Dialog actions use `data-open-dialog="<id>"` and `data-close-dialog`. Select
-  and single-combobox forms sync a `[data-slot="input"]` hidden input. Toast
+  writes `data-value` (or the option label) into a `[data-slot="input"]` hidden
+  input; single-combobox forms sync the same slot. Toast
   reads `data-duration` and `data-type`, exposes `data-open-toast="<id>..."` and
   `data-close-toast`, and emits `toggle` plus `dismiss` with `reason`.
   Message scroller exposes `mount(root)` for a late-mounted subtree and Code
@@ -928,7 +940,11 @@ progress sweep slow down instead of stopping. This remains a known gap.
 - Select triggers need `aria-haspopup="listbox"`, `aria-expanded` and
   `aria-controls`; the option list is a `[role="listbox"]`. The shipped
   `select` behavior owns keyboard navigation, selection, the trigger value,
-  `data-placeholder` and the optional `[data-slot="input"]` hidden input.
+  `data-placeholder`, initial sync, the scroll controls and the optional
+  `[data-slot="input"]` hidden input. Option `data-value` is the submitted
+  value; the visible `[data-slot="text"]` label is the fallback. The behavior
+  updates a plain-text `[data-slot="value"]`; a value slot with element
+  children stays consumer-rendered from the `change` event.
 - Combobox inputs need a label, role `combobox`, `aria-expanded`,
   `aria-controls` and `aria-autocomplete="list"`. Multiple lists also set
   `aria-multiselectable="true"`. The shipped behavior filters client-side,
@@ -1248,10 +1264,11 @@ semantic versioning.
   its tab order.
 - Scroll areas use native scrollbars; there are no custom overlay thumb
   elements.
-- Select and combobox ship open/close, filtering, selection and highlight
-  handling; Command ships fuzzy filtering/ranking, non-looping highlight
-  navigation and click activation. Server-side filtering, persistent command
-  selection and app-specific side effects stay consumer work.
+- Select ships single-select open/close, selection, highlight handling and
+  scroll controls; combobox also filters. Command ships fuzzy filtering/ranking,
+  non-looping highlight navigation and click activation. Server-side filtering,
+  persistent command selection and app-specific side effects stay consumer
+  work.
 - Command owns its popover surface and can be placed directly in a dialog. Its
   group dividers are decorative, its list scrolls at `18rem` with a hidden
   scrollbar, and `aria-selected` controls the optional check indicator rather

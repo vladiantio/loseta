@@ -59,6 +59,8 @@
 
   [role='listbox'] [role='option'] [data-slot='indicator'] {
     pointer-events: none;
+    inline-size: 1rem;
+    block-size: 1rem;
     visibility: hidden;
   }
 

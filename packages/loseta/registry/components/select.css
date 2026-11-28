@@ -65,12 +65,14 @@
       overscroll-behavior: contain;
     }
 
-    > [data-popover]:has([data-slot='scroll-up']) > [role='listbox'],
-    > [data-popover]:has([data-slot='scroll-down']) > [role='listbox'] {
-      scrollbar-width: none;
+    @media (hover: hover) {
+      > [data-popover]:has([data-slot='scroll-up']) > [role='listbox'],
+      > [data-popover]:has([data-slot='scroll-down']) > [role='listbox'] {
+        scrollbar-width: none;
 
-      &::-webkit-scrollbar {
-        display: none;
+        &::-webkit-scrollbar {
+          display: none;
+        }
       }
     }
 

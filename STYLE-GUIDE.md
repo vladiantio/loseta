@@ -141,8 +141,11 @@ navigation-menu panels.
   Sera. Panel padding is `0.25rem`, except Luma and Sera `0.375rem` and Lyra
   `0`. Group labels use the same inline start as options; Sera uses uppercase
   600 with `0.05em` tracking. Select panels with scroll controls hide the
-  native scrollbar; the optional controls are absolute overlays with a
-  `--popover`-to-transparent gradient and stay hidden on coarse pointers.
+  native scrollbar on hover-capable pointers; the optional controls are
+  absolute overlays with a `--popover`-to-transparent gradient and stay hidden
+  on coarse pointers. Select is item-aligned over the trigger by default and
+  disables its panel transition in that mode; the below-trigger fallback keeps
+  the normal overlay motion.
 - Selected and highlighted options: `--accent` background and
   `--accent-foreground`; selected listbox options also use font-weight 500 and
   the check indicator. Luma uses font-weight 500 for every option.

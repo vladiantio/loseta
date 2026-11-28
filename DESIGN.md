@@ -486,7 +486,7 @@ direction.
 | Radio | `.radio` | Native `input[type="radio"]`, normally inside `role="radiogroup"`. Compose rows with `.field` and a label, and group them with `[data-slot="radio-group"]` inside a `.fieldset`. | — |
 | Resizable | `.resizable` | `.resizable-panel` panes with `--panel-size`, `--panel-min` and `--panel-max`, and `[data-slot="handle"]` separators with an optional `[data-slot="grip"]` child. The intersection of a nested inner handle with its immediate outer handle is a hidden two-axis corner. The shipped behavior supports any number of handles between adjacent panels, redistributes only the active pair, supports keyboard resizing and keeps nested groups independent. | `data-orientation="horizontal|vertical"`; panel `--panel-size` weight and `--panel-min`/`--panel-max` percentages; handle `aria-valuenow/min/max`, `aria-controls` and an accessible name; `change` reports every direct panel size |
 | Scroll area | `.scroll-area` | Scroll container; the consumer sets dimensions and content. | `data-orientation="horizontal|vertical"`; `data-size="default|sm"` |
-| Select | `.select` | Trigger with `role="combobox"` and `[data-slot="value"]`, optional `[data-slot="input"]` hidden input and a `[data-popover] > [role="listbox"]` panel. Options accept `data-value` and fall back to `[data-slot="text"]`. Group labels use `[data-slot="label"]`, dividers use `[role="separator"]`, optional `[data-slot="scroll-up"]`/`[data-slot="scroll-down"]` controls scroll long panels and the panel caps at `18rem`. | `data-size="default|sm"`; `data-placeholder` on the trigger; `aria-invalid` on the trigger |
+| Select | `.select` | Trigger with `role="combobox"` and `[data-slot="value"]`, optional `[data-slot="input"]` hidden input and a `[data-popover] > [role="listbox"]` panel. Options accept `data-value` and fall back to `[data-slot="text"]`. Group labels use `[data-slot="label"]`, dividers use `[role="separator"]`, optional `[data-slot="scroll-up"]`/`[data-slot="scroll-down"]` controls scroll long panels and the panel caps at `18rem`. The panel is item-aligned over the trigger by default. | `data-size="default|sm"`; `data-placeholder` on the trigger; `aria-invalid` on the trigger; `data-align-trigger="false"` opts out of item alignment |
 | Separator | `.separator` | `<hr>` or `[role="separator"]`. | `data-orientation="horizontal|vertical"`; `aria-orientation` is also recognized |
 | Sheet | `.sheet` | Native `<dialog>` with one direct `[data-slot="sheet-content"]` panel containing semantic `header`, `section`, `footer` and an optional close control. The section scrolls between the header and footer; the footer is a stacked column. | `data-side="inline-start|inline-end|block-start|block-end"` defaults to `inline-end`; `data-size="default|sm|lg"` sets inline width or a block-side maximum for `sm`/`lg`; `--sheet-width` and `--sheet-height` override; close uses shared `[data-slot="close"]`, a direct native form or a behavior-backed button |
 | Sidebar | `.sidebar` | `<aside>` with `header`, `section` and `footer`; `nav` groups named by a heading or `[data-slot="group-label"]` with an optional `[data-slot="group-action"]`; nav rows with an optional `[data-slot="menu-badge"]` or `[data-slot="menu-action"]`; nested lists and collapsible groups. | `aria-current="page"` on links; `data-slot="brand"` |
@@ -655,8 +655,9 @@ native pseudo-class or ARIA.
 
 Notes:
 
-- Select's `data-placeholder` on the trigger and `data-value` on options carry
-  authored configuration and form data, not visual state aliases. The optional
+- Select's `data-placeholder` on the trigger, `data-value` on options and
+  `data-align-trigger="false"` on the root carry authored configuration and
+  form data, not visual state aliases. The optional
   `data-slot="scroll-up"`/`data-slot="scroll-down"` controls are parts, not
   states.
 - `data-toast-initialized` is an internal behavior hook set by the shipped toast
@@ -731,7 +732,12 @@ Notes:
   `aria-selected="true"` option into the trigger and hidden input on load, and
   toggles the optional scroll controls. Those controls are absolute overlays
   with a popover-to-transparent gradient; when present they hide the panel's
-  native scrollbar, and they stay hidden on coarse pointers.
+  native scrollbar on hover-capable pointers, and they stay hidden on coarse
+  pointers. The panel is item-aligned by default: it measures the trigger value
+  and the selected (or first) row, overlays the trigger and disables the
+  popover transition in that mode, including the close after a selection.
+  Coarse pointers and tight viewports fall back to the below-trigger popover;
+  `data-align-trigger="false"` opts out.
 - Command owns a popover surface and composes a wrapped input group with a
   listbox. Group labels use `data-slot="label"`, dividers are
   `[role="separator"]` (mark them `aria-hidden="true"` inside a listbox),
@@ -888,7 +894,8 @@ complete without them; `--no-behavior` must always produce a valid install.
 - Item hover and state transitions use `100ms`; the skeleton pulses on a `2s`
   loop with `cubic-bezier(0.4, 0, 0.6, 1)`.
 - Menus, listbox panels and navigation panels transition in `100ms`; select
-  chevrons rotate in `150ms`. Sheets use a `200ms` fade plus `2.5rem` directional
+  chevrons rotate in `150ms`. Select disables the panel transition while
+  item-aligned. Sheets use a `200ms` fade plus `2.5rem` directional
   slide with the standard easing, flipping inline motion in RTL; all Sheet motion
   stops under `prefers-reduced-motion: reduce`. Drawers use a directional `450ms`
   transform with `cubic-bezier(0.22, 1, 0.36, 1)`; handle swipe release scales the

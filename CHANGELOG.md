@@ -39,6 +39,10 @@
 - Select panels support optional `[data-slot="scroll-up"]` and
   `[data-slot="scroll-down"]` controls. The shipped behavior reveals them only
   when the panel scrolls, scrolls on hover and steps on click.
+- Select is item-aligned over the trigger by default: the selected (or first)
+  row centers on the trigger value, the panel disables its enter transition in
+  that mode and `data-align-trigger="false"` opts out. Coarse pointers and
+  tight viewports fall back to the below-trigger popover.
 
 ### Changed
 
@@ -97,6 +101,15 @@
 
 ### Fixed
 
+- Select's item-aligned mode centers the anchored row in the listbox and clamps
+  at both ends. Long lists keep their first group label above the anchored row,
+  and the last items stay visible and aligned instead of falling below the
+  scrolled viewport.
+- Select now closes without the popover transition after choosing an item in
+  item-aligned mode. The transition is restored once the panel is hidden, so the
+  next below-trigger open keeps its normal motion.
+- Select hides a one-pixel rounding overflow instead of showing a native
+  scrollbar, which removes the stray scrollbar in the Right-to-left example.
 - Toast entry now animates for the first toast in an empty toaster, and the
   stack reflow plus limited-toast reveal starts when a toast begins dismissing
   instead of waiting for its exit to finish.

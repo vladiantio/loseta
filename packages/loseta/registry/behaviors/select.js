@@ -24,6 +24,8 @@ import {
 
 /** @type {number | null} */
 let scrollTimer = null;
+/** @type {WeakSet<HTMLElement>} */
+const alignedPanels = new WeakSet();
 
 /** @param {HTMLElement} control */
 function rootOf(control) {
@@ -59,12 +61,124 @@ function setPlaceholder(control, placeholder) {
   control.toggleAttribute("data-placeholder", placeholder);
 }
 
+/** @param {number} value @param {number} min @param {number} max */
+function clamp(value, min, max) {
+  return Math.min(Math.max(value, min), max);
+}
+
+/** @param {HTMLElement} panel */
+function resetPanelPosition(panel) {
+  panel.style.removeProperty("top");
+  panel.style.removeProperty("margin-top");
+  panel.style.removeProperty("max-height");
+  panel.style.removeProperty("transition");
+}
+
+/**
+ * Positions the panel over the trigger with the selected (or first) row
+ * centered on the trigger value. Mirrors Base UI's item-aligned mode and falls
+ * back to the normal popover on coarse pointers or when there is no room.
+ * @param {HTMLElement} control
+ * @param {HTMLElement} panel
+ * @param {HTMLElement} listbox
+ */
+function alignItemWithTrigger(control, panel, listbox) {
+  alignedPanels.delete(panel);
+  resetPanelPosition(panel);
+
+  const root = rootOf(control);
+  if (
+    root.getAttribute("data-align-trigger") === "false" ||
+    window.matchMedia("(hover: none)").matches
+  ) {
+    return false;
+  }
+
+  const selected = selectedOptions(listbox)[0] ?? firstOption(listbox);
+  if (!(selected instanceof HTMLElement)) return false;
+
+  const triggerRect = control.getBoundingClientRect();
+  const rootRect = root.getBoundingClientRect();
+  const valueSlot = control.querySelector("[data-slot='value']");
+  const valueRect =
+    valueSlot instanceof HTMLElement
+      ? valueSlot.getBoundingClientRect()
+      : triggerRect;
+  const valueCenter = valueRect.top + valueRect.height / 2;
+  const viewportHeight = document.documentElement.clientHeight;
+  const margin = 8;
+
+  if (triggerRect.top < 20 || triggerRect.bottom > viewportHeight - 20) {
+    return false;
+  }
+
+  panel.style.transition = "none";
+
+  const maxPopupHeight = parseFloat(getComputedStyle(panel).maxHeight) || 288;
+
+  // Measure before moving the panel. The listbox offset inside the panel is
+  // stable; its height changes once the available max-height is applied.
+  const panelRect = panel.getBoundingClientRect();
+  const listboxRect = listbox.getBoundingClientRect();
+  const listTop = listboxRect.top - panelRect.top;
+  const rowCenter = selected.offsetTop + selected.offsetHeight / 2;
+  const baseTop = valueCenter - listTop - rowCenter;
+
+  /** @param {number} height */
+  const measure = (height) => {
+    panel.style.maxHeight = height ? `${height}px` : "";
+    const maxScroll = Math.max(0, listbox.scrollHeight - listbox.clientHeight);
+    // Center the anchor in the listbox, clamped at both ends. This keeps deep
+    // items visible instead of pushing the panel above the row.
+    const scrollTop = clamp(
+      rowCenter - listbox.clientHeight / 2,
+      0,
+      maxScroll
+    );
+    return {
+      scrollTop,
+      panelTop: baseTop + scrollTop
+    };
+  };
+
+  const initial = measure(0);
+  const available = viewportHeight - margin - initial.panelTop;
+  const maxHeight = Math.min(maxPopupHeight, available);
+  const contentHeight = Math.min(listbox.scrollHeight, maxPopupHeight);
+  if (maxHeight < Math.min(contentHeight, 96)) {
+    resetPanelPosition(panel);
+    return false;
+  }
+
+  const aligned = measure(maxHeight);
+  if (aligned.panelTop < margin) {
+    resetPanelPosition(panel);
+    return false;
+  }
+
+  panel.style.top = `${aligned.panelTop - rootRect.top}px`;
+  panel.style.marginTop = "0";
+  panel.style.transition = "none";
+  alignedPanels.add(panel);
+  listbox.scrollTop = aligned.scrollTop;
+  updateScrollButtons(panel);
+  return true;
+}
+
 /** @param {HTMLElement} panel */
 function updateScrollButtons(panel) {
   const up = panel.querySelector("[data-slot='scroll-up']");
   const down = panel.querySelector("[data-slot='scroll-down']");
   const scroller = listboxIn(panel) ?? panel;
-  const remaining = scroller.scrollHeight - scroller.clientHeight - scroller.scrollTop;
+  const overflow = scroller.scrollHeight - scroller.clientHeight;
+  const remaining = overflow - scroller.scrollTop;
+
+  // A sub-pixel rounding overflow should not summon a native scrollbar.
+  if (overflow <= 1) {
+    scroller.style.overflowY = "hidden";
+  } else {
+    scroller.style.removeProperty("overflow-y");
+  }
 
   if (up instanceof HTMLElement) up.hidden = scroller.scrollTop <= 0;
   if (down instanceof HTMLElement) down.hidden = remaining <= 1;
@@ -166,18 +280,41 @@ function openSelect(control) {
   if (!panel || !listbox) return;
 
   resetFilter(listbox);
+  resetPanelPosition(panel);
+  alignedPanels.delete(panel);
   setExpanded(control, true);
 
   const selected = selectedOptions(listbox)[0] ?? firstOption(listbox);
   highlight(listbox, selected, control);
+  alignItemWithTrigger(control, panel, listbox);
   updateScrollButtons(panel);
 }
 
 /** @param {HTMLElement} control @param {boolean} focusTrigger */
 function closeSelect(control, focusTrigger) {
-  const { listbox } = parts(control);
+  const { panel, listbox } = parts(control);
+  const aligned = panel !== null && alignedPanels.has(panel);
   stopScroll();
   setExpanded(control, false);
+
+  if (panel) {
+    if (aligned) {
+      alignedPanels.delete(panel);
+      panel.style.transition = "none";
+      // Keep the transition disabled through the hidden paint, then restore
+      // the normal popover motion for the next non-aligned open.
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          if (panel.getAttribute("aria-hidden") === "true") {
+            resetPanelPosition(panel);
+          }
+        });
+      });
+    } else {
+      resetPanelPosition(panel);
+    }
+  }
+
   if (listbox) highlight(listbox, null, control);
   if (focusTrigger) control.focus();
 }
@@ -306,7 +443,7 @@ on("scroll", ".select [role='listbox']", (event, target) => {
   if (panel instanceof HTMLElement) updateScrollButtons(panel);
 });
 
-on("pointerover", ".select [data-slot='scroll-up'], .select [data-slot='scroll-down']", (event, target) => {
+on("pointermove", ".select [data-slot='scroll-up'], .select [data-slot='scroll-down']", (event, target) => {
   if (target instanceof HTMLElement) startScroll(target);
 });
 

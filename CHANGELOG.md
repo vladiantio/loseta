@@ -103,6 +103,9 @@
 
 ### Fixed
 
+- Message scroller keeps following appended messages in every engine. The
+  mutation pins to the bottom before the content-growth scroll event can clear
+  the following state.
 - Select's item-aligned mode centers the anchored row in the listbox and clamps
   at both ends. Long lists keep their first group label above the anchored row,
   and the last items stay visible and aligned instead of falling below the

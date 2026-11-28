@@ -58,13 +58,17 @@ function update(scroller, state, viewport) {
 function handleMutation(scroller, state, viewport) {
   // Appended messages do not move scrollTop, so the reading position is kept
   // when the user is not following. Native scroll anchoring handles prepends.
-  if (state.following) {
-    requestAnimationFrame(() => {
-      if (scroller.isConnected && state.following) {
-        viewport.scrollTop = viewport.scrollHeight;
-      }
-    });
-  }
+  if (!state.following) return;
+
+  // Pin before the scroll event caused by the new content can flip `following`
+  // off (WebKit fires it before the next frame). The frame repeats the pin for
+  // content whose final layout arrives after this mutation.
+  viewport.scrollTop = viewport.scrollHeight;
+  requestAnimationFrame(() => {
+    if (scroller.isConnected && state.following) {
+      viewport.scrollTop = viewport.scrollHeight;
+    }
+  });
 }
 
 /** @param {HTMLElement} scroller */

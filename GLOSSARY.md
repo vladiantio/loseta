@@ -145,9 +145,27 @@ _Avoid_: public hook, fixture hook
 
 **Configuration attribute**:
 A public data attribute that supplies behavior data or options rather than a
-visual state: `data-duration` on toast and `data-selection`, `data-min`,
-`data-max`, `data-unavailable`, `data-month` and `data-date` on calendar.
+visual state: `data-duration`, `data-type` and `data-toast-limit` on toast and
+`data-selection`, `data-min`, `data-max`, `data-unavailable`, `data-month` and
+`data-date` on calendar.
 _Avoid_: state attribute, data-state
+
+**Toast manager**:
+The `.toaster` element augmented by `behaviors/toast.js` with `addToast`,
+`updateToast`, `closeToast` and `promiseToast`. It clones the authored toast
+template instead of building markup in JavaScript.
+_Avoid_: toast service, toaster library
+
+**Toast template**:
+The `template[data-slot="toast-template"]` inside a `.toaster` that supplies the
+`li.toast` skeleton, plus the sibling `template[data-toast-icon="success|info|warning|error|loading"]`
+elements that supply the status icons.
+_Avoid_: toast factory, toast snippet
+
+**Limited toast**:
+A toast beyond the toaster's `data-toast-limit` (3 by default). It stays mounted
+with `data-limited` and `inert`, hidden until newer toasts close.
+_Avoid_: hidden toast, overflow toast
 
 **Selection mode**:
 The calendar `data-selection` value: `single`, `range` or `multiple`.

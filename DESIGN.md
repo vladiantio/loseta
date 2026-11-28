@@ -378,7 +378,7 @@ visible. Progress uses a `Canvas` track with a `CanvasText` outline and a
 | Sheet | Inline sides use `75vw`, then `24rem` at `40rem`; block sides size to content | Inline `sm` 20rem, `lg` 28rem; block `sm`/`lg` cap at `50vh`/`90vh`; `--sheet-width` and `--sheet-height` override |
 | Sidebar | `16rem` wide | `--sidebar-width` |
 | Slider | `1.25rem` hit area | `sm` 1rem, `lg` 1.5rem |
-| Toast | `22rem` wide | `max-width: calc(100vw - 2rem)` |
+| Toast | `24rem` wide | The `.toaster` viewport is fixed at `1rem` from the block-end and inline edges; centered below `40rem`, end-aligned at and above it |
 | Calendar | `18rem` wide | — |
 | Carousel | Consumer-sized | `data-orientation` sets the axis |
 | Chart plot | `16 / 9` aspect ratio | Consumer can override |
@@ -495,7 +495,7 @@ direction.
 | Table | `.table-container`, `.table` | `caption`, `thead`, `tbody`, `tfoot`, `tr`, `th`, `td`; checkbox cells use a native `input[type="checkbox"]` or `role="checkbox"`. | Row `aria-selected="true"`; a row containing `aria-expanded="true"` stays highlighted |
 | Tabs | `.tabs` | `[role="tablist"]`, `[role="tab"]`, `[role="tabpanel"]`. | Tablist `data-variant="default|line"`; `aria-orientation="horizontal|vertical"` |
 | Textarea | `.textarea` | Native `<textarea>`. | — |
-| Toast | `.toaster`, `.toast` | Fixed stack with `.toast` items; a `section` with title/description and a close button. | `data-variant="default|destructive"`; `data-duration` in milliseconds; `role="status"` or `role="alert"`; `[data-slot="close"]` |
+| Toast | `.toaster`, `.toast` | A labelled `ol.toaster` (`role="list"`) of `li.toast` items; `[data-slot="content"]` is the live region (`role="status"` or `role="alert"`, `aria-atomic="true"`) wrapping `[data-slot="icon"]`, a `section` with title/description, `[data-slot="action"]` and `[data-slot="close"]`. The `ol` also holds `[data-slot="toast-template"]` and `data-toast-icon="..."` templates. | `data-variant="default|destructive"`; `data-type="success|info|warning|error|loading"`; `data-duration` in milliseconds; `data-toast-limit` for the stack cap (default `3`, `0` disables); `data-limited` on capped toasts; `data-open-toast="<id>..."` on a trigger; `data-close-toast` on an action; manager methods `addToast`, `updateToast`, `closeToast` and `promiseToast`; `[data-slot="close"]` |
 | Toggle | `.toggle` | Native `<button type="button">`; text and optional SVG. | `aria-pressed="true|false"`; `data-variant="default|outline"`; `data-size="default|sm|lg"` |
 | Toggle group | `.toggle-group` | `role="group"` container of `.toggle` children. | `data-orientation="horizontal|vertical"`; `data-spacing="default|joined"`; group `data-variant`/`data-size` apply to children without their own |
 | Tooltip | `.tooltip` | Wrapper around the trigger; `data-tooltip` for the text bubble or a direct `[data-slot="content"]` child with `role="tooltip"`; always-on tail. The shipped behavior adds Escape dismissal for content children; the shorthand stays CSS-only. | `data-side`, `data-align`; content `aria-hidden` |
@@ -516,11 +516,11 @@ overridden on the card root; it controls the section gap and inline inset.
 
 The public slot vocabulary is shared across components:
 
-- `data-slot="title"` — alert, calendar, card, chart tooltip, code block, dialog, alert-dialog, popover, sheet.
+- `data-slot="title"` — alert, calendar, card, chart tooltip, code block, dialog, alert-dialog, popover, sheet and toast.
 - `data-slot="caption"`, `data-slot="dropdown"` — calendar month and year selectors.
-- `data-slot="description"` — alert, card, chart tooltip, dialog, alert-dialog, popover, sheet.
-- `data-slot="content"` — attachment, bubble, marker, message, message-scroller and the tooltip's rich bubble.
-- `data-slot="action"` — card.
+- `data-slot="description"` — alert, card, chart tooltip, dialog, alert-dialog, popover, sheet and toast.
+- `data-slot="content"` — attachment, bubble, marker, message, message-scroller, toast and the tooltip's rich bubble.
+- `data-slot="action"` — card and toast.
 - `data-slot="actions"` — code block.
 - `data-slot="line"`, `data-slot="line-content"` — code block.
 - `data-slot="header"` — popover.
@@ -546,10 +546,11 @@ The public slot vocabulary is shared across components:
 - `data-slot="group-label"`, `data-slot="group-action"` — sidebar nav group label text and trailing action.
 - `data-slot="menu-badge"`, `data-slot="menu-action"` — sidebar row trailing count and action.
 - `data-slot="close"` — toast and sheet.
+- `data-slot="toast-template"` — the toast skeleton inside `.toaster`, cloned by the manager; `data-toast-icon="success|info|warning|error|loading"` templates provide the status icons inside the same toaster.
 - `data-slot="avatar"`, `data-slot="content"`, `data-slot="header"`, `data-slot="footer"` — message.
 - `data-slot="media"`, `data-slot="actions"`, `data-slot="trigger"` — attachment; title and description use the shared slots.
 - `data-slot="reactions"`, `data-slot="reaction"` — bubble.
-- `data-slot="icon"` — marker, trace and navigation menu.
+- `data-slot="icon"` — marker, toast, trace and navigation menu.
 - `data-slot="progress"`, `data-slot="progress-label"`, `data-slot="item"`, `data-slot="choices"`, `data-slot="error"`, `data-slot="skip"` — questionnaire; `data-slot="label"` and `data-slot="text"` mark choice text.
 - `data-slot="status"`, `data-slot="body"`, `data-slot="source"` — trace.
 - `data-slot="jump"` — message scroller.
@@ -640,13 +641,27 @@ The state contract is deliberately small. Do **not** use `.active`,
 `data-active`, `data-invalid`, `data-disabled`, `data-selected`,
 `data-state="selected"` or similar class/data aliases. Beyond variant, size,
 orientation, spacing, fit and placement attributes, `data-highlighted` (active
-option) and the transient `data-copied` (copy feedback) are the only public
-data-driven states; `data-duration` configures the toast timer. Calendar also
-uses `data-selection`, `data-min`, `data-max`, `data-unavailable`, `data-month`
-and `data-date` as configuration and data; they are not visual states. Any
-other state must be expressible with a native pseudo-class or ARIA.
+option), the transient `data-copied` (copy feedback) and `data-limited` on a
+toast beyond `data-toast-limit` are the only public data-driven states;
+`data-duration` configures the toast timer, `data-type` the status type and
+`data-toast-limit` the stack cap. `data-open-toast` and `data-close-toast` are
+action hooks, not visual states. Calendar also uses `data-selection`, `data-min`,
+`data-max`, `data-unavailable`, `data-month` and `data-date` as configuration and
+data; they are not visual states. Any other state must be expressible with a
+native pseudo-class or ARIA.
 
 Notes:
+
+- `data-toast-initialized` is an internal behavior hook set by the shipped toast
+  module once it measures and stacks a `.toaster`; `data-toast-managed` marks
+  the generated `li` elements. The `--toast-index`, `--toast-behind`,
+  `--toast-height`, `--toast-peek`, `--toast-gap`, `--toast-expanded` and
+  `--toast-swipe-*` custom properties are runtime layout values, not public
+  customization hooks.
+- `[data-slot="toast-template"]` and `data-toast-icon` are authored template
+  hooks, not states. The toast manager clones them and sets `data-type`,
+  `data-duration`, the live-region role, `aria-atomic` and `aria-busy` on the
+  generated toast.
 
 - `aria-hidden="true"` hides a popover and drives its exit transform. The
   dialog shell also recognizes `:popover-open` for consumers using the native
@@ -755,10 +770,21 @@ Notes:
   step; the status pill uses `data-variant="error|success"` as presentation.
 - The message scroller does not follow, anchor or restore scroll position. The
   consumer toggles `hidden` on `[data-slot="jump"]` and scrolls the viewport.
-- Toast items use `role="status"` or `role="alert"`. The shipped behavior
-  auto-dismisses after `5000ms`, honors `data-duration` in milliseconds (`0` is
-  persistent), pauses on hover/focus and dismisses from `[data-slot="close"]`.
-  Sonner remains a compatibility note, not a registry dependency.
+- Toast is a labelled `ol` list of `li` items. The
+  `[data-slot="content"]` live region uses `role="status"` or `role="alert"` and
+  `aria-atomic="true"`. The shipped behavior auto-dismisses after `5000ms`,
+  honors `data-duration` in milliseconds (`0` is persistent), pauses every timer
+  while the toaster is hovered or focus is inside, stacks the newest toast in
+  front, expands the stack on hover/focus, swipes in any direction and dismisses
+  from `[data-slot="close"]` or `[data-close-toast]`. `data-open-toast` reveals
+  one or more hidden toasts by id, rear content is inert while the stack is
+  collapsed, and dismissal emits `toggle` with `{ open: false }` plus `dismiss`
+  with the reason. Each toaster is also augmented with `addToast`,
+  `updateToast`, `closeToast` and `promiseToast`; the manager clones the authored
+  templates, filling text or Nodes without `innerHTML`. Loading toasts are
+  persistent, promise strings fill the description, reusing an id updates in
+  place, `data-toast-limit` caps the stack (`3` by default, `0` disables) and
+  limited toasts stay mounted and inert until newer toasts close.
 
 ## Behavior
 
@@ -773,7 +799,9 @@ complete without them; `--no-behavior` must always produce a valid install.
   top-level code does not touch `document`.
 - Markup is the source of truth at rest. Modules toggle ARIA, focus,
   `tabindex`, `hidden`, `inert`, `data-highlighted` and transient
-  `data-copied`. No `data-state`, no extra wrappers and no `innerHTML`.
+  `data-copied`. No `data-state`, no extra wrappers and no `innerHTML`. Toast is
+  the exception for DOM creation: it clones its authored
+  `[data-slot="toast-template"]` and `data-toast-icon` templates.
 - Events bubble from the component root: `change` (`detail.value`,
   `detail.values`, `detail.range`, `detail.index`, `detail.sizes`,
   `detail.step`/`detail.total`, `detail.following` or `detail.checked`),
@@ -809,11 +837,24 @@ complete without them; `--no-behavior` must always produce a valid install.
   when the user is not following. Toast and message-scroller are the only
   modules allowed a scoped `MutationObserver`; message-scroller observes
   `[data-slot="content"]` child additions only.
+- Toast is the only behavior that creates DOM. It clones the authored
+  `[data-slot="toast-template"]` and `data-toast-icon` templates, fills
+  title/description with text or Nodes and never uses `innerHTML`. Every
+  `.toaster` gets `addToast`, `updateToast`, `closeToast` and `promiseToast`;
+  options are `id`, `type`, `title`, `description`, `timeout`, `priority` and
+  `actionProps`. `addToast` returns the id, reusing an id updates in place and
+  refreshes the timer, `closeToast()` without an id closes all, promise strings
+  map to `description`, loading stays persistent and success/error use the
+  default timeout unless one is supplied. Update does not reorder the stack.
+  Each toaster displays at most `data-toast-limit` toasts (`3` by default, `0`
+  disables); older extras stay mounted with `data-limited` and `inert`, keep
+  their timers and rejoin the stack as newer toasts close.
 - Dialog actions use `data-open-dialog="<id>"` and `data-close-dialog`. Select
   and single-combobox forms sync a `[data-slot="input"]` hidden input. Toast
-  reads `data-duration`, Message scroller exposes `mount(root)` for a
-  late-mounted subtree and Code Block uses `data-copied` for its transient
-  check state.
+  reads `data-duration` and `data-type`, exposes `data-open-toast="<id>..."` and
+  `data-close-toast`, and emits `toggle` plus `dismiss` with `reason`.
+  Message scroller exposes `mount(root)` for a late-mounted subtree and Code
+  Block uses `data-copied` for its transient check state.
 - Drawer swipe writes the internal runtime properties
   `--drawer-gesture-duration`, `--drawer-swipe-transform` and
   `--drawer-swipe-progress`. They are removed after settling and are not public
@@ -842,6 +883,10 @@ complete without them; `--no-behavior` must always produce a valid install.
   exit or snap-back duration between `80ms` and `360ms`, and all drawer motion
   stops under `prefers-reduced-motion: reduce`. Hover cards open after a `300ms`
   delay and hide immediately when the pointer leaves.
+- Toasts enter from `150%` below, stack with `500ms` translate/scale and `250ms`
+  opacity using `cubic-bezier(0.22, 1, 0.36, 1)`, and snap back in `500ms`
+  after an incomplete swipe. All toast transitions stop under
+  `prefers-reduced-motion: reduce`; the loading icon slows to `1.5s`.
 - The spinner rotates on a `0.75s` linear loop; progress uses a `1.5s`
   indeterminate sweep that follows the inline direction.
 - Dialog entry uses `@starting-style` and `allow-discrete`: the backdrop fades,
@@ -926,9 +971,14 @@ progress sweep slow down instead of stopping. This remains a known gap.
 - Alerts do not add live-region behavior. Use `role="alert"` when the message
   appears after load; mark decorative icons `aria-hidden` and give an action in
   the footer an accessible name.
-- Toasts use `role="status"` for polite updates and `role="alert"` for errors;
-  close buttons need labels. The shipped behavior owns timing, pause/resume,
-  dismissal and the inserted-toast observer.
+- The `.toaster` is a labelled `ol` list and each `.toast` is an `li`. The
+  `[data-slot="content"]` is the live region: `role="status"` for polite updates,
+  `role="alert"` for errors or manager `priority: "high"`, and
+  `aria-atomic="true"`. Close buttons need labels. The shipped behavior creates
+  the same list items and live regions from the template, and owns timing,
+  pause/resume, stacking, swipe dismissal, the inserted-toast observer and the
+  `data-open-toast` / `data-close-toast` actions. Toasts beyond
+  `data-toast-limit` stay mounted but `inert` and hidden.
 - Message groups should carry an accessible name; a live conversation uses
   `role="log"`. Message headers and footers are metadata, not headings.
 - Attachments need a label for the media, a name for the root action and labels
@@ -1112,9 +1162,14 @@ The following are public API and require a breaking-change note when changed:
 - the `change`, `toggle` and `dismiss` event contract;
 - `data-open-dialog` / `data-close-dialog` and the `[data-slot="input"]` hidden
   input on select and single combobox;
-- `data-duration` on toast, transient `data-copied` on copy controls and the
-  calendar `data-selection`, `data-min`, `data-max`, `data-unavailable`,
-  `data-month` and `data-date` configuration;
+- the `.toaster` manager methods `addToast`, `updateToast`, `closeToast` and
+  `promiseToast`, the `[data-slot="toast-template"]` and `data-toast-icon`
+  templates;
+- `data-duration` and `data-type` on toast, `data-toast-limit` and the
+  `data-limited` state, `data-open-toast` / `data-close-toast`,
+  transient `data-copied` on copy controls and the calendar `data-selection`,
+  `data-min`, `data-max`, `data-unavailable`, `data-month` and `data-date`
+  configuration;
 - carousel `[data-slot="previous"]`/`[data-slot="next"]`, questionnaire
   `[data-slot="previous"]`/`[data-slot="next"]`, message-scroller
   `[data-slot="jump"]` and `mount(root)`;

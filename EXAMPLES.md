@@ -96,7 +96,27 @@ installed example.
 - `[data-slot="copy"]` / `[data-slot="wrap"]` — Code Block copy and wrap
   controls; `data-copied` is the transient copy state.
 - `[data-slot="close"]` — Toast dismissal and the Sheet corner close button.
+- Toast uses an `ol.toaster` list of `li.toast` items; `[data-slot="content"]`
+  is the live region with `role="status"` or `role="alert"` and
+  `aria-atomic="true"`.
+- `[data-slot="toast-template"]` — the authored `li.toast` skeleton cloned by
+  the toast manager; `data-toast-icon="success|info|warning|error|loading"`
+  templates supply the status icons.
+- `.toaster.addToast(options)`, `.toaster.updateToast(id, options)`,
+  `.toaster.closeToast(id?)` and `.toaster.promiseToast(promise, states)` —
+  the Toast manager API. Options are `id`, `type`, `title`, `description`,
+  `timeout`, `priority` and `actionProps`; load the behavior module first.
+- `data-open-toast="<id>..."` — reveal one or more hidden toasts by id and
+  restart their timers.
+- `data-close-toast` — dismiss the nearest toast from an action or custom
+  control.
+- `data-limited` — behavior-owned state on toasts beyond the stack cap; they
+  stay mounted with `inert` and hidden until newer toasts close.
 - `data-duration` — Toast timer in milliseconds (`0` is persistent).
+- `data-type` — Toast status type: `success`, `info`, `warning`, `error` or
+  `loading`.
+- `data-toast-limit` — maximum visible toasts per toaster (`3` by default, `0`
+  disables the cap).
 - Context menu areas use `aria-haspopup="menu"`, `aria-controls` and
   `tabindex="0"`.
 - Calendar uses `data-selection`, `data-min`, `data-max`, `data-unavailable`,
@@ -110,7 +130,8 @@ installed example.
 ## Demo hooks
 
 Hooks below are docs-only and are stripped by the generator. Use them only for
-components that do not ship behavior yet; the full set lives in
+interactions the shipped behavior does not cover, never as a substitute for the
+public contract; the full set lives in
 `web/src/scripts/docs-client/demo.ts`.
 
 - `data-demo` — legacy scope marker retained in a few examples; the generator

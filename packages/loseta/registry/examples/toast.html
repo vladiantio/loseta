@@ -1,28 +1,285 @@
 <!-- Default -->
-<div style="display: flex; flex-direction: column; gap: 0.5rem; max-width: 22rem">
-  <div class="toast" role="status">
-    <section>
-      <p data-slot="title">Saved</p>
-      <p data-slot="description">Your changes have been saved.</p>
-    </section>
-    <button type="button" class="btn" data-variant="ghost" data-size="icon-xs" data-slot="close" aria-label="Dismiss">×</button>
-  </div>
-  <div class="toast" data-variant="destructive" role="alert">
-    <section>
-      <p data-slot="title">Upload failed</p>
-      <p data-slot="description">The file is larger than 10 MB.</p>
-    </section>
-    <button type="button" class="btn" data-variant="ghost" data-size="icon-xs" data-slot="close" aria-label="Dismiss">×</button>
-  </div>
+<button type="button" class="btn" data-variant="outline" id="demo-toast-default-trigger">Show toast</button>
+
+<ol id="demo-toaster-default" class="toaster" data-toast-limit="3" role="list" aria-label="Notifications">
+<template data-slot="toast-template">
+  <li class="toast">
+    <div data-slot="content" role="status" aria-atomic="true">
+      <span data-slot="icon" hidden></span>
+      <section>
+        <p data-slot="title" hidden></p>
+        <p data-slot="description" hidden></p>
+      </section>
+      <button type="button" class="btn" data-variant="outline" data-size="sm" data-slot="action" hidden></button>
+      <button type="button" data-slot="close" aria-label="Dismiss"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></button>
+    </div>
+  </li>
+</template>
+<template data-toast-icon="success"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21.801 10A10 10 0 1 1 17 3.335"/><path d="m9 11 3 3L22 4"/></svg></template>
+<template data-toast-icon="info"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg></template>
+<template data-toast-icon="warning"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg></template>
+<template data-toast-icon="error"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 9-6 6"/><path d="m9 9 6 6"/><path d="M2.586 16.726A2 2 0 0 1 2 15.312V8.688a2 2 0 0 1 .586-1.414l4.688-4.688A2 2 0 0 1 8.688 2h6.624a2 2 0 0 1 1.414.586l4.688 4.688A2 2 0 0 1 22 8.688v6.624a2 2 0 0 1-.586 1.414l-4.688 4.688a2 2 0 0 1-1.414.586H8.688a2 2 0 0 1-1.414-.586z"/></svg></template>
+<template data-toast-icon="loading"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a9 9 0 1 1-6.219-8.56"/></svg></template>
+</ol>
+
+<script>
+  (() => {
+    const toaster = document.getElementById("demo-toaster-default");
+
+    document.getElementById("demo-toast-default-trigger").addEventListener("click", () => {
+      toaster.addToast({
+        title: "Event created",
+        description: "Sunday, December 3 at 9:00 AM"
+      });
+    });
+  })();
+</script>
+
+<!-- With action -->
+<button type="button" class="btn" data-variant="outline" id="demo-toast-action-trigger">Show toast</button>
+
+<ol id="demo-toaster-action" class="toaster" data-toast-limit="3" role="list" aria-label="Notifications">
+<template data-slot="toast-template">
+  <li class="toast">
+    <div data-slot="content" role="status" aria-atomic="true">
+      <span data-slot="icon" hidden></span>
+      <section>
+        <p data-slot="title" hidden></p>
+        <p data-slot="description" hidden></p>
+      </section>
+      <button type="button" class="btn" data-variant="outline" data-size="sm" data-slot="action" hidden></button>
+      <button type="button" data-slot="close" aria-label="Dismiss"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></button>
+    </div>
+  </li>
+</template>
+<template data-toast-icon="success"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21.801 10A10 10 0 1 1 17 3.335"/><path d="m9 11 3 3L22 4"/></svg></template>
+<template data-toast-icon="info"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg></template>
+<template data-toast-icon="warning"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg></template>
+<template data-toast-icon="error"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 9-6 6"/><path d="m9 9 6 6"/><path d="M2.586 16.726A2 2 0 0 1 2 15.312V8.688a2 2 0 0 1 .586-1.414l4.688-4.688A2 2 0 0 1 8.688 2h6.624a2 2 0 0 1 1.414.586l4.688 4.688A2 2 0 0 1 22 8.688v6.624a2 2 0 0 1-.586 1.414l-4.688 4.688a2 2 0 0 1-1.414.586H8.688a2 2 0 0 1-1.414-.586z"/></svg></template>
+<template data-toast-icon="loading"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a9 9 0 1 1-6.219-8.56"/></svg></template>
+</ol>
+
+<script>
+  (() => {
+    const toaster = document.getElementById("demo-toaster-action");
+
+    document.getElementById("demo-toast-action-trigger").addEventListener("click", () => {
+      const id = toaster.addToast({
+        title: "Event created",
+        description: "You can undo this action.",
+        actionProps: {
+          children: "Undo",
+          onClick() {
+            toaster.closeToast(id);
+          }
+        }
+      });
+    });
+  })();
+</script>
+
+<!-- Types -->
+<div style="display: flex; flex-wrap: wrap; gap: 0.5rem; justify-content: center">
+  <button type="button" class="btn" data-variant="outline" id="demo-toast-type-success">Success</button>
+  <button type="button" class="btn" data-variant="outline" id="demo-toast-type-info">Info</button>
+  <button type="button" class="btn" data-variant="outline" id="demo-toast-type-warning">Warning</button>
+  <button type="button" class="btn" data-variant="outline" id="demo-toast-type-error">Error</button>
+  <button type="button" class="btn" data-variant="outline" id="demo-toast-type-loading">Loading</button>
 </div>
 
+<ol id="demo-toaster-types" class="toaster" data-toast-limit="3" role="list" aria-label="Notifications">
+<template data-slot="toast-template">
+  <li class="toast">
+    <div data-slot="content" role="status" aria-atomic="true">
+      <span data-slot="icon" hidden></span>
+      <section>
+        <p data-slot="title" hidden></p>
+        <p data-slot="description" hidden></p>
+      </section>
+      <button type="button" class="btn" data-variant="outline" data-size="sm" data-slot="action" hidden></button>
+      <button type="button" data-slot="close" aria-label="Dismiss"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></button>
+    </div>
+  </li>
+</template>
+<template data-toast-icon="success"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21.801 10A10 10 0 1 1 17 3.335"/><path d="m9 11 3 3L22 4"/></svg></template>
+<template data-toast-icon="info"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg></template>
+<template data-toast-icon="warning"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg></template>
+<template data-toast-icon="error"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 9-6 6"/><path d="m9 9 6 6"/><path d="M2.586 16.726A2 2 0 0 1 2 15.312V8.688a2 2 0 0 1 .586-1.414l4.688-4.688A2 2 0 0 1 8.688 2h6.624a2 2 0 0 1 1.414.586l4.688 4.688A2 2 0 0 1 22 8.688v6.624a2 2 0 0 1-.586 1.414l-4.688 4.688a2 2 0 0 1-1.414.586H8.688a2 2 0 0 1-1.414-.586z"/></svg></template>
+<template data-toast-icon="loading"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a9 9 0 1 1-6.219-8.56"/></svg></template>
+</ol>
+
+<script>
+  (() => {
+    const toaster = document.getElementById("demo-toaster-types");
+
+    document.getElementById("demo-toast-type-success").addEventListener("click", () => {
+      toaster.addToast({
+        type: "success",
+        title: "Success",
+        description: "Your changes have been saved."
+      });
+    });
+
+    document.getElementById("demo-toast-type-info").addEventListener("click", () => {
+      toaster.addToast({
+        type: "info",
+        title: "Info",
+        description: "Your report is ready to view."
+      });
+    });
+
+    document.getElementById("demo-toast-type-warning").addEventListener("click", () => {
+      toaster.addToast({
+        type: "warning",
+        title: "Warning",
+        description: "This action cannot be undone."
+      });
+    });
+
+    document.getElementById("demo-toast-type-error").addEventListener("click", () => {
+      toaster.addToast({
+        type: "error",
+        title: "Error",
+        description: "Something went wrong. Try again.",
+        priority: "high"
+      });
+    });
+
+    document.getElementById("demo-toast-type-loading").addEventListener("click", () => {
+      toaster.addToast({
+        type: "loading",
+        title: "Loading",
+        description: "Preparing your export…"
+      });
+    });
+  })();
+</script>
+
+<!-- Stacked -->
+<button type="button" class="btn" data-variant="outline" id="demo-toast-stacked-trigger">Show stacked toasts</button>
+
+<ol id="demo-toaster-stacked" class="toaster" data-toast-limit="3" role="list" aria-label="Notifications">
+<template data-slot="toast-template">
+  <li class="toast">
+    <div data-slot="content" role="status" aria-atomic="true">
+      <span data-slot="icon" hidden></span>
+      <section>
+        <p data-slot="title" hidden></p>
+        <p data-slot="description" hidden></p>
+      </section>
+      <button type="button" class="btn" data-variant="outline" data-size="sm" data-slot="action" hidden></button>
+      <button type="button" data-slot="close" aria-label="Dismiss"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></button>
+    </div>
+  </li>
+</template>
+<template data-toast-icon="success"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21.801 10A10 10 0 1 1 17 3.335"/><path d="m9 11 3 3L22 4"/></svg></template>
+<template data-toast-icon="info"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg></template>
+<template data-toast-icon="warning"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg></template>
+<template data-toast-icon="error"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 9-6 6"/><path d="m9 9 6 6"/><path d="M2.586 16.726A2 2 0 0 1 2 15.312V8.688a2 2 0 0 1 .586-1.414l4.688-4.688A2 2 0 0 1 8.688 2h6.624a2 2 0 0 1 1.414.586l4.688 4.688A2 2 0 0 1 22 8.688v6.624a2 2 0 0 1-.586 1.414l-4.688 4.688a2 2 0 0 1-1.414.586H8.688a2 2 0 0 1-1.414-.586z"/></svg></template>
+<template data-toast-icon="loading"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a9 9 0 1 1-6.219-8.56"/></svg></template>
+</ol>
+
+<script>
+  (() => {
+    const toaster = document.getElementById("demo-toaster-stacked");
+
+    document.getElementById("demo-toast-stacked-trigger").addEventListener("click", () => {
+      toaster.addToast({
+        title: "Event created",
+        description: "Sunday, December 3 at 9:00 AM.",
+        timeout: 0
+      });
+      toaster.addToast({
+        title: "Invite sent",
+        description: "Your teammate can now edit this event.",
+        timeout: 0
+      });
+      toaster.addToast({
+        title: "Sync complete",
+        description: "Everything is up to date.",
+        timeout: 0
+      });
+    });
+  })();
+</script>
+
 <!-- Persistent -->
-<div style="display: flex; flex-direction: column; gap: 0.5rem; max-width: 22rem">
-  <div class="toast" role="status" data-duration="0">
-    <section>
-      <p data-slot="title">Sync paused</p>
-      <p data-slot="description">Resume when you are back online. This toast stays until dismissed.</p>
-    </section>
-    <button type="button" class="btn" data-variant="ghost" data-size="icon-xs" data-slot="close" aria-label="Dismiss">×</button>
-  </div>
-</div>
+<button type="button" class="btn" data-variant="outline" id="demo-toast-persistent-trigger">Show persistent toast</button>
+
+<ol id="demo-toaster-persistent" class="toaster" data-toast-limit="3" role="list" aria-label="Notifications">
+<template data-slot="toast-template">
+  <li class="toast">
+    <div data-slot="content" role="status" aria-atomic="true">
+      <span data-slot="icon" hidden></span>
+      <section>
+        <p data-slot="title" hidden></p>
+        <p data-slot="description" hidden></p>
+      </section>
+      <button type="button" class="btn" data-variant="outline" data-size="sm" data-slot="action" hidden></button>
+      <button type="button" data-slot="close" aria-label="Dismiss"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></button>
+    </div>
+  </li>
+</template>
+<template data-toast-icon="success"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21.801 10A10 10 0 1 1 17 3.335"/><path d="m9 11 3 3L22 4"/></svg></template>
+<template data-toast-icon="info"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg></template>
+<template data-toast-icon="warning"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg></template>
+<template data-toast-icon="error"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 9-6 6"/><path d="m9 9 6 6"/><path d="M2.586 16.726A2 2 0 0 1 2 15.312V8.688a2 2 0 0 1 .586-1.414l4.688-4.688A2 2 0 0 1 8.688 2h6.624a2 2 0 0 1 1.414.586l4.688 4.688A2 2 0 0 1 22 8.688v6.624a2 2 0 0 1-.586 1.414l-4.688 4.688a2 2 0 0 1-1.414.586H8.688a2 2 0 0 1-1.414-.586z"/></svg></template>
+<template data-toast-icon="loading"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a9 9 0 1 1-6.219-8.56"/></svg></template>
+</ol>
+
+<script>
+  (() => {
+    const toaster = document.getElementById("demo-toaster-persistent");
+
+    document.getElementById("demo-toast-persistent-trigger").addEventListener("click", () => {
+      toaster.addToast({
+        title: "Sync paused",
+        description: "Resume when you are back online. This toast stays until dismissed.",
+        timeout: 0
+      });
+    });
+  })();
+</script>
+
+<!-- Promise -->
+<button type="button" class="btn" data-variant="outline" id="demo-toast-promise-trigger">Create event</button>
+
+<ol id="demo-toaster-promise" class="toaster" data-toast-limit="3" role="list" aria-label="Notifications">
+<template data-slot="toast-template">
+  <li class="toast">
+    <div data-slot="content" role="status" aria-atomic="true">
+      <span data-slot="icon" hidden></span>
+      <section>
+        <p data-slot="title" hidden></p>
+        <p data-slot="description" hidden></p>
+      </section>
+      <button type="button" class="btn" data-variant="outline" data-size="sm" data-slot="action" hidden></button>
+      <button type="button" data-slot="close" aria-label="Dismiss"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></button>
+    </div>
+  </li>
+</template>
+<template data-toast-icon="success"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21.801 10A10 10 0 1 1 17 3.335"/><path d="m9 11 3 3L22 4"/></svg></template>
+<template data-toast-icon="info"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg></template>
+<template data-toast-icon="warning"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg></template>
+<template data-toast-icon="error"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 9-6 6"/><path d="m9 9 6 6"/><path d="M2.586 16.726A2 2 0 0 1 2 15.312V8.688a2 2 0 0 1 .586-1.414l4.688-4.688A2 2 0 0 1 8.688 2h6.624a2 2 0 0 1 1.414.586l4.688 4.688A2 2 0 0 1 22 8.688v6.624a2 2 0 0 1-.586 1.414l-4.688 4.688a2 2 0 0 1-1.414.586H8.688a2 2 0 0 1-1.414-.586z"/></svg></template>
+<template data-toast-icon="loading"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a9 9 0 1 1-6.219-8.56"/></svg></template>
+</ol>
+
+<script>
+  (() => {
+    const toaster = document.getElementById("demo-toaster-promise");
+
+    document.getElementById("demo-toast-promise-trigger").addEventListener("click", () => {
+      toaster.promiseToast(
+        new Promise((resolve) => {
+          setTimeout(() => resolve({ name: "Event" }), 2000);
+        }),
+        {
+          loading: "Creating event…",
+          success: (data) => `${data.name} created.`,
+          error: "Could not create event."
+        }
+      );
+    });
+  })();
+</script>

@@ -2,46 +2,135 @@
 @layer loseta.components {
   .toaster {
     position: fixed;
-    inset-block-end: 0;
-    inset-inline-end: 0;
+    inset-inline: 1rem;
+    inset-block-end: 1rem;
     z-index: 50;
     display: flex;
-    max-width: 100%;
-    flex-direction: column-reverse;
+    max-inline-size: 24rem;
+    margin-inline: auto;
+    flex-direction: column;
     gap: 0.5rem;
-    padding: 1rem;
     pointer-events: none;
+
+    @media (min-width: 40rem) {
+      inset-inline-start: auto;
+      inset-inline-end: 1rem;
+      inline-size: 24rem;
+      max-inline-size: calc(100% - 2rem);
+      margin-inline: 0;
+    }
+  }
+
+  .toast[hidden] {
+    display: none;
   }
 
   .toast {
+    position: relative;
     display: flex;
-    width: 22rem;
-    max-width: calc(100vw - 2rem);
-    align-items: flex-start;
+    inline-size: 100%;
+    max-inline-size: 100%;
+    align-items: center;
     gap: 0.75rem;
     pointer-events: auto;
+    user-select: none;
 
-    > section {
+    > [data-slot='content'] {
+      display: flex;
       flex: 1 1 auto;
-      min-width: 0;
+      min-inline-size: 0;
+      align-items: center;
+      gap: 0.75rem;
     }
 
-    [data-slot='title'],
-    [data-slot='description'] {
+    > section,
+    > [data-slot='content'] > section {
+      display: flex;
+      flex: 1 1 auto;
+      min-inline-size: 0;
+      flex-direction: column;
+      gap: 0.25rem;
+    }
+
+    [data-slot='title']:not([hidden]),
+    [data-slot='description']:not([hidden]) {
       display: block;
     }
 
+    [data-slot='icon']:not([hidden]) {
+      display: inline-flex;
+      flex-shrink: 0;
+      align-items: center;
+      justify-content: center;
+    }
+
+    [data-slot='action'] {
+      flex-shrink: 0;
+
+      &[hidden] {
+        display: none;
+      }
+    }
+
     [data-slot='close'] {
+      position: relative;
       display: inline-flex;
       flex-shrink: 0;
       align-items: center;
       justify-content: center;
       outline-style: none;
+      cursor: pointer;
+
+      &::after {
+        position: absolute;
+        inset: -0.5rem;
+        content: '';
+      }
 
       @media (forced-colors: active) {
         outline: 2px solid transparent;
         outline-offset: 2px;
       }
     }
+  }
+
+  .toaster[data-toast-initialized] {
+    --toast-expanded: 0;
+    --toast-gap: 0.75rem;
+    --toast-height: 0px;
+    --toast-peek: 0.75rem;
+  }
+
+  .toaster[data-toast-initialized] .toast {
+    position: absolute;
+    inset-inline: 0;
+    inset-block-end: 0;
+    z-index: calc(100 - var(--toast-index, 0));
+    touch-action: none;
+    transform-origin: bottom center;
+    translate: var(--toast-swipe-x, 0px) calc(
+      var(--toast-swipe-y, 0px) -
+        var(--toast-index, 0) * var(--toast-peek) * (1 - var(--toast-expanded)) -
+        var(--toast-index, 0) * (var(--toast-height) + var(--toast-gap)) *
+        var(--toast-expanded)
+    );
+    scale: calc(1 - var(--toast-index, 0) * 0.1 * (1 - var(--toast-expanded)));
+
+    &::after {
+      position: absolute;
+      inset-block-start: 100%;
+      inset-inline: 0;
+      block-size: var(--toast-gap);
+      content: '';
+    }
+  }
+
+  .toaster[data-toast-initialized] .toast[data-limited] {
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .toaster[data-toast-initialized] .toast > [data-slot='content'] {
+    opacity: calc(1 - var(--toast-behind, 0) * (1 - var(--toast-expanded)));
   }
 }

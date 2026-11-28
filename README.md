@@ -84,9 +84,14 @@ and hover-card. Tooltip and hover-card share `hover-overlay.js`. The modules are
 plain ESM with JSDoc types, no dependencies and no build step; they
 self-initialize on import and expose `init(root)` for scoped mounts. Selection
 widgets, calendar, carousel, resizable, questionnaire and message-scroller
-dispatch `change`; overlays dispatch `toggle`; toasts dispatch `dismiss`.
-Markup stays the source of truth at rest; behavior only toggles ARIA state,
-focus and the transient `data-highlighted` / `data-copied` attributes.
+dispatch `change`; overlays and toasts dispatch `toggle`; toasts also dispatch
+`dismiss`. Toast is the only module that creates DOM: the `.toaster` gains
+`addToast`, `updateToast`, `closeToast` and `promiseToast`, and the manager
+clones the authored toast and status-icon templates. The stack caps at
+`data-toast-limit` (`3` by default, `0` disables); limited toasts stay mounted
+and inert until newer toasts close. The other modules keep markup as the source
+of truth at rest; behavior only toggles ARIA state, focus and the transient
+`data-highlighted` / `data-copied` attributes.
 
 Calendar reads `data-selection`, `data-min`, `data-max`, `data-unavailable`,
 `data-month` and `data-date`. Carousel has no autoplay or loop; resizable

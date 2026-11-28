@@ -140,10 +140,15 @@ Nova-only until they are promoted.
   `:indeterminate`, `:focus-visible`, `[open]`, `inert`, `aria-invalid`,
   `aria-selected`, `aria-checked`, `aria-pressed`, `aria-current`,
   `aria-disabled`, `aria-expanded`, `aria-hidden`.
-- `data-highlighted` (active option) and transient `data-copied` (copy feedback)
-  are the only public data-driven states beyond variant, size, orientation,
-  spacing, fit and placement attributes. `data-duration` is the toast timer
-  configuration; calendar `data-selection`, `data-min`, `data-max`,
+- `data-highlighted` (active option), transient `data-copied` (copy feedback)
+  and `data-limited` on a toast beyond the stack cap are the only public
+  data-driven states beyond variant, size, orientation,
+  spacing, fit and placement attributes. `data-duration`, `data-type` and
+  `data-toast-limit` are toast configuration; `data-open-toast` and
+  `data-close-toast` are toast action
+  hooks; `[data-slot="toast-template"]`, `data-toast-icon` and the `.toaster`
+  manager methods (`addToast`, `updateToast`, `closeToast`, `promiseToast`) are
+  the Toast API; calendar `data-selection`, `data-min`, `data-max`,
   `data-unavailable`, `data-month` and `data-date` are configuration and data,
   not visual states. Express everything else with the hooks above.
 - Name parts with `data-slot` when no semantic element already carries the
@@ -160,8 +165,11 @@ Nova-only until they are promoted.
 - Plain ESM `.js` with `// @ts-check` and JSDoc. No imports outside
   `registry/behaviors/`, no package imports, no build step, no transpilation.
 - Markup is the source of truth at rest; behavior toggles ARIA, focus,
-  `tabindex`, `hidden`, `inert`, `data-highlighted` and transient
-  `data-copied`. No `data-state`, no new wrappers, no `innerHTML`.
+  `tabindex`, `hidden`, `inert`, `data-highlighted`, transient `data-copied` and
+  `data-limited`. No `data-state`, no new wrappers, no `innerHTML`. Toast is the
+  one module allowed to create DOM: it clones its authored
+  `[data-slot="toast-template"]` and `data-toast-icon` templates and fills text
+  or Nodes into them.
 - Entry modules call `init()` and self-initialize on import; support modules
   (`core.js`, `listbox.js`) export helpers and never auto-init. Guard SSR with
   `typeof document`.

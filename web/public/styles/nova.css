@@ -4323,11 +4323,23 @@
       color: var(--muted-foreground);
     }
 
+    [data-slot='icon'] > svg {
+      inline-size: 1rem;
+      block-size: 1rem;
+      pointer-events: none;
+    }
+
     [data-slot='close'] {
-      width: 1.5rem;
-      height: 1.5rem;
+      inline-size: 1.5rem;
+      block-size: 1.5rem;
       border-radius: min(var(--radius-md), 10px);
       color: var(--muted-foreground);
+
+      > svg {
+        inline-size: 1rem;
+        block-size: 1rem;
+        pointer-events: none;
+      }
 
       &:hover {
         background-color: var(--muted);
@@ -4360,6 +4372,49 @@
       [data-slot='close'] {
         color: var(--destructive);
       }
+    }
+
+    &[data-type='error'] [data-slot='icon'] {
+      color: var(--destructive);
+    }
+
+    &[data-type='loading'] [data-slot='icon'] {
+      animation: loseta-toast-spin 0.75s linear infinite;
+
+      @media (prefers-reduced-motion: reduce) {
+        animation-duration: 1.5s;
+      }
+    }
+  }
+
+  .toaster[data-toast-initialized] .toast {
+    transition:
+      translate 500ms cubic-bezier(0.22, 1, 0.36, 1),
+      scale 500ms cubic-bezier(0.22, 1, 0.36, 1),
+      opacity 250ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .toaster[data-toast-initialized] .toast > [data-slot='content'] {
+    transition: opacity 250ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  @starting-style {
+    .toaster[data-toast-initialized] .toast {
+      opacity: 0;
+      translate: 0 150%;
+    }
+  }
+
+  @keyframes loseta-toast-spin {
+    to {
+      rotate: 360deg;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .toaster[data-toast-initialized] .toast,
+    .toaster[data-toast-initialized] .toast > [data-slot='content'] {
+      transition: none;
     }
   }
 }

@@ -3371,14 +3371,54 @@ test("resizable examples label handles and expose panel values", async ({
   await expect(inner).toHaveCSS("border-top-width", "0px");
 });
 
-test("toast dismissal hides the item", async ({ page }) => {
+test("toast promise example updates loading to success", async ({ page }) => {
   await page.goto("/docs/components/toast");
-  const toasts = page.locator(".toast");
+  const example = page.locator("section.example").filter({
+    has: page.locator(".example-title", { hasText: /^Promise$/ })
+  });
+  await example.getByRole("button", { name: "Create event" }).click();
+  const toast = example.locator(".toast").first();
+  await expect(toast).toHaveAttribute("data-type", "loading");
+  await expect(toast.locator("[data-slot='description']")).toHaveText(
+    "Creating event…"
+  );
+  await expect(toast).toHaveAttribute("data-type", "success", {
+    timeout: 4000
+  });
+  await expect(toast.locator("[data-slot='description']")).toHaveText(
+    "Event created."
+  );
+});
 
-  await expect(toasts).toHaveCount(3);
-  await toasts.first().getByRole("button", { name: "Dismiss" }).click();
-  await expect(toasts).toHaveCount(3);
-  await expect(toasts.first()).toHaveJSProperty("hidden", true);
+test("toast appears from its trigger and dismisses from an action", async ({
+  page
+}) => {
+  await page.goto("/docs/components/toast");
+  const example = page.locator("section.example").filter({
+    has: page.locator(".example-title", { hasText: /^With action$/ })
+  });
+  const toaster = example.getByRole("list", { name: "Notifications" });
+  await expect(toaster).toBeAttached();
+  await expect(toaster).toHaveAttribute("aria-label", "Notifications");
+
+  await example.getByRole("button", { name: "Show toast" }).click();
+  const toast = example.locator(".toast").first();
+  await expect(toast).toHaveRole("listitem");
+  await expect(toast).toHaveJSProperty("hidden", false);
+  await expect(toast).toBeVisible();
+
+  const content = toast.locator(":scope > [data-slot='content']");
+  await expect(content).toHaveAttribute("role", "status");
+  await expect(content).toHaveAttribute("aria-atomic", "true");
+  await expect(content.locator("[data-slot='title']")).toHaveText(
+    "Event created"
+  );
+  await expect(content.locator("[data-slot='description']")).toHaveText(
+    "You can undo this action."
+  );
+
+  await toast.getByRole("button", { name: "Undo" }).click();
+  await expect(toast).toHaveJSProperty("hidden", true, { timeout: 2500 });
 });
 
 test("questionnaire navigates between fieldset steps", async ({ page }) => {

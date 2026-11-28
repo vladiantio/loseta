@@ -76,6 +76,16 @@ const examples = component.examples.filter(
     />
 
     {
+      component.usage && (
+        <>
+          <h2>Usage</h2>
+          {component.usageNote && <p>{component.usageNote}</p>}
+          <pre><code>{component.usage}</code></pre>
+        </>
+      )
+    }
+
+    {
       examples.length > 0 && (
         <>
           <h2>Examples</h2>

@@ -24,6 +24,7 @@ interface StyleCase {
   property: string;
   values: Record<string, string>;
   pseudo?: string;
+  prepare?: (page: Page) => Promise<void>;
 }
 
 // Each promoted batch adds its signature components here. The values are part
@@ -485,6 +486,16 @@ const cases: StyleCase[] = [
       luma: "22px",
       sera: "0px",
       rhea: "18px"
+    },
+    prepare: async (page) => {
+      await page.evaluate(() => {
+        const toaster = document.getElementById("demo-toaster-default");
+        (toaster as any)?.addToast({
+          title: "Style probe",
+          description: "Toast radius",
+          timeout: 0
+        });
+      });
     }
   },
   {
@@ -738,6 +749,7 @@ for (const [index, entry] of cases.entries()) {
     await page.emulateMedia({ colorScheme: "light" });
     await page.goto(`/docs/components/${entry.id}`);
     await disableMotion(page);
+    await entry.prepare?.(page);
     const select = page.locator("[data-style-select]");
     const probe = page.locator(entry.selector).first();
 

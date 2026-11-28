@@ -172,7 +172,7 @@ const notesBy: Record<string, string> = {
   textarea:
     "Pair every textarea with a label; a placeholder is not a label. Use native required and disabled states and aria-invalid=\"true\" for the invalid state. Compose labels and descriptions with .field. The control grows with its content and resizes vertically by default.",
   toast:
-    "Wrap toasts in .toaster for fixed positioning. Items use role=\"status\" or role=\"alert\"; the shipped behavior auto-dismisses after 5000ms (data-duration overrides it), pauses on hover/focus and dismisses from [data-slot=\"close\"]. Sonner is a compatibility note, not a registry item; keep the toast markup and add Sonner in consumer code when you need its queue.",
+    "Wrap toasts in an <ol class=\"toaster\" role=\"list\" aria-label=\"Notifications\"> and keep template[data-slot=\"toast-template\"] plus one data-toast-icon template per type inside it. The manager augments the ol with addToast, updateToast, closeToast and promiseToast; it clones the template and fills text or Node content without innerHTML. [data-slot=\"content\"] is the live region: role=\"status\" or role=\"alert\" and aria-atomic=\"true\"; it holds the icon, the title/description section, the action and the labelled close. data-open-toast remains for declarative hidden toasts and data-close-toast for authored actions. The behavior auto-dismisses after 5000ms (data-duration overrides it, 0 is persistent), stacks and expands the pile on hover/focus, pauses every timer while the stack is active and swipes to dismiss. Loading toasts are persistent. data-toast-limit caps the stack (3 by default, 0 disables); limited toasts stay mounted, inert and hidden until newer toasts close.",
   message:
     "A presentational row. Avatar, header, content and footer use data-slot; data-align=\"start|end\" controls the side. Compose the surface with bubble and give a message group an accessible name.",
   "message-scroller":
@@ -194,6 +194,40 @@ const notesBy: Record<string, string> = {
   skeleton: "Set width and height inline or with your own layout classes.",
   alert:
     "Add role=\"alert\" for messages that appear after load. Mark a decorative direct SVG icon aria-hidden=\"true\". The title accepts h2–h6, strong or [data-slot=\"title\"]; the description is a section or [data-slot=\"description\"], and footer holds the action. Custom colors come from overriding --card, --border and --muted-foreground.",
+};
+
+const usageNoteBy: Record<string, string> = {
+  toast:
+    "Each .toaster is augmented with addToast, updateToast, closeToast and promiseToast. The manager clones [data-slot=\"toast-template\"] and the matching data-toast-icon template, so keep both inside the ol; the Default example above shows the full template. Set data-toast-limit on the ol to change the stack cap (3 by default; 0 disables). Load /behaviors/index.js once per page before calling the methods."
+};
+
+const usageBy: Record<string, string> = {
+  toast: `// Load /behaviors/index.js once per page before calling these methods.
+const toaster = document.getElementById("toaster");
+
+const id = toaster.addToast({
+  type: "info",
+  title: "Event created",
+  description: "Sunday, December 3 at 9:00 AM",
+  priority: "high",
+  actionProps: {
+    children: "Undo",
+    onClick() {
+      toaster.closeToast(id);
+    },
+  },
+});
+
+toaster.promiseToast(
+  new Promise((resolve) => {
+    setTimeout(() => resolve({ name: "Event" }), 2000);
+  }),
+  {
+    loading: "Creating event…",
+    success: (data) => \`\${data.name} created.\`,
+    error: "Could not create event.",
+  },
+);`
 };
 
 const behaviorNoteBy: Record<string, string> = {
@@ -231,6 +265,8 @@ export interface ComponentDoc {
     kind: string;
   }[];
   behaviorNote?: string;
+  usageNote?: string;
+  usage?: string;
   notes: string[];
 }
 
@@ -252,6 +288,8 @@ export const components: ComponentDoc[] = registry.items
     examples: examples[item.name] ?? [],
     behaviors: item.behaviors ?? [],
     behaviorNote: behaviorNoteBy[item.name],
+    usageNote: usageNoteBy[item.name],
+    usage: usageBy[item.name],
     notes: notesBy[item.name] ? [notesBy[item.name]] : []
   }))
   .sort((a, b) => a.title.localeCompare(b.title));

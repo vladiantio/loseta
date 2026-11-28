@@ -4,6 +4,19 @@
 
 ### Added
 
+- Toast stacks are capped by `data-toast-limit` (`3` by default, `0` disables).
+  Toasts beyond the cap stay mounted with `data-limited` and `inert`, and rejoin
+  the visible stack as newer toasts close.
+- Toast toasters now expose `addToast`, `updateToast`, `closeToast` and
+  `promiseToast`. The manager clones the authored
+  `[data-slot="toast-template"]` and `data-toast-icon` templates, supports id
+  upserts, `priority`, `timeout` and `actionProps`, and keeps loading promise
+  toasts persistent.
+- Toast now supports `data-open-toast` triggers (one or more ids), a
+  `data-close-toast` action hook and `data-type` status types
+  (`success`, `info`, `warning`, `error`, `loading`) with a consumer-owned icon.
+- Toast stacks the newest item in front, expands on hover/focus, pauses the
+  whole stack, swipes in any direction and emits `toggle` alongside `dismiss`.
 - Resizable now supports any number of panels and handles per group, with
   `--panel-min` and `--panel-max` percentage constraints, adjacent-only
   redistribution, double-click reset and `change` reporting every direct panel
@@ -22,6 +35,15 @@
 
 ### Changed
 
+- Toast follows the current shadcn v4 anatomy and visual language across all
+  eight styles: a fixed viewport anchored at `1rem`, a `24rem` maximum width,
+  the optional `content`/`icon`/`action` slots, centered content rows,
+  status-type icons and the shared stacking motion. `.toaster` is a labelled
+  `ol` list of `li` items, and `[data-slot="content"]` carries
+  `role="status"`/`role="alert"` with `aria-atomic="true"`. The manager reads
+  the authored toast and icon templates; the examples and Usage guide use the
+  imperative API. Existing `.toaster`, `.toast`, direct `section`,
+  `data-variant="destructive"` and `data-duration` markup remain valid.
 - Menubar follows the current shadcn visual language across all eight styles: a
   transparent bar with per-style fixed heights, gaps, padding and radii, muted
   trigger states, per-style panel minimum widths and shared menu items with the
@@ -54,6 +76,12 @@
 
 ### Fixed
 
+- Toast entry now animates for the first toast in an empty toaster, and the
+  stack reflow plus limited-toast reveal starts when a toast begins dismissing
+  instead of waiting for its exit to finish.
+- Toast examples now use the manager API from inline scripts, cover Default,
+  With action, Types, Stacked, Persistent and Promise, and no longer
+  auto-dismiss on page load.
 - Menubar no longer centers panel menu items, keeps one top-level trigger in
   the tab order, switches between open top-level menus with
   `ArrowLeft`/`ArrowRight` and skips disabled triggers.

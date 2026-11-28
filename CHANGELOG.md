@@ -43,6 +43,8 @@
   row centers on the trigger value, the panel disables its enter transition in
   that mode and `data-align-trigger="false"` opts out. Coarse pointers and
   tight viewports fall back to the below-trigger popover.
+- Select includes a Below trigger example that demonstrates
+  `data-align-trigger="false"` and the normal below-trigger popover.
 
 ### Changed
 

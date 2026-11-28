@@ -69,6 +69,35 @@ export const selectExamples: Example[] = [
 </div>`
     },
     {
+      title: "Below trigger",
+      html: `<div class="select" data-align-trigger="false" style="max-width: 12rem">
+  <input type="hidden" data-slot="input" name="value" value="apple">
+  <button type="button" role="combobox" aria-haspopup="listbox" aria-expanded="false" aria-controls="demo-select-below-panel" aria-label="Fruit">
+    <span data-slot="value">Apple</span>
+    ${chevronDown}
+  </button>
+  <div data-popover data-side="bottom" aria-hidden="true" id="demo-select-below-panel">
+    <div role="listbox" aria-label="Fruit">
+      <div role="group" aria-labelledby="demo-select-below-label">
+        <div data-slot="label" id="demo-select-below-label">Fruits</div>
+        <div role="option" aria-selected="true" data-value="apple">
+          <span data-slot="text">Apple</span>
+          <span data-slot="indicator" aria-hidden="true">${check}</span>
+        </div>
+        <div role="option" aria-selected="false" data-value="banana">
+          <span data-slot="text">Banana</span>
+          <span data-slot="indicator" aria-hidden="true">${check}</span>
+        </div>
+        <div role="option" aria-selected="false" data-value="orange">
+          <span data-slot="text">Orange</span>
+          <span data-slot="indicator" aria-hidden="true">${check}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>`
+    },
+    {
       title: "Groups",
       html: `<div class="field" style="max-width: 20rem">
   <label class="label" for="demo-select-groups-trigger">Food</label>

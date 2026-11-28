@@ -2933,6 +2933,24 @@ test("select groups options with labels and dividers", async ({ page }) => {
   await expect(panel).toHaveAttribute("aria-hidden", "true");
 });
 
+test("select opt-out opens the panel below the trigger", async ({ page }) => {
+  await page.goto("/docs/components/select");
+  const example = page
+    .locator("section.example")
+    .filter({ has: page.locator(".example-title", { hasText: "Below trigger" }) });
+  const select = example.locator(".select");
+  const trigger = select.locator('[role="combobox"]');
+  const panel = select.locator("[data-popover]");
+
+  await trigger.click();
+  await expect(panel).toHaveAttribute("aria-hidden", "false");
+
+  const triggerBox = await trigger.boundingBox();
+  await expect
+    .poll(async () => (await panel.boundingBox())?.y ?? 0)
+    .toBeGreaterThanOrEqual(triggerBox!.y + triggerBox!.height);
+});
+
 test("select panel caps its height and scrolls", async ({ page }) => {
   await page.goto("/docs/components/select");
   const example = page
